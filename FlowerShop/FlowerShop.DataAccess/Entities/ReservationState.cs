@@ -4,6 +4,9 @@ namespace FlowerShop.DataAccess.Entities
 {
     public class ReservationState : EntityBase
     {
-        public ReservationStateEnum ReservationStates { get; set; }
+        public ReservationStateEnum ReservationStatus{ get; set; }
+
+        public int ReservationId { get; set; }
+        public Reservation Reservation { get; set; }
     }
 }

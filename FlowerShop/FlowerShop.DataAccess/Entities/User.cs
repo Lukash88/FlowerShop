@@ -13,8 +13,5 @@ namespace FlowerShop.DataAccess.Entities
         public string City { get; set; }
 
         public List<Reservation> Reservations { get; set; } = new List<Reservation>();
-
-
-
     }
 }

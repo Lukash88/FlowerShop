@@ -20,35 +20,9 @@ namespace FlowerShop.DataAccess.Entities
 
         public int UserId { get; set; }
         public User User { get; set; }
-
-        public int ReservationId{ get; set; }
+                
         public ReservationState ReservationStatus { get; set; }
 
-        public int OrderId { get; set; }
-        public OrderDetail OrderDetails { get; set; }
-
+        public OrderDetail OrderDetail { get; set; }
     }
 }
-
-/*
- * change into fluent api
- *  [Required]
-        public DateTime ReservedOn { get; set; }
-        [Required]
-        public string EventType { get; set; }
-        [Required]
-        public string EventDescription { get; set; }
-        [Required]
-        public DateTime DateOfEvent { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string EventStreet { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string EventCity { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string EventPostalCode { get; set; }
-        [Required]
-        public bool IsDateAvailable { get; set; } 
-*/

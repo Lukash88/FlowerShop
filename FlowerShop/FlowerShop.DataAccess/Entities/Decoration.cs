@@ -10,6 +10,7 @@ namespace FlowerShop.DataAccess.Entities
         public DecorationRole Roles { get; set; }
         public int Quantity { get; set; }
         public bool IsAvailable { get; set; }
+        public decimal Price { get; set; }
 
         public List<OrderItem> OrderItrems { get; set; } = new List<OrderItem>();
     }
