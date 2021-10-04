@@ -8,11 +8,10 @@ namespace FlowerShop.DataAccess
     {
         public FlowerShopContext(DbContextOptions<FlowerShopContext> options) : base(options)
         {
-
         }
 
         public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<Reservation> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<ReservationState> ReservationStates { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }

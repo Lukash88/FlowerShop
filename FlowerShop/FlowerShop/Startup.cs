@@ -32,7 +32,7 @@ namespace FlowerShop
 
             services.AddDbContext<FlowerShopContext>(
                 opt =>
-                opt.UseSqlServer(this.Configuration.GetConnectionString("FlowerShopDataBaseConnection")));
+                opt.UseSqlServer(this.Configuration.GetConnectionString("FlowerShopDatabaseConnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

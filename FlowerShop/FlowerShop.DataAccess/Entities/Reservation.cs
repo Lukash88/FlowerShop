@@ -20,7 +20,7 @@ namespace FlowerShop.DataAccess.Entities
 
         public int UserId { get; set; }
         public User User { get; set; }
-                
+
         public ReservationState ReservationStatus { get; set; }
 
         public OrderDetail OrderDetail { get; set; }

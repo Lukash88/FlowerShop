@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FlowerShop.Controllers
 {
@@ -13,7 +12,9 @@ namespace FlowerShop.Controllers
     {
         private static readonly string[] Summaries = new[]
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            "Freezing a lot", "Bracing a little bit", "Chilly like boss", "Cool like on Friday",
+            "Mild like steak", "Warm like in tropic", "Balmy finally", "Hot",
+            "Sweltering like in the summer", "Scorching this year"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
