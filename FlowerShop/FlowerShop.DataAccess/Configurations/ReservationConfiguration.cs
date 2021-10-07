@@ -66,6 +66,7 @@ namespace FlowerShop.Configurations
             builder
              .Property(x => x.PaymentReceipt)
              .IsRequired()
-             .HasMaxLength(50); }
+             .HasMaxLength(50);
+        }
     }
 }

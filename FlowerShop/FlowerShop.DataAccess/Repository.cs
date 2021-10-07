@@ -10,10 +10,10 @@ namespace FlowerShop.DataAccess
 {
     public class Repository<T> : IRepository<T> where T : EntityBase
     {
-        protected readonly FlowerShopContext context;
+        protected readonly FlowerShopStorageContext context;
         private DbSet<T> entities;
 
-        public Repository(FlowerShopContext context)
+        public Repository(FlowerShopStorageContext context)
         {
             this.context = context;
             entities = context.Set<T>();

@@ -30,7 +30,7 @@ namespace FlowerShop
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-            services.AddDbContext<FlowerShopContext>(
+            services.AddDbContext<FlowerShopStorageContext>(
                 opt =>
                 opt.UseSqlServer(this.Configuration.GetConnectionString("FlowerShopDatabaseConnection")));
 

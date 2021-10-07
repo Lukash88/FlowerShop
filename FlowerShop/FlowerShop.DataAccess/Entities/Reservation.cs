@@ -17,7 +17,7 @@ namespace FlowerShop.DataAccess.Entities
         public int InvoiceId { get; set; }
         public string Invoice { get; set; }
         public string PaymentReceipt { get; set; }
-
+         
         public int UserId { get; set; }
         public User User { get; set; }
 

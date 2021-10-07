@@ -8,6 +8,6 @@ namespace FlowerShop.DataAccess.Entities
         public string Description { get; set; }
 
 
-        public List<Bouquet> Bouquets { get; set; } = new List<Bouquet>();
+       public List<Bouquet> Bouquets { get; set; } = new List<Bouquet>();
     }
 }
