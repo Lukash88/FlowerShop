@@ -1,0 +1,15 @@
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.csproj.AssemblyReference.cache
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.AssemblyInfoInputs.cache
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.AssemblyInfo.cs
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.csproj.CoreCompileInputs.cache
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\bin\Debug\net5.0\FlowerShop.ApplicationServices.deps.json
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\bin\Debug\net5.0\FlowerShop.ApplicationServices.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\bin\Debug\net5.0\ref\FlowerShop.ApplicationServices.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\bin\Debug\net5.0\FlowerShop.ApplicationServices.pdb
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\bin\Debug\net5.0\FlowerShop.DataAccess.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\bin\Debug\net5.0\FlowerShop.DataAccess.pdb
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.csproj.CopyComplete
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\ref\FlowerShop.ApplicationServices.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.pdb

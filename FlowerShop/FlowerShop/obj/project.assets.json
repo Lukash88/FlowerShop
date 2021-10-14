@@ -11,6 +11,28 @@
           "lib/netstandard2.0/Humanizer.dll": {}
         }
       },
+      "MediatR/9.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/MediatR.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/MediatR.dll": {}
+        }
+      },
+      "MediatR.Extensions.Microsoft.DependencyInjection/9.0.0": {
+        "type": "package",
+        "dependencies": {
+          "MediatR": "9.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/MediatR.Extensions.Microsoft.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MediatR.Extensions.Microsoft.DependencyInjection.dll": {}
+        }
+      },
       "Microsoft.CSharp/4.7.0": {
         "type": "package",
         "compile": {
@@ -1594,6 +1616,21 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "FlowerShop.ApplicationServices/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "FlowerShop.DataAccess": "1.0.0",
+          "MediatR": "9.0.0",
+          "MediatR.Extensions.Microsoft.DependencyInjection": "9.0.0"
+        },
+        "compile": {
+          "bin/placeholder/FlowerShop.ApplicationServices.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FlowerShop.ApplicationServices.dll": {}
+        }
+      },
       "FlowerShop.DataAccess/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
@@ -1625,6 +1662,37 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "MediatR/9.0.0": {
+      "sha512": "8b3UYNxegHVYcJMG2zH8wn+YqxLvXG+eMfj0cMCq/jTW72p6O3PCKMkrIv0mqyxdW7bA4gblsocw7n+/9Akg5g==",
+      "type": "package",
+      "path": "mediatr/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "gradient_128x128.png",
+        "lib/net461/MediatR.dll",
+        "lib/net461/MediatR.xml",
+        "lib/netstandard2.0/MediatR.dll",
+        "lib/netstandard2.0/MediatR.xml",
+        "lib/netstandard2.1/MediatR.dll",
+        "lib/netstandard2.1/MediatR.xml",
+        "mediatr.9.0.0.nupkg.sha512",
+        "mediatr.nuspec"
+      ]
+    },
+    "MediatR.Extensions.Microsoft.DependencyInjection/9.0.0": {
+      "sha512": "msreY4ogiPdIRWiCQVHQDytIQpsZCLWsixWPZ+Xs86KZrvtuiV8BDHbIT0kBmogynVYWNpspb3caw+86YU8L6w==",
+      "type": "package",
+      "path": "mediatr.extensions.microsoft.dependencyinjection/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "gradient_128x128.png",
+        "lib/netstandard2.0/MediatR.Extensions.Microsoft.DependencyInjection.dll",
+        "mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
+        "mediatr.extensions.microsoft.dependencyinjection.nuspec"
       ]
     },
     "Microsoft.CSharp/4.7.0": {
@@ -5983,6 +6051,11 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "FlowerShop.ApplicationServices/1.0.0": {
+      "type": "project",
+      "path": "../FlowerShop.ApplicationServices/FlowerShop.ApplicationServices.csproj",
+      "msbuildProject": "../FlowerShop.ApplicationServices/FlowerShop.ApplicationServices.csproj"
+    },
     "FlowerShop.DataAccess/1.0.0": {
       "type": "project",
       "path": "../FlowerShop.DataAccess/FlowerShop.DataAccess.csproj",
@@ -5991,7 +6064,10 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "FlowerShop.ApplicationServices >= 1.0.0",
       "FlowerShop.DataAccess >= 1.0.0",
+      "MediatR >= 9.0.0",
+      "MediatR.Extensions.Microsoft.DependencyInjection >= 9.0.0",
       "Microsoft.EntityFrameworkCore >= 5.0.9",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.9",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.9",
@@ -6031,6 +6107,9 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
+            "C:\\repos\\github\\FlowerShop\\FlowerShop\\FlowerShop.ApplicationServices\\FlowerShop.ApplicationServices.csproj": {
+              "projectPath": "C:\\repos\\github\\FlowerShop\\FlowerShop\\FlowerShop.ApplicationServices\\FlowerShop.ApplicationServices.csproj"
+            },
             "C:\\repos\\github\\FlowerShop\\FlowerShop\\FlowerShop.DataAccess\\FlowerShop.DataAccess.csproj": {
               "projectPath": "C:\\repos\\github\\FlowerShop\\FlowerShop\\FlowerShop.DataAccess\\FlowerShop.DataAccess.csproj"
             }
@@ -6047,6 +6126,14 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "MediatR": {
+            "target": "Package",
+            "version": "[9.0.0, )"
+          },
+          "MediatR.Extensions.Microsoft.DependencyInjection": {
+            "target": "Package",
+            "version": "[9.0.0, )"
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[5.0.9, )"

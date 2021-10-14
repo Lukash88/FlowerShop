@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerShop", "FlowerShop\Fl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerShop.DataAccess", "FlowerShop.DataAccess\FlowerShop.DataAccess.csproj", "{403EA59B-B5D2-4E0F-8057-8075C5662164}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerShop.ApplicationServices", "FlowerShop.ApplicationServices\FlowerShop.ApplicationServices.csproj", "{AD262BDC-7C59-439F-9157-4F18FFE1D8E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,12 +16,17 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{09C35735-890A-4B96-BAB6-C9366237D755}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09C35735-890A-4B96-BAB6-C9366237D755}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09C35735-890A-4B96-BAB6-C9366237D755}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09C35735-890A-4B96-BAB6-C9366237D755}.Release|Any CPU.Build.0 = Release|Any CPU
 		{403EA59B-B5D2-4E0F-8057-8075C5662164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{403EA59B-B5D2-4E0F-8057-8075C5662164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{403EA59B-B5D2-4E0F-8057-8075C5662164}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{403EA59B-B5D2-4E0F-8057-8075C5662164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD262BDC-7C59-439F-9157-4F18FFE1D8E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD262BDC-7C59-439F-9157-4F18FFE1D8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD262BDC-7C59-439F-9157-4F18FFE1D8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD262BDC-7C59-439F-9157-4F18FFE1D8E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

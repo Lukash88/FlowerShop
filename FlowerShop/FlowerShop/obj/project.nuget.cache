@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "bniafwriZAJ6wrFX818Uakpwx0FN1eyAe52XQUAsWDIJRrHuBl+xWYIkFQLjWG6qrAIJQrizPticUxk0pkto3A==",
+  "dgSpecHash": "PpqdcuxYzXG42X2Zbqjr5bBk51yFy1TgHpcl/NipqVg1rYCEGosS8DUd9BxcE6LOwtt5H1CfC8hmDeGcCK17Ug==",
   "success": true,
   "projectFilePath": "C:\\repos\\github\\FlowerShop\\FlowerShop\\FlowerShop\\FlowerShop.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kocyq\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\kocyq\\.nuget\\packages\\mediatr\\9.0.0\\mediatr.9.0.0.nupkg.sha512",
+    "C:\\Users\\kocyq\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\9.0.0\\mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
     "C:\\Users\\kocyq\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\kocyq\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
     "C:\\Users\\kocyq\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.0.1\\microsoft.data.sqlclient.sni.runtime.2.0.1.nupkg.sha512",

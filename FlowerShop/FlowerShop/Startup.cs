@@ -1,4 +1,6 @@
+using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.DataAccess;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +30,8 @@ namespace FlowerShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatR(typeof(ResponseBase<>));
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             services.AddDbContext<FlowerShopStorageContext>(
@@ -44,6 +48,8 @@ namespace FlowerShop
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseDeveloperExceptionPage();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -59,6 +65,9 @@ namespace FlowerShop
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapControllers();
             });
         }

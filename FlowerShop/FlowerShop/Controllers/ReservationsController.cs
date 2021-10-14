@@ -7,26 +7,27 @@ using Microsoft.Extensions.Logging;
 namespace FlowerShop.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/flowershop")]
 
-    public class ReservationController : ControllerBase
+    public class ReservationsController : ControllerBase
     {
         private readonly IRepository<Reservation> reservationRepository;
-        //private readonly ILogger<ReservationController> _logger;
 
-        public ReservationController(IRepository<Reservation> reservationRepository)
+        public ReservationsController(IRepository<Reservation> reservationRepository)
         {
             this.reservationRepository = reservationRepository;
         }
 
-        //public ReservationController(ILogger<ReservationController> logger)
-        //{
-        //    _logger = logger;
-        //}
+        [HttpGet]
+        [Route("api/flowershop")]        
+        public IEnumerable<Reservation> GetAllReservations() => this.reservationRepository.GetAll();
 
         [HttpGet]
-        [Route("")]
-        public IEnumerable<Reservation> GetAllReservations() => this.reservationRepository.GetAll();
+        [Route("{reservationId}")]
+        public Reservation GetById(int reservationId)
+        {
+            return reservationRepository.GetById(reservationId);
+        }
 
     }
 }
