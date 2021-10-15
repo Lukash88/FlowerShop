@@ -24,6 +24,10 @@ namespace FlowerShop.Configurations
                .HasMaxLength(50);
 
             builder
+              .Property(x => x.UserName)
+              .HasMaxLength(50);
+
+            builder
                .Property(x => x.Street)
                .IsRequired()
                .HasMaxLength(50);

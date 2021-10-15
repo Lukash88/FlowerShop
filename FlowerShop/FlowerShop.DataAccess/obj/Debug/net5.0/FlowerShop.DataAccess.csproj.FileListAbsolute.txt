@@ -12,3 +12,4 @@ C:\repos\github\FlowerShop\FlowerShop\FlowerShop.DataAccess\obj\Debug\net5.0\Flo
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop.DataAccess\bin\Debug\net5.0\FlowerShop.DataAccess.runtimeconfig.json
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop.DataAccess\bin\Debug\net5.0\FlowerShop.DataAccess.runtimeconfig.dev.json
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop.DataAccess\obj\Debug\net5.0\FlowerShop.DataAccess.genruntimeconfig.cache
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.DataAccess\obj\Debug\net5.0\FlowerShop.DataAccess.csproj.AssemblyReference.cache

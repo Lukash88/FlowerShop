@@ -21,6 +21,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers
             var reservations = this.reservationRepository.GetAll();
             var domainReservations = reservations.Select(x => new Domain.Models.Reservation()
             {
+                Id = x.Id,
                 EventType = x.EventType,
                 EventDescription = x.EventDescription,
                 DateOfEvent = x.DateOfEvent,

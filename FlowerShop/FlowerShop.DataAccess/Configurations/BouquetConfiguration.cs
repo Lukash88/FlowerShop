@@ -11,8 +11,19 @@ namespace FlowerShop.Configurations
         {
             builder
                 .Property(x => x.Occasion)
-                .IsRequired()
-                .HasMaxLength(200);
-        }
+                .IsRequired();
+
+            builder
+                .Property(x => x.TypeOfArrangement
+                )
+                .IsRequired();
+
+            builder
+                .Property(x => x.DecorationWay)
+                .IsRequired();
+            builder
+                .Property(x => x.Quantity)
+                .IsRequired();
     }
+}
 }

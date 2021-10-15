@@ -8,7 +8,7 @@ namespace FlowerShop.DataAccess.Enums
 {
     public enum ReservationStateEnum
     {
-        Active,
+        Active = 1,
         Cancelled,
         Expired,
         Processing,

@@ -71,10 +71,17 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Occasion")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<int>("DecorationWay")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Occasion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TypeOfArrangement")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -122,10 +129,19 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Colour")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("FlowerType")
+                        .HasColumnType("int");
+
+                    b.Property<byte>("LengthInCm")
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -325,10 +341,16 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -345,6 +367,10 @@ namespace FlowerShop.DataAccess.Migrations
 
                     b.Property<string>("Street")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 

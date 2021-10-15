@@ -1,14 +1,14 @@
-﻿using System;
+﻿using FlowerShop.DataAccess.Enums;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.Entities
 {
     public class Bouquet : EntityBase
     {
-        public string Occasion { get; set; }
+        public Occassion Occasion { get; set; }
+        public TypeOfFlowerArrangement TypeOfArrangement { get; set; }
+        public int Quantity { get; set; }
+        public DecorationWay DecorationWay { get; set; }
 
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
