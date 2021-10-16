@@ -1,33 +1,36 @@
-﻿using FlowerShop.DataAccess;
-using FlowerShop.DataAccess.Entities;
+﻿using FlowerShop.ApplicationServices.API.Domain.Reservation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace FlowerShop.Controllers
 {
     [ApiController]
-    [Route("api/flowershop")]
+    [Route("[controller]")]
 
     public class ReservationsController : ControllerBase
     {
-        private readonly IRepository<Reservation> reservationRepository;
+        private readonly IMediator mediator;
 
-        public ReservationsController(IRepository<Reservation> reservationRepository)
+        public ReservationsController(IMediator mediator)
         {
-            this.reservationRepository = reservationRepository;
+            this.mediator = mediator;
         }
 
         [HttpGet]
-        [Route("api/flowershop")]        
-        public IEnumerable<Reservation> GetAllReservations() => this.reservationRepository.GetAll();
-
-        [HttpGet]
-        [Route("{reservationId}")]
-        public Reservation GetById(int reservationId)
+        [Route("")]
+        public async Task<IActionResult> GetAllReservations([FromQuery] GetReservationsRequest request)
         {
-            return reservationRepository.GetById(reservationId);
+            var response = await this.mediator.Send(request);
+            return this.Ok(response);
         }
 
+        //[HttpGet]
+        //[Route("{reservationId}")]
+        //public async Task<IActionResult> GetReservationById([FromRoute] GetReservationsRequest request)
+        //{
+        //    var response = await this.mediator.Send(request);
+        //    return this.Ok(response);
+        //}
     }
 }

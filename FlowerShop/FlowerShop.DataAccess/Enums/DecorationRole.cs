@@ -8,7 +8,7 @@ namespace FlowerShop.DataAccess.Enums
 {
     public enum DecorationRole
     {
-        ToRent,
+        ToRent = 1,
         ToBuy
     }
 }

@@ -1,4 +1,4 @@
-﻿using FlowerShop.ApplicationServices.API.Domain;
+﻿using FlowerShop.ApplicationServices.API.Domain.OrderItem;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace FlowerShop.Controllers
 {
     [ApiController]
-    [Route("api/flowershop")]
+    [Route("[controller]")]
 
     public class OrderItemsController : ControllerBase
     {
@@ -18,11 +18,19 @@ namespace FlowerShop.Controllers
         }
 
         [HttpGet]
-        [Route("orderItems")]
-        public async Task<IActionResult> GetAllOrderItems([FromQuery] GetOrderItemRequest request)
+        [Route("")]
+        public async Task<IActionResult> GetAllOrderItems([FromQuery] GetOrderItemsRequest request)
         {
             var response = await this.mediator.Send(request);
             return this.Ok(response);
         }
+
+        //[HttpGet]
+        //[Route("{orderItemId}")]
+        //public async Task<IActionResult> GetOrderItemById([FromRoute] GetOrderItemsRequest request)
+        //{
+        //    var response = await this.mediator.Send(request);
+        //    return this.Ok(response);
+        //}
     }
 }

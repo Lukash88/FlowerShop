@@ -22,7 +22,6 @@ C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\staticwebasset
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\staticwebassets\FlowerShop.StaticWebAssets.xml
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\scopedcss\bundle\FlowerShop.styles.css
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.RazorTargetAssemblyInfo.cache
-C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.csproj.CopyComplete
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\ref\FlowerShop.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.pdb
