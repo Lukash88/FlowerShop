@@ -1,4 +1,5 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.User;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.User;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.Entities;
 using MediatR;
@@ -14,31 +15,25 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
     public class GetUsersHandler : IRequestHandler<GetUsersRequest, GetUsersResponse>
     {
         private readonly IRepository<DataAccess.Entities.User> userRepository;
+        private readonly IMapper mapper;
 
-        public GetUsersHandler(IRepository<DataAccess.Entities.User> userRepository)
+        public GetUsersHandler(IRepository<DataAccess.Entities.User> userRepository,
+            IMapper mapper)
         {
             this.userRepository = userRepository;
+            this.mapper = mapper;
         }
 
-        public Task<GetUsersResponse> Handle(GetUsersRequest request, CancellationToken cancellationToken)
+        public async Task<GetUsersResponse> Handle(GetUsersRequest request, CancellationToken cancellationToken)
         {
-            var users = this.userRepository.GetAll();
-            var domainUsers = users.Select(x => new Domain.Models.User()
-            {
-                Id = x.Id,
-                Roles = x.Roles,
-                FirstName = x.FirstName,
-                SecondName = x.SecondName,
-                UserName = x.UserName,
-                City = x.City
-                });
-
+            var users = await this.userRepository.GetAll();
+            var mappedUsers = this.mapper.Map<List<Domain.Models.User>>(users);
             var response = new GetUsersResponse()
             {
-                Data = domainUsers.ToList()
+                Data = mappedUsers
             };
 
-            return Task.FromResult(response);
+            return response;
         }
     }
 }

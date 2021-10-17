@@ -9,14 +9,14 @@ namespace FlowerShop.DataAccess
 {
     public interface IRepository<T> where T : EntityBase
     {
-        IEnumerable<T> GetAll();
+        Task<List<T>> GetAll();
 
-        T GetById(int id);
+        Task<T> GetById(int id);
 
-        void Insert(T entity);
+        Task Insert(T entity);
 
-        void Update(T entity);
+        Task Update(T entity);
 
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

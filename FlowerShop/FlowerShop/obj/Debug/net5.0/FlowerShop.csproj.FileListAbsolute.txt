@@ -64,3 +64,6 @@ C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\MediatR.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\FlowerShop.ApplicationServices.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\FlowerShop.ApplicationServices.pdb
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\AutoMapper.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.csproj.CopyComplete

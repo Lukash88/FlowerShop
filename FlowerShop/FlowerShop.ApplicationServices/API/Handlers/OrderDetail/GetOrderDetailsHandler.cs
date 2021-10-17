@@ -1,4 +1,5 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.Entities;
 using MediatR;
@@ -14,29 +15,25 @@ namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
     public class GetOrderDetailsHandler : IRequestHandler<GetOrderDetailsRequest, GetOrderDetailsResponse>
     {
         private readonly IRepository<DataAccess.Entities.OrderDetail> orderDetailRepository;
+        private readonly IMapper mapper;
 
-        public GetOrderDetailsHandler(IRepository<DataAccess.Entities.OrderDetail> orderDetailRepository)
+        public GetOrderDetailsHandler(IRepository<DataAccess.Entities.OrderDetail> orderDetailRepository,
+            IMapper mapper)
         {
             this.orderDetailRepository = orderDetailRepository;
+            this.mapper = mapper;
         }
 
-        public Task<GetOrderDetailsResponse> Handle(GetOrderDetailsRequest request, CancellationToken cancellationToken)
+        public async Task<GetOrderDetailsResponse> Handle(GetOrderDetailsRequest request, CancellationToken cancellationToken)
         {
-            var orderDetails = this.orderDetailRepository.GetAll();
-            var domainOrderDetails = orderDetails.Select(x => new Domain.Models.OrderDetail()
-            {
-                Id = x.Id,
-                ProductQuantity = x.ProductQuantity,
-                CreatedAt = x.CreatedAt,
-                OrderState = x.OrderState
-            });
-
+            var orderDetails = await this.orderDetailRepository.GetAll();
+            var mappedOrderDetails = this.mapper.Map<List<Domain.Models.OrderDetail>>(orderDetails);
             var response = new GetOrderDetailsResponse()
             {
-                Data = domainOrderDetails.ToList()
+                Data = mappedOrderDetails
             };
 
-            return Task.FromResult(response);
+            return response;
         }
     }
 }

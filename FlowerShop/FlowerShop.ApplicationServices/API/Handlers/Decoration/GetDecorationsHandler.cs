@@ -1,4 +1,5 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Decoration;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Decoration;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.Entities;
 using MediatR;
@@ -14,32 +15,25 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
     public class GetDecorationsHandler : IRequestHandler<GetDecorationsRequest, GetDecorationsResponse>
     {
         private readonly IRepository<DataAccess.Entities.Decoration> decorationRepository;
+        private readonly IMapper mapper;
 
-        public GetDecorationsHandler(IRepository<DataAccess.Entities.Decoration> decorationRepository)
+        public GetDecorationsHandler(IRepository<DataAccess.Entities.Decoration> decorationRepository,
+            IMapper mapper)
         {
             this.decorationRepository = decorationRepository;
+            this.mapper = mapper;
         }
 
-        public Task<GetDecorationsResponse> Handle(GetDecorationsRequest request, CancellationToken cancellationToken)
+        public async Task<GetDecorationsResponse> Handle(GetDecorationsRequest request, CancellationToken cancellationToken)
         {   
-             var decorations = this.decorationRepository.GetAll();
-            var domainDecorations = decorations.Select(x => new Domain.Models.Decoration()
-            { 
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Roles = x.Roles,
-                Quantity = x.Quantity,
-                IsAvailable = x.IsAvailable,
-                Price = x.Price
-            });
-
+            var decorations = await this.decorationRepository.GetAll();
+            var mappedDecorations = this.mapper.Map<List<Domain.Models.Decoration>>(decorations);
             var response = new GetDecorationsResponse()
             {
-                Data = domainDecorations.ToList()
+                Data = mappedDecorations
             };
 
-            return Task.FromResult(response);
+            return response;
         }
     }
 }

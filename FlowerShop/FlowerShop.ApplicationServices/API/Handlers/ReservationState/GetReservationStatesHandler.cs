@@ -1,4 +1,5 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.ReservationState;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.ReservationState;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.Entities;
 using MediatR;
@@ -14,27 +15,25 @@ namespace FlowerShop.ApplicationServices.API.Handlers.ReservationState
     public class GetReservationStatesHandler : IRequestHandler<GetReservationStatesRequest, GetReservationStatesResponse>
     {
         private readonly IRepository<DataAccess.Entities.ReservationState> reservationStateRepository;
+        private readonly IMapper mapper;
 
-        public GetReservationStatesHandler(IRepository<DataAccess.Entities.ReservationState> reservationStateRepository)
+        public GetReservationStatesHandler(IRepository<DataAccess.Entities.ReservationState> reservationStateRepository,
+            IMapper mapper)
         {
             this.reservationStateRepository = reservationStateRepository;
+            this.mapper = mapper;
         }   
 
-        public Task<GetReservationStatesResponse> Handle(GetReservationStatesRequest request, CancellationToken cancellationToken)
+        public async Task<GetReservationStatesResponse> Handle(GetReservationStatesRequest request, CancellationToken cancellationToken)
         {
-            var reservationStates = this.reservationStateRepository.GetAll();
-            var domainReservationStates = reservationStates.Select(x => new Domain.Models.ReservationState()
-            {
-                Id = x.Id,
-                ReservationStatus = x.ReservationStatus
-            });
-
+            var reservationStates = await this.reservationStateRepository.GetAll();
+            var mappedReservationStates = this.mapper.Map<List<Domain.Models.ReservationState>>(reservationStates);
             var response = new GetReservationStatesResponse()
             {
-                Data = domainReservationStates.ToList()
+                Data = mappedReservationStates
             };
 
-            return Task.FromResult(response);
+            return response;
         }
     }
 }

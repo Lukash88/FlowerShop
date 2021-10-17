@@ -1,4 +1,5 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Product;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Product;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.Entities;
 using MediatR;
@@ -14,27 +15,25 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
     public class GetProductsHandler : IRequestHandler<GetProductsRequest, GetProductsResponse>
     {
         private readonly IRepository<DataAccess.Entities.Product> productRepository;
+        private readonly IMapper mapper;
 
-        public GetProductsHandler(IRepository<DataAccess.Entities.Product> productRepository)
+        public GetProductsHandler(IRepository<DataAccess.Entities.Product> productRepository,
+            IMapper mapper)
         {
             this.productRepository = productRepository;
+            this.mapper = mapper;
         }
 
-        public Task<GetProductsResponse> Handle(GetProductsRequest request, CancellationToken cancellationToken)
+        public async Task<GetProductsResponse> Handle(GetProductsRequest request, CancellationToken cancellationToken)
         {
-            var products = this.productRepository.GetAll();
-            var domainProducts = products.Select(x => new Domain.Models.Product()
-            {
-                Id = x.Id,
-                ShortDescription = x.ShortDescription
-            });
-
+            var products = await this.productRepository.GetAll();
+            var mappedProducts = this.mapper.Map<List<Domain.Models.Product>>(products);
             var response = new GetProductsResponse()
             {
-                Data = domainProducts.ToList()
+                Data = mappedProducts
             };
 
-            return Task.FromResult(response);
+            return response;
         }
     }
 }

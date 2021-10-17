@@ -1,7 +1,9 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Bouquet;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Bouquet;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.Entities;
 using MediatR;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,32 +12,26 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
     public class GetBouquetsHandler : IRequestHandler<GetBouquetsRequest, GetBouquetsResponse>
     {
-        //private readonly IRepository<DataAccess.Entities.Bouquet> bouquetRepository;
-        public GetBouquetsHandler(IRepository<DataAccess.Entities.Bouquet> bouquetRepository)
+        private readonly IRepository<DataAccess.Entities.Bouquet> bouquetRepository;
+        private readonly IMapper mapper;
+
+        public GetBouquetsHandler(IRepository<DataAccess.Entities.Bouquet> bouquetRepository,
+            IMapper mapper)
         {
             this.bouquetRepository = bouquetRepository;
-        }
+            this.mapper = mapper;
+        }        
 
-        public IRepository<DataAccess.Entities.Bouquet> bouquetRepository { get; }
-
-        public Task<GetBouquetsResponse> Handle(GetBouquetsRequest request, CancellationToken cancellationToken)
+        public async Task<GetBouquetsResponse> Handle(GetBouquetsRequest request, CancellationToken cancellationToken)
         {
-            var bouquets = this.bouquetRepository.GetAll();
-            var domainBouquets = bouquets.Select(x => new Domain.Models.Bouquet()
-            {
-                Id = x.Id,
-                Occasion = x.Occasion,
-                TypeOfArrangement = x.TypeOfArrangement,
-                Quantity = x.Quantity,
-                DecorationWay = x.DecorationWay
-            });
-
+            var bouquets = await this.bouquetRepository.GetAll();
+            var mappedBouquets = this.mapper.Map<List<Domain.Models.Bouquet>>(bouquets);
             var response = new GetBouquetsResponse()
             {
-                Data = domainBouquets.ToList()
+                Data = mappedBouquets
             };
 
-            return Task.FromResult(response);
+            return response;
         }
     }
 }
