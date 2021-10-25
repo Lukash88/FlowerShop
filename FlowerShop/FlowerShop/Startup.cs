@@ -1,6 +1,7 @@
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.Mappings;
 using FlowerShop.DataAccess;
+using FlowerShop.DataAccess.CQRS;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +25,9 @@ namespace FlowerShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IQueryExecutor, QueryExecutor>();
+            services.AddTransient<ICommandExecutor, CommandExecutor>();
+
             services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
 
             services.AddMediatR(typeof(ResponseBase<>));

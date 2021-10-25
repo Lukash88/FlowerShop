@@ -1,12 +1,40 @@
-﻿using System;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Flower;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands;
+using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
-    public class UpdateFlowerHandler
+    public class UpdateFlowerHandler : IRequestHandler<UpdateFlowerRequest, UpdateFlowerResponse>
     {
+        private readonly IMapper mapper;
+        private readonly ICommandExecutor commandExecutor;
+
+        public UpdateFlowerHandler(IMapper mapper, ICommandExecutor commandExecutor)
+        {
+            this.mapper = mapper;
+            this.commandExecutor = commandExecutor;
+        }
+        public async Task<UpdateFlowerResponse> Handle(UpdateFlowerRequest request, CancellationToken cancellationToken)
+        {
+            var flower = this.mapper.Map<DataAccess.Entities.Flower>(request);
+            var command = new UpdateFlowerCommand()
+            {
+                Parameter = flower
+            };
+            var flowerFromDb = await this.commandExecutor.Execute(command);
+
+            return  new UpdateFlowerResponse()
+            {
+                Data = this.mapper.Map<Domain.Models.Flower>(flowerFromDb)
+            };           
+        }
     }
 }

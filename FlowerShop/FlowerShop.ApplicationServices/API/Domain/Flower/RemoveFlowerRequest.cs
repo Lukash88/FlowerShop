@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Flower
 {
-    public class RemoveFlowerRequest
+    public class RemoveFlowerRequest : IRequest<RemoveFlowerResponse>
     {
+        public int FlowerId { get; init; }
     }
 }

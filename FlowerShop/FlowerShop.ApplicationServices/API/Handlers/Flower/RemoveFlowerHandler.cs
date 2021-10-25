@@ -1,12 +1,42 @@
-﻿using System;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Flower;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands;
+using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
-    public class RemoveFlowerHandler
+    public class RemoveFlowerHandler : IRequestHandler<RemoveFlowerRequest, RemoveFlowerResponse>
     {
+        private readonly IMapper mapper;
+        private readonly ICommandExecutor commandExecutor;
+
+        public RemoveFlowerHandler(IMapper mapper, ICommandExecutor commandExecutor)
+        {
+            this.mapper = mapper;
+            this.commandExecutor = commandExecutor;
+        }
+        public async Task<RemoveFlowerResponse> Handle(RemoveFlowerRequest request, CancellationToken cancellationToken)
+        {
+            var command = new RemoveFlowerCommand()
+            {
+                Id = request.FlowerId
+            };
+
+            var flower = await this.commandExecutor.Execute(command);
+            var mappedFlower = this.mapper.Map<Domain.Models.Flower>(flower);
+            var response = new RemoveFlowerResponse()
+            {
+                Data = mappedFlower
+            };
+
+            return response;
+        }
     }
 }

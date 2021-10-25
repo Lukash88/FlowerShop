@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlowerShop.DataAccess
 {
-    public class Repository<T> : List<T> where T : EntityBase
+    public class Repository<T> : IRepository<T> where T : EntityBase
     {
         protected readonly FlowerShopStorageContext context;
         private DbSet<T> entities;

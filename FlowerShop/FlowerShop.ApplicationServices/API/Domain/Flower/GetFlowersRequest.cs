@@ -9,6 +9,6 @@ namespace FlowerShop.ApplicationServices.API.Domain.Flower
 {
     public class GetFlowersRequest : IRequest<GetFlowersResponse>
     {
-
+        public string Name { get; set; }
     }
 }

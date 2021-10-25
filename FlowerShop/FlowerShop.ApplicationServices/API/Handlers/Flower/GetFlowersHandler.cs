@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain.Flower;
-using FlowerShop.DataAccess;
-using FlowerShop.DataAccess.Entities;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Queries;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,19 +11,23 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
     public class GetFlowersHandler : IRequestHandler<GetFlowersRequest, GetFlowersResponse>
     {
-        private readonly IRepository<DataAccess.Entities.Flower> flowerRepository;
         private readonly IMapper mapper;
+        private readonly IQueryExecutor queryExecutor;
 
-        public GetFlowersHandler(IRepository<DataAccess.Entities.Flower> flowerRepository,
-            IMapper mapper)
+        public GetFlowersHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.flowerRepository = flowerRepository;
             this.mapper = mapper;
+            this.queryExecutor = queryExecutor;
         }
 
         public async Task<GetFlowersResponse> Handle(GetFlowersRequest request, CancellationToken cancellationToken)
         {
-            var flowers = await this.flowerRepository.GetAll();
+            var query = new GetFlowersQuery() 
+            { 
+                Name = request.Name
+            };
+
+            var flowers = await this.queryExecutor.Execute(query);
             var mappedFlowers = this.mapper.Map<List<Domain.Models.Flower>>(flowers);
             var response = new GetFlowersResponse()
             {
