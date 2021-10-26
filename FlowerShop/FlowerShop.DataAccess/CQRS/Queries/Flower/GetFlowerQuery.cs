@@ -1,13 +1,9 @@
-﻿using FlowerShop.DataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.DataAccess.CQRS.Queries
+﻿namespace FlowerShop.DataAccess.CQRS.Queries.Flower
 {
+    using FlowerShop.DataAccess.Entities;
+    using Microsoft.EntityFrameworkCore;
+    using System.Threading.Tasks;
+
     public class GetFlowerQuery : QueryBase<Flower>
     {
         public int Id { get; init; }

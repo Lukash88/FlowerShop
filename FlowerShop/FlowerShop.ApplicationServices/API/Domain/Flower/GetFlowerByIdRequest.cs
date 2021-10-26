@@ -1,12 +1,7 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Flower
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Flower
 {
+    using MediatR;
+
     public class GetFlowerByIdRequest : IRequest<GetFlowerByIdResponse>
     {
         public int FlowerId { get; init; }

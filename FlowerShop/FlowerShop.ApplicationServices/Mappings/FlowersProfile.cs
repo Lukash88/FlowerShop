@@ -1,13 +1,7 @@
-﻿using AutoMapper;
-using FlowerShop.ApplicationServices.API.Domain.Flower;
-using FlowerShop.ApplicationServices.API.Domain.Models;
-namespace FlowerShop.ApplicationServices.Mappings
+﻿namespace FlowerShop.ApplicationServices.Mappings
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.Flower;
     using FlowerShop.DataAccess.Entities;
 
     public class FlowersProfile : Profile
@@ -34,7 +28,7 @@ namespace FlowerShop.ApplicationServices.Mappings
              .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId));
 
             this.CreateMap<UpdateFlowerRequest, Flower>()
-                  .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId))
+                 .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId))
                 .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
                 .ForMember(x => x.FlowerType, y => y.MapFrom(z => z.FlowerType))
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))

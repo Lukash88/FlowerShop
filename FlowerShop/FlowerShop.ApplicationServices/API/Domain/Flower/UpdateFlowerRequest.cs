@@ -1,13 +1,8 @@
-﻿using FlowerShop.DataAccess.Enums;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Flower
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Flower
 {
+    using FlowerShop.DataAccess.Enums;
+    using MediatR;
+
     public class UpdateFlowerRequest : IRequest<UpdateFlowerResponse>
     {
         public object Id { get; internal set; }

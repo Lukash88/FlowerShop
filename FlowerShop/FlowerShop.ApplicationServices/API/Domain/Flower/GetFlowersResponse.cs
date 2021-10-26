@@ -1,9 +1,9 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Models;
-using System.Collections.Generic;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Flower
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Flower
 {
-    public class GetFlowersResponse : ResponseBase<List<Models.Flower>>
+    using FlowerShop.ApplicationServices.API.Domain.Models;
+    using System.Collections.Generic;
+
+    public class GetFlowersResponse : ResponseBase<List<Flower>>
     {
 
     }

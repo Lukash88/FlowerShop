@@ -1,15 +1,10 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Models;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
 {
+    using FlowerShop.DataAccess.Enums;
+    using MediatR;
+
     public class GetBouquetsRequest : IRequest<GetBouquetsResponse>
     {
-
+        public Occassion Occasion { get; init; }
     }
 }

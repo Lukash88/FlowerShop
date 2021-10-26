@@ -1,10 +1,10 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Flower;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
-namespace FlowerShop.Controllers
+﻿namespace FlowerShop.Controllers
 {
+    using FlowerShop.ApplicationServices.API.Domain.Flower;
+    using MediatR;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
+
     [ApiController]
     [Route("[controller]")]
     public class FlowersController : ControllerBase
@@ -53,7 +53,7 @@ namespace FlowerShop.Controllers
                 FlowerId = flowerId           
             };
             var response = await this.mediator.Send(request);
-            return this.Ok(response);
+            return this.Ok();
         }
 
         [HttpPut]

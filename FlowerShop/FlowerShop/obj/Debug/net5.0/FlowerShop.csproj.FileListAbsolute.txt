@@ -66,4 +66,3 @@ C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\ref\FlowerShop.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.pdb
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.genruntimeconfig.cache
-C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.csproj.CopyComplete

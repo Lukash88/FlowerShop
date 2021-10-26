@@ -1,13 +1,13 @@
-﻿using AutoMapper;
-using FlowerShop.ApplicationServices.API.Domain.Flower;
-using FlowerShop.DataAccess.CQRS;
-using FlowerShop.DataAccess.CQRS.Queries;
-using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.Flower
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.Flower;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Queries.Flower;
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class GetFlowerByIdHandler : IRequestHandler<GetFlowerByIdRequest, GetFlowerByIdResponse>
     {
         private readonly IMapper mapper;

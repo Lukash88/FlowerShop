@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
 {
+    using System.Collections.Generic;
+
     public class GetBouquetsResponse : ResponseBase<List<Models.Bouquet>>
     {
 

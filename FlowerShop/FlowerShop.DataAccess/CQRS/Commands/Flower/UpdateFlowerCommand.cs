@@ -1,12 +1,8 @@
-﻿using FlowerShop.DataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.DataAccess.CQRS.Commands
+﻿namespace FlowerShop.DataAccess.CQRS.Commands.Flower
 {
+    using FlowerShop.DataAccess.Entities;
+    using System.Threading.Tasks;
+
     public class UpdateFlowerCommand : CommandBase<Flower, Flower>
     {
         public int Id { get; init; }

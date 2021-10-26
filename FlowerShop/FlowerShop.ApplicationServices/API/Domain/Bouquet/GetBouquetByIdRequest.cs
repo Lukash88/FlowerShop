@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
 {
-    public class GetBouquetByIdRequest
-    {
+    using MediatR;
 
+    public class GetBouquetByIdRequest : IRequest<GetBouquetByIdResponse>
+    {
+        public int BouquetId { get; init; }
     }
 }

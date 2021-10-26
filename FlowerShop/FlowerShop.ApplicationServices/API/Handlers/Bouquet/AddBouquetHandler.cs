@@ -1,27 +1,35 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Bouquet;
-using FlowerShop.DataAccess;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.Bouquet;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
+    using FlowerShop.DataAccess.Entities;
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class AddBouquetHandler : IRequestHandler<AddBouquetRequest, AddBouquetResponse>
     {
-        private readonly IRepository<DataAccess.Entities.Bouquet> bouquetRepository;
+        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper mapper;
 
-        public AddBouquetHandler(IRepository<DataAccess.Entities.Bouquet> bouquetRepository)
+        public AddBouquetHandler(ICommandExecutor commandExecutor, IMapper mapper)
         {
-            this.bouquetRepository = bouquetRepository;
+            this.commandExecutor = commandExecutor;
+            this.mapper = mapper;
         }
 
-        public Task<AddBouquetResponse> Handle(AddBouquetRequest request, CancellationToken cancellationToken)
+        public async Task<AddBouquetResponse> Handle(AddBouquetRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var bouquet = this.mapper.Map<Bouquet>(request);
+            var command = new AddBouquetCommand() { Parameter = bouquet };
+            var bouquetFromDb = await this.commandExecutor.Execute(command);
+
+            return new AddBouquetResponse()
+            {
+                Data = this.mapper.Map<Domain.Models.Bouquet>(bouquetFromDb)
+            };
         }
     }
 }
