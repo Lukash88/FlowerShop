@@ -24,7 +24,6 @@
             {
                 Id = request.FlowerId
             };
-
             var flower = await this.commandExecutor.Execute(command);
             var mappedFlower = this.mapper.Map<Domain.Models.Flower>(flower);
             var response = new RemoveFlowerResponse()

@@ -33,6 +33,7 @@ namespace FlowerShop.Configurations
 
             builder
                 .Property(x => x.Price)
+                .HasPrecision(14, 2)
                 .IsRequired();
         }
     }

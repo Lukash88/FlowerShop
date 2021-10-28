@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Decoration
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Decoration
 {
-    public class GetDecorationByIdRequest
+    using MediatR;
+
+    public class GetDecorationByIdRequest : IRequest<GetDecorationByIdResponse>
     {
+        public int DecorationId { get; init; }
     }
 }

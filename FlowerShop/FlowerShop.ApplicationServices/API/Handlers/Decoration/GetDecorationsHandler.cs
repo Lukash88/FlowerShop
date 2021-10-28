@@ -1,32 +1,32 @@
-﻿using AutoMapper;
-using FlowerShop.ApplicationServices.API.Domain.Decoration;
-using FlowerShop.DataAccess;
-using FlowerShop.DataAccess.Entities;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
 {
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.Decoration;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Queries.Decoration;
+    using MediatR;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class GetDecorationsHandler : IRequestHandler<GetDecorationsRequest, GetDecorationsResponse>
     {
-        private readonly IRepository<DataAccess.Entities.Decoration> decorationRepository;
         private readonly IMapper mapper;
+        private readonly IQueryExecutor queryExecutor;
 
-        public GetDecorationsHandler(IRepository<DataAccess.Entities.Decoration> decorationRepository,
-            IMapper mapper)
+        public GetDecorationsHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.decorationRepository = decorationRepository;
             this.mapper = mapper;
+            this.queryExecutor = queryExecutor;
         }
 
         public async Task<GetDecorationsResponse> Handle(GetDecorationsRequest request, CancellationToken cancellationToken)
-        {   
-            var decorations = await this.decorationRepository.GetAll();
+        {
+            var query = new GetDecorationsQuery()
+            {
+                Name = request.Name
+            };
+            var decorations = await this.queryExecutor.Execute(query);
             var mappedDecorations = this.mapper.Map<List<Domain.Models.Decoration>>(decorations);
             var response = new GetDecorationsResponse()
             {

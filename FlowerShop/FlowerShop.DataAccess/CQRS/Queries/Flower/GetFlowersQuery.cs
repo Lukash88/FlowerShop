@@ -1,8 +1,8 @@
 ﻿namespace FlowerShop.DataAccess.CQRS.Queries.Flower
 {
+    using FlowerShop.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
-    using FlowerShop.DataAccess.Entities;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -12,7 +12,8 @@
 
         public async override Task<List<Flower>> Execute(FlowerShopStorageContext context)
         {
-            var flowersFilteredByName = !string.IsNullOrEmpty(Name) ? await context.Flowers.Where(x => x.Name.Contains(Name)).ToListAsync() : await context.Flowers.ToListAsync();
+            var flowersFilteredByName = !string.IsNullOrEmpty(Name) ? 
+                await context.Flowers.Where(x => x.Name.Contains(Name)).ToListAsync() : await context.Flowers.ToListAsync();
 
             return flowersFilteredByName;
         }

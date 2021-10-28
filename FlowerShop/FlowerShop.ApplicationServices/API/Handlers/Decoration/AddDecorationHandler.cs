@@ -1,12 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
 {
-    public class AddDecorationHandler
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.Decoration;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Commands.Decoration;
+    using FlowerShop.DataAccess.Entities;
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public class AddDecorationHandler : IRequestHandler<AddDecorationRequest, AddDecorationResponse>
     {
+        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper mapper;
+
+        public AddDecorationHandler(ICommandExecutor commandExecutor, IMapper mapper)
+        {
+            this.commandExecutor = commandExecutor;
+            this.mapper = mapper;
+        }
+
+        public async Task<AddDecorationResponse> Handle(AddDecorationRequest request, CancellationToken cancellationToken)
+        {
+            var decoration = this.mapper.Map<Decoration>(request);
+            var command = new AddDecorationCommand() { Parameter = decoration };
+            var decorationFromDb = await this.commandExecutor.Execute(command);
+
+            return new AddDecorationResponse()
+            {
+                Data = this.mapper.Map<Domain.Models.Decoration>(decorationFromDb)
+            };
+        }
     }
 }

@@ -25,7 +25,6 @@
             {
                 Id = request.FlowerId
             };
-
             var flower = await this.queryExecutor.Execute(query);
             var mappedFlower = this.mapper.Map<Domain.Models.Flower>(flower);
             var response = new GetFlowerByIdResponse()

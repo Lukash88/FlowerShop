@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Decoration
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Decoration
 {
-    public class AddDecorationRequest
+    using FlowerShop.DataAccess.Enums;
+    using MediatR;
+
+    public class AddDecorationRequest : IRequest<AddDecorationResponse>
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Occassion Occasion { get; set; }
+        public TypeOfFlowerArrangement TypeOfArrangement { get; set; }
+        public int Quantity { get; set; }
+        public DecorationWay DecorationWay { get; set; }
+        public bool IsAvailable { get; set; }
+        public decimal Price { get; set; }
     }
 }
