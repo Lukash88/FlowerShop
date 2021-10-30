@@ -1,32 +1,32 @@
-﻿using AutoMapper;
-using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
-using FlowerShop.DataAccess;
-using FlowerShop.DataAccess.Entities;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
 {
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
+    using MediatR;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class GetOrderDetailsHandler : IRequestHandler<GetOrderDetailsRequest, GetOrderDetailsResponse>
     {
-        private readonly IRepository<DataAccess.Entities.OrderDetail> orderDetailRepository;
         private readonly IMapper mapper;
+        private readonly IQueryExecutor queryExecutor;
 
-        public GetOrderDetailsHandler(IRepository<DataAccess.Entities.OrderDetail> orderDetailRepository,
-            IMapper mapper)
+        public GetOrderDetailsHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.orderDetailRepository = orderDetailRepository;
             this.mapper = mapper;
+            this.queryExecutor = queryExecutor;
         }
 
         public async Task<GetOrderDetailsResponse> Handle(GetOrderDetailsRequest request, CancellationToken cancellationToken)
         {
-            var orderDetails = await this.orderDetailRepository.GetAll();
+            var query = new GetOrderDetailsQuery()
+            {
+                Id = request.OrderDetailId
+            };
+            var orderDetails = await this.queryExecutor.Execute(query);
             var mappedOrderDetails = this.mapper.Map<List<Domain.Models.OrderDetail>>(orderDetails);
             var response = new GetOrderDetailsResponse()
             {

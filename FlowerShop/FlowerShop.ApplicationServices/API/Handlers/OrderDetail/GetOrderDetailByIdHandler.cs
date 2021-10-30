@@ -1,12 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
 {
-    public class GetOrderDetailByIdHandler
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public class GetOrderDetailByIdHandler : IRequestHandler<GetOrderDetailByIdRequest, GetOrderDetailByIdResponse>
     {
+        private readonly IMapper mapper;
+        private readonly IQueryExecutor queryExecutor;
+
+        public GetOrderDetailByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        {
+            this.mapper = mapper;
+            this.queryExecutor = queryExecutor;
+        }
+
+        public async Task<GetOrderDetailByIdResponse> Handle(GetOrderDetailByIdRequest request, CancellationToken cancellationToken)
+        {
+            var query = new GetOrderDetailQuery()
+            {
+                Id = request.OrderDetailId
+            };
+            var orderDetail = await this.queryExecutor.Execute(query);
+            var mappedOrderDetail = this.mapper.Map<Domain.Models.OrderDetail>(orderDetail);
+            var response = new GetOrderDetailByIdResponse()
+            {
+                Data = mappedOrderDetail
+            };
+
+            return response;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace FlowerShop.DataAccess.CQRS.Queries.Flower
+﻿namespace FlowerShop.DataAccess.CQRS.Queries.Flowerset
 {
     using FlowerShop.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;

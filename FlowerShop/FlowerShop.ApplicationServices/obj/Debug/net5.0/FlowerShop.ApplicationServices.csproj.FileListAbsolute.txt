@@ -12,3 +12,4 @@ C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\n
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\ref\FlowerShop.ApplicationServices.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.pdb
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop.ApplicationServices\obj\Debug\net5.0\FlowerShop.ApplicationServices.csproj.CopyComplete

@@ -28,7 +28,7 @@
              .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId));
 
             this.CreateMap<UpdateFlowerRequest, Flower>()
-                 .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId))
+                .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId))
                 .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
                 .ForMember(x => x.FlowerType, y => y.MapFrom(z => z.FlowerType))
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))

@@ -23,8 +23,6 @@
     <Folder Include="CQRS\Commands\ReservationState\" />
     <Folder Include="CQRS\Commands\Product\" />
     <Folder Include="CQRS\Commands\OrderItem\" />
-    <Folder Include="CQRS\Commands\OrderDetail\" />
-    <Folder Include="CQRS\Queries\OrderDetail\" />
     <Folder Include="CQRS\Queries\OrderItem\" />
     <Folder Include="CQRS\Queries\Product\" />
     <Folder Include="CQRS\Queries\ReservationState\" />
