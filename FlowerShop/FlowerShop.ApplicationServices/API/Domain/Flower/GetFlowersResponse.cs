@@ -5,6 +5,5 @@
 
     public class GetFlowersResponse : ResponseBase<List<FlowerDTO>>
     {
-
     }
 }

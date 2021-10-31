@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Product
 {
-    public class GetProductByIdResponse
+    public class GetProductByIdResponse : ResponseBase<ProductDTO>
     {
     }
 }

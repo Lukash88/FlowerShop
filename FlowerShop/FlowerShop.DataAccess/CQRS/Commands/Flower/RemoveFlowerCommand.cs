@@ -1,7 +1,6 @@
 ﻿namespace FlowerShop.DataAccess.CQRS.Commands.Flower
 {
     using FlowerShop.DataAccess.Entities;
-    using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
 
     public class RemoveFlowerCommand : CommandBase<Flower, Flower>

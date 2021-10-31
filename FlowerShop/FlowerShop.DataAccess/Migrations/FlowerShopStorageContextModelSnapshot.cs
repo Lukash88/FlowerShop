@@ -109,7 +109,8 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -206,7 +207,8 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
 
                     b.HasKey("Id");
 
@@ -222,10 +224,19 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("LongDescription")
+                    b.Property<string>("Category")
                         .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("LongDescription")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()
