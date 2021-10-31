@@ -8,7 +8,7 @@
         public override async Task<Reservation> Execute(FlowerShopStorageContext context)
         {
             context.ChangeTracker.Clear();
-            context.Reservations.Remove(this.Parameter);
+            context.Reservations.Update(this.Parameter);
             await context.SaveChangesAsync();
             return this.Parameter;
         }

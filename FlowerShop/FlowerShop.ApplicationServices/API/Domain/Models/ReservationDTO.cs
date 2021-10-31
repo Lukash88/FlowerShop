@@ -18,7 +18,5 @@
         public string EventCity { get; set; }
         public string EventPostalCode { get; set; }
         public string PaymentReceipt { get; set; }
-        public ReservationStateDTO ReservationStatus { get; set; }
-        public OrderDetailDTO OrderDetail { get; set; }
     }
 }

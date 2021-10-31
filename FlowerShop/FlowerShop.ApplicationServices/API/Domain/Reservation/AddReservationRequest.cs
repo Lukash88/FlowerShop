@@ -19,7 +19,5 @@
         public int InvoiceId { get; set; }
         public string Invoice { get; set; }
         public string PaymentReceipt { get; set; }
-        public ReservationStateDTO ReservationStatus { get; set; }
-        public OrderDetailDTO OrderDetail { get; set; }
     }
 }
