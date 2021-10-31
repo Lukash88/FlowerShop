@@ -18,11 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\Commands\Reservation\" />
     <Folder Include="CQRS\Commands\User\" />
     <Folder Include="CQRS\Commands\ReservationState\" />
     <Folder Include="CQRS\Queries\ReservationState\" />
-    <Folder Include="CQRS\Queries\Reservation\" />
     <Folder Include="CQRS\Queries\User\" />
   </ItemGroup>
 

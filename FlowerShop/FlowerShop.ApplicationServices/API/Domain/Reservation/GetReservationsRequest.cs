@@ -1,14 +1,9 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Reservation
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Reservation
 {
+    using MediatR;
+
     public class GetReservationsRequest : IRequest<GetReservationsResponse>
     {
-
+        public string EventType { get; init; }
     }
 }

@@ -1,12 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
 {
-    public class UpdateReservationHandler
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.Reservation;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Commands.Reservation;
+    using MediatR;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public class UpdateReservationHandler : IRequestHandler<UpdateReservationRequest, UpdateReservationResponse>
     {
+        private readonly IMapper mapper;
+        private readonly ICommandExecutor commandExecutor;
+
+        public UpdateReservationHandler(IMapper mapper, ICommandExecutor commandExecutor)
+        {
+            this.mapper = mapper;
+            this.commandExecutor = commandExecutor;
+        }
+        public async Task<UpdateReservationResponse> Handle(UpdateReservationRequest request, CancellationToken cancellationToken)
+        {
+            var reservation = this.mapper.Map<DataAccess.Entities.Reservation>(request);
+            var command = new UpdateReservationCommand()
+            {
+                Parameter = reservation
+            };
+            var reservationFromDb = await this.commandExecutor.Execute(command);
+
+            return new UpdateReservationResponse()
+            {
+                Data = this.mapper.Map<Domain.Models.ReservationDTO>(reservationFromDb)
+            };
+        }
     }
 }

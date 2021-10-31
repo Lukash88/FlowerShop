@@ -1,8 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace FlowerShop.DataAccess.Entities
+﻿namespace FlowerShop.DataAccess.Entities
 {
+    using System;
+
     public class Reservation : EntityBase
     {        
         public DateTime ReservedOn { get; set; }

@@ -1,29 +1,32 @@
-﻿using AutoMapper;
-using FlowerShop.ApplicationServices.API.Domain.Reservation;
-using FlowerShop.DataAccess;
-using FlowerShop.DataAccess.Entities;
-using MediatR;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
 {
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.Reservation;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Queries.Reservation;
+    using MediatR;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class GetReservationsHandler : IRequestHandler<GetReservationsRequest, GetReservationsResponse>
     {
-        private readonly IRepository<DataAccess.Entities.Reservation> reservationRepository;
         private readonly IMapper mapper;
+        private readonly IQueryExecutor queryExecutor;
 
-        public GetReservationsHandler(IRepository<DataAccess.Entities.Reservation> reservationRepository,
-            IMapper mapper)
+        public GetReservationsHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.reservationRepository = reservationRepository;
             this.mapper = mapper;
+            this.queryExecutor = queryExecutor;
         }
+
         public async Task<GetReservationsResponse> Handle(GetReservationsRequest request, CancellationToken cancellationToken)
         {
-            var reservations = await this.reservationRepository.GetAll();
+            var query = new GetReservationsQuery()
+            {
+                EventType = request.EventType
+            };
+            var reservations = await this.queryExecutor.Execute(query);
             var mappedReservations = this.mapper.Map<List<Domain.Models.ReservationDTO>>(reservations);
             var response = new GetReservationsResponse()
             {

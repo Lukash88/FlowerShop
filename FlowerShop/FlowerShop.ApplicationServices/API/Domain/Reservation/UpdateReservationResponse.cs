@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Reservation
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Reservation
 {
-    public class UpdateReservationResponse
+    using FlowerShop.ApplicationServices.API.Domain.Models;
+
+    public class UpdateReservationResponse : ResponseBase<ReservationDTO>
     {
     }
 }

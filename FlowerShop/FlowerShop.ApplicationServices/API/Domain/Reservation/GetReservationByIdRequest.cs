@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Reservation
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Reservation
 {
-    public class GetReservationByIdRequest
+    using MediatR;
+
+    public class GetReservationByIdRequest : IRequest<GetReservationByIdResponse>
     {
+        public int ReservationId { get; init; }
     }
 }
