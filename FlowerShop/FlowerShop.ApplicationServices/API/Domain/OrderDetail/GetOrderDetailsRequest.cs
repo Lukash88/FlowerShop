@@ -4,6 +4,6 @@
 
     public class GetOrderDetailsRequest : IRequest<GetOrderDetailsResponse>
     {
-        public int OrderDetailId { get; set; }
+        public int OrderDetailId;
     }
 }

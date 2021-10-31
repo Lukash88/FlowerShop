@@ -2,7 +2,7 @@
 {
     using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class RemoveBouquetResponse : ResponseBase<Bouquet>
+    public class RemoveBouquetResponse : ResponseBase<BouquetDTO>
     {
         
     }

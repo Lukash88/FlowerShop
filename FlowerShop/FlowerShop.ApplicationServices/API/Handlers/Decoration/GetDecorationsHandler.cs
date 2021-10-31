@@ -27,7 +27,7 @@
                 Name = request.Name
             };
             var decorations = await this.queryExecutor.Execute(query);
-            var mappedDecorations = this.mapper.Map<List<Domain.Models.Decoration>>(decorations);
+            var mappedDecorations = this.mapper.Map<List<Domain.Models.DecorationDTO>>(decorations);
             var response = new GetDecorationsResponse()
             {
                 Data = mappedDecorations

@@ -27,7 +27,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
         public async Task<GetUsersResponse> Handle(GetUsersRequest request, CancellationToken cancellationToken)
         {
             var users = await this.userRepository.GetAll();
-            var mappedUsers = this.mapper.Map<List<Domain.Models.User>>(users);
+            var mappedUsers = this.mapper.Map<List<Domain.Models.UserDTO>>(users);
             var response = new GetUsersResponse()
             {
                 Data = mappedUsers

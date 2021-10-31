@@ -4,6 +4,6 @@
 
     public class RemoveOrderDetailRequest : IRequest<RemoveOrderDetailResponse>
     {
-        public int OrderDetailId { get; set; }
+        public int OrderDetailId;
     }
 }

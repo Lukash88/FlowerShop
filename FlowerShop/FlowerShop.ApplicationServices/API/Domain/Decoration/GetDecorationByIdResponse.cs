@@ -2,7 +2,7 @@
 {
     using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class GetDecorationByIdResponse : ResponseBase<Decoration>
+    public class GetDecorationByIdResponse : ResponseBase<DecorationDTO>
     {
     }
 }

@@ -2,7 +2,7 @@
 {
     using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class AddFlowerResponse : ResponseBase<Flower>
+    public class AddFlowerResponse : ResponseBase<FlowerDTO>
     {
 
     }

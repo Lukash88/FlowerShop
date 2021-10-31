@@ -60,10 +60,7 @@
         [Route("{flowerId}")]
         public async Task<IActionResult> UpdateFlowerById([FromRoute] int flowerId, [FromBody] UpdateFlowerRequest request)
         {
-            var flower = new UpdateFlowerRequest()
-            {
-                FlowerId = flowerId
-            };
+            request.FlowerId = flowerId;
             var response = await this.mediator.Send(request);
             return this.Ok(response);
         }

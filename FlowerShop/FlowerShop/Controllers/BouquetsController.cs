@@ -33,7 +33,7 @@
                 BouquetId = bouquetId
             };
             var response = await this.mediator.Send(request);
-            return this.Ok(request);
+            return this.Ok(response);
         }
 
         [HttpPost]
@@ -60,10 +60,7 @@
         [Route("{bouquetId}")]
         public async Task<IActionResult> UpdateBouquetById([FromRoute] int bouquetId, [FromBody] UpdateBouquetRequest request)
         {
-            var flower = new UpdateBouquetRequest()
-            {
-                BouquetId = bouquetId
-            };
+            request.BouquetId = bouquetId;
             var response = await this.mediator.Send(request);
             return this.Ok(response);
         }

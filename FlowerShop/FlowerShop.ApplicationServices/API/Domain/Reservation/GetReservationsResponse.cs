@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Reservation
 {
-    public class GetReservationsResponse : ResponseBase<List<Models.Reservation>>
+    public class GetReservationsResponse : ResponseBase<List<Models.ReservationDTO>>
     {
 
     }

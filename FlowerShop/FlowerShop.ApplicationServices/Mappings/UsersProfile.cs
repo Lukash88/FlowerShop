@@ -7,7 +7,7 @@
     {
         public UsersProfile()
         {
-            this.CreateMap<DataAccess.Entities.User, User>()
+            this.CreateMap<DataAccess.Entities.User, UserDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.Roles, y => y.MapFrom(z => z.Roles))
                 .ForMember(x => x.FirstName, y => y.MapFrom(z => z.FirstName))

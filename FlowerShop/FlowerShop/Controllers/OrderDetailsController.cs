@@ -60,10 +60,7 @@
         [Route("{orderDetailId}")]
         public async Task<IActionResult> UpdateOrderDetailId([FromRoute] int orderDetailId, [FromBody] UpdateOrderDetailRequest request)
         {
-            var orderDetail = new UpdateOrderDetailRequest()
-            {
-                OrderDetailId = orderDetailId
-            };
+            request.OrderDetailId = orderDetailId;
             var response = await this.mediator.Send(request);
             return this.Ok(response);
         }

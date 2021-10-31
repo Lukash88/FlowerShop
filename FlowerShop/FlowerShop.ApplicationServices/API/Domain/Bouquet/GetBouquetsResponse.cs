@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class GetBouquetsResponse : ResponseBase<List<Models.Bouquet>>
+    public class GetBouquetsResponse : ResponseBase<List<Models.BouquetDTO>>
     {
 
     }

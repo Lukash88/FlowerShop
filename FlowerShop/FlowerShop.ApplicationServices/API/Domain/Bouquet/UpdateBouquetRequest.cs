@@ -5,8 +5,7 @@
 
     public class UpdateBouquetRequest : IRequest<UpdateBouquetResponse>
     {
-        public int BouquetId { get; init; }
-        public int Id { get; set; }
+        public int BouquetId;
         public Occassion Occasion { get; set; }
         public TypeOfFlowerArrangement TypeOfArrangement { get; set; }
         public int Quantity { get; set; }

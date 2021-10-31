@@ -27,7 +27,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.ReservationState
         public async Task<GetReservationStatesResponse> Handle(GetReservationStatesRequest request, CancellationToken cancellationToken)
         {
             var reservationStates = await this.reservationStateRepository.GetAll();
-            var mappedReservationStates = this.mapper.Map<List<Domain.Models.ReservationState>>(reservationStates);
+            var mappedReservationStates = this.mapper.Map<List<Domain.Models.ReservationStateDTO>>(reservationStates);
             var response = new GetReservationStatesResponse()
             {
                 Data = mappedReservationStates

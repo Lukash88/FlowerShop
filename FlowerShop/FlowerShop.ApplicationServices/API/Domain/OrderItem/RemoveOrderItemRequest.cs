@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.OrderItem
+﻿namespace FlowerShop.ApplicationServices.API.Domain.OrderItem
 {
-    public class RemoveOrderItemRequest
+    using MediatR;
+
+    public class RemoveOrderItemRequest : IRequest<RemoveOrderItemResponse>
     {
+        public int OrderItemId;
     }
 }

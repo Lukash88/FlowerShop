@@ -25,9 +25,8 @@
             {
                 Id = request.BouquetId
             };
-
-            var bouquet = await this.queryExecutor.Execute(query);
-            var mappedBouquet = this.mapper.Map<Domain.Models.Bouquet>(bouquet);
+            var bouquet = await this.queryExecutor.Execute(query);  
+            var mappedBouquet = this.mapper.Map<Domain.Models.BouquetDTO>(bouquet);
             var response = new GetBouquetByIdResponse()
             {
                 Data = mappedBouquet

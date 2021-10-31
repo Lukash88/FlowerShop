@@ -5,10 +5,6 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Decoration;
     using MediatR;
-    using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -30,7 +26,7 @@ using System.Text;
                 Id = request.DecorationId
             };
             var decoration = await this.queryExecutor.Execute(query);
-            var mappedDecoration = this.mapper.Map<Domain.Models.Decoration>(decoration);
+            var mappedDecoration = this.mapper.Map<Domain.Models.DecorationDTO>(decoration);
             var response = new GetDecorationByIdResponse()
             {
                 Data = mappedDecoration

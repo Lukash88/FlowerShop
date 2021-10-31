@@ -2,7 +2,7 @@
 {
     using FlowerShop.DataAccess.Enums;
 
-    public class Bouquet
+    public class BouquetDTO
     {
         public int Id { get; set; }
         public Occassion Occasion { get; set; }

@@ -5,7 +5,6 @@
 
     public class AddBouquetCommand : CommandBase<Bouquet, Bouquet>
     {
-
         public override async Task<Bouquet> Execute(FlowerShopStorageContext context)
         {
             await context.Bouquets.AddAsync(this.Parameter);

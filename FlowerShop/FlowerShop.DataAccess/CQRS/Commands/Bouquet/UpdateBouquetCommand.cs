@@ -7,6 +7,7 @@
     {
         public override async Task<Bouquet> Execute(FlowerShopStorageContext context)
         {
+            context.ChangeTracker.Clear();
             context.Bouquets.Update(this.Parameter);
             await context.SaveChangesAsync();
             return this.Parameter;

@@ -6,10 +6,10 @@
 
     public class UpdateOrderDetailRequest : IRequest<UpdateOrderDetailResponse>
     {
-        public int OrderDetailId { get; set; }
-        public int Id { get; set; }
+        public int OrderDetailId;        
         public int ProductQuantity { get; set; }
         public DateTime CreatedAt { get; set; }
         public OrderState OrderState { get; set; }
+        public int ReservationId { get; set; }
     }
 }

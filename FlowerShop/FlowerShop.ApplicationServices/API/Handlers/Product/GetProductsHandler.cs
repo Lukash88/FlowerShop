@@ -27,7 +27,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
         public async Task<GetProductsResponse> Handle(GetProductsRequest request, CancellationToken cancellationToken)
         {
             var products = await this.productRepository.GetAll();
-            var mappedProducts = this.mapper.Map<List<Domain.Models.Product>>(products);
+            var mappedProducts = this.mapper.Map<List<Domain.Models.ProductDTO>>(products);
             var response = new GetProductsResponse()
             {
                 Data = mappedProducts

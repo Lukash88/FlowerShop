@@ -28,7 +28,7 @@
 
             return new AddBouquetResponse()
             {
-                Data = this.mapper.Map<Domain.Models.Bouquet>(bouquetFromDb)
+                Data = this.mapper.Map<Domain.Models.BouquetDTO>(bouquetFromDb)
             };
         }
     }

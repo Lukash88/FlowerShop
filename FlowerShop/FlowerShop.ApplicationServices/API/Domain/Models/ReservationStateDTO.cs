@@ -2,7 +2,7 @@
 {
     using FlowerShop.DataAccess.Enums;
 
-    public class ReservationState
+    public class ReservationStateDTO
     {
         public int Id { get; set; }
         public ReservationStateEnum ReservationStatus { get; set; }

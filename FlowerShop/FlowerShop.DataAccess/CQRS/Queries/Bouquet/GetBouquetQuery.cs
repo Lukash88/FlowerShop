@@ -8,10 +8,7 @@
     {
         public int Id { get; init; }
 
-        public override async Task<Bouquet> Execute(FlowerShopStorageContext context)
-        {
-            var bouquet = await context.Bouquets.FirstOrDefaultAsync(x => x.Id == this.Id);
-            return bouquet;
-        }
+        public override async Task<Bouquet> Execute(FlowerShopStorageContext context) 
+            => await context.Bouquets.FirstOrDefaultAsync(x => x.Id == this.Id);           
     }
 }

@@ -4,8 +4,7 @@
     using MediatR;
 
     public class AddDecorationRequest : IRequest<AddDecorationResponse>
-    {
-        public int Id { get; set; }
+    {        
         public string Name { get; set; }
         public string Description { get; set; }
         public Occassion Occasion { get; set; }

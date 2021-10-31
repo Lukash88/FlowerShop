@@ -60,10 +60,7 @@
         [Route("{decorationId}")]
         public async Task<IActionResult> UpdateDecorationById([FromRoute] int decorationId, [FromBody] UpdateDecorationRequest request)
         {
-            var decoration = new UpdateDecorationRequest
-            {
-                DecorationId = decorationId
-            };
+            request.DecorationId = decorationId;
             var response = await this.mediator.Send(request);
             return this.Ok(response);
         }

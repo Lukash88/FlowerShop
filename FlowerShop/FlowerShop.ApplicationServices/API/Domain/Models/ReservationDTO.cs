@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class Reservation
+    public class ReservationDTO
     {
         public int Id { get; set; }
         public string EventType { get; set; }

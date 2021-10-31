@@ -4,6 +4,6 @@
 
     public class GetBouquetByIdRequest : IRequest<GetBouquetByIdResponse>
     {
-        public int BouquetId { get; init; }
+        public int BouquetId { get; set; }
     }
 }

@@ -5,8 +5,7 @@
 
     public class UpdateFlowerRequest : IRequest<UpdateFlowerResponse>
     {
-        public int Id { get; set; }
-        public int FlowerId { get; init; }
+        public int FlowerId;
         public string Name { get; set; }
         public FlowerType FlowerType { get; set; }
         public string Description { get; set; }

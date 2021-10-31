@@ -4,6 +4,7 @@
     using FlowerShop.ApplicationServices.API.Domain.Bouquet;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
+    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -20,16 +21,15 @@
         }
         public async Task<RemoveBouquetResponse> Handle(RemoveBouquetRequest request, CancellationToken cancellationToken)
         {
+            var bouquet = mapper.Map<Bouquet>(request);
             var command = new RemoveBouquetCommand()
             {
-               Id = request.BouquetId
+               Parameter = bouquet
             };
-
-            var bouquet = await this.commandExecutor.Execute(command);
-            var mappedBouquet = this.mapper.Map<Domain.Models.Bouquet>(bouquet);
+            await this.commandExecutor.Execute(command);
             var response = new RemoveBouquetResponse()
             {
-                Data = mappedBouquet
+                Data = null
             };
 
             return response;

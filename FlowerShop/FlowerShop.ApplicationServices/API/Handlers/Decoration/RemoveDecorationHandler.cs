@@ -4,6 +4,7 @@
     using FlowerShop.ApplicationServices.API.Domain.Decoration;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Decoration;
+    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -21,15 +22,15 @@
 
         public async Task<RemoveDecorationResponse> Handle(RemoveDecorationRequest request, CancellationToken cancellationToken)
         {
+            var decoration = mapper.Map<Decoration>(request);
             var command = new RemoveDecorationCommand()
             {
-                Id = request.DecorationId
+                Parameter = decoration
             };
-            var decoration = await this.commandExecutor.Execute(command);
-            var mappedDecoration = this.mapper.Map<Domain.Models.Decoration>(decoration);
+            await this.commandExecutor.Execute(command);            
             var response = new RemoveDecorationResponse()
             {
-                Data = mappedDecoration
+                Data = null
             };
 
             return response;

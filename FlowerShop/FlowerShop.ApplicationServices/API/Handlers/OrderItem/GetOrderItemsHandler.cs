@@ -1,31 +1,33 @@
-﻿using AutoMapper;
-using FlowerShop.ApplicationServices.API.Domain.OrderItem;
-using FlowerShop.DataAccess;
-using FlowerShop.DataAccess.Entities;
-using MediatR;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.OrderItem
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderItem
 {
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.OrderItem;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Queries.OrderItem;
+    using MediatR;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class GetOrderItemsHandler : IRequestHandler<GetOrderItemsRequest, GetOrderItemsResponse>
     {
-        private readonly IRepository<DataAccess.Entities.OrderItem> orderItemRepository;
         private readonly IMapper mapper;
+        private readonly IQueryExecutor queryExecutor;
 
-        public GetOrderItemsHandler(IRepository<DataAccess.Entities.OrderItem> orderItemRepository,
-            IMapper mapper)
+        public GetOrderItemsHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.orderItemRepository = orderItemRepository;
             this.mapper = mapper;
+            this.queryExecutor = queryExecutor;
         }
 
         public async Task<GetOrderItemsResponse> Handle(GetOrderItemsRequest request, CancellationToken cancellationToken)
         {
-            var orderItems =  await this.orderItemRepository.GetAll();
-            var mappedOrderItems = this.mapper.Map<List<Domain.Models.OrderItem>>(orderItems);
+            var query = new GetOrderItemsQuery()
+            {
+                Name = request.Name
+            };
+            var orderItems = await this.queryExecutor.Execute(query);
+            var mappedOrderItems = this.mapper.Map<List<Domain.Models.OrderItemDTO>>(orderItems);
             var response = new GetOrderItemsResponse()
             {
                 Data = mappedOrderItems

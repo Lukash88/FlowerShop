@@ -30,7 +30,7 @@
 
             return new UpdateDecorationResponse()
             {
-                Data = this.mapper.Map<Domain.Models.Decoration>(decorationFromDb)
+                Data = this.mapper.Map<Domain.Models.DecorationDTO>(decorationFromDb)
             };
         }
     }

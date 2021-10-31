@@ -6,15 +6,12 @@
 
     public class RemoveFlowerCommand : CommandBase<Flower, Flower>
     {
-        public int Id { get; init; }
-
         public override async Task<Flower> Execute(FlowerShopStorageContext context)
         {
-            var flowerId = await context.Flowers.FirstOrDefaultAsync(x => x.Id == this.Id);
-            context.Flowers.Remove(flowerId);
+            context.ChangeTracker.Clear();          
+            context.Flowers.Remove(this.Parameter);
             await context.SaveChangesAsync();
-
-            return flowerId;            
+            return this.Parameter;            
         }
     }
 }

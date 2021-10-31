@@ -4,6 +4,6 @@
 
     public class RemoveBouquetRequest : IRequest<RemoveBouquetResponse>
     {
-        public int BouquetId { get; init; }
+        public int BouquetId { get; set; }
     }
 }

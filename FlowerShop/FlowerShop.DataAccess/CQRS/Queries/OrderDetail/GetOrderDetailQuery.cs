@@ -10,11 +10,7 @@
     {
         public int Id { get; init; }
 
-        public async override Task<OrderDetail> Execute(FlowerShopStorageContext context)
-        {
-            var orderDetail = await context.OrderDetails.FirstOrDefaultAsync(x => x.Id == Id);
-             
-            return orderDetail;
-        }
+        public override async Task<OrderDetail> Execute(FlowerShopStorageContext context) 
+            => await context.OrderDetails.FirstOrDefaultAsync(x => x.Id == Id);        
     }
 }

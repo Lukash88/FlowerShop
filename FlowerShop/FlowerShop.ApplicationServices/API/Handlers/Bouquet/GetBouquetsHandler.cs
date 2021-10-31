@@ -29,7 +29,7 @@
             };
 
             var bouquets = await this.queryExecutor.Execute(query);
-            var mappedBouquets = this.mapper.Map<List<Domain.Models.Bouquet>>(bouquets);
+            var mappedBouquets = this.mapper.Map<List<Domain.Models.BouquetDTO>>(bouquets);
             var response = new GetBouquetsResponse()
             {
                 Data = mappedBouquets

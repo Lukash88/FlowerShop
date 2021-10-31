@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Domain.User
 {
-    public class GetUsersResponse : ResponseBase<List<Models.User>>
+    public class GetUsersResponse : ResponseBase<List<Models.UserDTO>>
     {
 
     }

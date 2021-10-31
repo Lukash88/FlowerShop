@@ -2,7 +2,7 @@
 {
     using FlowerShop.DataAccess.Enums;
 
-    public class User
+    public class UserDTO
     {
         public int Id { get; set; }
         public UserRole Roles { get; set; }

@@ -2,14 +2,13 @@
 {
     using FlowerShop.DataAccess.Enums;
 
-    public class Decoration
+    public class FlowerDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public FlowerType FlowerType { get; set; }
         public string Description { get; set; }
-        public DecorationRole Roles { get; set; }
-        public int Quantity { get; set; }
-        public bool IsAvailable { get; set; }
-        public decimal Price { get; set; }
+        public byte LengthInCm { get; set; }
+        public FlowerColour Colour { get; set; }
     }
 }

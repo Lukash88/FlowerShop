@@ -29,7 +29,7 @@
 
             return  new UpdateFlowerResponse()
             {
-                Data = this.mapper.Map<Domain.Models.Flower>(flowerFromDb)
+                Data = this.mapper.Map<Domain.Models.FlowerDTO>(flowerFromDb)
             };           
         }
     }

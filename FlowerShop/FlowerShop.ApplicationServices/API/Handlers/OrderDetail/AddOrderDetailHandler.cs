@@ -28,7 +28,7 @@
 
             return new AddOrderDetailResponse()
             {
-                Data = this.mapper.Map<Domain.Models.OrderDetail>(orderDetailFromDb)
+                Data = this.mapper.Map<Domain.Models.OrderDetailDTO>(orderDetailFromDb)
             };
         }
     }

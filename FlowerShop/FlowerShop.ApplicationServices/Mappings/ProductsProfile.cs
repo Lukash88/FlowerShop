@@ -7,7 +7,7 @@
     {
         public ProductsProfile()
         {
-            this.CreateMap<DataAccess.Entities.Product, Product>()
+            this.CreateMap<DataAccess.Entities.Product, ProductDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.ShortDescription, y => y.MapFrom(z => z.ShortDescription));
         }

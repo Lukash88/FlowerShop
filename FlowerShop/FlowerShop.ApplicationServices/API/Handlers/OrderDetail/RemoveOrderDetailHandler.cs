@@ -4,6 +4,7 @@
     using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
+    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -20,15 +21,15 @@
         }
         public async Task<RemoveOrderDetailResponse> Handle(RemoveOrderDetailRequest request, CancellationToken cancellationToken)
         {
+            var orderDetail = mapper.Map<OrderDetail>(request);
             var command = new RemoveOrderDetailCommand()
             {
-                Id = request.OrderDetailId
+                Parameter = orderDetail
             };
-            var orderDetails = await this.commandExecutor.Execute(command);
-            var mappedOrderDetails = this.mapper.Map<Domain.Models.OrderDetail>(orderDetails);
+            await this.commandExecutor.Execute(command);
             var response = new RemoveOrderDetailResponse()
             {
-                Data = mappedOrderDetails
+                Data = null
             };
 
             return response;

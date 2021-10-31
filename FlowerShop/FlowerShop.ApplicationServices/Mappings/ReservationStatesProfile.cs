@@ -7,7 +7,7 @@
     {
         public ReservationStatesProfile()
         {
-            this.CreateMap<DataAccess.Entities.ReservationState, ReservationState>()
+            this.CreateMap<DataAccess.Entities.ReservationState, ReservationStateDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.ReservationStatus, y => y.MapFrom(z => z.ReservationStatus));
         }

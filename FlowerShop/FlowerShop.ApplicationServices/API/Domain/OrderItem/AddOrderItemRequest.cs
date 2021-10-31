@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.OrderItem
+﻿namespace FlowerShop.ApplicationServices.API.Domain.OrderItem
 {
-    public class AddOrderItemRequest
+    using MediatR;
+
+    public class AddOrderItemRequest : IRequest<AddOrderItemResponse>
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Category { get; set; }
+        public decimal Price { get; set; }
+        public int OrderDetailId { get; set; }
     }
 }

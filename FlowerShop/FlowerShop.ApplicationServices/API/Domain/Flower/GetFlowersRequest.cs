@@ -4,6 +4,6 @@
 
     public class GetFlowersRequest : IRequest<GetFlowersResponse>
     {
-        public string Name { get; set; }
+        public string Name { get; init; }
     }
 }

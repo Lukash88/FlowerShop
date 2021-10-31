@@ -26,9 +26,8 @@
             { 
                 Name = request.Name
             };
-
             var flowers = await this.queryExecutor.Execute(query);
-            var mappedFlowers = this.mapper.Map<List<Domain.Models.Flower>>(flowers);
+            var mappedFlowers = this.mapper.Map<List<Domain.Models.FlowerDTO>>(flowers);
             var response = new GetFlowersResponse()
             {
                 Data = mappedFlowers

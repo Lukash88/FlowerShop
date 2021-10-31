@@ -27,7 +27,7 @@
                 Id = request.OrderDetailId
             };
             var orderDetails = await this.queryExecutor.Execute(query);
-            var mappedOrderDetails = this.mapper.Map<List<Domain.Models.OrderDetail>>(orderDetails);
+            var mappedOrderDetails = this.mapper.Map<List<Domain.Models.OrderDetailDTO>>(orderDetails);
             var response = new GetOrderDetailsResponse()
             {
                 Data = mappedOrderDetails
