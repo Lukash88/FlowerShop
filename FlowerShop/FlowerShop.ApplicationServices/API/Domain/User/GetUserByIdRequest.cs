@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.User
+﻿namespace FlowerShop.ApplicationServices.API.Domain.User
 {
-    public class GetUserByIdRequest
+    using MediatR;
+
+    public class GetUserByIdRequest : IRequest<GetUserByIdResponse>
     {
+        public int UserId { get; init; }
     }
 }

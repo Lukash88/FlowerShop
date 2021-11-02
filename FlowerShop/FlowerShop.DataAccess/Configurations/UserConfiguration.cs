@@ -1,10 +1,10 @@
-﻿using FlowerShop.DataAccess.Entities;
+﻿namespace FlowerShop.Configurations
+{
+using FlowerShop.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace FlowerShop.Configurations
-{
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
@@ -25,6 +25,7 @@ namespace FlowerShop.Configurations
 
             builder
               .Property(x => x.UserName)
+              .IsRequired()
               .HasMaxLength(50);
 
             builder

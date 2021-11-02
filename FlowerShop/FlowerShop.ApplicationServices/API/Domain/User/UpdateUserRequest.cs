@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.User
+﻿namespace FlowerShop.ApplicationServices.API.Domain.User
 {
-    public class UpdateUserRequest
+    using FlowerShop.DataAccess.Enums;
+    using MediatR;
+
+    public class UpdateUserRequest : IRequest<UpdateUserResponse>
     {
+        public int UserId;
+        public UserRole Roles { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public string UserName { get; set; }
+        public string City { get; set; }
+        public string Street { get; set; }
+        public string PostalCode { get; set; }
     }
 }

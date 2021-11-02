@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.User
+﻿namespace FlowerShop.ApplicationServices.API.Domain.User
 {
-    public class RemoveUserResponse
+    using FlowerShop.ApplicationServices.API.Domain.Models;
+
+    public class RemoveUserResponse : ResponseBase<UserDTO>
     {
     }
 }

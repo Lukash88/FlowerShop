@@ -17,9 +17,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CQRS\Commands\User\" />
-    <Folder Include="CQRS\Queries\User\" />
-  </ItemGroup>
-
 </Project>

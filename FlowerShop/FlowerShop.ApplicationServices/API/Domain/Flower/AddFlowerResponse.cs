@@ -4,6 +4,5 @@
 
     public class AddFlowerResponse : ResponseBase<FlowerDTO>
     {
-
     }
 }

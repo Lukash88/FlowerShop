@@ -1,14 +1,9 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.User
+﻿namespace FlowerShop.ApplicationServices.API.Domain.User
 {
-    public class GetUsersResponse : ResponseBase<List<Models.UserDTO>>
-    {
+    using FlowerShop.ApplicationServices.API.Domain.Models;
+    using System.Collections.Generic;
 
+    public class GetUsersResponse : ResponseBase<List<UserDTO>>
+    {
     }
 }

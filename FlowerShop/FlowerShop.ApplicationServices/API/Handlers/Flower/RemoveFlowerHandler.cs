@@ -19,6 +19,7 @@
             this.mapper = mapper;
             this.commandExecutor = commandExecutor;
         }
+
         public async Task<RemoveFlowerResponse> Handle(RemoveFlowerRequest request, CancellationToken cancellationToken)
         {
            var flower = mapper.Map<Flower>(request);

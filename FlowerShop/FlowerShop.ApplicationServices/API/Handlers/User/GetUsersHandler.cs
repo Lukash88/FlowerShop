@@ -1,32 +1,32 @@
-﻿using AutoMapper;
-using FlowerShop.ApplicationServices.API.Domain.User;
-using FlowerShop.DataAccess;
-using FlowerShop.DataAccess.Entities;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Handlers.User
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
+    using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain.User;
+    using FlowerShop.DataAccess.CQRS;
+    using FlowerShop.DataAccess.CQRS.Queries.User;
+    using MediatR;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class GetUsersHandler : IRequestHandler<GetUsersRequest, GetUsersResponse>
     {
-        private readonly IRepository<DataAccess.Entities.User> userRepository;
         private readonly IMapper mapper;
+        private readonly IQueryExecutor queryExecutor;
 
-        public GetUsersHandler(IRepository<DataAccess.Entities.User> userRepository,
-            IMapper mapper)
+        public GetUsersHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.userRepository = userRepository;
             this.mapper = mapper;
+            this.queryExecutor = queryExecutor;
         }
 
         public async Task<GetUsersResponse> Handle(GetUsersRequest request, CancellationToken cancellationToken)
         {
-            var users = await this.userRepository.GetAll();
+            var query = new GetUsersQuery()
+            {
+                UserName = request.UserName
+            };
+            var users = await this.queryExecutor.Execute(query);
             var mappedUsers = this.mapper.Map<List<Domain.Models.UserDTO>>(users);
             var response = new GetUsersResponse()
             {
