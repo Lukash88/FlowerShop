@@ -10,6 +10,7 @@
         {
             this.CreateMap<AddOrderDetailRequest, OrderDetail>()
                .ForMember(x => x.ProductQuantity, y => y.MapFrom(z => z.ProductQuantity))
+               .ForMember(x => x.ReservationId, y => y.MapFrom(z => z.ReservationId))
                .ForMember(x => x.CreatedAt, y => y.MapFrom(z => z.CreatedAt))
                .ForMember(x => x.OrderState, y => y.MapFrom(z => z.OrderState));
 

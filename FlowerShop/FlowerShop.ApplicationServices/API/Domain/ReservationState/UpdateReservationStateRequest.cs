@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.ApplicationServices.API.Domain.ReservationState
+﻿namespace FlowerShop.ApplicationServices.API.Domain.ReservationState
 {
-    public class UpdateReservationStateRequest
+    using FlowerShop.DataAccess.Enums;
+    using MediatR;
+
+    public class UpdateReservationStateRequest : IRequest<UpdateReservationStateResponse>
     {
+        public int ReservationStateId;
+        public int ReservationId { get; set; }
+        public ReservationStateEnum ReservationStatus { get; set; }
     }
 }

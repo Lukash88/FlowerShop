@@ -5,6 +5,7 @@
     public class ReservationStateDTO
     {
         public int Id { get; set; }
+        public int ReservationId { get; set; }
         public ReservationStateEnum ReservationStatus { get; set; }
     }
 }
