@@ -1,7 +1,9 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
     using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Bouquet;
+    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
     using FlowerShop.DataAccess.CQRS.Queries.Flower;
@@ -27,8 +29,15 @@
             {
                 Occasion = request.Occasion
             };
-
             var bouquets = await this.queryExecutor.Execute(query);
+            if (bouquets == null)
+            {
+                return new GetBouquetsResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
+
             var mappedBouquets = this.mapper.Map<List<Domain.Models.BouquetDTO>>(bouquets);
             var response = new GetBouquetsResponse()
             {

@@ -66,4 +66,12 @@ C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\ref\FlowerShop.dll
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.pdb
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.genruntimeconfig.cache
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\FluentValidation.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\NLog.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\NLog.Extensions.Logging.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\NLog.Web.AspNetCore.dll
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\nlog.config
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.csproj.CopyComplete
+C:\repos\github\FlowerShop\FlowerShop\FlowerShop\bin\Debug\net5.0\RestSharp.dll

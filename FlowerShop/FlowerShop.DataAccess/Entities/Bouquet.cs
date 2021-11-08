@@ -11,7 +11,6 @@ namespace FlowerShop.DataAccess.Entities
         public DecorationWay DecorationWay { get; set; }
 
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-
         public List<Flower> Flowers { get; set; } = new List<Flower>(); 
     }
 }

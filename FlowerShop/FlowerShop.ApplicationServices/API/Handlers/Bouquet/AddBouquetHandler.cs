@@ -1,7 +1,9 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
     using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Bouquet;
+    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
     using FlowerShop.DataAccess.Entities;
@@ -24,6 +26,14 @@
         {
             var bouquet = this.mapper.Map<Bouquet>(request);
             var command = new AddBouquetCommand() { Parameter = bouquet };
+            if (command == null)
+            {
+                return new AddBouquetResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };                
+            }
+
             var bouquetFromDb = await this.commandExecutor.Execute(command);
 
             return new AddBouquetResponse()

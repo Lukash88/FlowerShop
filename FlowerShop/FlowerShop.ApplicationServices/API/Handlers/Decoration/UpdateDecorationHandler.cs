@@ -1,7 +1,9 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
 {
     using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Decoration;
+    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Decoration;
     using MediatR;
@@ -26,8 +28,16 @@
             {
                 Parameter = decoration
             };
-            var decorationFromDb = await this.commandExecutor.Execute(command);
 
+            if (decoration == null)
+            {
+                return new UpdateDecorationResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
+
+            var decorationFromDb = await this.commandExecutor.Execute(command);
             return new UpdateDecorationResponse()
             {
                 Data = this.mapper.Map<Domain.Models.DecorationDTO>(decorationFromDb)
@@ -35,3 +45,4 @@
         }
     }
 }
+

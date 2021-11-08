@@ -1,10 +1,13 @@
 using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Validators;
 using FlowerShop.ApplicationServices.Mappings;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.CQRS;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,8 +28,15 @@ namespace FlowerShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IQueryExecutor, QueryExecutor>();
+            services.AddMvcCore()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddBouquetRequestValidator>());
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
+            services.AddTransient<IQueryExecutor, QueryExecutor>();
             services.AddTransient<ICommandExecutor, CommandExecutor>();
 
             services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
