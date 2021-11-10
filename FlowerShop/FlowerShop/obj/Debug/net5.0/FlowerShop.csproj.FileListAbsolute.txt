@@ -56,7 +56,6 @@ C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.Gen
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.AssemblyInfoInputs.cache
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.AssemblyInfo.cs
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.csproj.CoreCompileInputs.cache
-C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.MvcApplicationPartsAssemblyInfo.cs
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\FlowerShop.MvcApplicationPartsAssemblyInfo.cache
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\staticwebassets\FlowerShop.StaticWebAssets.Manifest.cache
 C:\repos\github\FlowerShop\FlowerShop\FlowerShop\obj\Debug\net5.0\staticwebassets\FlowerShop.StaticWebAssets.xml

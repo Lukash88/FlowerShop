@@ -3,26 +3,22 @@
     using FlowerShop.ApplicationServices.API.Domain.Decoration;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using System.Threading.Tasks;
 
     [ApiController]
     [Route("[controller]")]
-    public class DecorationsController : ControllerBase
+    public class DecorationsController : ApiControllerBase
     {
-        private readonly IMediator mediator;
-
-        public DecorationsController(IMediator mediator)
+        public DecorationsController(IMediator mediator, ILogger<DecorationsController> logger) : base(mediator)
         {
-            this.mediator = mediator;
+            logger.LogInformation("We are in Decorations");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllDecorations([FromQuery] GetDecorationsRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> GetAllDecorations([FromQuery] GetDecorationsRequest request) =>
+            await this.HandleRequest<GetDecorationsRequest, GetDecorationsResponse>(request);
 
         [HttpGet]
         [Route("{decorationId}")]
@@ -32,17 +28,13 @@
             {
                 DecorationId = decorationId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+            return await this.HandleRequest<GetDecorationByIdRequest, GetDecorationByIdResponse>(request);
         }
-        
+
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> AddDecoration([FromBody] AddDecorationRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> AddDecoration([FromBody] AddDecorationRequest request) =>
+            await this.HandleRequest<AddDecorationRequest, AddDecorationResponse>(request);
 
         [HttpDelete]
         [Route("{decorationId}")]
@@ -52,8 +44,7 @@
             {
                 DecorationId = decorationId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok();
+            return await this.HandleRequest<RemoveDecorationRequest, RemoveDecorationResponse>(request);
         }
 
         [HttpPut]
@@ -61,8 +52,7 @@
         public async Task<IActionResult> UpdateDecorationById([FromRoute] int decorationId, [FromBody] UpdateDecorationRequest request)
         {
             request.DecorationId = decorationId;
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+            return await this.HandleRequest<UpdateDecorationRequest, UpdateDecorationResponse>(request);
         }
     }
 }

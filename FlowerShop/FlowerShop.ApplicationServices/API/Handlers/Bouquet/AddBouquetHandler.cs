@@ -35,11 +35,12 @@
             }
 
             var bouquetFromDb = await this.commandExecutor.Execute(command);
-
-            return new AddBouquetResponse()
+            var response = new AddBouquetResponse()
             {
                 Data = this.mapper.Map<Domain.Models.BouquetDTO>(bouquetFromDb)
             };
+
+            return response;
         }
     }
 }

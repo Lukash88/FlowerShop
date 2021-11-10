@@ -24,6 +24,7 @@
             this.queryExecutor = queryExecutor;
             this.commandExecutor = commandExecutor;
         }
+
         public async Task<RemoveBouquetResponse> Handle(RemoveBouquetRequest request, CancellationToken cancellationToken)
         {
             var query = new GetBouquetQuery()
@@ -49,6 +50,7 @@
             {
                 Data = this.mapper.Map<Domain.Models.BouquetDTO>(removedBouquet)
             };
+
             return response;
         }
     }

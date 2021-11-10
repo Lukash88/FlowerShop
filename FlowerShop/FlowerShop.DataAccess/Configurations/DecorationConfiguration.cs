@@ -1,10 +1,9 @@
-﻿using FlowerShop.DataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-
-namespace FlowerShop.Configurations
+﻿namespace FlowerShop.Configurations
 {
+    using FlowerShop.DataAccess.Entities;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
     public class DecorationConfiguration : IEntityTypeConfiguration<Decoration>
     {
         public void Configure(EntityTypeBuilder<Decoration> builder)
