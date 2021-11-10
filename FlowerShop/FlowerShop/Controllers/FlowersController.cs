@@ -3,26 +3,22 @@
     using FlowerShop.ApplicationServices.API.Domain.Flower;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using System.Threading.Tasks;
 
     [ApiController]
     [Route("[controller]")]
-    public class FlowersController : ControllerBase
+    public class FlowersController : ApiControllerBase
     {
-        private readonly IMediator mediator;
-
-        public FlowersController(IMediator mediator)
+        public FlowersController(IMediator mediator, ILogger<FlowersController> logger) : base(mediator)
         {
-            this.mediator = mediator;
+            logger.LogInformation("We are in Flowers");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllFlowers([FromQuery] GetFlowersRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> GetAllFlowers([FromQuery] GetFlowersRequest request) =>
+            await this.HandleRequest<GetFlowersRequest, GetFlowersResponse>(request);
 
         [HttpGet]
         [Route("{flowerId}")]
@@ -32,17 +28,13 @@
             {
                 FlowerId = flowerId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+            return await this.HandleRequest<GetFlowerByIdRequest, GetFlowerByIdResponse>(request);
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> AddFlower([FromBody] AddFlowerRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> AddFlower([FromBody] AddFlowerRequest request) =>
+            await this.HandleRequest<AddFlowerRequest, AddFlowerResponse>(request);
 
         [HttpDelete]
         [Route("{flowerId}")]
@@ -52,8 +44,7 @@
             {
                 FlowerId = flowerId           
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok();
+            return await this.HandleRequest<RemoveFlowerRequest, RemoveFlowerResponse>(request);
         }
 
         [HttpPut]
@@ -61,8 +52,7 @@
         public async Task<IActionResult> UpdateFlowerById([FromRoute] int flowerId, [FromBody] UpdateFlowerRequest request)
         {
             request.FlowerId = flowerId;
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+            return await this.HandleRequest<UpdateFlowerRequest, UpdateFlowerResponse>(request);
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
     using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Flower;
+    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Flower;
+    using FlowerShop.DataAccess.CQRS.Queries.Flower;
     using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
@@ -12,25 +15,41 @@
     public class RemoveFlowerHandler : IRequestHandler<RemoveFlowerRequest, RemoveFlowerResponse>
     {
         private readonly IMapper mapper;
+        private readonly IQueryExecutor queryExecutor;
         private readonly ICommandExecutor commandExecutor;
 
-        public RemoveFlowerHandler(IMapper mapper, ICommandExecutor commandExecutor)
+        public RemoveFlowerHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {
             this.mapper = mapper;
+            this.queryExecutor = queryExecutor;
             this.commandExecutor = commandExecutor;
         }
 
         public async Task<RemoveFlowerResponse> Handle(RemoveFlowerRequest request, CancellationToken cancellationToken)
         {
-           var flower = mapper.Map<Flower>(request);
-           var command = new RemoveFlowerCommand()
+
+            var query = new GetFlowerQuery()
             {
-                Parameter = flower                
+                Id = request.FlowerId
             };
-           await this.commandExecutor.Execute(command);
+            var getFlower = await this.queryExecutor.Execute(query);
+            if (getFlower == null)
+            {
+                return new RemoveFlowerResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
+
+            var mappedFlower = mapper.Map<Flower>(request);
+            var command = new RemoveFlowerCommand()
+             {
+                 Parameter = mappedFlower                
+            };
+            var removedFlower = await this.commandExecutor.Execute(command);
             var response = new RemoveFlowerResponse()
             {
-                Data = null
+                Data = this.mapper.Map<Domain.Models.FlowerDTO>(removedFlower)
             };
 
             return response;

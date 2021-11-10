@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\Validators\Flower\" />
     <Folder Include="API\Validators\User\" />
     <Folder Include="API\Validators\ReservationState\" />
     <Folder Include="API\Validators\Reservation\" />

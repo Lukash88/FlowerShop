@@ -1,6 +1,7 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.Models
 {
     using FlowerShop.DataAccess.Enums;
+    using System.Collections.Generic;
 
     public class FlowerDTO
     {
@@ -10,5 +11,7 @@
         public string Description { get; set; }
         public byte LengthInCm { get; set; }
         public FlowerColour Colour { get; set; }
+        public List<string> Bouquets { get; set; } = new List<string>();
+        //public List<Bouquet> Bouquets { get; set; } = new List<Bouquet>();
     }
 }

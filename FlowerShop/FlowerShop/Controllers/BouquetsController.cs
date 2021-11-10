@@ -28,7 +28,7 @@
             {
                 BouquetId = bouquetId
             };
-            return this.HandleRequest<GetBouquetByIdRequest,GetBouquetByIdResponse>(request);
+            return this.HandleRequest<GetBouquetByIdRequest, GetBouquetByIdResponse>(request);
         }
 
         [HttpPost]
