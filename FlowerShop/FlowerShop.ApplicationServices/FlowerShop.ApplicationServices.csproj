@@ -25,7 +25,6 @@
     <Folder Include="API\Validators\Reservation\" />
     <Folder Include="API\Validators\Product\" />
     <Folder Include="API\Validators\OrderItem\" />
-    <Folder Include="API\Validators\OrderDetail\" />
   </ItemGroup>
 
 </Project>

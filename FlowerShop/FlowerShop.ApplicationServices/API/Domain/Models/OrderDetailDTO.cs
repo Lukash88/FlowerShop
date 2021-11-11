@@ -11,6 +11,7 @@
         public DateTime CreatedAt { get; set; }
         public OrderState OrderState { get; set; }
         public int ReservationId { get; set; }
-        public List<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();
+        //public List<string> OrderItems = new List<string>();
+        //public List<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();
     }
 }

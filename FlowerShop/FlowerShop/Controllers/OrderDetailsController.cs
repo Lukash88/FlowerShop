@@ -3,26 +3,22 @@
     using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using System.Threading.Tasks;
 
     [ApiController]
     [Route("[controller]")]
-    public class OrderDetailsController : ControllerBase
+    public class OrderDetailsController : ApiControllerBase
     {
-        private readonly IMediator mediator;
-
-        public OrderDetailsController(IMediator mediator)
+        public OrderDetailsController(IMediator mediator, ILogger<OrderDetailsController> logger) : base(mediator)
         {
-            this.mediator = mediator;
+            logger.LogInformation("We are in OrderDetails");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllOrderDetails([FromQuery] GetOrderDetailsRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> GetAllOrderDetails([FromQuery] GetOrderDetailsRequest request) =>
+            await this.HandleRequest<GetOrderDetailsRequest, GetOrderDetailsResponse>(request);
 
         [HttpGet]
         [Route("{orderDetailId}")]
@@ -32,17 +28,13 @@
             {
                 OrderDetailId = orderDetailId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+            return await this.HandleRequest<GetOrderDetailByIdRequest, GetOrderDetailByIdResponse>(request);
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> AddOrderDetail([FromBody] AddOrderDetailRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> AddOrderDetail([FromBody] AddOrderDetailRequest request) =>
+            await this.HandleRequest<AddOrderDetailRequest, AddOrderDetailResponse>(request);
 
         [HttpDelete]
         [Route("{orderDetailId}")]
@@ -52,8 +44,8 @@
             {
                 OrderDetailId = orderDetailId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok();
+
+            return await this.HandleRequest<RemoveOrderDetailRequest, RemoveOrderDetailResponse>(request);
         }
 
         [HttpPut]
@@ -61,8 +53,8 @@
         public async Task<IActionResult> UpdateOrderDetailId([FromRoute] int orderDetailId, [FromBody] UpdateOrderDetailRequest request)
         {
             request.OrderDetailId = orderDetailId;
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+
+            return await this.HandleRequest<UpdateOrderDetailRequest, UpdateOrderDetailResponse>(request);
         }
     }
 }

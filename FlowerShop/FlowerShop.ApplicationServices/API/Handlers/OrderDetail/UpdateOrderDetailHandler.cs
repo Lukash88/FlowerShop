@@ -1,7 +1,10 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
 {
     using AutoMapper;
+    using DataAccess.Entities;
+    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
@@ -21,24 +24,34 @@
             this.commandExecutor = commandExecutor;
             this.queryExecutor = queryExecutor;
         }
+
         public async Task<UpdateOrderDetailResponse> Handle(UpdateOrderDetailRequest request, CancellationToken cancellationToken)
         {
-            var orderDetail = this.mapper.Map<DataAccess.Entities.OrderDetail>(request);
-            if (orderDetail == null)
+            var query = new GetOrderDetailQuery()
+            {
+                Id = request.OrderDetailId
+            };
+            var getOrderDetail = await this.queryExecutor.Execute(query);
+            if (getOrderDetail == null)
+            {
                 return new UpdateOrderDetailResponse()
                 {
-                    Data = null
+                    Error = new ErrorModel(ErrorType.NotFound)
                 };
+            }
+
+            var mappedOrderDetail = this.mapper.Map<OrderDetail>(request);
             var command = new UpdateOrderDetailCommand()
             {
-                Parameter = orderDetail
+                Parameter = mappedOrderDetail
             };
             var orderDetailFromDb = await this.commandExecutor.Execute(command);
-
-            return new UpdateOrderDetailResponse()
+            var response =  new UpdateOrderDetailResponse()
             {
                 Data = this.mapper.Map<Domain.Models.OrderDetailDTO>(orderDetailFromDb)
             };
+
+            return response;
         }
     }
 }

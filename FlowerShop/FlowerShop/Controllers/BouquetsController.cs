@@ -17,42 +17,44 @@
 
         [HttpGet]
         [Route("")]
-        public Task<IActionResult> GetAllBouquets([FromQuery] GetBouquetsRequest request) => 
-            this.HandleRequest<GetBouquetsRequest, GetBouquetsResponse>(request);
+        public async Task<IActionResult> GetAllBouquets([FromQuery] GetBouquetsRequest request) => 
+            await this.HandleRequest<GetBouquetsRequest, GetBouquetsResponse>(request);
         
         [HttpGet]
         [Route("{bouquetId}")]
-        public Task<IActionResult> GetBouquetById([FromRoute] int bouquetId)
+        public async Task<IActionResult> GetBouquetById([FromRoute] int bouquetId)
         {
             var request = new GetBouquetByIdRequest()
             {
                 BouquetId = bouquetId
             };
-            return this.HandleRequest<GetBouquetByIdRequest, GetBouquetByIdResponse>(request);
+
+            return await this.HandleRequest<GetBouquetByIdRequest, GetBouquetByIdResponse>(request);
         }
 
         [HttpPost]
         [Route("")]
-        public Task<IActionResult> AddBouquet([FromBody] AddBouquetRequest request) => 
-            this.HandleRequest<AddBouquetRequest, AddBouquetResponse>(request);                  
+        public async Task<IActionResult> AddBouquet([FromBody] AddBouquetRequest request) => 
+            await this.HandleRequest<AddBouquetRequest, AddBouquetResponse>(request);                  
 
         [HttpDelete]
         [Route("{bouquetId}")]
-        public Task<IActionResult> RemoveBouquetById([FromRoute] int bouquetId)
+        public async Task<IActionResult> RemoveBouquetById([FromRoute] int bouquetId)
         {
             var request = new RemoveBouquetRequest()
             {
                 BouquetId = bouquetId
             };
-            return this.HandleRequest<RemoveBouquetRequest, RemoveBouquetResponse>(request);
+
+            return await this.HandleRequest<RemoveBouquetRequest, RemoveBouquetResponse>(request);
         }
 
         [HttpPut]
         [Route("{bouquetId}")]
-        public Task<IActionResult> UpdateBouquetById([FromRoute] int bouquetId, [FromBody] UpdateBouquetRequest request)
+        public async Task<IActionResult> UpdateBouquetById([FromRoute] int bouquetId, [FromBody] UpdateBouquetRequest request)
         {
             request.BouquetId = bouquetId;
-            return this.HandleRequest<UpdateBouquetRequest, UpdateBouquetResponse>(request);
-        }
+
+            return await this.HandleRequest<UpdateBouquetRequest, UpdateBouquetResponse>(request);        }
     }
 }
