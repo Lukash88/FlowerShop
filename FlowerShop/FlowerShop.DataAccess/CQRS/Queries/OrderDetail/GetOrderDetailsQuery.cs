@@ -9,10 +9,7 @@
     {
         public int Id { get; set; }
 
-        public override async Task<List<OrderDetail>> Execute(FlowerShopStorageContext context)
-        {
-            var orderDetailsFilteredById = await context.OrderDetails.ToListAsync();
-            return orderDetailsFilteredById;
-        }
+        public override async Task<List<OrderDetail>> Execute(FlowerShopStorageContext context) =>
+            await context.OrderDetails.ToListAsync();
     }
 }

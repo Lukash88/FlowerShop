@@ -44,7 +44,7 @@
             var command = new UpdateBouquetCommand()
             {
                 Parameter = mapppedBouquet
-            };            
+            };
             var updatedBouquet = await this.commandExecutor.Execute(command);
             var response = new UpdateBouquetResponse()
             {

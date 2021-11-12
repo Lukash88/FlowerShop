@@ -5,7 +5,7 @@
     using System;
 
     public class AddOrderDetailRequest : IRequest<AddOrderDetailResponse>
-    {
+    {        
         public int ProductQuantity { get; set; }
         public DateTime CreatedAt { get; set; }
         public OrderState OrderState { get; set; }

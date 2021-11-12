@@ -12,7 +12,7 @@
     {
         public OrderDetailsController(IMediator mediator, ILogger<OrderDetailsController> logger) : base(mediator)
         {
-            logger.LogInformation("We are in OrderDetails");
+            logger.LogInformation("We are in Order Details");
         }
 
         [HttpGet]

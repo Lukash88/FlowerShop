@@ -25,7 +25,10 @@
         public async Task<AddDecorationResponse> Handle(AddDecorationRequest request, CancellationToken cancellationToken)
         {
             var decoration = this.mapper.Map<Decoration>(request);
-            var command = new AddDecorationCommand() { Parameter = decoration };
+            var command = new AddDecorationCommand() 
+            { 
+                Parameter = decoration 
+            };
             if (command == null)
             {
                 return new AddDecorationResponse()
@@ -35,10 +38,12 @@
             }
 
             var decorationFromDb = await this.commandExecutor.Execute(command);
-            return new AddDecorationResponse()
+            var response = new AddDecorationResponse()
             {
                 Data = this.mapper.Map<Domain.Models.DecorationDTO>(decorationFromDb)
             };
+
+            return response;
         }
     }
 }

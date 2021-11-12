@@ -24,10 +24,7 @@
 
         public async Task<GetOrderDetailsResponse> Handle(GetOrderDetailsRequest request, CancellationToken cancellationToken)
         {
-            var query = new GetOrderDetailsQuery()
-            {
-                Id = request.OrderDetailId
-            };
+            var query = new GetOrderDetailsQuery();
             var orderDetails = await this.queryExecutor.Execute(query);
             if (orderDetails == null)
             {

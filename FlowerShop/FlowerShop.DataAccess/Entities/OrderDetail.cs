@@ -1,11 +1,12 @@
-﻿using FlowerShop.DataAccess.Enums;
+﻿namespace FlowerShop.DataAccess.Entities
+{
+using FlowerShop.DataAccess.Enums;
 using System;
 using System.Collections.Generic;
+using DataAccess.Entities;
 
-namespace FlowerShop.DataAccess.Entities
-{
     public class OrderDetail : EntityBase
-    {
+    {        
         public int ProductQuantity { get; set; }
         public DateTime CreatedAt { get; set; }
         public OrderState OrderState { get; set; }

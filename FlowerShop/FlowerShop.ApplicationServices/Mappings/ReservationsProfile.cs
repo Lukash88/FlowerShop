@@ -23,7 +23,7 @@
                 .ForMember(x => x.Invoice, y => y.MapFrom(z => z.Invoice))
                 .ForMember(x => x.PaymentReceipt, y => y.MapFrom(z => z.PaymentReceipt));
 
-            this.CreateMap<Reservation, API.Domain.Models.ReservationDTO>()
+            _ = this.CreateMap<Reservation, API.Domain.Models.ReservationDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.UserId, y => y.MapFrom(z => z.UserId))
                 .ForMember(x => x.EventType, y => y.MapFrom(z => z.EventType))

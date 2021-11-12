@@ -35,6 +35,7 @@
                     Error = new ErrorModel(ErrorType.NotFound)
                 };
             }
+
             var mappedOrderDetail = this.mapper.Map<Domain.Models.OrderDetailDTO>(orderDetail);
             var response = new GetOrderDetailByIdResponse()
             {

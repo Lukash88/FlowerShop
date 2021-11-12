@@ -9,6 +9,7 @@
     using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
     using MediatR;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -40,15 +41,34 @@
                 };
             }
 
+
             var mappedOrderDetail = this.mapper.Map<OrderDetail>(request);
             var command = new UpdateOrderDetailCommand()
             {
                 Parameter = mappedOrderDetail
             };
-            var orderDetailFromDb = await this.commandExecutor.Execute(command);
+            if (command == null)
+            {
+                return new UpdateOrderDetailResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
+
+            var getAllQuery = new GetOrderDetailsQuery();
+            var getAllOrderDetails = await this.queryExecutor.Execute(getAllQuery);
+            if (getAllOrderDetails.Select(x => x.ReservationId).Contains(command.Parameter.ReservationId))
+            {
+                return new UpdateOrderDetailResponse()
+                {
+                    Error = new ErrorModel(ErrorType.ValidationError)
+                };
+            }
+
+            var updatedOrderDetail = await this.commandExecutor.Execute(command);
             var response =  new UpdateOrderDetailResponse()
             {
-                Data = this.mapper.Map<Domain.Models.OrderDetailDTO>(orderDetailFromDb)
+                Data = this.mapper.Map<Domain.Models.OrderDetailDTO>(updatedOrderDetail)
             };
 
             return response;

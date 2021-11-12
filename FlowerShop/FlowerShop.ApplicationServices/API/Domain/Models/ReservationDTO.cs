@@ -17,6 +17,6 @@
         public string EventStreet { get; set; }
         public string EventCity { get; set; }
         public string EventPostalCode { get; set; }
-        public string PaymentReceipt { get; set; }
+        public string PaymentReceipt { get; set; }       
     }
 }
