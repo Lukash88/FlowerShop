@@ -24,6 +24,7 @@
             this.queryExecutor = queryExecutor;
             this.commandExecutor = commandExecutor;
         }
+
         public async Task<RemoveOrderDetailResponse> Handle(RemoveOrderDetailRequest request, CancellationToken cancellationToken)
         {
             var query = new GetOrderDetailQuery()

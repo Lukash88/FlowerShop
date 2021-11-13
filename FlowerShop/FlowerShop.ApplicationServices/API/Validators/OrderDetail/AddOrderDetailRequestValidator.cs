@@ -3,9 +3,9 @@
     using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
     using FluentValidation;
 
-    public class AddOrderItemRequestValidator : AbstractValidator<AddOrderDetailRequest>
+    public class AddOrderDetailRequestValidator : AbstractValidator<AddOrderDetailRequest>
     {
-        public AddOrderItemRequestValidator()
+        public AddOrderDetailRequestValidator()
         {
             this.RuleFor(x => x.ReservationId).GreaterThan(0);
             this.RuleFor(x => x.ProductQuantity).InclusiveBetween(1, 1000).WithMessage("CHOOSE_QUANTITY_BETWEEN_1_-_1000").NotEmpty();

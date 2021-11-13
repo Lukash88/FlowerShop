@@ -7,6 +7,7 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
+    using FlowerShop.DataAccess.CQRS.Queries.Reservation;
     using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Linq;
@@ -30,6 +31,8 @@
         {
             var query = new GetOrderDetailsQuery();
             var getAllOrderDetails = await this.queryExecutor.Execute(query);
+            var reservationsQuery = new GetReservationsQuery();
+            var getAllReservations = await this.queryExecutor.Execute(reservationsQuery);
             var orderDetail = this.mapper.Map<OrderDetail>(request);
             var command = new AddOrderDetailCommand() 
             { 
@@ -37,10 +40,18 @@
             };
             if (command == null)
             {
-                return new AddOrderDetailResponse()
+                return new AddOrderDetailResponse()                 
                 {
                     Error = new ErrorModel(ErrorType.NotFound)
                 };
+            }
+            if (!getAllReservations.Select(x => x.Id).Contains(command.Parameter.ReservationId))
+            {
+                return new AddOrderDetailResponse()
+                {
+                    Error = new ErrorModel(ErrorType.ValidationError)
+                };
+               
             }
             if (getAllOrderDetails.Select(x => x.ReservationId).Contains(command.Parameter.ReservationId))
             {
@@ -50,7 +61,8 @@
                 };
             }
 
-            var addedOrderDetail= await this.commandExecutor.Execute(command);
+
+            var addedOrderDetail = await this.commandExecutor.Execute(command);
             var response = new AddOrderDetailResponse()
             {
                 Data = this.mapper.Map<Domain.Models.OrderDetailDTO>(addedOrderDetail)

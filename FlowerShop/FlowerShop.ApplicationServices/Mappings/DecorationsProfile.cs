@@ -39,5 +39,4 @@
                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));
         }
     }
-}
-                 
+}                 

@@ -1,9 +1,8 @@
 ﻿namespace FlowerShop.DataAccess.Entities
 {
-using FlowerShop.DataAccess.Enums;
-using System;
-using System.Collections.Generic;
-using DataAccess.Entities;
+    using FlowerShop.DataAccess.Enums;
+    using System;
+    using System.Collections.Generic;
 
     public class OrderDetail : EntityBase
     {        
