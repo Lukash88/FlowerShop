@@ -12,7 +12,7 @@
 
         public async override Task<List<Flower>> Execute(FlowerShopStorageContext context)
         {
-            var flowersFilteredByName = !string.IsNullOrEmpty(Name) ? 
+            var flowersFilteredByName = !string.IsNullOrEmpty(Name) ?
                 await context.Flowers.Where(x => x.Name.Contains(Name)).ToListAsync() : await context.Flowers.ToListAsync();
 
             return flowersFilteredByName;

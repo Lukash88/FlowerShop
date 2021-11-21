@@ -1,8 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="API\Validators\OrderDetail\NewFolder\**" />
+    <Compile Remove="API\Validators\OrderItem\**" />
+    <EmbeddedResource Remove="API\Validators\OrderDetail\NewFolder\**" />
+    <EmbeddedResource Remove="API\Validators\OrderItem\**" />
+    <None Remove="API\Validators\OrderDetail\NewFolder\**" />
+    <None Remove="API\Validators\OrderItem\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
@@ -20,8 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="API\Validators\Order\" />
+    <Folder Include="API\Validators\OrderDetail\" />
     <Folder Include="API\Validators\User\" />
-    <Folder Include="API\Validators\ReservationState\" />
     <Folder Include="API\Validators\Reservation\" />
     <Folder Include="API\Validators\Product\" />
   </ItemGroup>

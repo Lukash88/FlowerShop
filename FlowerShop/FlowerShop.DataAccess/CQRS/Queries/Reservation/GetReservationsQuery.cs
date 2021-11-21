@@ -1,6 +1,7 @@
 ﻿namespace FlowerShop.DataAccess.CQRS.Queries.Reservation
 {
     using FlowerShop.DataAccess.Entities;
+    using FlowerShop.DataAccess.Enums;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
@@ -8,14 +9,24 @@
 
     public class GetReservationsQuery : QueryBase<List<Reservation>>
     {
-        public string EventType { get; init; }
+        public EventType EventType { get; init; }
 
-        public async override Task<List<Reservation>> Execute(FlowerShopStorageContext context)
+        public override Task<List<Reservation>> Execute(FlowerShopStorageContext context)
         {
-            var reservationsFilteredByEventType = !string.IsNullOrEmpty(EventType) ?
-                await context.Reservations.Where(x => x.EventType.Contains(EventType)).ToListAsync() : await context.Reservations.ToListAsync();
-
-            return reservationsFilteredByEventType;
+            throw new System.NotImplementedException();
         }
+
+        //public async override Task<List<Reservation>> Execute(FlowerShopStorageContext context)
+        //{                                                                                                                                                            /// to be removed or renamed
+        ////var reservationsFilteredByEventType = EventType != 0 ?                                                                                 /// to be removed or renamed
+        ////    await context.Reservations.Where(x => x.EventType.Contains(EventType)).ToListAsync() : await context.Reservations.ToListAsync();                     /// to be removed or renamed
+
+        ////return reservationsFilteredByEventType;             
+        //}                                                                                                                                                            /// to be removed or renamed
     }
 }
+//Occasion != 0 ?
+//               await context.Bouquets.Where(x => x.Occasion == Occasion).Include(x => x.Flowers).ToListAsync() :
+//               await context.Bouquets.ToListAsync();
+// var reservationsFilteredByEventType = !string.IsNullOrEmpty(EventType) ?                                                                                 /// to be removed or renamed
+//                 await context.Reservations.Where(x => x.EventType.Contains(EventType)).ToListAsync() : await context.Reservations.ToListAsync();                     /// to be removed or renamed

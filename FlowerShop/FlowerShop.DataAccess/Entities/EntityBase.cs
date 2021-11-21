@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.DataAccess.Entities
+﻿namespace FlowerShop.DataAccess.Entities
 {
+    using System.ComponentModel.DataAnnotations;
+
     public  abstract class EntityBase
     {
         [Key]

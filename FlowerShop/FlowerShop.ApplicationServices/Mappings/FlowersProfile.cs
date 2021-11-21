@@ -13,7 +13,9 @@
                 .ForMember(x => x.FlowerType, y => y.MapFrom(z => z.FlowerType))
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
                 .ForMember(x => x.LengthInCm, y => y.MapFrom(z => z.LengthInCm))
-                .ForMember(x => x.Colour, y => y.MapFrom(z => z.Colour));
+                .ForMember(x => x.Colour, y => y.MapFrom(z => z.Colour))
+                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
+                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));
 
 
             this.CreateMap<Flower, API.Domain.Models.FlowerDTO>()
@@ -22,7 +24,9 @@
                 .ForMember(x => x.FlowerType, y => y.MapFrom(z => z.FlowerType))
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
                 .ForMember(x => x.LengthInCm, y => y.MapFrom(z => z.LengthInCm))
-                .ForMember(x => x.Colour, y => y.MapFrom(z => z.Colour));
+                .ForMember(x => x.Colour, y => y.MapFrom(z => z.Colour))
+                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
+                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));
 
             this.CreateMap<RemoveFlowerRequest, Flower>()
              .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId));
@@ -33,7 +37,9 @@
                 .ForMember(x => x.FlowerType, y => y.MapFrom(z => z.FlowerType))
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
                 .ForMember(x => x.LengthInCm, y => y.MapFrom(z => z.LengthInCm))
-                .ForMember(x => x.Colour, y => y.MapFrom(z => z.Colour));
-            }
+                .ForMember(x => x.Colour, y => y.MapFrom(z => z.Colour))
+                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
+                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));
         }
+    }
 }

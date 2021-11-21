@@ -3,7 +3,6 @@
     using FlowerShop.ApplicationServices.API.Domain.Models;
 
     public class RemoveBouquetResponse : ResponseBase<BouquetDTO>
-    {
-        
+    {        
     }
 }

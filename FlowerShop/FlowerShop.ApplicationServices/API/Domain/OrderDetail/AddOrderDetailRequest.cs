@@ -1,14 +1,13 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
 {
-    using FlowerShop.DataAccess.Enums;
     using MediatR;
-    using System;
 
     public class AddOrderDetailRequest : IRequest<AddOrderDetailResponse>
-    {        
-        public int ProductQuantity { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public OrderState OrderState { get; set; }
-        public int ReservationId { get; set; }
+    {
+        public int OrderId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Category { get; set; }
+        public decimal? Price { get; set; }
     }
 }

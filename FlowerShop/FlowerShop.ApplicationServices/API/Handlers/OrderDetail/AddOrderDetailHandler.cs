@@ -38,28 +38,28 @@
             { 
                 Parameter = orderDetail 
             };
-            if (command == null)
-            {
-                return new AddOrderDetailResponse()                 
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-            if (!getAllReservations.Select(x => x.Id).Contains(command.Parameter.ReservationId))
-            {
-                return new AddOrderDetailResponse()
-                {
-                    Error = new ErrorModel(ErrorType.ValidationError)
-                };
-               
-            }
-            if (getAllOrderDetails.Select(x => x.ReservationId).Contains(command.Parameter.ReservationId))
-            {
-                return new AddOrderDetailResponse()
-                {
-                    Error = new ErrorModel(ErrorType.ValidationError)
-                };
-            }
+            //if (command == null)
+            //{
+            //    return new AddOrderDetailResponse()                 
+            //    {
+            //        Error = new ErrorModel(ErrorType.NotFound)
+            //    };
+            //}
+            //if (!getAllReservations.Select(x => x.Id).Contains(command.Parameter.ReservationId))
+            //{
+            //    return new AddOrderDetailResponse()
+            //    {
+            //        Error = new ErrorModel(ErrorType.ValidationError)
+            //    };
+
+            //}
+            //if (getAllOrderDetails.Select(x => x.ReservationId).Contains(command.Parameter.ReservationId))                     //removed or renamed
+            //{                                                                                                                  //removed or renamed
+            //    return new AddOrderDetailResponse()                                                                            //removed or renamed
+            //    {                                                                                                              //removed or renamed
+            //        Error = new ErrorModel(ErrorType.ValidationError)                                                          //removed or renamed
+            //    };                                                                                                             //removed or renamed
+            //}
 
 
             var addedOrderDetail = await this.commandExecutor.Execute(command);

@@ -12,10 +12,10 @@
 
         public async override Task<List<User>> Execute(FlowerShopStorageContext context)
         {
-            var usersFilteredByName = !string.IsNullOrEmpty(UserName) ?
+            var usersFilteredByUserName = !string.IsNullOrEmpty(UserName) ?
                 await context.Users.Where(x => x.UserName.Contains(UserName)).ToListAsync() : await context.Users.ToListAsync();
 
-            return usersFilteredByName;
+            return usersFilteredByUserName;
         }
     }
 }

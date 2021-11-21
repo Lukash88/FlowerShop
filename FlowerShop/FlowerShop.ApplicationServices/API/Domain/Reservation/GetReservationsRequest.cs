@@ -1,9 +1,10 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.Reservation
 {
+    using FlowerShop.DataAccess.Enums;
     using MediatR;
 
     public class GetReservationsRequest : IRequest<GetReservationsResponse>
     {
-        public string EventType { get; init; }
+        public EventType EventType { get; init; }
     }
 }

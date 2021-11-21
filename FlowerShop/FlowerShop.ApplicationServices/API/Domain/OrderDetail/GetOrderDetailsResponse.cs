@@ -5,6 +5,5 @@
 
     public class GetOrderDetailsResponse : ResponseBase<List<OrderDetailDTO>>
     {
-
     }
 }

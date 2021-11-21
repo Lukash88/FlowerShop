@@ -8,7 +8,7 @@
     {
         public int Id { get; init; }
 
-        public override async Task<Reservation> Execute(FlowerShopStorageContext context) =>
-            await context.Reservations.FirstOrDefaultAsync(x => x.Id == this.Id);
+        public override async Task<Reservation> Execute(FlowerShopStorageContext context) =>                          
+            await context.Reservations.FirstOrDefaultAsync(x => x.Id == this.Id);                                     
     }
 }

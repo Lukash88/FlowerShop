@@ -13,11 +13,11 @@
 
         public async override Task<List<Bouquet>> Execute(FlowerShopStorageContext context)
         {
-            var bouquetsFilteredByName = Occasion !=0 ? 
-                await context.Bouquets.Where(x => x.Occasion == Occasion).Include(x => x.Flowers) .ToListAsync() : 
+            var bouquetsFilteredByOccasion = Occasion != 0 ?
+                await context.Bouquets.Where(x => x.Occasion == Occasion).ToListAsync() :
                 await context.Bouquets.ToListAsync();
 
-            return bouquetsFilteredByName;
+            return bouquetsFilteredByOccasion;
         }
     }
 }

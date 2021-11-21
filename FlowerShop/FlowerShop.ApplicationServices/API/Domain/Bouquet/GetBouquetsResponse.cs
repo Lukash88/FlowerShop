@@ -1,9 +1,9 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
 {
     using System.Collections.Generic;
+    using ApplicationServices.API.Domain.Models;
 
-    public class GetBouquetsResponse : ResponseBase<List<Models.BouquetDTO>>
+    public class GetBouquetsResponse : ResponseBase<List<BouquetDTO>>
     {
-
     }
 }

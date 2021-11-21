@@ -1,9 +1,9 @@
-﻿using FlowerShop.DataAccess.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace FlowerShop.Configurations
+﻿namespace FlowerShop.Configurations
 {
+    using FlowerShop.DataAccess.Entities;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         public void Configure(EntityTypeBuilder<Product> builder)
@@ -26,6 +26,15 @@ namespace FlowerShop.Configurations
                .Property(x => x.Category)
                .IsRequired()
                .HasMaxLength(30);
+
+            builder
+               .Property(x => x.Price)
+               .HasPrecision(14, 2)
+               .IsRequired(false);
+
+            builder
+                .Property(x => x.StockLevel)
+                .IsRequired();
         }
     }
 }

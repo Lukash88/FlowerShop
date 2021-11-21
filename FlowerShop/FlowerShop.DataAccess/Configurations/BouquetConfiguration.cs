@@ -21,8 +21,8 @@
                 .IsRequired();
 
             builder
-                .Property(x => x.Quantity)
-                .IsRequired();;
+                .Property(x => x.StockLevel)
+                .IsRequired();
         }
     }
 }

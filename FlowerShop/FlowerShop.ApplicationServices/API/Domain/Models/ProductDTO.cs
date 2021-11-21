@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Models
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Models
 {
+    using System.Collections.Generic;
+
     public class ProductDTO
     {
         public int Id { get; set; }
@@ -9,7 +9,10 @@ namespace FlowerShop.ApplicationServices.API.Domain.Models
         public string ShortDescription { get; set; }
         public object LongDescription { get; internal set; }
         public string Category { get; set; }
+        public decimal? Price { get; set; }
+        public int StockLevel { get; set; }
 
-        public List<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();
+        public List<string> OrderItems { get; set; } = new List<string>();
+        // public List<OrderDTO> OrderItems { get; set; } = new List<OrderDTO>();
     }
 }

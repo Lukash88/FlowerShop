@@ -14,7 +14,7 @@
                 .HasMaxLength(100);
 
             builder
-                .Property(x => x.Roles)
+                .Property(x => x.Role)
                 .IsRequired();
 
             builder
@@ -27,13 +27,13 @@
                 .IsRequired();
 
             builder
-                .Property(x => x.Quantity)
+                .Property(x => x.StockLevel)
                 .IsRequired();
 
             builder
                 .Property(x => x.Price)
                 .HasPrecision(14, 2)
-                .IsRequired();
+                .IsRequired(false);
         }
     }
 }

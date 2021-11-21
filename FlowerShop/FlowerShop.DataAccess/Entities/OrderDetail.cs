@@ -1,18 +1,21 @@
 ﻿namespace FlowerShop.DataAccess.Entities
 {
-    using FlowerShop.DataAccess.Enums;
-    using System;
     using System.Collections.Generic;
 
     public class OrderDetail : EntityBase
-    {        
-        public int ProductQuantity { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public OrderState OrderState { get; set; }
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Category { get; set; }
+        public decimal? Price { get; set; }
 
-        public int ReservationId { get; set; }
-        public Reservation Reservation { get; set; }
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
 
-        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public List<Product> Products { get; set; } = new List<Product>();
+
+        public List<Bouquet> Bouquets { get; set; } = new List<Bouquet>();
+
+        public List<Decoration> Decorations { get; set; } = new List<Decoration>();
     }
 }

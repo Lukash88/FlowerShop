@@ -1,7 +1,7 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Models;
-
-namespace FlowerShop.ApplicationServices.API.Domain.Product
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Product
 {
+    using FlowerShop.ApplicationServices.API.Domain.Models;
+
     public class GetProductByIdResponse : ResponseBase<ProductDTO>
     {
     }

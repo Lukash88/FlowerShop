@@ -5,6 +5,5 @@
 
     public class GetDecorationsResponse : ResponseBase<List<DecorationDTO>>
     {
-
     }
 }
