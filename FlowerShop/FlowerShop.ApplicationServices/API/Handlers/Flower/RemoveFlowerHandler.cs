@@ -27,7 +27,6 @@
 
         public async Task<RemoveFlowerResponse> Handle(RemoveFlowerRequest request, CancellationToken cancellationToken)
         {
-
             var query = new GetFlowerQuery()
             {
                 Id = request.FlowerId

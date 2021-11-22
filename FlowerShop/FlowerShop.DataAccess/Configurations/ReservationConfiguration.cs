@@ -18,7 +18,8 @@
                                                                             
             builder
              .Property(x => x.ReservedOn)                                   
-             .IsRequired();                                                 
+             .IsRequired()
+             .HasDefaultValueSql("getdate()");                                                 
                                                                             
             builder                                                         
              .Property(x => x.EventType)                                    

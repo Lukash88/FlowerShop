@@ -1,28 +1,24 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Product;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
-namespace FlowerShop.Controllers
+﻿namespace FlowerShop.Controllers
 {
+    using FlowerShop.ApplicationServices.API.Domain.Product;
+    using MediatR;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using System.Threading.Tasks;
+
     [ApiController]
     [Route("[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : ApiControllerBase
     {
-        private readonly IMediator mediator;
-
-        public ProductsController(IMediator mediator)
+        public ProductsController(IMediator mediator, ILogger<ProductsController> logger) : base(mediator)
         {
-            this.mediator = mediator;
+            logger.LogInformation("We are in Products");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllProducts([FromQuery] GetProductsRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> GetAllProducts([FromQuery] GetProductsRequest request) =>
+            await this.HandleRequest<GetProductsRequest, GetProductsResponse>(request);
 
         [HttpGet]
         [Route("{productId}")]
@@ -32,17 +28,14 @@ namespace FlowerShop.Controllers
             {
                 ProductId = productId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+
+            return await this.HandleRequest<GetProductByIdRequest, GetProductByIdResponse>(request);
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> AddProduct([FromBody] AddProductRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> AddProduct([FromBody] AddProductRequest request) =>
+            await this.HandleRequest<AddProductRequest, AddProductResponse>(request);
 
         [HttpDelete]
         [Route("{productId}")]
@@ -52,8 +45,8 @@ namespace FlowerShop.Controllers
             {
                 ProductId = productId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok();
+
+            return await this.HandleRequest<RemoveProductRequest, RemoveProductResponse>(request);
         }
 
         [HttpPut]
@@ -61,8 +54,8 @@ namespace FlowerShop.Controllers
         public async Task<IActionResult> UpdateProductById([FromRoute] int productId, [FromBody] UpdateProductRequest request)
         {
             request.ProductId = productId;
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+
+            return await this.HandleRequest<UpdateProductRequest, UpdateProductResponse>(request);
         }
     }
 }

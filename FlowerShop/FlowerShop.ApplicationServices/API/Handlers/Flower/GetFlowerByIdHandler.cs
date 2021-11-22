@@ -35,6 +35,7 @@
                     Error = new ErrorModel(ErrorType.NotFound)
                 };
             }
+
             var mappedFlower = this.mapper.Map<Domain.Models.FlowerDTO>(flower);
             var response = new GetFlowerByIdResponse()
             {

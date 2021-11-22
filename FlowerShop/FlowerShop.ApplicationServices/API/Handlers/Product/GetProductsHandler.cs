@@ -1,7 +1,9 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Product
 {
     using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Product;
+    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Product;
     using MediatR;
@@ -27,6 +29,14 @@
                 Name = request.Name
             };
             var products = await this.queryExecutor.Execute(query);
+            if (products == null)
+            {
+                return new GetProductsResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
+
             var mappedProducts = this.mapper.Map<List<Domain.Models.ProductDTO>>(products);
             var response = new GetProductsResponse()
             {

@@ -57,13 +57,13 @@
 
             var getAllQuery = new GetOrderDetailsQuery();
             var getAllOrderDetails = await this.queryExecutor.Execute(getAllQuery);
-            if (getAllOrderDetails.Select(x => x.ReservationId).Contains(command.Parameter.ReservationId))
-            {
-                return new UpdateOrderDetailResponse()
-                {
-                    Error = new ErrorModel(ErrorType.ValidationError)
-                };
-            }
+            //if (getAllOrderDetails.Select(x => x.ReservationId).Contains(command.Parameter.ReservationId))
+            //{
+            //    return new UpdateOrderDetailResponse()
+            //    {
+            //        Error = new ErrorModel(ErrorType.ValidationError)
+            //    };
+            //}
 
             var updatedOrderDetail = await this.commandExecutor.Execute(command);
             var response =  new UpdateOrderDetailResponse()

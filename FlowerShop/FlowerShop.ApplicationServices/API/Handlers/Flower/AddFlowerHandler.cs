@@ -34,10 +34,6 @@
                     Error = new ErrorModel(ErrorType.NotFound)
                 };
             }
-            //if (command)
-            //{
-
-            //}
 
             var flowerFromDb = await this.commandExecutor.Execute(command);
             var response =  new AddFlowerResponse()

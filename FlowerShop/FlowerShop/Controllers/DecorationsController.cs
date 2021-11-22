@@ -28,6 +28,7 @@
             {
                 DecorationId = decorationId
             };
+
             return await this.HandleRequest<GetDecorationByIdRequest, GetDecorationByIdResponse>(request);
         }
 
@@ -44,6 +45,7 @@
             {
                 DecorationId = decorationId
             };
+
             return await this.HandleRequest<RemoveDecorationRequest, RemoveDecorationResponse>(request);
         }
 
@@ -52,6 +54,7 @@
         public async Task<IActionResult> UpdateDecorationById([FromRoute] int decorationId, [FromBody] UpdateDecorationRequest request)
         {
             request.DecorationId = decorationId;
+
             return await this.HandleRequest<UpdateDecorationRequest, UpdateDecorationResponse>(request);
         }
     }

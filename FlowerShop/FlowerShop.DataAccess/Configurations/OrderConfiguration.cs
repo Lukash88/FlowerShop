@@ -14,9 +14,10 @@
            
              builder                                                
                 .Property(x => x.CreatedAt)                             
-                .IsRequired(false);                                          
-            
-             builder
+                .IsRequired(false)
+                .HasDefaultValueSql("getdate()");
+
+            builder
                 .Property(x => x.OrderState)
                 .IsRequired();
 
