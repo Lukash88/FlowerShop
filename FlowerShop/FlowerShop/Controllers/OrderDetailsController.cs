@@ -28,6 +28,7 @@
             {
                 OrderDetailId = orderDetailId
             };
+
             return await this.HandleRequest<GetOrderDetailByIdRequest, GetOrderDetailByIdResponse>(request);
         }
 

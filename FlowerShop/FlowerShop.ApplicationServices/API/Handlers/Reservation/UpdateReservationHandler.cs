@@ -11,11 +11,13 @@
     public class UpdateReservationHandler : IRequestHandler<UpdateReservationRequest, UpdateReservationResponse>
     {
         private readonly IMapper mapper;
+        private readonly IQueryExecutor queryExecutor;
         private readonly ICommandExecutor commandExecutor;
 
-        public UpdateReservationHandler(IMapper mapper, ICommandExecutor commandExecutor)
+        public UpdateReservationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {
             this.mapper = mapper;
+            this.queryExecutor = queryExecutor;
             this.commandExecutor = commandExecutor;
         }
         public async Task<UpdateReservationResponse> Handle(UpdateReservationRequest request, CancellationToken cancellationToken)

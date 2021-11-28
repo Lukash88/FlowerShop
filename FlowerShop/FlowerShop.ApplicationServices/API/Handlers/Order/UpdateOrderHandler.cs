@@ -8,7 +8,9 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Order;
     using FlowerShop.DataAccess.CQRS.Queries.Order;
+    using FlowerShop.DataAccess.CQRS.Queries.User;
     using MediatR;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -40,12 +42,13 @@
                 };
             }
 
-            var mappedOrder = this.mapper.Map<Order>(request);
-            var command = new UpdateOrderCommand()
-            {
-                Parameter = mappedOrder
-            };
-            if (command == null)
+            var ordersQuery = new GetOrdersQuery();
+            var getOrders = await this.queryExecutor.Execute(ordersQuery);
+            var usersQuery = new GetUsersQuery();
+            var getUsers = await this.queryExecutor.Execute(ordersQuery);
+            if ((getUsers.Select(x => x.Id).Contains(request.UserId) &&
+                getOrders.Select(x => x.UserId).Contains(request.UserId)) ||
+                !getOrders.Select(x => x.Id).Contains(request.UserId))
             {
                 return new UpdateOrderResponse()
                 {
@@ -53,16 +56,11 @@
                 };
             }
 
-            var getAllQuery = new GetOrdersQuery();
-            var getAllOrders = await this.queryExecutor.Execute(getAllQuery);
-            //if (getAllOrderItems.Select(x => x.OrderDetailId).Contains(command.Parameter.OrderDetailId))
-            //{                                                                                                                          //removed or renamed
-            //    return new UpdateOrderItemResponse()                                                                                   //removed or renamed
-            //    {                                                                                                                      //removed or renamed
-            //        Error = new ErrorModel(ErrorType.ValidationError)                                                                  //removed or renamed
-            //    };                                                                                                                     //removed or renamed
-            //}                                                                                                                          //removed or renamed
-
+            var mappedOrder = this.mapper.Map<Order>(request);
+            var command = new UpdateOrderCommand()
+            {
+                Parameter = mappedOrder
+            };
             var updatedOrder = await this.commandExecutor.Execute(command);
             var response =  new UpdateOrderResponse()
             {

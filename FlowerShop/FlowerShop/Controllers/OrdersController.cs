@@ -1,29 +1,25 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Order;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
-namespace FlowerShop.Controllers
+﻿namespace FlowerShop.Controllers
 {
+    using FlowerShop.ApplicationServices.API.Domain.Order;
+    using MediatR;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using System.Threading.Tasks;
+
     [ApiController]
     [Route("[controller]")]
 
-    public class OrdersController : ControllerBase
+    public class OrdersController : ApiControllerBase
     {
-        private readonly IMediator mediator;
-
-        public OrdersController(IMediator mediator)
+        public OrdersController(IMediator mediator, ILogger<OrdersController> logger) : base(mediator)
         {
-            this.mediator = mediator;
+            logger.LogInformation("We are in Orders");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllOrders([FromQuery] GetOrdersRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> GetAllOrders([FromQuery] GetOrdersRequest request) =>
+            await this.HandleRequest<GetOrdersRequest, GetOrdersResponse>(request);
 
         [HttpGet]
         [Route("{orderId}")]
@@ -33,17 +29,14 @@ namespace FlowerShop.Controllers
             {
                 OrderId = orderId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+
+            return await this.HandleRequest<GetOrderByIdRequest, GetOrderByIdResponse>(request);
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> AddOrder([FromBody] AddOrderRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> AddOrder([FromBody] AddOrderRequest request) =>
+            await this.HandleRequest<AddOrderRequest, AddOrderResponse>(request);
 
         [HttpDelete]
         [Route("{orderId}")]
@@ -53,8 +46,8 @@ namespace FlowerShop.Controllers
             {
                 OrderId = orderId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok();
+
+            return await this.HandleRequest<RemoveOrderRequest, RemoveOrderResponse>(request);
         }
 
         [HttpPut]
@@ -62,8 +55,8 @@ namespace FlowerShop.Controllers
         public async Task<IActionResult> UpdateOrderItemById([FromRoute] int orderId, [FromBody] UpdateOrderRequest request)
         {
             request.OrderId = orderId;
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+
+            return await this.HandleRequest<UpdateOrderRequest, UpdateOrderResponse>(request);
         }
     }
 }

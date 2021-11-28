@@ -8,6 +8,7 @@
 
     [ApiController]
     [Route("[controller]")]
+
     public class DecorationsController : ApiControllerBase
     {
         public DecorationsController(IMediator mediator, ILogger<DecorationsController> logger) : base(mediator)

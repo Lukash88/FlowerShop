@@ -6,8 +6,8 @@
     using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
+    using FlowerShop.DataAccess.CQRS.Queries.Order;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
-    using FlowerShop.DataAccess.CQRS.Queries.Reservation;
     using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Linq;
@@ -29,39 +29,25 @@
 
         public async Task<AddOrderDetailResponse> Handle(AddOrderDetailRequest request, CancellationToken cancellationToken)
         {
-            var query = new GetOrderDetailsQuery();
-            var getAllOrderDetails = await this.queryExecutor.Execute(query);
-            var reservationsQuery = new GetReservationsQuery();
-            var getAllReservations = await this.queryExecutor.Execute(reservationsQuery);
+            var orderDetailsQuery = new GetOrderDetailsQuery();
+            var getOrderDetails = await this.queryExecutor.Execute(orderDetailsQuery);
+            var ordersQuery = new GetOrdersQuery();
+            var getOrders = await this.queryExecutor.Execute(ordersQuery);
+            if ((getOrders.Select(x => x.Id).Contains(request.OrderId) && 
+                getOrderDetails.Select(x => x.OrderId).Contains(request.OrderId)) ||
+                !getOrders.Select(x => x.Id).Contains(request.OrderId))
+            {
+                return new AddOrderDetailResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
+
             var orderDetail = this.mapper.Map<OrderDetail>(request);
             var command = new AddOrderDetailCommand() 
             { 
                 Parameter = orderDetail 
-            };
-            //if (command == null)
-            //{
-            //    return new AddOrderDetailResponse()                 
-            //    {
-            //        Error = new ErrorModel(ErrorType.NotFound)
-            //    };
-            //}
-            //if (!getAllReservations.Select(x => x.Id).Contains(command.Parameter.ReservationId))
-            //{
-            //    return new AddOrderDetailResponse()
-            //    {
-            //        Error = new ErrorModel(ErrorType.ValidationError)
-            //    };
-
-            //}
-            //if (getAllOrderDetails.Select(x => x.ReservationId).Contains(command.Parameter.ReservationId))                     //removed or renamed
-            //{                                                                                                                  //removed or renamed
-            //    return new AddOrderDetailResponse()                                                                            //removed or renamed
-            //    {                                                                                                              //removed or renamed
-            //        Error = new ErrorModel(ErrorType.ValidationError)                                                          //removed or renamed
-            //    };                                                                                                             //removed or renamed
-            //}
-
-
+            };      
             var addedOrderDetail = await this.commandExecutor.Execute(command);
             var response = new AddOrderDetailResponse()
             {

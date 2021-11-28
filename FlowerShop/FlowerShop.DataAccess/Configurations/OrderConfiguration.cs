@@ -10,9 +10,14 @@
         {      
             builder
                 .Property(x => x.IsPaymentConfirmed)
-                .IsRequired();                
-           
-             builder                                                
+                .IsRequired();
+
+            builder
+               .Property(x => x.Invoice)
+               .HasMaxLength(500)
+               .IsRequired(false);
+
+            builder                                                
                 .Property(x => x.CreatedAt)                             
                 .IsRequired(false)
                 .HasDefaultValueSql("getdate()");

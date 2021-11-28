@@ -27,8 +27,8 @@
             {
                 Id = request.OrderId
             };
-            var orderItem = await this.queryExecutor.Execute(query);
-            if (orderItem == null)
+            var order = await this.queryExecutor.Execute(query);
+            if (order == null)
             {
                 return new GetOrderByIdResponse()
                 {
@@ -36,10 +36,10 @@
                 };
             }
 
-            var mappedOrderItem = this.mapper.Map<Domain.Models.OrderDTO>(orderItem);
+            var mappedOrder = this.mapper.Map<Domain.Models.OrderDTO>(order);
             var response = new GetOrderByIdResponse()
             {
-                Data = mappedOrderItem
+                Data = mappedOrder
             };
 
             return response;

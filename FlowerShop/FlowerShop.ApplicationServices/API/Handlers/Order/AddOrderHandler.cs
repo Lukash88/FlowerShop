@@ -7,8 +7,10 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Order;
     using FlowerShop.DataAccess.CQRS.Queries.Order;
+    using FlowerShop.DataAccess.CQRS.Queries.User;
     using FlowerShop.DataAccess.Entities;
     using MediatR;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -27,28 +29,25 @@
 
         public async Task<AddOrderResponse> Handle(AddOrderRequest request, CancellationToken cancellationToken)
         {
-            var query = new GetOrdersQuery();
-            var getAllOrders = await this.queryExecutor.Execute(query);
-            var order = this.mapper.Map<Order>(request);
-            var command = new AddOrderCommand()
-            {
-                Parameter = order
-            };
-            if (command == null)
+            var ordersQuery = new GetOrdersQuery();
+            var getOrders = await this.queryExecutor.Execute(ordersQuery);
+            var usersQuery = new GetUsersQuery();
+            var getUsers = await this.queryExecutor.Execute(ordersQuery);
+
+            if ((getUsers.Select(x => x.Id).Contains(request.UserId) &&
+                getOrders.Select(x => x.UserId).Contains(request.UserId)) ||
+                !getOrders.Select(x => x.Id).Contains(request.UserId))
             {
                 return new AddOrderResponse()
                 {
                     Error = new ErrorModel(ErrorType.NotFound)
                 };
             }
-            //if (getAllOrderItems.Select(x => x.OrderDetailId).Contains(command.Parameter.OrderDetailId))                 //removed or renamed
-            //{                                                                                                            //removed or renamed
-            //    return new AddOrderItemResponse()                                                                        //removed or renamed
-            //    {                                                                                                        //removed or renamed
-            //        Error = new ErrorModel(ErrorType.ValidationError)                                                    //removed or renamed
-            //    };                                                                                                       //removed or renamed
-            //}
-
+            var order = this.mapper.Map<Order>(request);
+            var command = new AddOrderCommand()
+            {
+                Parameter = order
+            };
             var addedOrderItem = await this.commandExecutor.Execute(command);
             var response = new AddOrderResponse()
             {

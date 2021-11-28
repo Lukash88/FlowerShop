@@ -21,7 +21,7 @@
             builder
               .Property(x => x.Category)
               .IsRequired()
-              .HasMaxLength(200);
+              .HasMaxLength(100);
 
             builder
                .Property(x => x.Price)

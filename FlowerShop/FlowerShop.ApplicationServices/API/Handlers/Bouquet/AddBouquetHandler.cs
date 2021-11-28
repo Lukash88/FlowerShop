@@ -25,7 +25,10 @@
         public async Task<AddBouquetResponse> Handle(AddBouquetRequest request, CancellationToken cancellationToken)
         {
             var bouquet = this.mapper.Map<Bouquet>(request);
-            var command = new AddBouquetCommand() { Parameter = bouquet };
+            var command = new AddBouquetCommand() 
+            { 
+                Parameter = bouquet 
+            };
             if (command == null)
             {
                 return new AddBouquetResponse()

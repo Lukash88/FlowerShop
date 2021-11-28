@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\Validators\Order\" />
     <Folder Include="API\Validators\OrderDetail\" />
     <Folder Include="API\Validators\User\" />
     <Folder Include="API\Validators\Reservation\" />

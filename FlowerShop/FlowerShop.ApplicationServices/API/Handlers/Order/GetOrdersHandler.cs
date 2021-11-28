@@ -28,8 +28,8 @@
             {
                 OrderState = request.OrderState
             };
-            var orderItems = await this.queryExecutor.Execute(query);
-            if (orderItems == null)
+            var orders = await this.queryExecutor.Execute(query);
+            if (orders == null)
             {
                 return new GetOrdersResponse()
                 {
@@ -37,10 +37,10 @@
                 };
             }
 
-            var mappedOrderItems = this.mapper.Map<List<Domain.Models.OrderDTO>>(orderItems);
+            var mappedOrders = this.mapper.Map<List<Domain.Models.OrderDTO>>(orders);
             var response = new GetOrdersResponse()
             {
-                Data = mappedOrderItems
+                Data = mappedOrders
             };
 
             return response;

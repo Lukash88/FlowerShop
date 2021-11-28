@@ -7,6 +7,7 @@
     using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
+    using FlowerShop.DataAccess.CQRS.Queries.Order;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
     using MediatR;
     using System.Linq;
@@ -41,13 +42,13 @@
                 };
             }
 
-
-            var mappedOrderDetail = this.mapper.Map<OrderDetail>(request);
-            var command = new UpdateOrderDetailCommand()
-            {
-                Parameter = mappedOrderDetail
-            };
-            if (command == null)
+            var orderDetailsQuery = new GetOrderDetailsQuery();
+            var getOrderDetails = await this.queryExecutor.Execute(orderDetailsQuery);
+            var ordersQuery = new GetOrdersQuery();
+            var getOrders = await this.queryExecutor.Execute(ordersQuery);
+            if ((getOrders.Select(x => x.Id).Contains(request.OrderId) &&
+                getOrderDetails.Select(x => x.OrderId).Contains(request.OrderId)) || 
+                !getOrders.Select(x => x.Id).Contains(request.OrderId))
             {
                 return new UpdateOrderDetailResponse()
                 {
@@ -55,16 +56,11 @@
                 };
             }
 
-            var getAllQuery = new GetOrderDetailsQuery();
-            var getAllOrderDetails = await this.queryExecutor.Execute(getAllQuery);
-            //if (getAllOrderDetails.Select(x => x.ReservationId).Contains(command.Parameter.ReservationId))
-            //{
-            //    return new UpdateOrderDetailResponse()
-            //    {
-            //        Error = new ErrorModel(ErrorType.ValidationError)
-            //    };
-            //}
-
+            var mappedOrderDetail = this.mapper.Map<OrderDetail>(request);
+            var command = new UpdateOrderDetailCommand()
+            {
+                Parameter = mappedOrderDetail
+            };
             var updatedOrderDetail = await this.commandExecutor.Execute(command);
             var response =  new UpdateOrderDetailResponse()
             {

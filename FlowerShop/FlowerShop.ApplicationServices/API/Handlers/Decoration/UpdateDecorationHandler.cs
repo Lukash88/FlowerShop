@@ -44,10 +44,10 @@
             {
                 Parameter = mappedDecoration
             };
-            var decorationFromDb = await this.commandExecutor.Execute(command);
+            var updatedDecoration = await this.commandExecutor.Execute(command);
             var response = new UpdateDecorationResponse()
             {
-                Data = this.mapper.Map<Domain.Models.DecorationDTO>(decorationFromDb)
+                Data = this.mapper.Map<Domain.Models.DecorationDTO>(updatedDecoration)
             };
 
             return response;

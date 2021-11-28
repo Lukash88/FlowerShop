@@ -13,8 +13,8 @@
 
         public async override Task<List<Order>> Execute(FlowerShopStorageContext context)
         {
-            var ordersFilteredByState = !string.IsNullOrEmpty(OrderState.ToString()) ?
-            await context.Orders.Where(x => x.OrderState.ToString().Contains(OrderState.ToString())).ToListAsync() : await context.Orders.ToListAsync();
+            var ordersFilteredByState = OrderState != 0 ? 
+                await context.Orders.Where(x => x.OrderState == OrderState).ToListAsync() : await context.Orders.ToListAsync();
 
             return ordersFilteredByState;
         }
