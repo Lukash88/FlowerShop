@@ -3,27 +3,23 @@
     using FlowerShop.ApplicationServices.API.Domain.Reservation;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using System.Threading.Tasks;
 
     [ApiController]
     [Route("[controller]")]
 
-    public class ReservationsController : ControllerBase
+    public class ReservationsController : ApiControllerBase
     {
-        private readonly IMediator mediator;
-
-        public ReservationsController(IMediator mediator)
+        public ReservationsController(IMediator mediator, ILogger<ReservationsController> logger) : base(mediator)
         {
-            this.mediator = mediator;
+            logger.LogInformation("We are in Reservations");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllReservations([FromQuery] GetReservationsRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> GetAllReservations([FromQuery] GetReservationsRequest request) =>
+            await this.HandleRequest<GetReservationsRequest, GetReservationsResponse>(request);
 
         [HttpGet]
         [Route("{reservationId}")]
@@ -33,17 +29,14 @@
             {
                 ReservationId = reservationId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+            
+            return await this.HandleRequest<GetReservationByIdRequest, GetReservationByIdResponse>(request);
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> AddReservation([FromBody] AddReservationRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> AddReservation([FromBody] AddReservationRequest request) =>
+            await this.HandleRequest<AddReservationRequest, AddReservationResponse>(request);
 
         [HttpDelete]
         [Route("{reservationId}")]
@@ -53,8 +46,8 @@
             {
                 ReservationId = reservationId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok();
+           
+            return await this.HandleRequest<RemoveReservationRequest, RemoveReservationResponse>(request);
         }
 
         [HttpPut]
@@ -62,8 +55,8 @@
         public async Task<IActionResult> UpdateReservationById([FromRoute] int reservationId, [FromBody] UpdateReservationRequest request)
         {
             request.ReservationId = reservationId;
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+            
+            return await this.HandleRequest<UpdateReservationRequest, UpdateReservationResponse>(request);
         }
     }
 }

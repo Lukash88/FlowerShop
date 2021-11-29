@@ -43,6 +43,7 @@
                     Error = new ErrorModel(ErrorType.NotFound)
                 };
             }
+
             var order = this.mapper.Map<Order>(request);
             var command = new AddOrderCommand()
             {

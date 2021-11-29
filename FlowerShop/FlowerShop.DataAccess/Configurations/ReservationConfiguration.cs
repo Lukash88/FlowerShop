@@ -23,8 +23,7 @@
                                                                             
             builder                                                         
              .Property(x => x.EventType)                                    
-             .IsRequired()                                                  
-             .HasMaxLength(50);                                             
+             .IsRequired();                                             
                                                                             
             builder                                                         
              .Property(x => x.EventDescription)                             
@@ -44,7 +43,12 @@
             builder                                                         
              .Property(x => x.EventPostalCode)                              
              .IsRequired()                                                      
-             .HasMaxLength(20);           
+             .HasMaxLength(20);
+
+            builder
+               .Property(x => x.ServicePrice)
+               .HasPrecision(14, 2)
+               .IsRequired(false);
         }
     }
 }

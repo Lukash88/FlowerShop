@@ -46,6 +46,7 @@
             var getOrderDetails = await this.queryExecutor.Execute(orderDetailsQuery);
             var ordersQuery = new GetOrdersQuery();
             var getOrders = await this.queryExecutor.Execute(ordersQuery);
+
             if ((getOrders.Select(x => x.Id).Contains(request.OrderId) &&
                 getOrderDetails.Select(x => x.OrderId).Contains(request.OrderId)) || 
                 !getOrders.Select(x => x.Id).Contains(request.OrderId))

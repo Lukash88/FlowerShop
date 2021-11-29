@@ -16,5 +16,6 @@
         public string EventStreet { get; set; }
         public string EventCity { get; set; }
         public string EventPostalCode { get; set; }
+        public decimal? ServicePrice { get; set; }
     }
 }

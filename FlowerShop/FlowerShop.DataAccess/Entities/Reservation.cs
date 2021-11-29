@@ -13,6 +13,7 @@
         public string EventStreet { get; set; }
         public string EventCity { get; set; }
         public string EventPostalCode { get; set; }
+        public decimal? ServicePrice { get; set; }
 
         public Order Order { get; set; }
         public int OrderId { get; set; }

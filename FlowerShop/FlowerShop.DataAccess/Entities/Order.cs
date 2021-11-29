@@ -13,7 +13,7 @@
         public int Quantity { get; set; }
         public decimal? Sum { get; set; }
 
-        public int? ReservationId { get; set; }
+        //public int? ReservationId { get; set; }
         public List<Reservation> Reservations { get; set; } = new List<Reservation>();                                          
                                                                                                         
         public int UserId { get; set; }

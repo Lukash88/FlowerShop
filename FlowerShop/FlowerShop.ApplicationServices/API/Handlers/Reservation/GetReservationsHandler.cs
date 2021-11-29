@@ -1,7 +1,9 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
 {
     using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Reservation;
+    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Reservation;
     using MediatR;
@@ -27,6 +29,14 @@
                 EventType = request.EventType
             };
             var reservations = await this.queryExecutor.Execute(query);
+            if (reservations == null)
+            {
+                return new GetReservationsResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
+
             var mappedReservations = this.mapper.Map<List<Domain.Models.ReservationDTO>>(reservations);
             var response = new GetReservationsResponse()
             {
