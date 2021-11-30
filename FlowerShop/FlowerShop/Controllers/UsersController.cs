@@ -1,28 +1,24 @@
 ﻿namespace FlowerShop.Controllers
 {
-using FlowerShop.ApplicationServices.API.Domain.User;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+    using FlowerShop.ApplicationServices.API.Domain.User;
+    using MediatR;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using System.Threading.Tasks;
 
     [ApiController]
     [Route("[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : ApiControllerBase
     {
-        private readonly IMediator mediator;
-
-        public UsersController(IMediator mediator)
+        public UsersController(IMediator mediator, ILogger<UsersController> logger) : base(mediator)
         {
-            this.mediator = mediator;
+            logger.LogInformation("We are in Users");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllUsers([FromQuery] GetUsersRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> GetAllUsers([FromQuery] GetUsersRequest request) =>
+            await this.HandleRequest<GetUsersRequest, GetUsersResponse>(request);
 
         [HttpGet]
         [Route("{userId}")]
@@ -32,16 +28,14 @@ using System.Threading.Tasks;
             {
                 UserId = userId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+
+            return await this.HandleRequest<GetUserByIdRequest, GetUserByIdResponse>(request);
         }
+
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> AddUser([FromBody] AddUserRequest request)
-        {
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
-        }
+        public async Task<IActionResult> AddUser([FromBody] AddUserRequest request) =>
+            await this.HandleRequest<AddUserRequest, AddUserResponse>(request);
 
         [HttpDelete]
         [Route("{userId}")]
@@ -51,8 +45,8 @@ using System.Threading.Tasks;
             {
                 UserId = userId
             };
-            var response = await this.mediator.Send(request);
-            return this.Ok();
+            
+            return await this.HandleRequest<RemoveUserRequest, RemoveUserResponse>(request);
         }
 
         [HttpPut]
@@ -60,8 +54,8 @@ using System.Threading.Tasks;
         public async Task<IActionResult> UpdateUserById([FromRoute] int userId, [FromBody] UpdateUserRequest request)
         {
             request.UserId = userId;
-            var response = await this.mediator.Send(request);
-            return this.Ok(response);
+            
+            return await this.HandleRequest<UpdateUserRequest, UpdateUserResponse>(request);
         }
     }
 }

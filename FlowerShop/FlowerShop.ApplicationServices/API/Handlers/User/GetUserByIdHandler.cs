@@ -1,7 +1,9 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
     using AutoMapper;
+    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.User;
+    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.User;
     using MediatR;
@@ -26,6 +28,14 @@
                 Id = request.UserId
             };
             var user = await this.queryExecutor.Execute(query);
+            if (user == null)
+            {
+                return new GetUserByIdResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
+
             var mappedUser  = this.mapper.Map<Domain.Models.UserDTO>(user);
             var response = new GetUserByIdResponse()
             {

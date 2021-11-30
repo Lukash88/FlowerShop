@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="API\Validators\OrderDetail\" />
-    <Folder Include="API\Validators\User\" />
   </ItemGroup>
 
 </Project>

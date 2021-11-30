@@ -1,9 +1,7 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Product
 {
     using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Product;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Product;
     using FlowerShop.DataAccess.Entities;
@@ -29,18 +27,10 @@
             { 
                 Parameter = product 
             };
-            if (command == null)
-            {
-                return new AddProductResponse()
-                { 
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var productFromDb = await this.commandExecutor.Execute(command);
+            var addedProduct = await this.commandExecutor.Execute(command);
             var response =  new AddProductResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ProductDTO>(productFromDb)
+                Data = this.mapper.Map<Domain.Models.ProductDTO>(addedProduct)
             };
 
             return response;

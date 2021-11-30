@@ -1,9 +1,7 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
     using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Flower;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Flower;
     using FlowerShop.DataAccess.Entities;
@@ -26,19 +24,14 @@
         public async Task<AddFlowerResponse> Handle(AddFlowerRequest request, CancellationToken cancellationToken)
         {
             var flower = this.mapper.Map<Flower>(request);
-            var command = new AddFlowerCommand() { Parameter = flower };
-            if (command == null)
-            {
-                return new AddFlowerResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var flowerFromDb = await this.commandExecutor.Execute(command);
+            var command = new AddFlowerCommand() 
+            { 
+                Parameter = flower 
+            };
+            var addedFlower = await this.commandExecutor.Execute(command);
             var response =  new AddFlowerResponse()
             {
-                Data = this.mapper.Map<Domain.Models.FlowerDTO>(flowerFromDb)
+                Data = this.mapper.Map<Domain.Models.FlowerDTO>(addedFlower)
             };
 
             return response;

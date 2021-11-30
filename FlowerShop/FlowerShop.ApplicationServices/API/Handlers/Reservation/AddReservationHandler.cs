@@ -47,10 +47,10 @@
             { 
                 Parameter = reservation 
             };
-            var reservationFromDb = await this.commandExecutor.Execute(command);
+            var addedReservation = await this.commandExecutor.Execute(command);
             var response = new AddReservationResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ReservationDTO>(reservationFromDb)
+                Data = this.mapper.Map<Domain.Models.ReservationDTO>(addedReservation)
             };
 
             return response;

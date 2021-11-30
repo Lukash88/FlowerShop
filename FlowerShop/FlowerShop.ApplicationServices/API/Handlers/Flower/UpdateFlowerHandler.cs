@@ -41,7 +41,9 @@
 
             var mappedFlower = this.mapper.Map<DataAccess.Entities.Flower>(request);
             var command = new UpdateFlowerCommand() 
-            { Parameter = mappedFlower };
+            { 
+                Parameter = mappedFlower 
+            };
             var updatedFlower = await this.commandExecutor.Execute(command);
 
             var response =  new UpdateFlowerResponse()

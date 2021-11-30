@@ -23,13 +23,17 @@
         public async Task<AddUserResponse> Handle(AddUserRequest request, CancellationToken cancellationToken)
         {
             var user = this.mapper.Map<User>(request);
-            var command = new AddUserCommand() { Parameter = user };
-            var userFromDb = await this.commandExecutor.Execute(command);
-
-            return new AddUserResponse()
-            {
-                Data = this.mapper.Map<Domain.Models.UserDTO>(userFromDb)
+            var command = new AddUserCommand() 
+            { 
+                Parameter = user 
             };
+            var addedUser = await this.commandExecutor.Execute(command);
+            var response = new AddUserResponse()
+            {
+                Data = this.mapper.Map<Domain.Models.UserDTO>(addedUser)
+            };
+
+            return response;
         }
     }
 }
