@@ -4,6 +4,7 @@
     using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Flower;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
+    using FlowerShop.ApplicationServices.Components.Flowers;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Flower;
     using MediatR;
@@ -15,15 +16,18 @@
     {
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
+        private readonly IFlowersConnector flowersConnector;
 
-        public GetFlowersHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        public GetFlowersHandler(IMapper mapper, IQueryExecutor queryExecutor, IFlowersConnector flowersConnector)
         {
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
+            this.flowersConnector = flowersConnector;
         }
 
         public async Task<GetFlowersResponse> Handle(GetFlowersRequest request, CancellationToken cancellationToken)
         {
+            var f = await this.flowersConnector.Fetch(" Eukalyptus ");
             var query = new GetFlowersQuery() 
             { 
                 Name = request.Name

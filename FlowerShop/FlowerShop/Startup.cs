@@ -1,5 +1,6 @@
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Validators;
+using FlowerShop.ApplicationServices.Components.Flowers;
 using FlowerShop.ApplicationServices.Mappings;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.CQRS;
@@ -38,6 +39,8 @@ namespace FlowerShop
 
             services.AddTransient<IQueryExecutor, QueryExecutor>();
             services.AddTransient<ICommandExecutor, CommandExecutor>();
+
+            services.AddTransient<IFlowersConnector, FlowersConnector>();
 
             services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
 

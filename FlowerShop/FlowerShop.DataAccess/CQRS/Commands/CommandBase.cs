@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace FlowerShop.DataAccess.CQRS.Commands
+{
 using System.Threading.Tasks;
 
-namespace FlowerShop.DataAccess.CQRS.Commands
-{
     public abstract class CommandBase<TParameter, TResult>
     {
         public TParameter Parameter { get; set; }

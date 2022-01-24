@@ -5,7 +5,6 @@
         Active = 1,
         Cancelled,
         Expired,
-        Processing,
-
+        Processing
     }
 }

@@ -33,6 +33,11 @@
                 .HasMaxLength(50);
 
             builder
+                .Property(x => x.Email)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder
                 .Property(x => x.DateOfBirth)
                 .IsRequired();
 

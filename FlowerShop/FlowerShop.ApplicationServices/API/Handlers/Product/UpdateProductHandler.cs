@@ -30,8 +30,8 @@
             {
                 Id = request.ProductId
             };
-            var getDecoration = await this.queryExecutor.Execute(query);
-            if (getDecoration == null)
+            var getProduct = await this.queryExecutor.Execute(query);
+            if (getProduct == null)
             {
                 return new UpdateProductResponse()
                 {
