@@ -8,6 +8,7 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Flower;
     using MediatR;
+    using Microsoft.Extensions.Logging;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -17,17 +18,23 @@
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
         private readonly IFlowersConnector flowersConnector;
+        private readonly ILogger<GetFlowersHandler> logger;
 
-        public GetFlowersHandler(IMapper mapper, IQueryExecutor queryExecutor, IFlowersConnector flowersConnector)
+        public GetFlowersHandler(IMapper mapper, IQueryExecutor queryExecutor, IFlowersConnector flowersConnector, ILogger<GetFlowersHandler> logger)
         {
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
             this.flowersConnector = flowersConnector;
+            this.logger = logger;
         }
 
         public async Task<GetFlowersResponse> Handle(GetFlowersRequest request, CancellationToken cancellationToken)
         {
-            var f = await this.flowersConnector.Fetch(" Eukalyptus ");
+            var f = await this.flowersConnector.GetFlowersByType("kwiaty cięte");
+            foreach (var flower in f)
+            {
+                logger.LogInformation(flower);
+            };
             var query = new GetFlowersQuery() 
             { 
                 Name = request.Name

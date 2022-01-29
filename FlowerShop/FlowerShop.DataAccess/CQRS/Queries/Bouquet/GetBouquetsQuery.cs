@@ -14,8 +14,8 @@
         public async override Task<List<Bouquet>> Execute(FlowerShopStorageContext context)
         {
             var bouquetsFilteredByOccasion = Occasion != 0 ?
-                await context.Bouquets.Where(x => x.Occasion == Occasion).ToListAsync() :
-                await context.Bouquets.ToListAsync();
+                await context.Bouquets.Where(x => x.Occasion == Occasion).Include(x => x.Flowers).ToListAsync() :
+                await context.Bouquets.Include(x => x.Flowers).ToListAsync();
 
             return bouquetsFilteredByOccasion;
         }
