@@ -4,6 +4,6 @@
 
     public class GetUserByIdRequest : IRequest<GetUserByIdResponse>
     {
-        public int UserId { get; init; }
+        public int UserId { get; set; }
     }
 }

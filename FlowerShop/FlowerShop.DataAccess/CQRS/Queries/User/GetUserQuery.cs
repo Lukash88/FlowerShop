@@ -10,9 +10,8 @@
         public string UserName { get; init; }
         public string Email { get; init; }
 
-
-
         public override async Task<User> Execute(FlowerShopStorageContext context) =>
-            await context.Users.FirstOrDefaultAsync(x => x.UserName == this.UserName);
+            await context.Users.FirstOrDefaultAsync(x => x.UserName == this.UserName 
+                || x.Email == this.Email);
     }
 }

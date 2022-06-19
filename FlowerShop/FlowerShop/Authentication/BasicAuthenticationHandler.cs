@@ -1,6 +1,7 @@
 ﻿using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.User;
 using FlowerShop.DataAccess.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
@@ -22,14 +23,16 @@ namespace FlowerShop.Authentication
     {
         private readonly IQueryExecutor queryExecutor;
         private readonly IPasswordHasher<User> passwordHasher;
+        private readonly IMediator mediator;
 
         public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, 
             ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, 
-            IQueryExecutor queryExecutor, IPasswordHasher<User> passwordHasher)
+            IQueryExecutor queryExecutor, IPasswordHasher<User> passwordHasher, IMediator mediator)
             : base(options, logger, encoder, clock)
         {
             this.queryExecutor = queryExecutor;
             this.passwordHasher = passwordHasher;
+            this.mediator = mediator;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -54,30 +57,17 @@ namespace FlowerShop.Authentication
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
                 var username = credentials[0];
                 var providedPassword = passwordHasher.HashPassword(user, credentials[1]);
+
                 var query = new GetUserQuery()
                 {
                     UserName = username
                 };
                 user = await this.queryExecutor.Execute(query);
 
-                //byte[] salt = new byte[128 / 8];
-                //using (var rng = RandomNumberGenerator.Create())
-                //{
-                //    rng.GetBytes(salt);
-                //}
-
                 passwordHasher.HashPassword(user, providedPassword);
 
                 passwordHasher.VerifyHashedPassword(user, user.PasswordHash, providedPassword);
-
-                //string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                //    password : user.Password,
-                //    salt: salt,
-                //    prf: KeyDerivationPrf.HMACSHA1,
-                //    iterationCount: 10000,
-                //    numBytesRequested: 256 / 8));
-
-
+                               
                 if (user == null || user.PasswordHash != providedPassword)
                 {
                     return AuthenticateResult.Fail("Invalid Authorization Header");

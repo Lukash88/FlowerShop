@@ -30,8 +30,7 @@ namespace FlowerShop.ApplicationServices.Components.PasswordHasher
 
         public PasswordVerificationResult VerifyHashedPassword(User user, string hashedPassword, string providedPassword)
         {
-           //hashedPassword = user.PasswordHash;
-
+           
            if (!hashedPassword.Equals(providedPassword))
            {
                 return PasswordVerificationResult.Failed;
@@ -39,9 +38,5 @@ namespace FlowerShop.ApplicationServices.Components.PasswordHasher
 
             return PasswordVerificationResult.Success;
         }
-
-
-        //user.passwordHash = hashed;
-        //user.passwordSalt = Convert.ToBase64String(salt);
     }
 }

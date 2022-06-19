@@ -23,7 +23,20 @@
             await this.HandleRequest<GetUsersRequest, GetUsersResponse>(request);
 
         [HttpGet]
-        [Route("{userId}")]
+        [Route("{me}")]
+        public async Task<IActionResult> GetCurrentUser([FromRoute] string me, string myEmail)
+        {
+            var request = new GetCurrentUserRequest()
+            {
+                CurrentUserName = me,
+                CurrentUserEmail = myEmail
+            };
+
+            return await this.HandleRequest<GetCurrentUserRequest, GetCurrentUserResponse>(request);
+        }
+
+        [HttpGet]
+        [Route("id/{userId}")]
         public async Task<IActionResult> GetUserById([FromRoute] int userId)
         {
             var request = new GetUserByIdRequest()

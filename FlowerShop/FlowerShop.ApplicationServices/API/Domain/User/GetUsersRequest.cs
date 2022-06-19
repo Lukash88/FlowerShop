@@ -4,6 +4,6 @@
 
     public class GetUsersRequest : IRequest<GetUsersResponse>
     {
-        public string UserName { get; init; }
+        public string UserName { get; set; }
     }
 }
