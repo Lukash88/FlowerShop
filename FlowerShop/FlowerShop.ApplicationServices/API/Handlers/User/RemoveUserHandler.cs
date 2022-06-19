@@ -45,10 +45,10 @@
             {
                 Parameter = mappedUser
             };
-            var renovedUser = await this.commandExecutor.Execute(command);
+            var removedUser = await this.commandExecutor.Execute(command);
             var response = new RemoveUserResponse()
             {
-                Data = this.mapper.Map<Domain.Models.UserDTO>(renovedUser)
+                Data = null
             };
 
             return response;

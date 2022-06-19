@@ -55,7 +55,7 @@
 
             return await this.HandleRequest<AddUserRequest, AddUserResponse>(request);
         }
-
+        
         [HttpDelete]
         [Route("{userId}")]
         public async Task<IActionResult> RemoveUserById([FromRoute] int userId)
@@ -67,7 +67,7 @@
             
             return await this.HandleRequest<RemoveUserRequest, RemoveUserResponse>(request);
         }
-
+        
         [HttpPut]
         [Route("{userId}")]
         public async Task<IActionResult> UpdateUserById([FromRoute] int userId, [FromBody] UpdateUserRequest request)
