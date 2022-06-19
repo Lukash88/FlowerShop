@@ -11,5 +11,6 @@
         public const string UnsupportedMethod = "UNSUPPORTED_METHOD";
         public const string RequestTooLarge = "REQUEST_TOO_LARGE";
         public const string TooManyRequests = "TOO_MANY_REQUESTS";
+        public const string Conflict = "CONFLICT";
     }
 }

@@ -2,10 +2,12 @@
 {
     using FlowerShop.ApplicationServices.API.Domain.User;
     using MediatR;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System.Threading.Tasks;
 
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ApiControllerBase
@@ -32,10 +34,14 @@
             return await this.HandleRequest<GetUserByIdRequest, GetUserByIdResponse>(request);
         }
 
+        [AllowAnonymous]
         [HttpPost]
-        [Route("")]
-        public async Task<IActionResult> AddUser([FromBody] AddUserRequest request) =>
-            await this.HandleRequest<AddUserRequest, AddUserResponse>(request);
+        [Route("register")]
+        public async Task<IActionResult> AddUser([FromBody] AddUserRequest request)
+        {
+
+            return await this.HandleRequest<AddUserRequest, AddUserResponse>(request);
+        }
 
         [HttpDelete]
         [Route("{userId}")]

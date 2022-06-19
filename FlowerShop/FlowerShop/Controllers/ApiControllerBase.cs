@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Net;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     public abstract class ApiControllerBase : ControllerBase
@@ -29,6 +30,8 @@
                     .Where(x => x.Value.Errors.Any())
                     .Select(x => new { property = x.Key, errors = x.Value.Errors}));
             }
+
+            var userName = this.User.FindFirstValue(ClaimTypes.Name);
 
             var response = await this.mediator.Send(request);
             if (response.Error != null)
@@ -56,6 +59,7 @@
                 ErrorType.UnsupportedMediaType => HttpStatusCode.UnsupportedMediaType,
                 ErrorType.UnsupportedMethod => HttpStatusCode.MethodNotAllowed,
                 ErrorType.TooManyRequests => (HttpStatusCode)429,
+                ErrorType.Conflict => HttpStatusCode.Conflict,
                 _ => HttpStatusCode.BadRequest,
             };
         }

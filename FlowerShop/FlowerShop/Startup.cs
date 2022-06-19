@@ -1,13 +1,18 @@
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Validators;
 using FlowerShop.ApplicationServices.Components.Flowers;
+using FlowerShop.ApplicationServices.Components.PasswordHasher;
 using FlowerShop.ApplicationServices.Mappings;
+using FlowerShop.Authentication;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.Entities;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,18 +34,23 @@ namespace FlowerShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddBouquetRequestValidator>());
+            services.AddAuthentication("BasicAuthentication")
+                    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
+            services.AddTransient<IPasswordHasher<User>, PasswordHasher>();
 
             services.AddTransient<IQueryExecutor, QueryExecutor>();
             services.AddTransient<ICommandExecutor, CommandExecutor>();
 
             services.AddTransient<IFlowersConnector, FlowersConnector>();
+
+            services.AddMvcCore()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddBouquetRequestValidator>());
+            
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
 
@@ -62,8 +72,6 @@ namespace FlowerShop
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -72,16 +80,12 @@ namespace FlowerShop
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapControllerRoute(
-                //    name: "default",
-                //    pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapControllers();
             });
         }

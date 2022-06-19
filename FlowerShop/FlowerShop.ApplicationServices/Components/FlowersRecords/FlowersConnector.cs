@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.Components.Flowers
             }
         }
 
-        public async Task<List<string>> GetFlowersByType(string flowerType)
+        public Task<List<string>> GetFlowersByType(string flowerType)
         {
             var xml = DownloadPageAsync(uri).Result;
             XmlSerializer serializer = new XmlSerializer(typeof(FlowerRates));
@@ -38,7 +38,7 @@ namespace FlowerShop.ApplicationServices.Components.Flowers
 
             var flowersFiltered = flowers.FlowerTypes.Where(ft => ft.Category == flowerType).SelectMany(x => x.Flowers.Select(x => x.Name)).ToList(); //.Select(fn => fn.Flowers.FirstOrDefault(x => x.Name == name));
 
-            return flowersFiltered.ToList();            
+            return Task.FromResult(flowersFiltered.ToList());            
         }
     }
 }

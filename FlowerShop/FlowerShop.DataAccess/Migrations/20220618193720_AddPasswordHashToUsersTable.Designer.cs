@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlowerShop.DataAccess.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    [Migration("20211118225817_AddFlowersTableWithConfiguration")]
-    partial class AddFlowersTableWithConfiguration
+    [Migration("20220618193720_AddPasswordHashToUsersTable")]
+    partial class AddPasswordHashToUsersTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -171,7 +171,8 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
 
                     b.Property<int>("StockLevel")
                         .HasColumnType("int");
@@ -188,11 +189,12 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<string>("Invoice")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -202,17 +204,12 @@ namespace FlowerShop.DataAccess.Migrations
                     b.Property<int>("OrderState")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductQuantity")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReservationId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Sum")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal?>("Sum")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -233,8 +230,8 @@ namespace FlowerShop.DataAccess.Migrations
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -246,10 +243,10 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal(14,2)");
 
@@ -288,7 +285,8 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()
@@ -314,22 +312,27 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EventCity")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("EventDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("EventPostalCode")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("EventStreet")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("EventType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDateAvailable")
-                        .HasColumnType("bit");
+                    b.Property<int>("EventType")
+                        .HasColumnType("int");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -338,13 +341,19 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReservedOn")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<decimal?>("ServicePrice")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Reservation");
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.User", b =>
@@ -362,6 +371,11 @@ namespace FlowerShop.DataAccess.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -369,6 +383,17 @@ namespace FlowerShop.DataAccess.Migrations
 
                     b.Property<int?>("Gender")
                         .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordSalt")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -461,7 +486,7 @@ namespace FlowerShop.DataAccess.Migrations
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Order", b =>
                 {
                     b.HasOne("FlowerShop.DataAccess.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -471,9 +496,13 @@ namespace FlowerShop.DataAccess.Migrations
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.OrderDetail", b =>
                 {
-                    b.HasOne("FlowerShop.DataAccess.Entities.Order", null)
+                    b.HasOne("FlowerShop.DataAccess.Entities.Order", "Order")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Reservation", b =>
@@ -507,6 +536,11 @@ namespace FlowerShop.DataAccess.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("FlowerShop.DataAccess.Entities.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
