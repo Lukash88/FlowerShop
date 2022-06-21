@@ -61,8 +61,7 @@
                 };
             }
 
-            var hashed = passwordHasher.HashPassword(getUser, request.Password);
-            request.PasswordHash = hashed;
+            request.PasswordHash = passwordHasher.HashPassword(getUser, request.Password);
 
             var user = this.mapper.Map<User>(request);
             var command = new AddUserCommand() 

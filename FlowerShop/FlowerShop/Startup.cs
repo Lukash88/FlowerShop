@@ -37,7 +37,7 @@ namespace FlowerShop
             services.AddAuthentication("BasicAuthentication")
                     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-            services.AddTransient<IPasswordHasher<User>, PasswordHasher>();
+            services.AddScoped<IPasswordHasher<User>, BCryptPasswordHasher<User>>();
 
             services.AddTransient<IQueryExecutor, QueryExecutor>();
             services.AddTransient<ICommandExecutor, CommandExecutor>();

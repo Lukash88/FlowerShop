@@ -1,10 +1,8 @@
 ﻿using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.User;
 using FlowerShop.DataAccess.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -12,7 +10,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http.Headers;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -23,16 +20,14 @@ namespace FlowerShop.Authentication
     {
         private readonly IQueryExecutor queryExecutor;
         private readonly IPasswordHasher<User> passwordHasher;
-        private readonly IMediator mediator;
 
         public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, 
             ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, 
-            IQueryExecutor queryExecutor, IPasswordHasher<User> passwordHasher, IMediator mediator)
+            IQueryExecutor queryExecutor, IPasswordHasher<User> passwordHasher)
             : base(options, logger, encoder, clock)
         {
             this.queryExecutor = queryExecutor;
             this.passwordHasher = passwordHasher;
-            this.mediator = mediator;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -63,12 +58,9 @@ namespace FlowerShop.Authentication
                     UserName = username
                 };
                 user = await this.queryExecutor.Execute(query);
-
-                passwordHasher.HashPassword(user, providedPassword);
-
-                passwordHasher.VerifyHashedPassword(user, user.PasswordHash, providedPassword);
                                
-                if (user == null || user.PasswordHash != providedPassword)
+                if (user == null || passwordHasher.VerifyHashedPassword(user, user.PasswordHash, providedPassword) 
+                    == PasswordVerificationResult.Failed)
                 {
                     return AuthenticateResult.Fail("Invalid Authorization Header");
                 }
