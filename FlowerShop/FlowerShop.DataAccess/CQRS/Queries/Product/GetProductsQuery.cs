@@ -13,9 +13,12 @@
         public async override Task<List<Product>> Execute(FlowerShopStorageContext context)
         {
             var productsFilteredByName = !string.IsNullOrEmpty(Name) ?
-                await context.Products.Where(x => x.Name.Contains(Name)).ToListAsync() : await context.Products.ToListAsync();
+                await context.Products.AsNoTracking().OrderBy(p => p.Name).ToListAsync() : await context.Products.ToListAsync();
 
             return productsFilteredByName;
         }
     }
 }
+
+// var productsFilteredByName = !string.IsNullOrEmpty(Name) ?
+//await context.Products.Where(x => x.Name.Contains(Name)).AsNoTracking().OrderBy(p => p.Name).ToListAsync() : await context.Products.ToListAsync();
