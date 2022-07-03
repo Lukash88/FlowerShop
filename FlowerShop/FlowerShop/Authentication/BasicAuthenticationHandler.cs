@@ -32,7 +32,7 @@ namespace FlowerShop.Authentication
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var endpoint = Context.GetEndpoint();
+         var endpoint = Context.GetEndpoint();
             if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
             {
                 return AuthenticateResult.NoResult();
@@ -51,7 +51,7 @@ namespace FlowerShop.Authentication
                 var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
                 var username = credentials[0];
-                var providedPassword = passwordHasher.HashPassword(user, credentials[1]);
+                var providedPassword = credentials[1];
 
                 var query = new GetUserQuery()
                 {
@@ -59,7 +59,7 @@ namespace FlowerShop.Authentication
                 };
                 user = await this.queryExecutor.Execute(query);
                                
-                if (user == null || passwordHasher.VerifyHashedPassword(user, user.PasswordHash, providedPassword) 
+                if (user == null || passwordHasher.VerifyHashedPassword(user, user.Password, providedPassword) 
                     == PasswordVerificationResult.Failed)
                 {
                     return AuthenticateResult.Fail("Invalid Authorization Header");
