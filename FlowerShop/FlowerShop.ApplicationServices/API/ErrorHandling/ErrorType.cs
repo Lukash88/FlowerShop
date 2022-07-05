@@ -6,6 +6,7 @@
         public const string ValidationError = "VALIDATION_ERROR";
         public const string NotAuthenticated = "NOT_ATHENTICATED";
         public const string Unauthorized = "UNAUTHORIZED";
+        public const string Forbidden = "FORBIDDEN";
         public const string NotFound = "NOT_FOUND";
         public const string UnsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE";
         public const string UnsupportedMethod = "UNSUPPORTED_METHOD";
