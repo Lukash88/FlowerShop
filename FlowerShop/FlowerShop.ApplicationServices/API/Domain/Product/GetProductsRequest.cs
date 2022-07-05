@@ -3,14 +3,8 @@
     using MediatR;
     using Sieve.Models;
 
-    public class GetProductsRequest : IRequest<PagedResponse<GetProductsResponse>>
+    public class GetProductsRequest : IRequest<GetProductsResponse>
     {
-        public string Name { get; init; }
-        public SieveModel SieveModel { get; }
-
-        public GetProductsRequest(SieveModel sieveModel)
-        {
-            SieveModel = sieveModel;
-        }
+        public SieveModel SieveModel { get; init; }
     }
 }

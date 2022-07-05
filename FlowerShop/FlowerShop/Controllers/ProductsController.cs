@@ -19,8 +19,9 @@
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetAllProducts([FromQuery] SieveModel sieveModel)
-        {
-            GetProductsRequest request = new GetProductsRequest(sieveModel);
+        {            
+            GetProductsRequest request = new GetProductsRequest { SieveModel = sieveModel };
+
             return await this.HandleRequest<GetProductsRequest, GetProductsResponse>(request);
         }
 

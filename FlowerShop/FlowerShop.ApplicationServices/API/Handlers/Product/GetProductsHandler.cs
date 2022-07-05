@@ -12,38 +12,33 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class GetProductsHandler : IRequestHandler<GetProductsRequest, PagedResponse<GetProductsResponse>>
+    public class GetProductsHandler : IRequestHandler<GetProductsRequest, GetProductsResponse>
     {
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
-        private readonly ISieveProcessor sieveProcessor;
 
-        public GetProductsHandler(IMapper mapper, IQueryExecutor queryExecutor, ISieveProcessor sieveProcessor)
+        public GetProductsHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
-            this.sieveProcessor = sieveProcessor;
         }
 
-        public async Task<PagedResponse<GetProductsResponse>> Handle(GetProductsRequest request, CancellationToken cancellationToken)
+        public async Task<GetProductsResponse> Handle(GetProductsRequest request, CancellationToken cancellationToken)
         {
             var query = new GetProductsQuery()
             {
-                Name = request.Name
+                SieveModel = request.SieveModel
             };
             var products = await this.queryExecutor.Execute(query);
             if (products == null)
             {
-                return null;
-                //return new <PagedResponse<GetProductsResponse>>()                    
-            //    {
-            //        Error = new ErrorModel(ErrorType.NotFound)
-            //    };
+                return new GetProductsResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
             }
 
-            var sortedFilteredPaginatedProducts = this.sieveProcessor.Apply(request.SieveModel, products);
-
-            var mappedProducts = this.mapper.Map<List<Domain.Models.ProductDTO>>(sortedFilteredPaginatedProducts);
+            var mappedProducts = this.mapper.Map<List<Domain.Models.ProductDTO>>(products);
 
             var response = new GetProductsResponse()
             {
