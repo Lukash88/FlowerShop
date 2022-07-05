@@ -1,10 +1,10 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
 {
-    using FlowerShop.DataAccess.Enums;
     using MediatR;
+    using Sieve.Models;
 
     public class GetBouquetsRequest : IRequest<GetBouquetsResponse>
     {
-        public Occassion Occasion { get; init; }
+        public SieveModel SieveModel { get; init; }
     }
 }

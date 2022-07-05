@@ -4,6 +4,7 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
 
     [ApiController]
@@ -17,9 +18,13 @@
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllBouquets([FromQuery] GetBouquetsRequest request) => 
-            await this.HandleRequest<GetBouquetsRequest, GetBouquetsResponse>(request);
-        
+        public async Task<IActionResult> GetAllBouquets([FromQuery] SieveModel sieveModel)
+        {
+            GetBouquetsRequest request = new GetBouquetsRequest { SieveModel = sieveModel };
+
+            return await this.HandleRequest<GetBouquetsRequest, GetBouquetsResponse>(request);
+        }
+
         [HttpGet]
         [Route("{bouquetId}")]
         public async Task<IActionResult> GetBouquetById([FromRoute] int bouquetId)

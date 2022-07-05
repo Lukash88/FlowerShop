@@ -26,7 +26,7 @@
         {
             var query = new GetBouquetsQuery()
             {
-                Occasion = request.Occasion
+                SieveModel = request.SieveModel
             };
             var bouquets = await this.queryExecutor.Execute(query);
             if (bouquets == null)

@@ -7,7 +7,6 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Product;
     using MediatR;
-    using Sieve.Services;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
