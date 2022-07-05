@@ -15,7 +15,7 @@
         {
             var query = sieveProcessor.Apply(SieveModel, context.Products.AsNoTracking());
             
-            return await query.ToListAsync(); ;
+            return await query.ToListAsync();
         }
     }
 }

@@ -26,7 +26,7 @@
         {
             var query = new GetDecorationsQuery()
             {
-                Name = request.Name
+                SieveModel = request.SieveModel
             };
             var decorations = await this.queryExecutor.Execute(query);
             if (decorations == null)
