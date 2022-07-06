@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
 
     [Authorize]
@@ -19,8 +20,12 @@
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllUsers([FromQuery] GetUsersRequest request) =>
-            await this.HandleRequest<GetUsersRequest, GetUsersResponse>(request);
+        public async Task<IActionResult> GetAllUsers([FromQuery] SieveModel sieveModel)
+        {
+            GetUsersRequest request = new GetUsersRequest { SieveModel = sieveModel };
+
+            return await this.HandleRequest<GetUsersRequest, GetUsersResponse>(request);
+        }
 
         [HttpGet]
         [Route("{me}")]

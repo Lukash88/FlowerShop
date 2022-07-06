@@ -26,7 +26,7 @@
         {
             var query = new GetUsersQuery()
             {
-                UserName = request.UserName
+                SieveModel = request.SieveModel
             };
             var users = await this.queryExecutor.Execute(query);
             if (users == null)
