@@ -9,7 +9,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetFlowersQuery : QueryBase<List<Flower>>
+    public class GetFlowersQuery : QueryBaseWithSieve<List<Flower>>
     {
         public SieveModel SieveModel { get; init; }
 

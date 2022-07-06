@@ -7,7 +7,7 @@
     using Sieve.Services;
     using Sieve.Models;
 
-    public class GetProductsQuery : QueryBase<List<Product>>
+    public class GetProductsQuery : QueryBaseWithSieve<List<Product>>
     {
         public SieveModel SieveModel { get; init; }
 

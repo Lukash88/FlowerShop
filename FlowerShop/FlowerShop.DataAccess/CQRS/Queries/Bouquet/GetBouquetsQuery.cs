@@ -7,7 +7,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class GetBouquetsQuery : QueryBase<List<Bouquet>>
+    public class GetBouquetsQuery : QueryBaseWithSieve<List<Bouquet>>
     {
         public SieveModel SieveModel { get; init; }
 

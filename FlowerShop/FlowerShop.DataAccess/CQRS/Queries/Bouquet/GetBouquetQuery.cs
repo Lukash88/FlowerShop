@@ -7,15 +7,12 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class GetBouquetQuery : QueryBase<List<Bouquet>>
+    public class GetBouquetQuery : QueryBase<Bouquet>
     {
-        public SieveModel SieveModel { get; init; }
+        public int Id { get; init; }
 
-        public async override Task<List<Bouquet>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
-        {
-            var query = sieveProcessor.Apply(SieveModel, context.Bouquets.AsNoTracking());
-
-            return await query.ToListAsync();
-        }
+        public async override Task<Bouquet> Execute(FlowerShopStorageContext context) =>
+            await context.Bouquets.FirstOrDefaultAsync(x => x.Id == this.Id);  
+      
     }
 }

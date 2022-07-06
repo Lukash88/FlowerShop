@@ -8,7 +8,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetDecorationsQuery : QueryBase<List<Decoration>>
+    public class GetDecorationsQuery : QueryBaseWithSieve<List<Decoration>>
     {
         public SieveModel SieveModel { get; init; }
 

@@ -9,7 +9,7 @@
     {
         public int Id { get; init; }
 
-        public override async Task<Decoration> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor) 
+        public override async Task<Decoration> Execute(FlowerShopStorageContext context) 
             => await context.Decorations.FirstOrDefaultAsync(x => x.Id == this.Id);            
     }
 }
