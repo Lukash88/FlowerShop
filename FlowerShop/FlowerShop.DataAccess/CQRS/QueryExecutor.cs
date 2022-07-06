@@ -17,7 +17,13 @@ namespace FlowerShop.DataAccess.CQRS
 
         public Task<TResult> Execute<TResult>(QueryBase<TResult> query)
         {
+            return query.Execute(this.context);
+        }
+
+        public Task<TResult> Execute<TResult>(QueryBaseWithSieve<TResult> query)
+        {
             return query.Execute(this.context, this.sieveProcessor);
         }
     }
 }
+   
