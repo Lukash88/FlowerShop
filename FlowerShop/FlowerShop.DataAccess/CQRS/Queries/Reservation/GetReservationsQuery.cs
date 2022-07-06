@@ -1,22 +1,21 @@
 ﻿namespace FlowerShop.DataAccess.CQRS.Queries.Reservation
 {
     using FlowerShop.DataAccess.Entities;
-    using FlowerShop.DataAccess.Enums;
     using Microsoft.EntityFrameworkCore;
+    using Sieve.Models;
+    using Sieve.Services;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetReservationsQuery : QueryBase<List<Reservation>>
+    public class GetReservationsQuery : QueryBaseWithSieve<List<Reservation>>
     {
-        public EventType EventType { get; init; }
+        public SieveModel SieveModel { get; set; }
 
-        public async override Task<List<Reservation>> Execute(FlowerShopStorageContext context)
-        {                                                                                                                                         
-            var reservationsFilteredByEventType = EventType != 0 ?                                                                                
-                await context.Reservations.Where(x => x.EventType == EventType).ToListAsync() : await context.Reservations.ToListAsync();         
+        public async override Task<List<Reservation>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
+        {
+            var request = sieveProcessor.Apply(SieveModel, context.Reservations.AsNoTracking());         
 
-            return reservationsFilteredByEventType;
+            return await request.ToListAsync();
         }                                                                                                                                         
     }
 }

@@ -26,7 +26,7 @@
         {
             var query = new GetReservationsQuery()
             {
-                EventType = request.EventType
+                SieveModel = request.SieveModel
             };
             var reservations = await this.queryExecutor.Execute(query);
             if (reservations == null)
