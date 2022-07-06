@@ -30,14 +30,14 @@
 
         public async Task<GetFlowersResponse> Handle(GetFlowersRequest request, CancellationToken cancellationToken)
         {
-            var f = await this.flowersConnector.GetFlowersByType("kwiaty cięte");
+            var f = await this.flowersConnector.GetFlowersByType("Cut flowers: ");
             foreach (var flower in f)
             {
                 logger.LogInformation(flower);
             };
             var query = new GetFlowersQuery() 
-            { 
-                Name = request.Name
+            {
+                SieveModel = request.SieveModel
             };
             var flowers = await this.queryExecutor.Execute(query);
             if (flowers == null)
