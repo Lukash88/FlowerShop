@@ -10,6 +10,7 @@
     using FlowerShop.DataAccess.CQRS.Queries.Order;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
     using MediatR;
+    using Sieve.Models;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -42,9 +43,9 @@
                 };
             }
 
-            var orderDetailsQuery = new GetOrderDetailsQuery();
+            var orderDetailsQuery = new GetOrderDetailsQuery() { SieveModel = new SieveModel() }; //??
             var getOrderDetails = await this.queryExecutor.ExecuteWithSieve(orderDetailsQuery);
-            var ordersQuery = new GetOrdersQuery();
+            var ordersQuery = new GetOrdersQuery() { SieveModel = new SieveModel() }; //??
             var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
 
             if ((getOrders.Select(x => x.Id).Contains(request.OrderId) &&

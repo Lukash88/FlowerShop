@@ -13,6 +13,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Sieve.Models;
 
     public class UpdateOrderHandler : IRequestHandler<UpdateOrderRequest, UpdateOrderResponse>
     {
@@ -42,10 +43,10 @@
                 };
             }
 
-            var ordersQuery = new GetOrdersQuery();
-            var getOrders = await this.queryExecutor.Execute(ordersQuery);
-            var usersQuery = new GetUsersQuery();
-            var getUsers = await this.queryExecutor.Execute(ordersQuery);
+            var ordersQuery = new GetOrdersQuery() { SieveModel = new SieveModel() }; // ??
+            var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
+            var usersQuery = new GetUsersQuery() { SieveModel = new SieveModel() };  // ??
+            var getUsers = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
             if ((getUsers.Select(x => x.Id).Contains(request.UserId) &&
                 getOrders.Select(x => x.UserId).Contains(request.UserId)) ||
                 !getOrders.Select(x => x.Id).Contains(request.UserId))

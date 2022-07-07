@@ -10,6 +10,7 @@
     using FlowerShop.DataAccess.CQRS.Queries.Order;
     using FlowerShop.DataAccess.CQRS.Queries.Reservation;
     using MediatR;
+    using Sieve.Models;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -42,10 +43,10 @@
                 };
             }
 
-            var reservationsQuery = new GetReservationsQuery();
-            var getReservations = await this.queryExecutor.Execute(reservationsQuery);
-            var ordersQuery = new GetOrdersQuery();
-            var getOrders = await this.queryExecutor.Execute(ordersQuery);
+            var reservationsQuery = new GetReservationsQuery() { SieveModel = new SieveModel() }; //??
+            var getReservations = await this.queryExecutor.ExecuteWithSieve(reservationsQuery);
+            var ordersQuery = new GetOrdersQuery() { SieveModel = new SieveModel() }; //??
+            var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
 
             if (!getOrders.Select(x => x.Id).Contains(request.OrderId)) 
             {

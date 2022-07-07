@@ -28,7 +28,7 @@
             {
                 SieveModel = request.SieveModel
             };
-            var reservations = await this.queryExecutor.Execute(query);
+            var reservations = await this.queryExecutor.ExecuteWithSieve(query);
             if (reservations == null)
             {
                 return new GetReservationsResponse()
