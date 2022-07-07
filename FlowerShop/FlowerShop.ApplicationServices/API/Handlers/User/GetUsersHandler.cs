@@ -28,7 +28,7 @@
             {
                 SieveModel = request.SieveModel
             };
-            var users = await this.queryExecutor.Execute(query);
+            var users = await this.queryExecutor.ExecuteWithSieve(query);
             if (users == null)
             {
                 return new GetUsersResponse()

@@ -28,7 +28,7 @@
             {
                 SieveModel = request.SieveModel
             };
-            var products = await this.queryExecutor.Execute(query);
+            var products = await this.queryExecutor.ExecuteWithSieve(query);
             if (products == null)
             {
                 return new GetProductsResponse()
