@@ -39,7 +39,7 @@
             {
                 SieveModel = request.SieveModel
             };
-            var flowers = await this.queryExecutor.Execute(query);
+            var flowers = await this.queryExecutor.ExecuteWithSieve(query);
             if (flowers == null)
             {
                 return new GetFlowersResponse()
