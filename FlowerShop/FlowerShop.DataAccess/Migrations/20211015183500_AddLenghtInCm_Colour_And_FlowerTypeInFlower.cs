@@ -19,12 +19,12 @@ namespace FlowerShop.DataAccess.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.AddColumn<byte>(
+            migrationBuilder.AddColumn<int>(
                 name: "LengthInCm",
                 table: "Flowers",
-                type: "tinyint",
+                type: "int",
                 nullable: false,
-                defaultValue: (byte)0);
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

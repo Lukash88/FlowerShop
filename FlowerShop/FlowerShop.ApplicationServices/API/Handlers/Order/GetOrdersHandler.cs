@@ -26,9 +26,9 @@
         {
             var query = new GetOrdersQuery()
             {
-                OrderState = request.OrderState
+                SieveModel = request.SieveModel
             };
-            var orders = await this.queryExecutor.Execute(query);
+            var orders = await this.queryExecutor.ExecuteWithSieve(query);
             if (orders == null)
             {
                 return new GetOrdersResponse()

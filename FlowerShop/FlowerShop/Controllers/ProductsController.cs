@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System.Threading.Tasks;
+    using Sieve.Models;
 
     [ApiController]
     [Route("[controller]")]
@@ -17,8 +18,12 @@
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllProducts([FromQuery] GetProductsRequest request) =>
-            await this.HandleRequest<GetProductsRequest, GetProductsResponse>(request);
+        public async Task<IActionResult> GetAllProducts([FromQuery] SieveModel sieveModel)
+        {            
+            GetProductsRequest request = new GetProductsRequest { SieveModel = sieveModel };
+
+            return await this.HandleRequest<GetProductsRequest, GetProductsResponse>(request);
+        }
 
         [HttpGet]
         [Route("{productId}")]

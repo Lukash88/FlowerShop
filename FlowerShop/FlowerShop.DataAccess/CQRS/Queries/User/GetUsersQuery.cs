@@ -2,20 +2,20 @@
 {
     using FlowerShop.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
+    using Sieve.Models;
+    using Sieve.Services;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetUsersQuery : QueryBase<List<User>>
+    public class GetUsersQuery : QueryBaseWithSieve<List<User>>
     {
-        public string UserName { get; init; }
+        public SieveModel SieveModel { get; init; }
 
-        public async override Task<List<User>> Execute(FlowerShopStorageContext context)
+        public async override Task<List<User>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
-            var usersFilteredByUserName = !string.IsNullOrEmpty(UserName) ?
-                await context.Users.Where(x => x.UserName.Contains(UserName)).ToListAsync() : await context.Users.ToListAsync();
+           var request = sieveProcessor.Apply(SieveModel, context.Users.AsNoTracking());
 
-            return usersFilteredByUserName;
+            return await request.ToListAsync();
         }
     }
 }

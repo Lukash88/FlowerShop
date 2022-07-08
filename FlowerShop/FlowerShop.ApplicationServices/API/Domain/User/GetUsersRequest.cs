@@ -1,9 +1,10 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.User
 {
     using MediatR;
+    using Sieve.Models;
 
     public class GetUsersRequest : IRequest<GetUsersResponse>
     {
-        public string UserName { get; set; }
+        public SieveModel SieveModel { get; init; }
     }
 }

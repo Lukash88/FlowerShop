@@ -26,9 +26,9 @@
         {
             var query = new GetProductsQuery()
             {
-                Name = request.Name
+                SieveModel = request.SieveModel
             };
-            var products = await this.queryExecutor.Execute(query);
+            var products = await this.queryExecutor.ExecuteWithSieve(query);
             if (products == null)
             {
                 return new GetProductsResponse()
@@ -38,6 +38,7 @@
             }
 
             var mappedProducts = this.mapper.Map<List<Domain.Models.ProductDTO>>(products);
+
             var response = new GetProductsResponse()
             {
                 Data = mappedProducts

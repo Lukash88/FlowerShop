@@ -4,6 +4,7 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
 
     [ApiController]
@@ -18,8 +19,12 @@
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllOrders([FromQuery] GetOrdersRequest request) =>
-            await this.HandleRequest<GetOrdersRequest, GetOrdersResponse>(request);
+        public async Task<IActionResult> GetAllOrders([FromQuery] SieveModel sieveModel)
+        {
+            GetOrdersRequest request = new GetOrdersRequest { SieveModel = sieveModel };
+            
+            return await this.HandleRequest<GetOrdersRequest, GetOrdersResponse>(request);
+        }
 
         [HttpGet]
         [Route("{orderId}")]

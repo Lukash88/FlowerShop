@@ -26,9 +26,9 @@
         {
             var query = new GetOrderDetailsQuery()
             {
-                Name = request.Name
+                SieveModel = request.SieveModel
             };
-            var orderDetails = await this.queryExecutor.Execute(query);
+            var orderDetails = await this.queryExecutor.ExecuteWithSieve(query);
             if (orderDetails == null)
             {
                 return new GetOrderDetailsResponse()

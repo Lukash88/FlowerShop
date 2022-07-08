@@ -2,6 +2,7 @@ using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Validators;
 using FlowerShop.ApplicationServices.Components.Flowers;
 using FlowerShop.ApplicationServices.Components.PasswordHasher;
+using FlowerShop.ApplicationServices.Components.Sieve;
 using FlowerShop.ApplicationServices.Mappings;
 using FlowerShop.Authentication;
 using FlowerShop.DataAccess;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Sieve.Services;
 
 namespace FlowerShop
 {
@@ -38,6 +40,8 @@ namespace FlowerShop
                     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
             services.AddScoped<IPasswordHasher<User>, BCryptPasswordHasher<User>>();
+
+            services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
 
             services.AddTransient<IQueryExecutor, QueryExecutor>();
             services.AddTransient<ICommandExecutor, CommandExecutor>();

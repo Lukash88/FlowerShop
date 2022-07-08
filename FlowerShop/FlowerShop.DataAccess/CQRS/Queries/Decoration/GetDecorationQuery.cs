@@ -2,6 +2,7 @@
 {
     using FlowerShop.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
+    using Sieve.Services;
     using System.Threading.Tasks;
 
     public class GetDecorationQuery : QueryBase<Decoration>

@@ -155,8 +155,8 @@ namespace FlowerShop.DataAccess.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte>("LengthInCm")
-                        .HasColumnType("tinyint");
+                    b.Property<int>("LengthInCm")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()

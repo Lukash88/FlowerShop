@@ -4,6 +4,7 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
 
     [ApiController]
@@ -17,8 +18,12 @@
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllDecorations([FromQuery] GetDecorationsRequest request) =>
-            await this.HandleRequest<GetDecorationsRequest, GetDecorationsResponse>(request);
+        public async Task<IActionResult> GetAllDecorations([FromQuery] SieveModel sieveModel)
+        {
+            GetDecorationsRequest request = new GetDecorationsRequest { SieveModel = sieveModel };
+
+           return await this.HandleRequest<GetDecorationsRequest, GetDecorationsResponse>(request);
+        }
 
         [HttpGet]
         [Route("{decorationId}")]
