@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.Components.Sieve
+namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
 {
     public class SieveConfigurationForDecoration : ISieveConfiguration
     {

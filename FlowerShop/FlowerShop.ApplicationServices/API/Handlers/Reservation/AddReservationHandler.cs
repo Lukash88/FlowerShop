@@ -30,9 +30,9 @@
 
         public async Task<AddReservationResponse> Handle(AddReservationRequest request, CancellationToken cancellationToken)
         {
-            var reservationsQuery = new GetReservationsQuery() { SieveModel = new SieveModel() }; //??
+            var reservationsQuery = new GetReservationsQuery();
             var getReservations = await this.queryExecutor.ExecuteWithSieve(reservationsQuery);
-            var ordersQuery = new GetOrdersQuery() { SieveModel = new SieveModel() }; //??
+            var ordersQuery = new GetOrdersQuery();
             var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
 
             if (!getOrders.Select(x => x.Id).Contains(request.OrderId))

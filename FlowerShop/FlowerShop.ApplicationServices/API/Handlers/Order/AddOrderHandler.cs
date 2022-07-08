@@ -30,9 +30,9 @@
 
         public async Task<AddOrderResponse> Handle(AddOrderRequest request, CancellationToken cancellationToken)
         {
-            var ordersQuery = new GetOrdersQuery() { SieveModel = new SieveModel() }; //??
+            var ordersQuery = new GetOrdersQuery(); 
             var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
-            var usersQuery = new GetUsersQuery() { SieveModel = new SieveModel() }; //??
+            var usersQuery = new GetUsersQuery();
             var getUsers = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
 
             if ((getUsers.Select(x => x.Id).Contains(request.UserId) &&

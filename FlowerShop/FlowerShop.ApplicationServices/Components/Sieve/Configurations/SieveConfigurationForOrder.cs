@@ -1,7 +1,7 @@
 ﻿using FlowerShop.DataAccess.Entities;
 using Sieve.Services;
 
-namespace FlowerShop.ApplicationServices.Components.Sieve
+namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
 {
     public class SieveConfigurationForOrder : ISieveConfiguration
     {
@@ -9,11 +9,11 @@ namespace FlowerShop.ApplicationServices.Components.Sieve
         {
             mapper.Property<Order>(o => o.OrderState)
                .CanSort()
-               .CanFilter();;
+               .CanFilter(); ;
 
             mapper.Property<Order>(o => o.IsPaymentConfirmed)
                 .CanSort()
                 .CanFilter();
-        }    
+        }
     }
 }

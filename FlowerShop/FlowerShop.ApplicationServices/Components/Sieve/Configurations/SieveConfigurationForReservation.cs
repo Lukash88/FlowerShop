@@ -1,7 +1,7 @@
 ﻿using FlowerShop.DataAccess.Entities;
 using Sieve.Services;
 
-namespace FlowerShop.ApplicationServices.Components.Sieve
+namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
 {
     public class SieveConfigurationForReservation : ISieveConfiguration
     {
@@ -18,6 +18,6 @@ namespace FlowerShop.ApplicationServices.Components.Sieve
             mapper.Property<Reservation>(r => r.ReservationStatus)
                 .CanSort()
                 .CanFilter();
-        }    
+        }
     }
 }

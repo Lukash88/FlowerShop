@@ -7,12 +7,10 @@ namespace FlowerShop.ApplicationServices.Components.Sieve
     public class ApplicationSieveProcessor : SieveProcessor
     {
         public ApplicationSieveProcessor(
-            IOptions<SieveOptions> options,
-            ISieveCustomSortMethods customSortMethods,
-            ISieveCustomFilterMethods customFilterMethods)
-            : base(options, customSortMethods, customFilterMethods)
-            {
-            }
+            IOptions<SieveOptions> options)
+            : base(options)
+        {
+        }
 
         protected override SievePropertyMapper MapProperties(SievePropertyMapper mapper)
         {
@@ -20,4 +18,3 @@ namespace FlowerShop.ApplicationServices.Components.Sieve
         }
     }
 }
-

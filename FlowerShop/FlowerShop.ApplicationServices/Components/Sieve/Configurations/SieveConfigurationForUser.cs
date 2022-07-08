@@ -1,7 +1,7 @@
 ﻿using FlowerShop.DataAccess.Entities;
 using Sieve.Services;
 
-namespace FlowerShop.ApplicationServices.Components.Sieve
+namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
 {
     public class SieveConfigurationForUser : ISieveConfiguration
     {
