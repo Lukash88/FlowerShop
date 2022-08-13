@@ -13,7 +13,7 @@
 
         public async override Task<List<Bouquet>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
-            var query = sieveProcessor.Apply(SieveModel, context.Bouquets.AsNoTracking());
+            var query = sieveProcessor.Apply(SieveModel, context.Bouquets.Include(x => x.Flowers).AsNoTracking());
 
             return await query.ToListAsync(); ;
         }

@@ -1,6 +1,7 @@
 ﻿namespace FlowerShop.DataAccess.CQRS.Commands.Bouquet
 {
     using FlowerShop.DataAccess.Entities;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class AddBouquetCommand : CommandBase<Bouquet, Bouquet>

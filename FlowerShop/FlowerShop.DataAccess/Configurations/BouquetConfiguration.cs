@@ -23,6 +23,10 @@
             builder
                 .Property(x => x.StockLevel)
                 .IsRequired();
+
+            builder
+                .HasMany(x => x.Flowers)
+                .WithMany(x => x.Bouquets);
         }
     }
 }

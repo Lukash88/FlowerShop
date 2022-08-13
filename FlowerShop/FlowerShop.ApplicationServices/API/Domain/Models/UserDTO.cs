@@ -18,7 +18,7 @@
         public string PostalCode { get; set; }        
         public string City { get; set; }      
 
-        public List<string> Orders { get; set; } = new List<string>();
-        //public List<OrderDTO> Orders { get; set; } = new List<OrderDTO>();
+        //public List<string> Orders { get; set; } = new List<string>();
+        public List<OrderDTO> Orders { get; set; } = new List<OrderDTO>();
     }
 }
