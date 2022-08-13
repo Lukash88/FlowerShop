@@ -11,7 +11,7 @@
     [Route("[controller]")]
     public class DecorationsController : ApiControllerBase
     {
-        public DecorationsController(IMediator mediator, ILogger<DecorationsController> logger) : base(mediator)
+        public DecorationsController(IMediator mediator, ILogger<DecorationsController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Decorations");
         }

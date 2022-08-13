@@ -12,7 +12,7 @@
 
     public class ReservationsController : ApiControllerBase
     {
-        public ReservationsController(IMediator mediator, ILogger<ReservationsController> logger) : base(mediator)
+        public ReservationsController(IMediator mediator, ILogger<ReservationsController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Reservations");
         }

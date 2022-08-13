@@ -13,11 +13,12 @@
     [Route("[controller]")]
     public class UsersController : ApiControllerBase
     {
-        public UsersController(IMediator mediator, ILogger<UsersController> logger) : base(mediator)
+        public UsersController(IMediator mediator, ILogger<UsersController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Users");
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetAllUsers([FromQuery] SieveModel sieveModel)

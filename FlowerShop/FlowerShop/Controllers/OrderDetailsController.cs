@@ -11,7 +11,7 @@
     [Route("[controller]")]
     public class OrderDetailsController : ApiControllerBase
     {
-        public OrderDetailsController(IMediator mediator, ILogger<OrderDetailsController> logger) : base(mediator)
+        public OrderDetailsController(IMediator mediator, ILogger<OrderDetailsController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Order Details");
         }
