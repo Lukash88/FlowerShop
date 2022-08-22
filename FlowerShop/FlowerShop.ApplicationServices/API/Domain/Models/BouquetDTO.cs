@@ -15,6 +15,7 @@
         //public List<string> Flowers { get; set; } = new List<string>();
         public List<FlowerDTO> Flowers { get; set; } = new List<FlowerDTO>();
 
+
         //public List<string> OrderDetails { get; set; } = new List<string>();
         public List<OrderDetailDTO> OrderDetails { get; set; } = new List<OrderDetailDTO>();
     }

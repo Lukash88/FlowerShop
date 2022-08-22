@@ -4,9 +4,11 @@
     using FlowerShop.ApplicationServices.API.Domain.Bouquet;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
+    using FlowerShop.DataAccess.CQRS.Commands.BouquetFlower;
     using FlowerShop.DataAccess.CQRS.Queries.Flower;
     using FlowerShop.DataAccess.Entities;
     using MediatR;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
@@ -28,16 +30,42 @@
         public async Task<AddBouquetResponse> Handle(AddBouquetRequest request, CancellationToken cancellationToken)
         {
             var flowersQuery = new GetFlowersQuery();
-            var getFlowers = await this.queryExecutor.ExecuteWithSieve(flowersQuery);
-            var chosenFlowers = getFlowers.Where(x => request.FlowersIds.Contains(x.Id)).ToList();
+            // retrieving list of flowers
+            var getFlowers = await this.queryExecutor.ExecuteWithSieve(flowersQuery);  
+            // retrieving list of chosen flowers and their IDs in form of List<Tuple<int, int>
+            var flowersIdAndQuantity = request.FlowersIdAndQuandity;            
+            // list of flowers IDs
+            var flowersId = flowersIdAndQuantity.Select(x => x.Item1);       
+            // retrieving list chosen flowers based on their IDs
+            var chosenFlowers = getFlowers.Where(x => flowersId.Contains(x.Id)).ToList();
 
-            var bouquet = this.mapper.Map<Bouquet>(request);
-            bouquet.Flowers.AddRange(chosenFlowers);
-            var command = new AddBouquetCommand() 
-            { 
-                Parameter = bouquet 
+            var bouquet = this.mapper.Map<Bouquet>(request);              
+
+            var bouquetFlowers = new List<BouquetFlower>();
+            foreach (var flower in chosenFlowers)
+            {
+                bouquetFlowers.Add(new BouquetFlower 
+                { 
+                    Bouquet = bouquet, 
+                    FlowerId = flower.Id,
+                    // retrieving of flower quantity based on its ID from List<Tuple<int, int>
+                    FlowerQuantity = flowersIdAndQuantity.Where(x => x.Item1 == flower.Id).Select(x => x.Item2).FirstOrDefault() 
+                });
+            }
+
+
+            var command = new AddBouquetCommand()
+            {
+                Parameter = bouquet
             };
             var addedBouquet = await this.commandExecutor.Execute(command);
+
+            var command2 = new AddBouquetFlowerCommand()
+            {
+                Parameter = bouquetFlowers
+            };
+            var bouquetFlowerResponse = await this.commandExecutor.Execute(command2);
+
             var response = new AddBouquetResponse()
             {
                 Data = this.mapper.Map<Domain.Models.BouquetDTO>(addedBouquet)

@@ -4,20 +4,37 @@ using FlowerShop.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowerShop.DataAccess.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    partial class FlowerShopStorageContextModelSnapshot : ModelSnapshot
+    [Migration("20220813205413_RenameBouquetFlowerTableToBouquetsFlowers")]
+    partial class RenameBouquetFlowerTableToBouquetsFlowers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("BouquetFlower", b =>
+                {
+                    b.Property<int>("BouquetsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FlowersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BouquetsId", "FlowersId");
+
+                    b.HasIndex("FlowersId");
+
+                    b.ToTable("BouquetsFlowers");
+                });
 
             modelBuilder.Entity("BouquetOrderDetail", b =>
                 {
@@ -77,24 +94,6 @@ namespace FlowerShop.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Bouquets");
-                });
-
-            modelBuilder.Entity("FlowerShop.DataAccess.Entities.BouquetFlower", b =>
-                {
-                    b.Property<int>("BouquetId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FlowerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FlowerQuantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("BouquetId", "FlowerId");
-
-                    b.HasIndex("FlowerId");
-
-                    b.ToTable("BouquetsFlowers");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Decoration", b =>
@@ -433,6 +432,21 @@ namespace FlowerShop.DataAccess.Migrations
                     b.ToTable("OrderDetailProduct");
                 });
 
+            modelBuilder.Entity("BouquetFlower", b =>
+                {
+                    b.HasOne("FlowerShop.DataAccess.Entities.Bouquet", null)
+                        .WithMany()
+                        .HasForeignKey("BouquetsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlowerShop.DataAccess.Entities.Flower", null)
+                        .WithMany()
+                        .HasForeignKey("FlowersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BouquetOrderDetail", b =>
                 {
                     b.HasOne("FlowerShop.DataAccess.Entities.Bouquet", null)
@@ -461,25 +475,6 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasForeignKey("OrderDetailsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FlowerShop.DataAccess.Entities.BouquetFlower", b =>
-                {
-                    b.HasOne("FlowerShop.DataAccess.Entities.Bouquet", "Bouquet")
-                        .WithMany()
-                        .HasForeignKey("BouquetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FlowerShop.DataAccess.Entities.Flower", "Flower")
-                        .WithMany()
-                        .HasForeignKey("FlowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bouquet");
-
-                    b.Navigation("Flower");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Order", b =>

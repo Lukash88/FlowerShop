@@ -4,14 +4,16 @@ using FlowerShop.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowerShop.DataAccess.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    partial class FlowerShopStorageContextModelSnapshot : ModelSnapshot
+    [Migration("20220813210558_AddManyToManyRelationSettingsInBouquetConfiguration")]
+    partial class AddManyToManyRelationSettingsInBouquetConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,20 +83,17 @@ namespace FlowerShop.DataAccess.Migrations
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.BouquetFlower", b =>
                 {
-                    b.Property<int>("BouquetId")
+                    b.Property<int>("BouquetsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FlowerId")
+                    b.Property<int>("FlowersId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FlowerQuantity")
-                        .HasColumnType("int");
+                    b.HasKey("BouquetsId", "FlowersId");
 
-                    b.HasKey("BouquetId", "FlowerId");
+                    b.HasIndex("FlowersId");
 
-                    b.HasIndex("FlowerId");
-
-                    b.ToTable("BouquetsFlowers");
+                    b.ToTable("BouquetFlower");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Decoration", b =>
@@ -467,13 +466,13 @@ namespace FlowerShop.DataAccess.Migrations
                 {
                     b.HasOne("FlowerShop.DataAccess.Entities.Bouquet", "Bouquet")
                         .WithMany()
-                        .HasForeignKey("BouquetId")
+                        .HasForeignKey("BouquetsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FlowerShop.DataAccess.Entities.Flower", "Flower")
                         .WithMany()
-                        .HasForeignKey("FlowerId")
+                        .HasForeignKey("FlowersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

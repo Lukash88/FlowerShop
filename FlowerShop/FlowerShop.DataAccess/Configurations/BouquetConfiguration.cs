@@ -26,7 +26,10 @@
 
             builder
                 .HasMany(x => x.Flowers)
-                .WithMany(x => x.Bouquets);
+                .WithMany(x => x.Bouquets)
+                .UsingEntity<BouquetFlower>(
+                    x => x.HasOne(x => x.Flower).WithMany().HasForeignKey(x => x.FlowerId),
+                    x => x.HasOne(x => x.Bouquet).WithMany().HasForeignKey(x => x.BouquetId));
         }
     }
 }

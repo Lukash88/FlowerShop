@@ -3,6 +3,7 @@
     using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.DataAccess.Enums;
     using MediatR;
+    using System;
     using System.Collections.Generic;
 
     public class AddBouquetRequest : IRequest<AddBouquetResponse>
@@ -12,7 +13,7 @@
         public DecorationWay DecorationWay { get; set; }
         public int StockLevel { get; set; }
 
-        public List<int> FlowersIds { get; set; } = new();
+        public List<Tuple<int, int>> FlowersIdAndQuandity { get; set; } = new();
         public List<FlowerDTO> Flowers = new List<FlowerDTO>();
         //public List<string> FlowersNames { get; set; } = new List<string>();
     }

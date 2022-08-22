@@ -4,14 +4,16 @@ using FlowerShop.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowerShop.DataAccess.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    partial class FlowerShopStorageContextModelSnapshot : ModelSnapshot
+    [Migration("20220813212346_RenameTableNameFromBouquetFlowerToBouquetsFlowersAndColumnNamesFromPluralToSingular")]
+    partial class RenameTableNameFromBouquetFlowerToBouquetsFlowersAndColumnNamesFromPluralToSingular
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,9 +87,6 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("FlowerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FlowerQuantity")
                         .HasColumnType("int");
 
                     b.HasKey("BouquetId", "FlowerId");
