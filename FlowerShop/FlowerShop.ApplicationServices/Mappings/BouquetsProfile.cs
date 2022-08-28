@@ -16,9 +16,7 @@
                 .ForMember(x => x.TypeOfArrangement, y => y.MapFrom(z => z.TypeOfArrangement))
                 .ForMember(x => x.DecorationWay, y => y.MapFrom(z => z.DecorationWay))
                 .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-               // .ForMember(x => x.Flowers.Select(x => x.Id), y => y.MapFrom(z => z.FlowersIds ?? new List<int>()));
-            .ForMember(x => x.Flowers, y => y.MapFrom(z => z.Flowers ?? new List<FlowerDTO>()));
-            //.ForMember(x => x.Flowers.Select(x => x.Name), y => y.MapFrom(z => z.FlowersNames ?? new List<string>()));
+                .ForMember(x => x.Flowers, y => y.MapFrom(z => z.Flowers ?? new List<FlowerDTO>()));
 
             this.CreateMap<Bouquet, BouquetFlower>()
                 .ForMember(x => x.BouquetId, y => y.MapFrom(z => z.Id))
@@ -31,8 +29,6 @@
                 .ForMember(x => x.DecorationWay, y => y.MapFrom(z => z.DecorationWay))
                 .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
                 .ForMember(x => x.Flowers, y => y.MapFrom(z => z.Flowers ?? new List<Flower>()));
-            //.ForMember(x => x.Flowers, y => y.MapFrom(z => z.Flowers != null ? 
-            //    z.Flowers.Select(x => x.Name) : new List<string>()));
 
             this.CreateMap<RemoveBouquetRequest, Bouquet>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.BouquetId));
@@ -43,7 +39,6 @@
                 .ForMember(x => x.TypeOfArrangement, y => y.MapFrom(z => z.TypeOfArrangement))
                 .ForMember(x => x.DecorationWay, y => y.MapFrom(z => z.DecorationWay))
                 .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
-                //.ForMember(x => x.Flowers, y => y.MapFrom(z => z.FlowerNames ?? new List<string>()));
         }
     }
 }
