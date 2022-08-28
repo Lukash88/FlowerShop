@@ -14,7 +14,6 @@
         public int StockLevel { get; set; }
 
         public List<Tuple<int, int>> FlowersIdAndQuandity { get; set; } = new();
-        public List<FlowerDTO> Flowers = new List<FlowerDTO>();
-        //public List<string> FlowersNames { get; set; } = new List<string>();
+        public List<FlowerDTO> Flowers = new();
     }
 }

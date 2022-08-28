@@ -22,7 +22,7 @@
                 .ForMember(x => x.BouquetId, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.FlowerId, y => y.MapFrom(z => z.Flowers.Select(x => x.Id)));
 
-            this.CreateMap<Bouquet, API.Domain.Models.BouquetDTO>()
+            this.CreateMap<Bouquet, BouquetDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.Occasion, y => y.MapFrom(z => z.Occasion))
                 .ForMember(x => x.TypeOfArrangement, y => y.MapFrom(z => z.TypeOfArrangement))

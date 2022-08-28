@@ -1,6 +1,6 @@
 ﻿namespace FlowerShop.DataAccess.Entities
 {
-    public class BouquetFlower : EntityBase
+    public class BouquetFlower
     {
         public int BouquetId { get; set; }
         public Bouquet Bouquet { get; set; }

@@ -13,8 +13,6 @@
         public FlowerColour Colour { get; set; }
         public int StockLevel { get; set; }
         public decimal? Price { get; set; }
-
-        //public List<string> Bouquets { get; set; } = new List<string>();
         public List<BouquetDTO> Bouquets { get; set; } = new List<BouquetDTO>();
     }
 }

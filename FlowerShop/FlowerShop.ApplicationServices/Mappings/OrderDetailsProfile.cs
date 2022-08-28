@@ -2,7 +2,10 @@
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+    using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.DataAccess.Entities;
+    using System.Collections.Generic;
+    using FlowerShop.ApplicationServices.API.Domain.Models;
 
     public class OrderDetailsProfile : Profile
     {
@@ -13,15 +16,17 @@
                 .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))   
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
                 .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));                       
+                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
+                .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets ?? new List<BouquetDTO>()));
 
-            this.CreateMap<OrderDetail, API.Domain.Models.OrderDetailDTO>()
+            this.CreateMap<OrderDetail, OrderDetailDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.OrderId, y => y.MapFrom(z => z.OrderId))
                 .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
                 .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));
+                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
+                .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets ?? new List<Bouquet>()));
 
             this.CreateMap<RemoveOrderDetailRequest, OrderDetail>()
                .ForMember(x => x.Id, y => y.MapFrom(z => z.OrderDetailId));
