@@ -7,6 +7,7 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
     using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
+    using FlowerShop.DataAccess.CQRS.Queries.Decoration;
     using FlowerShop.DataAccess.CQRS.Queries.Order;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
     using FlowerShop.DataAccess.Entities;
@@ -59,6 +60,16 @@
             // retrieving list of chosen flowers based on their IDs
             var chosenBouquets = getBouquets.Where(x => bouquetsId.Contains(x.Id)).ToList();
 
+            var decorationsQuery = new GetDecorationsQuery();
+            // retrieving list of decorations
+            var getDecorations = await this.queryExecutor.ExecuteWithSieve(decorationsQuery);
+            // retrieving list of chosen decos and their IDs in form of List<Tuple<int, int>
+            var decorationsIdAndQuantity = request.DecorationsIdAndQuandity;
+            // list of decos IDs
+            var decorationsId = decorationsIdAndQuantity.Select(x => x.Item1);
+            // retrieving list of chosen flowers based on their IDs
+            var chosenDecorations = getDecorations.Where(x => decorationsId.Contains(x.Id)).ToList();
+
             var orderDetail = this.mapper.Map<OrderDetail>(request);
 
             var bouquetOrderDetails = new List<BouquetOrderDetail>();
@@ -73,7 +84,18 @@
                 });
             }
 
-            var parameter = Tuple.Create(orderDetail, bouquetOrderDetails);
+            var decorationOrderDetails = new List<DecorationOrderDetail>();
+            foreach (var decoration in chosenDecorations)
+            {
+                decorationOrderDetails.Add(new DecorationOrderDetail
+                {
+                    OrderDetail = orderDetail,
+                    DecorationId = decoration.Id,
+                    DecorationQuantity = decorationsIdAndQuantity.Where(x => x.Item1 == decoration.Id).Select(x => x.Item2).FirstOrDefault()
+                });
+            }
+
+            var parameter = Tuple.Create(orderDetail, bouquetOrderDetails, decorationOrderDetails);
 
             var command = new AddOrderDetailCommand() 
             { 

@@ -13,7 +13,6 @@
         public decimal? Price { get; set; }
         public int StockLevel { get; set; }
 
-        //public List<string> OrderDetails { get; set; } = new List<string>();
-        public List<OrderDetailDTO> OrderDetails { get; set; } = new List<OrderDetailDTO>();
+        public List<OrderDetailDTO> OrderDetails { get; set; } = new();
     }
 }

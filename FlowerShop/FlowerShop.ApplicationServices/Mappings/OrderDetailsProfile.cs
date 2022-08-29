@@ -17,7 +17,8 @@
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
                 .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets ?? new List<BouquetDTO>()));
+                .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets ?? new List<BouquetDTO>()))
+                .ForMember(x => x.Decorations, y => y.MapFrom(z => z.Decorations ?? new List<DecorationDTO>()));
 
             this.CreateMap<OrderDetail, OrderDetailDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
@@ -26,7 +27,8 @@
                 .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
                 .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets ?? new List<Bouquet>()));
+                .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets ?? new List<Bouquet>()))
+                .ForMember(x => x.Decorations, y => y.MapFrom(z => z.Decorations ?? new List<Decoration>()));
 
             this.CreateMap<RemoveOrderDetailRequest, OrderDetail>()
                .ForMember(x => x.Id, y => y.MapFrom(z => z.OrderDetailId));

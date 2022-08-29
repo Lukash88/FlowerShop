@@ -15,5 +15,8 @@
 
         public List<Tuple<int, int>> BouquetsIdAndQuandity { get; set; } = new();
         public List<BouquetDTO> Bouquets = new();
+
+        public List<Tuple<int, int>> DecorationsIdAndQuandity { get; set; } = new();
+        public List<DecorationDTO> Decorations = new();
     }
 }

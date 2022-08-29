@@ -9,6 +9,9 @@
         public int Id { get; init; }
 
         public override async Task<OrderDetail> Execute(FlowerShopStorageContext context) => 
-            await context.OrderDetails.Include(x => x.Bouquets).FirstOrDefaultAsync(x => x.Id == Id);
+            await context.OrderDetails
+            .Include(x => x.Bouquets)
+            .Include(x => x.Decorations)
+            .FirstOrDefaultAsync(x => x.Id == Id);
     }
 }

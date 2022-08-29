@@ -39,6 +39,13 @@
                 .UsingEntity<BouquetOrderDetail>(
                     x => x.HasOne(x => x.Bouquet).WithMany().HasForeignKey(x => x.BouquetId),
                     x => x.HasOne(x => x.OrderDetail).WithMany().HasForeignKey(x => x.OrderDetailId));
+
+            builder
+                .HasMany(x => x.Decorations)
+                .WithMany(x => x.OrderDetails)
+                .UsingEntity<DecorationOrderDetail>(
+                    x => x.HasOne(x => x.Decoration).WithMany().HasForeignKey(x => x.DecorationId),
+                    x => x.HasOne(x => x.OrderDetail).WithMany().HasForeignKey(x => x.OrderDetailId));
         }
     }
 }

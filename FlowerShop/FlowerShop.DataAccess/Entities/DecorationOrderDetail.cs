@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FlowerShop.DataAccess.Entities
+﻿namespace FlowerShop.DataAccess.Entities
 {
-    internal class DecorationOrderDetail
+    public class DecorationOrderDetail
     {
+        public int DecorationId { get; set; }
+        public Decoration Decoration { get; set; }
+        public int DecorationQuantity { get; set; }
+
+        public int OrderDetailId { get; set; }
+        public OrderDetail OrderDetail { get; set; }
     }
 }

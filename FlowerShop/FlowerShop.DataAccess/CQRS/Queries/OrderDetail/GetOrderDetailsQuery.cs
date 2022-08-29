@@ -11,9 +11,14 @@
     {
         public SieveModel SieveModel { get; init; }
 
-        public override async Task<List<OrderDetail>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
+        public override async Task<List<OrderDetail>> Execute(FlowerShopStorageContext context, 
+            ISieveProcessor sieveProcessor)
         {
-            var query = sieveProcessor.Apply(SieveModel, context.OrderDetails.Include(x => x.Bouquets).AsNoTracking());
+            var query = sieveProcessor.Apply(SieveModel,
+                context.OrderDetails
+                .Include(x => x.Bouquets)
+                .Include(x => x.Decorations)
+                .AsNoTracking());
 
             return await query.ToListAsync();
         }
