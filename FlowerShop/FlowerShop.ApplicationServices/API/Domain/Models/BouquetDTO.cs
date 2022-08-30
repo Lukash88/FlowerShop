@@ -10,7 +10,7 @@
         public TypeOfFlowerArrangement TypeOfArrangement { get; set; } 
         public DecorationWay DecorationWay { get; set; }
         public int StockLevel { get; set; }
-        public List<FlowerDTO> Flowers { get; set; } = new List<FlowerDTO>();
-        public List<OrderDetailDTO> OrderDetails { get; set; } = new List<OrderDetailDTO>();
+        public List<FlowerDTO> Flowers { get; set; } = new();
+        public List<OrderDetailDTO> OrderDetails { get; set; } = new();
     }
 }

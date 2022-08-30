@@ -10,6 +10,7 @@
     using FlowerShop.DataAccess.CQRS.Queries.Decoration;
     using FlowerShop.DataAccess.CQRS.Queries.Order;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
+    using FlowerShop.DataAccess.CQRS.Queries.Product;
     using FlowerShop.DataAccess.Entities;
     using MediatR;
     using Sieve.Models;
@@ -70,6 +71,16 @@
             // retrieving list of chosen flowers based on their IDs
             var chosenDecorations = getDecorations.Where(x => decorationsId.Contains(x.Id)).ToList();
 
+            var productsQuery = new GetProductsQuery();
+            // retrieving list of products
+            var getProducts = await this.queryExecutor.ExecuteWithSieve(productsQuery);
+            // retrieving list of chosen products and their IDs in form of List<Tuple<int, int>
+            var productsIdAndQuantity = request.ProductsIdAndQuandity;
+            // list of products IDs
+            var productsId = productsIdAndQuantity.Select(x => x.Item1);
+            // retrieving list of chosen products based on their IDs
+            var chosenProducts = getProducts.Where(x => productsId.Contains(x.Id)).ToList();
+
             var orderDetail = this.mapper.Map<OrderDetail>(request);
 
             var bouquetOrderDetails = new List<BouquetOrderDetail>();
@@ -91,11 +102,24 @@
                 {
                     OrderDetail = orderDetail,
                     DecorationId = decoration.Id,
+                    // retrieving of single deco quantity based on its ID from List<Tuple<int, int>
                     DecorationQuantity = decorationsIdAndQuantity.Where(x => x.Item1 == decoration.Id).Select(x => x.Item2).FirstOrDefault()
                 });
             }
 
-            var parameter = Tuple.Create(orderDetail, bouquetOrderDetails, decorationOrderDetails);
+            var productOrderDetails = new List<ProductOrderDetail>();
+            foreach (var product in chosenProducts)
+            {
+                productOrderDetails.Add(new ProductOrderDetail
+                {
+                    OrderDetail = orderDetail,
+                    ProductId = product.Id,
+                    // retrieving of single product quantity based on its ID from List<Tuple<int, int>
+                    ProductQuantity = productsIdAndQuantity.Where(x => x.Item1 == product.Id).Select(x => x.Item2).FirstOrDefault()
+                });
+            }
+
+            var parameter = Tuple.Create(orderDetail, bouquetOrderDetails, decorationOrderDetails, productOrderDetails);
 
             var command = new AddOrderDetailCommand() 
             { 

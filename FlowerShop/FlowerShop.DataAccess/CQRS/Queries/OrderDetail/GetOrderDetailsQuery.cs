@@ -18,6 +18,7 @@
                 context.OrderDetails
                 .Include(x => x.Bouquets)
                 .Include(x => x.Decorations)
+                .Include(x => x.Products)
                 .AsNoTracking());
 
             return await query.ToListAsync();

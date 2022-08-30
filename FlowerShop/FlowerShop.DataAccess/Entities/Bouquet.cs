@@ -12,7 +12,7 @@
         public string ImageUrl { get; set; }
         public string ImageThumbnailUrl { get; set; }
 
-        public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
-        public List<Flower> Flowers { get; set; } = new List<Flower>(); 
+        public List<OrderDetail> OrderDetails { get; set; } = new();
+        public List<Flower> Flowers { get; set; } = new(); 
     }
 }

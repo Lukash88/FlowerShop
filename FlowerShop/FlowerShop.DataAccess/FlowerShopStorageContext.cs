@@ -21,6 +21,7 @@ namespace FlowerShop.DataAccess
         public DbSet<BouquetFlower> BouquetFlowers { get; set; }
         public DbSet<BouquetOrderDetail> BouquetOrderDetails { get; set; }
         public DbSet<DecorationOrderDetail> DecorationOrderDetails { get; set; }
+        public DbSet<ProductOrderDetail> ProductOrderDetails { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

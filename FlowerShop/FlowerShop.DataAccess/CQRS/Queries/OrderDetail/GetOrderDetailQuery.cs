@@ -12,6 +12,7 @@
             await context.OrderDetails
             .Include(x => x.Bouquets)
             .Include(x => x.Decorations)
+            .Include(x => x.Products)
             .FirstOrDefaultAsync(x => x.Id == Id);
     }
 }
