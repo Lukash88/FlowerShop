@@ -1,6 +1,9 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
 {
+    using FlowerShop.ApplicationServices.API.Domain.Models;
     using MediatR;
+    using System;
+    using System.Collections.Generic;
 
     public class AddOrderDetailRequest : IRequest<AddOrderDetailResponse>
     {
@@ -9,5 +12,14 @@
         public string Description { get; set; }
         public string Category { get; set; }
         public decimal? Price { get; set; }
+
+        public List<Tuple<int, int>> BouquetsIdAndQuandity { get; set; } = new();
+        public List<BouquetDTO> Bouquets = new();
+
+        public List<Tuple<int, int>> DecorationsIdAndQuandity { get; set; } = new();
+        public List<DecorationDTO> Decorations = new();
+
+        public List<Tuple<int, int>> ProductsIdAndQuandity { get; set; } = new();
+        public List<ProductDTO> Products = new();
     }
 }

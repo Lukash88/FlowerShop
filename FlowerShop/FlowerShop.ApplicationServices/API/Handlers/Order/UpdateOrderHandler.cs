@@ -1,4 +1,4 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderItem
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
     using AutoMapper;
     using DataAccess.Entities;

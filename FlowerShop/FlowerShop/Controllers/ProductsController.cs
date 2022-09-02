@@ -11,7 +11,7 @@
     [Route("[controller]")]
     public class ProductsController : ApiControllerBase
     {
-        public ProductsController(IMediator mediator, ILogger<ProductsController> logger) : base(mediator)
+        public ProductsController(IMediator mediator, ILogger<ProductsController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Products");
         }

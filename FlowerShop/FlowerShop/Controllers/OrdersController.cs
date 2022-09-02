@@ -12,7 +12,7 @@
 
     public class OrdersController : ApiControllerBase
     {
-        public OrdersController(IMediator mediator, ILogger<OrdersController> logger) : base(mediator)
+        public OrdersController(IMediator mediator, ILogger<OrdersController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Orders");
         }
@@ -57,7 +57,7 @@
 
         [HttpPut]
         [Route("{orderId}")]
-        public async Task<IActionResult> UpdateOrderItemById([FromRoute] int orderId, [FromBody] UpdateOrderRequest request)
+        public async Task<IActionResult> UpdateOrderById([FromRoute] int orderId, [FromBody] UpdateOrderRequest request)
         {
             request.OrderId = orderId;
 

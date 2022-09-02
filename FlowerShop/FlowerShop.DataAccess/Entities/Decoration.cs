@@ -14,6 +14,6 @@
         public string ImageUrl { get; set; }
         public string ImageThumbnailUrl { get; set; }
 
-        public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        public List<OrderDetail> OrderDetails { get; set; } = new();
     }
 }

@@ -15,12 +15,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Sieve.Services;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FlowerShop
 {
@@ -66,10 +69,26 @@ namespace FlowerShop
                 opt =>
                 opt.UseSqlServer(this.Configuration.GetConnectionString("FlowerShopDatabaseConnection")));
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
+                options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                }));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FlowerShop", Version = "v1" });
+            });
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                });
             });
         }
 
@@ -85,6 +104,7 @@ namespace FlowerShop
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
