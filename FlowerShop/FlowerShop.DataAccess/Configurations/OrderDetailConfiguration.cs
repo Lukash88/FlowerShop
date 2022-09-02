@@ -53,6 +53,11 @@
                 .UsingEntity<ProductOrderDetail>(
                     x => x.HasOne(x => x.Product).WithMany().HasForeignKey(x => x.ProductId),
                     x => x.HasOne(x => x.OrderDetail).WithMany().HasForeignKey(x => x.OrderDetailId));
+
+            builder
+                .HasOne(x => x.Order)
+                .WithMany(x => x.OrderDetails)
+                .HasForeignKey(x => x.OrderId);
         }
     }
 }

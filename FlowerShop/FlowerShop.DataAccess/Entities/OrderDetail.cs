@@ -11,7 +11,6 @@
 
         public int OrderId { get; set; }
         public Order Order { get; set; }
-
         public List<Product> Products { get; set; } = new();
         public List<Bouquet> Bouquets { get; set; } = new();
         public List<Decoration> Decorations { get; set; } = new();

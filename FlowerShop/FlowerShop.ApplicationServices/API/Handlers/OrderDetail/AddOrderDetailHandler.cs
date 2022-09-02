@@ -13,7 +13,6 @@
     using FlowerShop.DataAccess.CQRS.Queries.Product;
     using FlowerShop.DataAccess.Entities;
     using MediatR;
-    using Sieve.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -41,7 +40,7 @@
             var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
             // checking if Order with OrderId already has assigned OrderDetail with OrderDetailId and vice-versa
             // or if Order with OrderId is already in use
-            if ((getOrders.Select(x => x.Id).Contains(request.OrderId) && 
+            if ((getOrders.Select(x => x.Id).Contains(request.OrderId) &&
                 getOrderDetails.Select(x => x.OrderId).Contains(request.OrderId)) ||
                 !getOrders.Select(x => x.Id).Contains(request.OrderId))
             {

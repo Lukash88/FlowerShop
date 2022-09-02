@@ -15,10 +15,7 @@
         public int Quantity { get; set; }
         public decimal? Sum { get; set; }
 
-        //public List<string> Reservations { get; set; } = new List<string>();
         public List<ReservationDTO> Reservations { get; set; } = new List<ReservationDTO>();
-
-        //public List<string> OrderDetails { get; set; } = new List<string>();
         public List<OrderDetailDTO> OrderDetails { get; set; } = new List<OrderDetailDTO>();
     }
 }
