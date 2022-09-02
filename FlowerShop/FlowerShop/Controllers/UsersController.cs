@@ -41,6 +41,7 @@
             return await this.HandleRequest<GetCurrentUserRequest, GetCurrentUserResponse>(request);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("id/{userId}")]
         public async Task<IActionResult> GetUserById([FromRoute] int userId)
