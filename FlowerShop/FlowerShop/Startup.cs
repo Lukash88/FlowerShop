@@ -8,6 +8,7 @@ using FlowerShop.Authentication;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.Entities;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -47,10 +48,10 @@ namespace FlowerShop
             services.AddTransient<ICommandExecutor, CommandExecutor>();
 
             services.AddTransient<IFlowersConnector, FlowersConnector>();
+           
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<AddBouquetRequestValidator>();
 
-            services.AddMvcCore()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AddBouquetRequestValidator>());
-            
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
