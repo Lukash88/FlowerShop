@@ -11,8 +11,7 @@
         public string Category { get; set; }
         public decimal? Price { get; set; }
         public int StockLevel { get; set; }
-
-        public List<string> OrderItems { get; set; } = new List<string>();
-        // public List<OrderDTO> OrderItems { get; set; } = new List<OrderDTO>();
+                
+        public List<OrderDetailDTO> OrderDetails { get; set; } = new();
     }
 }

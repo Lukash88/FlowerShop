@@ -24,6 +24,10 @@ namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
             mapper.Property<Bouquet>(p => p.DecorationWay)
                 .CanSort()
                 .CanFilter();
+
+            mapper.Property<Bouquet>(p => p.Flowers)
+                .CanSort()
+                .CanFilter();
         }
 
     }

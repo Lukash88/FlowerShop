@@ -1,4 +1,4 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderItem
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain;
@@ -50,10 +50,10 @@
             {
                 Parameter = order
             };
-            var addedOrderItem = await this.commandExecutor.Execute(command);
+            var addedOrder = await this.commandExecutor.Execute(command);
             var response = new AddOrderResponse()
             {
-                Data = this.mapper.Map<Domain.Models.OrderDTO>(addedOrderItem)
+                Data = this.mapper.Map<Domain.Models.OrderDTO>(addedOrder)
             };
 
             return response;

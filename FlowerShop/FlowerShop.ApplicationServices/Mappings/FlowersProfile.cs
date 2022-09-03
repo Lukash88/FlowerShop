@@ -26,7 +26,8 @@
                 .ForMember(x => x.LengthInCm, y => y.MapFrom(z => z.LengthInCm))
                 .ForMember(x => x.Colour, y => y.MapFrom(z => z.Colour))
                 .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));
+                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
+                .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets));
 
             this.CreateMap<RemoveFlowerRequest, Flower>()
              .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId));
