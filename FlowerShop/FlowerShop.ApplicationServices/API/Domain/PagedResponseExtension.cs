@@ -19,7 +19,7 @@ namespace FlowerShop.ApplicationServices.API.Domain
            CancellationToken cancellationToken = default) where TResponse : class
         {
             var page = model?.Page ?? 1;
-            var pageSize = model?.PageSize ?? 50;
+            var pageSize = model?.PageSize ?? 5;
 
             if (model != null)
                 query = sieve.Apply(model, query, applyPagination: false);

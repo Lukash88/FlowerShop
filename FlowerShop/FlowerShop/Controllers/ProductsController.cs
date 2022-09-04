@@ -6,9 +6,9 @@
     using Microsoft.Extensions.Logging;
     using System.Threading.Tasks;
     using Sieve.Models;
+    using Microsoft.AspNetCore.Authorization;
 
-    [ApiController]
-    [Route("[controller]")]
+    [Authorize]
     public class ProductsController : ApiControllerBase
     {
         public ProductsController(IMediator mediator, ILogger<ProductsController> logger) : base(mediator, logger)
@@ -16,6 +16,7 @@
             logger.LogInformation("We are in Products");
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetAllProducts([FromQuery] SieveModel sieveModel)
@@ -25,6 +26,7 @@
             return await this.HandleRequest<GetProductsRequest, GetProductsResponse>(request);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("{productId}")]
         public async Task<IActionResult> GetProductById([FromRoute] int productId)

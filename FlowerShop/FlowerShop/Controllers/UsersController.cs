@@ -9,8 +9,6 @@
     using System.Threading.Tasks;
 
     [Authorize]
-    [ApiController]
-    [Route("[controller]")]
     public class UsersController : ApiControllerBase
     {
         public UsersController(IMediator mediator, ILogger<UsersController> logger) : base(mediator, logger)

@@ -7,8 +7,6 @@
     using Sieve.Models;
     using System.Threading.Tasks;
 
-    [ApiController]
-    [Route("[controller]")]
     public class FlowersController : ApiControllerBase
     {
         public FlowersController(IMediator mediator, ILogger<FlowersController> logger) : base(mediator, logger)

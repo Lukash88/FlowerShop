@@ -6,9 +6,7 @@
     using Microsoft.Extensions.Logging;
     using Sieve.Models;
     using System.Threading.Tasks;
-
-    [ApiController]
-    [Route("[controller]")]
+    
     public class DecorationsController : ApiControllerBase
     {
         public DecorationsController(IMediator mediator, ILogger<DecorationsController> logger) : base(mediator, logger)

@@ -7,9 +7,6 @@
     using Sieve.Models;
     using System.Threading.Tasks;
 
-    [ApiController]
-    [Route("[controller]")]
-
     public class ReservationsController : ApiControllerBase
     {
         public ReservationsController(IMediator mediator, ILogger<ReservationsController> logger) : base(mediator, logger)
