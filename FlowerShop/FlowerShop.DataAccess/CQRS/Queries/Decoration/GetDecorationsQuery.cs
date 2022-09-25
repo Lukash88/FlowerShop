@@ -14,7 +14,7 @@
 
         public override async Task<List<Decoration>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
-            var query = sieveProcessor.Apply(SieveModel, context.Decorations.AsNoTracking());
+            var query = sieveProcessor.Apply(SieveModel, context.Decorations.AsNoTracking(), applyPagination: true);
 
             return await query.ToListAsync();
         }

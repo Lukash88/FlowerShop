@@ -14,6 +14,7 @@
                 .ForMember(x => x.LongDescription, y => y.MapFrom(z => z.LongDescription))
                 .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
+                .ForMember(x => x.ImageUrl, y => y.MapFrom(z => z.ImageUrl))
                 .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
 
             this.CreateMap<Product, API.Domain.Models.ProductDTO>()
@@ -23,6 +24,7 @@
                 .ForMember(x => x.LongDescription, y => y.MapFrom(z => z.LongDescription))
                 .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
+                .ForMember(x => x.ImageUrl, y => y.MapFrom(z => z.ImageUrl))
                 .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
 
             this.CreateMap<RemoveProductRequest, Product>()
@@ -35,6 +37,7 @@
                 .ForMember(x => x.LongDescription, y => y.MapFrom(z => z.LongDescription))
                 .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
+                .ForMember(x => x.ImageUrl, y => y.MapFrom(z => z.ImageUrl))
                 .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
         }
     }

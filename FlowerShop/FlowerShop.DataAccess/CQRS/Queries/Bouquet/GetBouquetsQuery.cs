@@ -13,9 +13,9 @@
 
         public async override Task<List<Bouquet>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
-            var query = sieveProcessor.Apply(SieveModel, context.Bouquets.Include(x => x.Flowers).AsNoTracking());
+            var query = sieveProcessor.Apply(SieveModel, context.Bouquets.Include(x => x.Flowers).AsNoTracking(), applyPagination: true);
 
-            return await query.ToListAsync(); ;
+            return await query.ToListAsync();
         }
     }
 }

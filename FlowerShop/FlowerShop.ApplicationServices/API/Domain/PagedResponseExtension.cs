@@ -22,7 +22,7 @@ namespace FlowerShop.ApplicationServices.API.Domain
             var pageSize = model?.PageSize ?? 5;
 
             if (model != null)
-                query = sieve.Apply(model, query, applyPagination: false);
+                query = sieve.Apply(model, query, applyPagination: true);
 
             var rowCount = await query.CountAsync(cancellationToken);
             var pageCount = (int)Math.Ceiling((double)rowCount / pageSize);
