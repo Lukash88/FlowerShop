@@ -16,7 +16,7 @@ namespace FlowerShop.ApplicationServices.API.Domain
     {
         public static async Task<PagedResponse<TResponse>> ToPagedAsync<TEntity, TResponse>
            (this IQueryable<TEntity> query, IMapper mapper, ISieveProcessor sieve, SieveModel model = null,
-           CancellationToken cancellationToken = default) where TResponse : class
+           CancellationToken cancellationToken = default) where TResponse : ResponseBase<TResponse>
         {
             var page = model?.Page ?? 1;
             var pageSize = model?.PageSize ?? 50;
