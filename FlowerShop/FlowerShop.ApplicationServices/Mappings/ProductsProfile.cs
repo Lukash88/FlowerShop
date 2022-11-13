@@ -23,7 +23,8 @@
                 .ForMember(x => x.LongDescription, y => y.MapFrom(z => z.LongDescription))
                 .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
+                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
+                .ReverseMap();
 
             this.CreateMap<RemoveProductRequest, Product>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.ProductId));

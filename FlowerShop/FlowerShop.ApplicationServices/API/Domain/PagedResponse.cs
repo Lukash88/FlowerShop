@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Domain
 {
-    public class PagedResponse<TResponse> where TResponse : ErrorResponseBase
+    public class PagedResponse<TResponse>//where TResponse : class
+                                        //ResponseBase<TResponse>
     {
         /// <summary>
         /// Gets or sets the current page.
@@ -41,7 +42,7 @@ namespace FlowerShop.ApplicationServices.API.Domain
         /// Gets or sets the results.
         /// </summary>
         /// <value>The results.</value>
-        public IList<TResponse> Results { get; set; } = new List<TResponse>();
-        public ErrorModel Error { get; set; }
+        //public IList<TResponse> Results { get; set; } = new List<TResponse>();
+        public List<TResponse> Results { get; set; } = new();
     }
 }
