@@ -1,0 +1,14 @@
+<div class="card h-100 shadow-sm">
+    <img src="products/{{product.imageUrl}}" alt="{{product.name}}" routerLink="/shop/{{product.id}}" class="img-fluid bg-info item-img">
+    <div class="card-body d-flex flex-column text-center">
+        <a routerLink="/shop/{{product.id}}" style="text-decoration: none;">
+            <h6 class="text-uppercase">{{product.name}}</h6>
+        </a>
+        <span class="mb-2 text-center">{{product.price | currency}}</span>
+
+        <div class="btn-group mt-auto">
+            <button type="button" class="btn btn-cart btn-outline-secondary fa fa-shopping-cart col-6"></button>
+            <button routerLink="/shop/{{product.id}}" type="button" class="btn btn-outline-secondary col-6">View</button>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@
 {
     using FlowerShop.DataAccess.Enums;
     using System.Collections.Generic;
+    using FlowerShop.DataAccess.Enums;
 
     public class ProductDTO
     {
@@ -11,6 +12,7 @@
         public string LongDescription { get; set; }
         public Category Category { get; set; }
         public decimal? Price { get; set; }
+        public string ImageUrl { get; set; }
         public int StockLevel { get; set; }
 
         public IList<OrderDetailDTO> OrderDetails { get; set; }

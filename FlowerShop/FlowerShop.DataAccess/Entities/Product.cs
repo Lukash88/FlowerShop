@@ -2,6 +2,7 @@
 {
     using FlowerShop.DataAccess.Enums;
     using System.Collections.Generic;
+    using FlowerShop.DataAccess.Enums;
 
     public class Product : EntityBase
     {

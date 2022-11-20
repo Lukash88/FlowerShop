@@ -9,8 +9,6 @@
     using System.Threading.Tasks;
 
     [Authorize]
-    [ApiController]
-    [Route("[controller]")]
     public class BouquetsController : ApiControllerBase
     {
         public BouquetsController(IMediator mediator, ILogger<BouquetsController> logger) : base(mediator, logger)
