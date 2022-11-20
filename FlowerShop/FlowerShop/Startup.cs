@@ -46,6 +46,7 @@ namespace FlowerShop
             services.AddScoped<IPasswordHasher<User>, BCryptPasswordHasher<User>>();
 
             services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
+            // services.AddScoped<ISieveProcessor, SieveProcessor>();
 
             services.AddTransient<IQueryExecutor, QueryExecutor>();
             services.AddTransient<ICommandExecutor, CommandExecutor>();
@@ -70,14 +71,14 @@ namespace FlowerShop
                 opt =>
                 opt.UseSqlServer(this.Configuration.GetConnectionString("FlowerShopDatabaseConnection")));
 
-            services.AddControllers(options =>
-            {
-                options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
-                options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve,
-                }));
-            });
+            services.AddControllers();//options =>
+            //{
+            //    options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
+            //    options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
+            //    {
+            //        ReferenceHandler = ReferenceHandler.Preserve,
+            //    }));
+            //});
 
             services.AddSwaggerGen(c =>
             {

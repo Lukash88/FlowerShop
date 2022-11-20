@@ -4,24 +4,23 @@
     using Microsoft.EntityFrameworkCore;
     using Sieve.Models;
     using Sieve.Services;
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetOrderDetailsQuery : QueryBaseWithSieve<List<OrderDetail>>
+    public class GetOrderDetailsQuery : QueryBaseWithSieve<IQueryable<OrderDetail>>
     {
         public SieveModel SieveModel { get; init; }
 
-        public override async Task<List<OrderDetail>> Execute(FlowerShopStorageContext context, 
+        public override async Task<IQueryable<OrderDetail>> Execute(FlowerShopStorageContext context, 
             ISieveProcessor sieveProcessor)
         {
-            var query = sieveProcessor.Apply(SieveModel,
-                context.OrderDetails
+            var query = context.OrderDetails
                 .Include(x => x.Bouquets)
                 .Include(x => x.Decorations)
                 .Include(x => x.Products)
-                .AsNoTracking());
+                .AsNoTracking();
 
-            return await query.ToListAsync();
+            return await Task.FromResult(query);
         }
     }
 }

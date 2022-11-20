@@ -2,32 +2,42 @@
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain;
+    using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
-    using MediatR;
-    using System.Collections.Generic;
+    using FlowerShop.DataAccess.Entities;
+    using Microsoft.Extensions.Logging;
+    using Sieve.Services;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class GetOrderDetailsHandler : IRequestHandler<GetOrderDetailsRequest, GetOrderDetailsResponse>
+    public class GetOrderDetailsHandler : PagedRequestHandler<GetOrderDetailsRequest, GetOrderDetailsResponse>
     {
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
+        private readonly ISieveProcessor sieveProcessor;
+        private readonly ILogger<GetOrderDetailsHandler> logger;
 
-        public GetOrderDetailsHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        public GetOrderDetailsHandler(IMapper mapper, IQueryExecutor queryExecutor,
+            ISieveProcessor sieveProcessor, ILogger<GetOrderDetailsHandler> logger)
         {
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
+            this.sieveProcessor = sieveProcessor;
+            this.logger = logger;
         }
 
-        public async Task<GetOrderDetailsResponse> Handle(GetOrderDetailsRequest request, CancellationToken cancellationToken)
+        public override async Task<GetOrderDetailsResponse> Handle(GetOrderDetailsRequest request, CancellationToken cancellationToken)
         {
+            this.logger.LogInformation("Getting a list of Order Details");
+
             var query = new GetOrderDetailsQuery()
             {
                 SieveModel = request.SieveModel
             };
+
             var orderDetails = await this.queryExecutor.ExecuteWithSieve(query);
             if (orderDetails == null)
             {
@@ -37,10 +47,10 @@
                 };
             }
 
-            var mappedOrderDetails = this.mapper.Map<List<Domain.Models.OrderDetailDTO>>(orderDetails);
+            var results = await orderDetails.ToPagedAsync<OrderDetail, OrderDetailDTO>(sieveProcessor, mapper, query.SieveModel);
             var response = new GetOrderDetailsResponse()
             {
-                Data = mappedOrderDetails
+                Data = results
             };
 
             return response;

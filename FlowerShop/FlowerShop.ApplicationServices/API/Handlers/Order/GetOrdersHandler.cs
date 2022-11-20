@@ -2,32 +2,42 @@
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain;
+    using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.ApplicationServices.API.Domain.Order;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Order;
-    using MediatR;
-    using System.Collections.Generic;
+    using FlowerShop.DataAccess.Entities;
+    using Microsoft.Extensions.Logging;
+    using Sieve.Services;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class GetOrdersHandler : IRequestHandler<GetOrdersRequest, GetOrdersResponse>
+    public class GetOrdersHandler : PagedRequestHandler<GetOrdersRequest, GetOrdersResponse>
     {
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
+        private readonly ISieveProcessor sieveProcessor;
+        private readonly ILogger<GetOrdersHandler> logger;
 
-        public GetOrdersHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        public GetOrdersHandler(IMapper mapper, IQueryExecutor queryExecutor, 
+            ISieveProcessor sieveProcessor, ILogger<GetOrdersHandler> logger)
         {
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
+            this.sieveProcessor = sieveProcessor;
+            this.logger = logger;
         }
 
-        public async Task<GetOrdersResponse> Handle(GetOrdersRequest request, CancellationToken cancellationToken)
+        public override async Task<GetOrdersResponse> Handle(GetOrdersRequest request, CancellationToken cancellationToken)
         {
+            this.logger.LogInformation("Getting a list of Orders");
+
             var query = new GetOrdersQuery()
             {
                 SieveModel = request.SieveModel
             };
+
             var orders = await this.queryExecutor.ExecuteWithSieve(query);
             if (orders == null)
             {
@@ -37,10 +47,10 @@
                 };
             }
 
-            var mappedOrders = this.mapper.Map<List<Domain.Models.OrderDTO>>(orders);
+            var results = await orders.ToPagedAsync<Order, OrderDTO>(sieveProcessor, mapper, query.SieveModel);
             var response = new GetOrdersResponse()
             {
-                Data = mappedOrders
+                Data = results
             };
 
             return response;

@@ -4,18 +4,19 @@
     using Microsoft.EntityFrameworkCore;
     using Sieve.Models;
     using Sieve.Services;
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetReservationsQuery : QueryBaseWithSieve<List<Reservation>>
+    public class GetReservationsQuery : QueryBaseWithSieve<IQueryable<Reservation>>
     {
         public SieveModel SieveModel { get; set; }
 
-        public async override Task<List<Reservation>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
+        public async override Task<IQueryable<Reservation>> Execute(FlowerShopStorageContext context, 
+            ISieveProcessor sieveProcessor)
         {
-            var request = sieveProcessor.Apply(SieveModel, context.Reservations.AsNoTracking());         
+            var query = context.Reservations.AsNoTracking();
 
-            return await request.ToListAsync();
+            return await Task.FromResult(query);
         }                                                                                                                                         
     }
 }

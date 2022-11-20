@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain.Flower;
+    using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.DataAccess.Entities;
 
     public class FlowersProfile : Profile
@@ -18,7 +19,7 @@
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));
 
 
-            this.CreateMap<Flower, API.Domain.Models.FlowerDTO>()
+            this.CreateMap<Flower, FlowerDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
                 .ForMember(x => x.FlowerType, y => y.MapFrom(z => z.FlowerType))
@@ -27,7 +28,10 @@
                 .ForMember(x => x.Colour, y => y.MapFrom(z => z.Colour))
                 .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets));
+                .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets))
+                .ReverseMap();
+
+            this.CreateMap<Bouquet, BouquetDTO>().ReverseMap();
 
             this.CreateMap<RemoveFlowerRequest, Flower>()
              .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId));

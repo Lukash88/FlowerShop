@@ -1,5 +1,4 @@
-
-namespace FlowerShop.DataAccess.Enums
+﻿namespace FlowerShop.DataAccess.Enums
 {
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;

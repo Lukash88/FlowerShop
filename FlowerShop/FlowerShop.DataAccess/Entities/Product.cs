@@ -1,5 +1,6 @@
 ﻿namespace FlowerShop.DataAccess.Entities
 {
+    using FlowerShop.DataAccess.Enums;
     using System.Collections.Generic;
     using FlowerShop.DataAccess.Enums;
 

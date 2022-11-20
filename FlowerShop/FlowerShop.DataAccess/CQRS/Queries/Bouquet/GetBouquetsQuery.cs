@@ -1,21 +1,20 @@
 ﻿namespace FlowerShop.DataAccess.CQRS.Queries.Bouquet
 {
-    using FlowerShop.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
     using Sieve.Models;
     using Sieve.Services;
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetBouquetsQuery : QueryBaseWithSieve<List<Bouquet>>
+    public class GetBouquetsQuery : QueryBaseWithSieve<IQueryable<Entities.Bouquet>>
     {
         public SieveModel SieveModel { get; init; }
 
-        public async override Task<List<Bouquet>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
+        public async override Task<IQueryable<Entities.Bouquet>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
-            var query = sieveProcessor.Apply(SieveModel, context.Bouquets.Include(x => x.Flowers).AsNoTracking(), applyPagination: true);
+            var query = context.Bouquets.Include(x => x.Flowers).AsNoTracking();
 
-            return await query.ToListAsync();
+            return await Task.FromResult(query);
         }
     }
 }

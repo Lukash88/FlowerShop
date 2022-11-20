@@ -29,7 +29,14 @@
                 .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
                 .ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets ?? new List<Bouquet>()))
                 .ForMember(x => x.Decorations, y => y.MapFrom(z => z.Decorations ?? new List<Decoration>()))
-                .ForMember(x => x.Products, y => y.MapFrom(z => z.Products ?? new List<Product>()));
+                .ForMember(x => x.Products, y => y.MapFrom(z => z.Products ?? new List<Product>()))
+                .ReverseMap();
+
+            this.CreateMap<Bouquet, BouquetDTO>().ReverseMap();
+
+            this.CreateMap<Decoration, DecorationDTO>().ReverseMap();
+
+            this.CreateMap<Product, ProductDTO>().ReverseMap();
 
             this.CreateMap<RemoveOrderDetailRequest, OrderDetail>()
                .ForMember(x => x.Id, y => y.MapFrom(z => z.OrderDetailId));
