@@ -1,7 +1,4 @@
 using FlowerShop.ApplicationServices.API.Domain;
-using FlowerShop.ApplicationServices.API.Domain.Product;
-using FlowerShop.ApplicationServices.API.Handlers;
-using FlowerShop.ApplicationServices.API.Handlers.Product;
 using FlowerShop.ApplicationServices.API.Validators;
 using FlowerShop.ApplicationServices.Components.Flowers;
 using FlowerShop.ApplicationServices.Components.PasswordHasher;
@@ -49,15 +46,7 @@ namespace FlowerShop
             services.AddScoped<IPasswordHasher<User>, BCryptPasswordHasher<User>>();
 
             services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
-
-
-            //services.AddTransient(typeof(IRequestHandler<GetProductsRequest, GetProductsResponse>), typeof(PagedRequestHandler<GetProductsRequest, GetProductsResponse>));
-            services.AddTransient(typeof(IRequestHandler<GetProductsRequest, GetProductsResponse>), typeof(GetProductsHandler));
-            //services.AddTransient(typeof(IRequestHandler<GetProductsRequest, GetProductsResponse>));
-            //services.AddTransient<IRequestHandler<GetProductsRequest, GetProductsResponse>, GetProductsHandler>();
-            //services.AddTransient(typeof(IRequestHandler<GetProductsRequest, GetProductsResponse>), typeof(GetProductsHandler));
-            //services.AddScoped(typeof(IRequestHandler<GetProductsRequest, GetProductsResponse>), typeof(GetProductsHandler));
-            //services.AddScoped(typeof(IRequestHandler<GetProductsRequest, GetProductsResponse>), typeof(GetProductsHandler));
+            // services.AddScoped<ISieveProcessor, SieveProcessor>();
 
             services.AddTransient<IQueryExecutor, QueryExecutor>();
             services.AddTransient<ICommandExecutor, CommandExecutor>();
@@ -82,14 +71,14 @@ namespace FlowerShop
                 opt =>
                 opt.UseSqlServer(this.Configuration.GetConnectionString("FlowerShopDatabaseConnection")));
 
-            services.AddControllers(options =>
-            {
-                options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
-                options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve,
-                }));
-            });
+            services.AddControllers();//options =>
+            //{
+            //    options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
+            //    options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
+            //    {
+            //        ReferenceHandler = ReferenceHandler.Preserve,
+            //    }));
+            //});
 
             services.AddSwaggerGen(c =>
             {

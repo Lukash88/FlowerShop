@@ -1,18 +1,8 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
-using Sieve.Models;
-using Sieve.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FlowerShop.ApplicationServices.API.Domain
 {
-    public class PagedResponse<TResponse>//where TResponse : class
-                                        //ResponseBase<TResponse>
+    public class PagedResponse<TResponse>
     {
         /// <summary>
         /// Gets or sets the current page.
@@ -42,7 +32,6 @@ namespace FlowerShop.ApplicationServices.API.Domain
         /// Gets or sets the results.
         /// </summary>
         /// <value>The results.</value>
-        //public IList<TResponse> Results { get; set; } = new List<TResponse>();
         public List<TResponse> Results { get; set; } = new();
     }
 }
