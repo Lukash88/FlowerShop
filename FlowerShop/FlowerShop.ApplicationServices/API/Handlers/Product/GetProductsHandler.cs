@@ -5,30 +5,35 @@
     using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.ApplicationServices.API.Domain.Product;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
+    using FlowerShop.ApplicationServices.API.Handlers;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Product;
+    using FlowerShop.DataAccess.Entities;
+    using Microsoft.Extensions.Logging;
     using Sieve.Services;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
-    //public class GetProductsHandler : IRequestHandler<GetProductsRequest, GetProductsResponse>
     public class GetProductsHandler : PagedRequestHandler<GetProductsRequest, GetProductsResponse>
     {
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
-        private readonly SieveProcessor sieveProcessor;
+        private readonly ISieveProcessor sieveProcessor;
+        private readonly ILogger<GetProductsHandler> logger;
 
-        //public GetProductsHandler(IMapper mapper, IQueryExecutor queryExecutor, SieveProcessor sieveProcessor)
-        public GetProductsHandler(IMapper mapper, IQueryExecutor queryExecutor, SieveProcessor sieveProcessor)
+        public GetProductsHandler(IMapper mapper, IQueryExecutor queryExecutor, 
+            ISieveProcessor sieveProcessor, ILogger<GetProductsHandler> logger)
         {
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
             this.sieveProcessor = sieveProcessor;
+            this.logger = logger;
         }
+
         public override async Task<GetProductsResponse> Handle(GetProductsRequest request, CancellationToken cancellationToken)
-        //public override async Task<PagedResponse<GetProductsResponse>> Handle(GetProductsRequest request, CancellationToken cancellationToken)
         {
+            this.logger.LogInformation("Getting a list of Products");
+
             var query = new GetProductsQuery()
             {
                 SieveModel = request.SieveModel
@@ -41,14 +46,13 @@
                 {
                     Error = new ErrorModel(ErrorType.NotFound)
                 };
-            }
+            }          
 
-            var mappedProducts = this.mapper.Map<IQueryable<ProductDTO>>(products);
-
-            var results = await mappedProducts.ToPagedAsync<GetProductsResponse, ProductDTO>(mapper, sieveProcessor);
-            //var results  = await mappedProducts.ToPagedAsync<ProductDTO, GetProductsResponse>(mapper, sieveProcessor);
-
-            var response = new GetProductsResponse() { Data = results };
+            var results = await products.ToPagedAsync<Product, ProductDTO>(sieveProcessor, mapper, query.SieveModel);
+            var response = new GetProductsResponse() 
+            { 
+                Data = results 
+            };
 
             return response;
         }
