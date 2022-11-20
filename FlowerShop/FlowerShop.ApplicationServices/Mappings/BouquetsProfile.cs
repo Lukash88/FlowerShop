@@ -28,7 +28,10 @@
                 .ForMember(x => x.TypeOfArrangement, y => y.MapFrom(z => z.TypeOfArrangement))
                 .ForMember(x => x.DecorationWay, y => y.MapFrom(z => z.DecorationWay))
                 .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-                .ForMember(x => x.Flowers, y => y.MapFrom(z => z.Flowers ?? new List<Flower>()));
+                .ForMember(x => x.Flowers, y => y.MapFrom(z => z.Flowers))
+                .ReverseMap();
+
+            this.CreateMap<Flower, FlowerDTO>().ReverseMap();
 
             this.CreateMap<RemoveBouquetRequest, Bouquet>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.BouquetId));
