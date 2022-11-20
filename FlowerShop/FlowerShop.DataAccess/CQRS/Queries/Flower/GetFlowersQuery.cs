@@ -5,21 +5,20 @@
     using Sieve.Models;
     using Sieve.Services;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetFlowersQuery : QueryBaseWithSieve<List<Flower>>
+    public class GetFlowersQuery : QueryBaseWithSieve<IQueryable<Flower>>
     {
         public SieveModel SieveModel { get; init; }
 
-        public async override Task<List<Flower>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
+        public async override Task<IQueryable<Flower>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
-            var query = sieveProcessor.Apply(SieveModel, context.Flowers.AsNoTracking());
+            var query = context.Flowers.AsNoTracking();
 
             var avgPrice = Math.Round(query.Average(x => x.Price.Value), 2);
 
-            return await query.ToListAsync();
+            return await Task.FromResult(query);
         }
     }
 }
