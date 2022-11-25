@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using FlowerShop.ApplicationServices.API.Domain;
 using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;

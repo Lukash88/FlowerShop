@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IPagination } from '../shared/models/pagination';
 import { IProduct } from '../shared/models/product';
 import { map } from 'rxjs/operators';
+import { ShopParams } from '../shared/models/shopParams';
 
 @Injectable({
   providedIn: 'root'
@@ -12,40 +13,37 @@ export class ShopService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(category?: string, search?: string, sort?: string) {
-    let params = new HttpParams().set('Sorts', sort);
+  getProducts(shopParams: ShopParams) {
+    let params = new HttpParams().set('Sorts', shopParams.sort);
 
-    if (category) {
-      params = new HttpParams().set('Filters=category=', category).set('Sorts', sort);
+    if (shopParams.categorySelected) {
+      params = new HttpParams().set('Filters=category=', shopParams.categorySelected).set('Sorts', shopParams.sortSelected);
       
-      if (search) {
-        params = new HttpParams().set('Filters=category==' + category + ',Name@', search).set('Sorts', sort);
+      if (shopParams.search) {
+        params = new HttpParams().set('Filters=category==' + shopParams.categorySelected + ',Name@', shopParams.search).set('Sorts', shopParams.sortSelected);
       }
     }
 
-    if (search) {
-      params = new HttpParams().set('Filters=Name@', search).set('Sorts', sort);
+    if (shopParams.search) {
+      params = new HttpParams().set('Filters=Name@', shopParams.search).set('Sorts', shopParams.sortSelected);
 
-      if (category) {
-        params = new HttpParams().set('Filters=category==' + category + ',Name@', search).set('Sorts', sort);
+      if (shopParams.categorySelected) {
+        params = new HttpParams().set('Filters=category==' + shopParams.categorySelected + ',Name@', shopParams.search).set('Sorts', shopParams.sortSelected);
       }
     }
 
-    // let params = new HttpParams().set('Sorts', sort);
+    params = params.set('Page', shopParams.pageNumber.toString());
+    params = params.set('PageSize', shopParams.pageSize.toString());
 
-    // if (category) {
-    //   params = params.append('Filters=category=', category)
-    // }
-
-    // if (search) {       
-    //   params = params.append('Filters=Name@', search)
-    // }
-
-    return this.http.get<IProduct[]>(this.baseUrl + 'products', {observe: 'response', params})
+    return this.http.get<IPagination>(this.baseUrl + 'products', {observe: 'response', params})
       .pipe(
         map(response => {
-          return response.body
+          return response.body;
         })
       );
   }  
+
+  getProduct(id: number) {
+    return this.http.get<IProduct>(this.baseUrl+ 'products/' + id);
+  }
 }
