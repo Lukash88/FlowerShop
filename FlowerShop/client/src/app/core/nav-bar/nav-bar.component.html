@@ -1,12 +1,15 @@
-<div class="d-flex flex-column flex-md-row align-items-center justify-content-evenly p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top">
-    <img src="/assets/images/logo.png" style="max-height: 70px;" alt="flower shop's logo">
-    <nav class="my-2 my-md-0 mr-md-3 text-uppercase"  style="font-size: larger;">
-      <a class="p-2 text-dark text-decoration-none" href="#">Home</a>
-      <a class="p-2 text-dark text-decoration-none" href="#">About us</a>
-      <a class="p-2 text-dark text-decoration-none" href="#">Offer</a>
-      <a class="p-2 text-dark text-decoration-none" routerLink="/shop" routerLinkActive="active">Shop</a>
-      <a class="p-2 text-dark text-decoration-none" href="#">Gallery</a>
-      <a class="p-2 text-dark text-decoration-none" href="#">Contact us</a>
+<div class="d-flex flex-column flex-md-row align-items-center justify-content-evenly 
+  p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top">
+    <img src="/assets/images/logo.png" class="logo" style="max-height: 70px;" 
+      alt="flower shop's logo" routerLink="/">
+    <nav class="my-2 my-md-0 mr-md-3"  style="font-size: larger;">
+      <a class="p-2" [routerLink]="['/']" routerLinkActive="active" 
+        [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a class="p-2"routerLink="/about-us" routerLinkActive="active">About us</a>
+      <a class="p-2" routerLink="/offer" routerLinkActive="active">Offer</a>
+      <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
+      <a class="p-2" routerLink="/gallery" routerLinkActive="active">Gallery</a>
+      <a class="p-2" routerLink="/contact-us" routerLinkActive="active">Contact us</a>
     </nav>
     <div class="d-flex align-items-center">
         <a class="position-relative">
