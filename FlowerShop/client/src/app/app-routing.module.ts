@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'shop', loadChildren: () => import('./shop/shop.module').then(mod => mod.ShopModule) },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '', component: HomeComponent, data: { breadcrumb: 'Home' }},
+  { path: 'shop', loadChildren: () => import('./shop/shop.module').then(mod => mod.ShopModule), data: { breadcrumb: 'Shop' }},
+  { path: '**', redirectTo: 'not-found', pathMatch: 'full' }
 ];
 
 @NgModule({
