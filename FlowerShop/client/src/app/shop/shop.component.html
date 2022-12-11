@@ -2,7 +2,7 @@
     <div class="row">   
 
         <section class="col-3">
-            <h5 class="text-warning ml-3">Sort</h5>
+            <h5 class="text-warning ml-3 mt-4 mb-4">Sort</h5>
             <select class="custom-select mb-3" (change)="onSortSelected($event.target.value)">
               <option *ngFor="let sort of sortOptions"
                   [value]="sort.value
@@ -10,7 +10,7 @@
                   {{sort.name}}
               </option>          
             </select>
-             <h5 class="text-warning ml-3">Categories</h5>
+             <h5 class="text-warning ml-3 mt-4 mb-4">Categories</h5>
 
             <ul class="list-group my-3">
                 <li class="list-group-item" 
@@ -26,7 +26,7 @@
   
         <section class="col-9">
             <div class="d-flex justify-content-between align-items-center pb-2">      
-              <app-paging-header
+              <app-paging-header class="mt-4"
                     [totalCount]="totalCount"
                     [pageSize]="this.shopParams.pageSize"
                     (pageChanged)="onPageChanged($event)"
