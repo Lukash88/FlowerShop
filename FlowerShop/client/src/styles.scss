@@ -3,6 +3,11 @@
 /* Importing Bootstrap SCSS file. */
 @import "bootstrap/scss/bootstrap";
 
+/* Importing Bootswatch United Theme files. */
+@import "node_modules/bootswatch/dist/spacelab/_variables";
+@import "node_modules/bootswatch/dist/spacelab/bootstrap";
+@import "node_modules/bootswatch/dist/spacelab/_bootswatch";
+
 /* Importing Datepicker SCSS file. */
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
 
