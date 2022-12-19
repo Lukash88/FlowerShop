@@ -1,9 +1,10 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.Flower
 {
     using MediatR;
+    using Sieve.Models;
 
     public class GetFlowersRequest : IRequest<GetFlowersResponse>
     {
-        public string Name { get; init; }
+        public SieveModel SieveModel { get; init; }
     }
 }

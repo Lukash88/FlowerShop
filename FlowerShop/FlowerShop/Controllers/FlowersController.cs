@@ -4,21 +4,24 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
 
-    [ApiController]
-    [Route("[controller]")]
     public class FlowersController : ApiControllerBase
     {
-        public FlowersController(IMediator mediator, ILogger<FlowersController> logger) : base(mediator)
+        public FlowersController(IMediator mediator, ILogger<FlowersController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Flowers");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllFlowers([FromQuery] GetFlowersRequest request) =>
-            await this.HandleRequest<GetFlowersRequest, GetFlowersResponse>(request);
+        public async Task<IActionResult> GetAllFlowers([FromQuery] SieveModel sieveModel)
+        {
+            GetFlowersRequest request = new GetFlowersRequest { SieveModel = sieveModel };
+            
+            return await this.HandleRequest<GetFlowersRequest, GetFlowersResponse>(request);
+        }
 
         [HttpGet]
         [Route("{flowerId}")]

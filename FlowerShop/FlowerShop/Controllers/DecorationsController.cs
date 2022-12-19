@@ -4,21 +4,24 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
-
-    [ApiController]
-    [Route("[controller]")]
+    
     public class DecorationsController : ApiControllerBase
     {
-        public DecorationsController(IMediator mediator, ILogger<DecorationsController> logger) : base(mediator)
+        public DecorationsController(IMediator mediator, ILogger<DecorationsController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Decorations");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllDecorations([FromQuery] GetDecorationsRequest request) =>
-            await this.HandleRequest<GetDecorationsRequest, GetDecorationsResponse>(request);
+        public async Task<IActionResult> GetAllDecorations([FromQuery] SieveModel sieveModel)
+        {
+            GetDecorationsRequest request = new GetDecorationsRequest { SieveModel = sieveModel };
+
+           return await this.HandleRequest<GetDecorationsRequest, GetDecorationsResponse>(request);
+        }
 
         [HttpGet]
         [Route("{decorationId}")]

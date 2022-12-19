@@ -32,6 +32,32 @@
                 .HasOne(x => x.Order)
                 .WithMany(x => x.OrderDetails)
                 .HasForeignKey(x => x.OrderId);
+
+            builder
+                .HasMany(x => x.Bouquets)
+                .WithMany(x => x.OrderDetails)
+                .UsingEntity<BouquetOrderDetail>(
+                    x => x.HasOne(x => x.Bouquet).WithMany().HasForeignKey(x => x.BouquetId),
+                    x => x.HasOne(x => x.OrderDetail).WithMany().HasForeignKey(x => x.OrderDetailId));
+
+            builder
+                .HasMany(x => x.Decorations)
+                .WithMany(x => x.OrderDetails)
+                .UsingEntity<DecorationOrderDetail>(
+                    x => x.HasOne(x => x.Decoration).WithMany().HasForeignKey(x => x.DecorationId),
+                    x => x.HasOne(x => x.OrderDetail).WithMany().HasForeignKey(x => x.OrderDetailId));
+
+            builder
+                .HasMany(x => x.Products)
+                .WithMany(x => x.OrderDetails)
+                .UsingEntity<ProductOrderDetail>(
+                    x => x.HasOne(x => x.Product).WithMany().HasForeignKey(x => x.ProductId),
+                    x => x.HasOne(x => x.OrderDetail).WithMany().HasForeignKey(x => x.OrderDetailId));
+
+            builder
+                .HasOne(x => x.Order)
+                .WithMany(x => x.OrderDetails)
+                .HasForeignKey(x => x.OrderId);
         }
     }
 }

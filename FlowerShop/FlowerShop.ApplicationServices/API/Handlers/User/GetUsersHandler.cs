@@ -2,33 +2,43 @@
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain;
+    using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.ApplicationServices.API.Domain.User;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.User;
-    using MediatR;
-    using System.Collections.Generic;
+    using FlowerShop.DataAccess.Entities;
+    using Microsoft.Extensions.Logging;
+    using Sieve.Services;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class GetUsersHandler : IRequestHandler<GetUsersRequest, GetUsersResponse>
+    public class GetUsersHandler : PagedRequestHandler<GetUsersRequest, GetUsersResponse>
     {
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
+        private readonly ISieveProcessor sieveProcessor;
+        private readonly ILogger<GetUsersHandler> logger;
 
-        public GetUsersHandler(IMapper mapper, IQueryExecutor queryExecutor)
-        {
+        public GetUsersHandler(IMapper mapper, IQueryExecutor queryExecutor,
+            ISieveProcessor sieveProcessor, ILogger<GetUsersHandler> logger)
+        {   
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
+            this.sieveProcessor = sieveProcessor;
+            this.logger = logger;
         }
 
-        public async Task<GetUsersResponse> Handle(GetUsersRequest request, CancellationToken cancellationToken)
+        public override async Task<GetUsersResponse> Handle(GetUsersRequest request, CancellationToken cancellationToken)
         {
+            this.logger.LogInformation("Getting a list of Users");
+
             var query = new GetUsersQuery()
             {
-                UserName = request.UserName
+                SieveModel = request.SieveModel
             };
-            var users = await this.queryExecutor.Execute(query);
+
+            var users = await this.queryExecutor.ExecuteWithSieve(query);
             if (users == null)
             {
                 return new GetUsersResponse()
@@ -37,10 +47,10 @@
                 };
             }
 
-            var mappedUsers = this.mapper.Map<List<Domain.Models.UserDTO>>(users);
+            var results = await users.ToPagedAsync<User, UserDTO>(sieveProcessor, mapper, query.SieveModel);
             var response = new GetUsersResponse()
             {
-                Data = mappedUsers
+                Data = results
             };
 
             return response;

@@ -1,10 +1,10 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.Reservation
 {
-    using FlowerShop.DataAccess.Enums;
     using MediatR;
+    using Sieve.Models;
 
     public class GetReservationsRequest : IRequest<GetReservationsResponse>
     {
-        public EventType EventType { get; init; }
+        public SieveModel SieveModel { get; set; }
     }
 }

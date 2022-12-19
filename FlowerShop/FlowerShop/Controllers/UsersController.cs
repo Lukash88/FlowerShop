@@ -5,22 +5,26 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
 
     [Authorize]
-    [ApiController]
-    [Route("[controller]")]
     public class UsersController : ApiControllerBase
     {
-        public UsersController(IMediator mediator, ILogger<UsersController> logger) : base(mediator)
+        public UsersController(IMediator mediator, ILogger<UsersController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Users");
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllUsers([FromQuery] GetUsersRequest request) =>
-            await this.HandleRequest<GetUsersRequest, GetUsersResponse>(request);
+        public async Task<IActionResult> GetAllUsers([FromQuery] SieveModel sieveModel)
+        {
+            GetUsersRequest request = new GetUsersRequest { SieveModel = sieveModel };
+
+            return await this.HandleRequest<GetUsersRequest, GetUsersResponse>(request);
+        }
 
         [HttpGet]
         [Route("{me}")]
@@ -35,6 +39,7 @@
             return await this.HandleRequest<GetCurrentUserRequest, GetCurrentUserResponse>(request);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("id/{userId}")]
         public async Task<IActionResult> GetUserById([FromRoute] int userId)

@@ -4,22 +4,24 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
-
-    [ApiController]
-    [Route("[controller]")]
 
     public class ReservationsController : ApiControllerBase
     {
-        public ReservationsController(IMediator mediator, ILogger<ReservationsController> logger) : base(mediator)
+        public ReservationsController(IMediator mediator, ILogger<ReservationsController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Reservations");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllReservations([FromQuery] GetReservationsRequest request) =>
-            await this.HandleRequest<GetReservationsRequest, GetReservationsResponse>(request);
+        public async Task<IActionResult> GetAllReservations([FromQuery] SieveModel sieveModel)
+        {
+            GetReservationsRequest request = new GetReservationsRequest { SieveModel = sieveModel };
+
+            return await this.HandleRequest<GetReservationsRequest, GetReservationsResponse>(request);
+        }
 
         [HttpGet]
         [Route("{reservationId}")]

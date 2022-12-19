@@ -1,4 +1,4 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderItem
+﻿namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain;
@@ -10,6 +10,7 @@
     using FlowerShop.DataAccess.CQRS.Queries.User;
     using FlowerShop.DataAccess.Entities;
     using MediatR;
+    using Sieve.Models;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -29,10 +30,10 @@
 
         public async Task<AddOrderResponse> Handle(AddOrderRequest request, CancellationToken cancellationToken)
         {
-            var ordersQuery = new GetOrdersQuery();
-            var getOrders = await this.queryExecutor.Execute(ordersQuery);
+            var ordersQuery = new GetOrdersQuery(); 
+            var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
             var usersQuery = new GetUsersQuery();
-            var getUsers = await this.queryExecutor.Execute(ordersQuery);
+            var getUsers = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
 
             if ((getUsers.Select(x => x.Id).Contains(request.UserId) &&
                 getOrders.Select(x => x.UserId).Contains(request.UserId)) ||
@@ -49,10 +50,10 @@
             {
                 Parameter = order
             };
-            var addedOrderItem = await this.commandExecutor.Execute(command);
+            var addedOrder = await this.commandExecutor.Execute(command);
             var response = new AddOrderResponse()
             {
-                Data = this.mapper.Map<Domain.Models.OrderDTO>(addedOrderItem)
+                Data = this.mapper.Map<Domain.Models.OrderDTO>(addedOrder)
             };
 
             return response;

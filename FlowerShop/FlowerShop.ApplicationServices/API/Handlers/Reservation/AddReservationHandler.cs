@@ -10,6 +10,7 @@
     using FlowerShop.DataAccess.CQRS.Queries.Reservation;
     using FlowerShop.DataAccess.Entities;
     using MediatR;
+    using Sieve.Models;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -30,9 +31,9 @@
         public async Task<AddReservationResponse> Handle(AddReservationRequest request, CancellationToken cancellationToken)
         {
             var reservationsQuery = new GetReservationsQuery();
-            var getReservations = await this.queryExecutor.Execute(reservationsQuery);
+            var getReservations = await this.queryExecutor.ExecuteWithSieve(reservationsQuery);
             var ordersQuery = new GetOrdersQuery();
-            var getOrders = await this.queryExecutor.Execute(ordersQuery);
+            var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
 
             if (!getOrders.Select(x => x.Id).Contains(request.OrderId))
             {

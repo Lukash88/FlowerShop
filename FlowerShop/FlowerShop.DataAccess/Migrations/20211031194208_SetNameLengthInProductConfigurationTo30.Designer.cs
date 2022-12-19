@@ -143,8 +143,8 @@ namespace FlowerShop.DataAccess.Migrations
                     b.Property<int>("FlowerType")
                         .HasColumnType("int");
 
-                    b.Property<byte>("LengthInCm")
-                        .HasColumnType("tinyint");
+                    b.Property<int>("LengthInCm")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()

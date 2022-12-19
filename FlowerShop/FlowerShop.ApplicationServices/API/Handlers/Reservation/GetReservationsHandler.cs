@@ -2,33 +2,46 @@
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain;
+    using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.ApplicationServices.API.Domain.Reservation;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
+    using FlowerShop.ApplicationServices.API.Handlers.Product;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Reservation;
+    using FlowerShop.DataAccess.Entities;
     using MediatR;
+    using Microsoft.Extensions.Logging;
+    using Sieve.Services;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class GetReservationsHandler : IRequestHandler<GetReservationsRequest, GetReservationsResponse>
+    public class GetReservationsHandler : PagedRequestHandler<GetReservationsRequest, GetReservationsResponse>
     {
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
+        private readonly ISieveProcessor sieveProcessor;
+        private readonly ILogger<GetReservationsHandler> logger;
 
-        public GetReservationsHandler(IMapper mapper, IQueryExecutor queryExecutor)
-        {
+        public GetReservationsHandler(IMapper mapper, IQueryExecutor queryExecutor, 
+            ISieveProcessor sieveProcessor, ILogger<GetReservationsHandler> logger)
+        {                                                                         
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
+            this.sieveProcessor = sieveProcessor;
+            this.logger = logger;
         }
 
-        public async Task<GetReservationsResponse> Handle(GetReservationsRequest request, CancellationToken cancellationToken)
+        public override async Task<GetReservationsResponse> Handle(GetReservationsRequest request, CancellationToken cancellationToken)
         {
+            this.logger.LogInformation("Getting a list of Reservations");
+
             var query = new GetReservationsQuery()
             {
-                EventType = request.EventType
+                SieveModel = request.SieveModel
             };
-            var reservations = await this.queryExecutor.Execute(query);
+
+            var reservations = await this.queryExecutor.ExecuteWithSieve(query);
             if (reservations == null)
             {
                 return new GetReservationsResponse()
@@ -37,10 +50,10 @@
                 };
             }
 
-            var mappedReservations = this.mapper.Map<List<Domain.Models.ReservationDTO>>(reservations);
+            var results = await reservations.ToPagedAsync<Reservation, ReservationDTO>(sieveProcessor, mapper, query.SieveModel);
             var response = new GetReservationsResponse()
             {
-                Data = mappedReservations
+                Data = results
             };
 
             return response;

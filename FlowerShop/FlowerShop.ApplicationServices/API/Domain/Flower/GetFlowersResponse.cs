@@ -3,7 +3,7 @@
     using FlowerShop.ApplicationServices.API.Domain.Models;
     using System.Collections.Generic;
 
-    public class GetFlowersResponse : ResponseBase<List<FlowerDTO>>
+    public class GetFlowersResponse : ResponseBase<PagedResponse<FlowerDTO>>
     {
     }
 }

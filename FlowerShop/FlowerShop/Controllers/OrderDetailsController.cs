@@ -4,21 +4,24 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
 
-    [ApiController]
-    [Route("[controller]")]
     public class OrderDetailsController : ApiControllerBase
     {
-        public OrderDetailsController(IMediator mediator, ILogger<OrderDetailsController> logger) : base(mediator)
+        public OrderDetailsController(IMediator mediator, ILogger<OrderDetailsController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Order Details");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllOrderDetails([FromQuery] GetOrderDetailsRequest request) =>
-            await this.HandleRequest<GetOrderDetailsRequest, GetOrderDetailsResponse>(request);
+        public async Task<IActionResult> GetAllOrderDetails([FromQuery] SieveModel sieveModel)
+        {
+            GetOrderDetailsRequest request = new GetOrderDetailsRequest { SieveModel = sieveModel };
+
+            return await this.HandleRequest<GetOrderDetailsRequest, GetOrderDetailsResponse>(request);
+        }
 
         [HttpGet]
         [Route("{orderDetailId}")]

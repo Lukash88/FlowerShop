@@ -1,0 +1,45 @@
+.cart-no {
+    position: absolute;
+    min-height: 25px;
+    min-width: 25px;
+    border-radius: 50%;
+    font-size: 1em;
+    background: royalblue;
+    color: white;
+    text-align: center;
+    top: -15px;
+    right: -12px;
+}
+
+.btn {
+    transition: background 0.4s;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn-login {
+    margin-right: 15px;
+    margin-left: 30px;
+}
+
+.logo {
+    transition: 0.8s;
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    text-transform: uppercase;;
+    color: #343a40;
+    border-radius: 10px;
+    transition: background 0.4s;
+
+    &.active {
+        color: orange;
+    }
+} 

@@ -16,53 +16,8 @@ namespace FlowerShop.DataAccess.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.9")
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("BouquetFlower", b =>
-                {
-                    b.Property<int>("BouquetsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FlowersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BouquetsId", "FlowersId");
-
-                    b.HasIndex("FlowersId");
-
-                    b.ToTable("BouquetFlower");
-                });
-
-            modelBuilder.Entity("BouquetOrderDetail", b =>
-                {
-                    b.Property<int>("BouquetsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderDetailsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BouquetsId", "OrderDetailsId");
-
-                    b.HasIndex("OrderDetailsId");
-
-                    b.ToTable("BouquetOrderDetail");
-                });
-
-            modelBuilder.Entity("DecorationOrderDetail", b =>
-                {
-                    b.Property<int>("DecorationsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderDetailsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DecorationsId", "OrderDetailsId");
-
-                    b.HasIndex("OrderDetailsId");
-
-                    b.ToTable("DecorationOrderDetail");
-                });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Bouquet", b =>
                 {
@@ -92,6 +47,42 @@ namespace FlowerShop.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Bouquets");
+                });
+
+            modelBuilder.Entity("FlowerShop.DataAccess.Entities.BouquetFlower", b =>
+                {
+                    b.Property<int>("BouquetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FlowerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FlowerQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("BouquetId", "FlowerId");
+
+                    b.HasIndex("FlowerId");
+
+                    b.ToTable("BouquetsFlowers");
+                });
+
+            modelBuilder.Entity("FlowerShop.DataAccess.Entities.BouquetOrderDetail", b =>
+                {
+                    b.Property<int>("BouquetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BouquetQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("BouquetId", "OrderDetailId");
+
+                    b.HasIndex("OrderDetailId");
+
+                    b.ToTable("BouquetsOrderDetails");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Decoration", b =>
@@ -133,6 +124,24 @@ namespace FlowerShop.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Decorations");
+                });
+
+            modelBuilder.Entity("FlowerShop.DataAccess.Entities.DecorationOrderDetail", b =>
+                {
+                    b.Property<int>("DecorationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DecorationQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("DecorationId", "OrderDetailId");
+
+                    b.HasIndex("OrderDetailId");
+
+                    b.ToTable("DecorationsOrderDetails");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Flower", b =>
@@ -262,10 +271,9 @@ namespace FlowerShop.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Category")
-                        .IsRequired()
+                    b.Property<int>("Category")
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageThumbnailUrl")
                         .HasColumnType("nvarchar(max)");
@@ -297,6 +305,24 @@ namespace FlowerShop.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("FlowerShop.DataAccess.Entities.ProductOrderDetail", b =>
+                {
+                    b.Property<int>("OrderDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderDetailId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductsOrderDetails");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Reservation", b =>
@@ -415,64 +441,61 @@ namespace FlowerShop.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("OrderDetailProduct", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Entities.BouquetFlower", b =>
                 {
-                    b.Property<int>("OrderDetailsId")
-                        .HasColumnType("int");
+                    b.HasOne("FlowerShop.DataAccess.Entities.Bouquet", "Bouquet")
+                        .WithMany()
+                        .HasForeignKey("BouquetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
+                    b.HasOne("FlowerShop.DataAccess.Entities.Flower", "Flower")
+                        .WithMany()
+                        .HasForeignKey("FlowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasKey("OrderDetailsId", "ProductsId");
+                    b.Navigation("Bouquet");
 
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("OrderDetailProduct");
+                    b.Navigation("Flower");
                 });
 
-            modelBuilder.Entity("BouquetFlower", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Entities.BouquetOrderDetail", b =>
                 {
-                    b.HasOne("FlowerShop.DataAccess.Entities.Bouquet", null)
+                    b.HasOne("FlowerShop.DataAccess.Entities.Bouquet", "Bouquet")
                         .WithMany()
-                        .HasForeignKey("BouquetsId")
+                        .HasForeignKey("BouquetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FlowerShop.DataAccess.Entities.Flower", null)
+                    b.HasOne("FlowerShop.DataAccess.Entities.OrderDetail", "OrderDetail")
                         .WithMany()
-                        .HasForeignKey("FlowersId")
+                        .HasForeignKey("OrderDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Bouquet");
+
+                    b.Navigation("OrderDetail");
                 });
 
-            modelBuilder.Entity("BouquetOrderDetail", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Entities.DecorationOrderDetail", b =>
                 {
-                    b.HasOne("FlowerShop.DataAccess.Entities.Bouquet", null)
+                    b.HasOne("FlowerShop.DataAccess.Entities.Decoration", "Decoration")
                         .WithMany()
-                        .HasForeignKey("BouquetsId")
+                        .HasForeignKey("DecorationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FlowerShop.DataAccess.Entities.OrderDetail", null)
+                    b.HasOne("FlowerShop.DataAccess.Entities.OrderDetail", "OrderDetail")
                         .WithMany()
-                        .HasForeignKey("OrderDetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DecorationOrderDetail", b =>
-                {
-                    b.HasOne("FlowerShop.DataAccess.Entities.Decoration", null)
-                        .WithMany()
-                        .HasForeignKey("DecorationsId")
+                        .HasForeignKey("OrderDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FlowerShop.DataAccess.Entities.OrderDetail", null)
-                        .WithMany()
-                        .HasForeignKey("OrderDetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Decoration");
+
+                    b.Navigation("OrderDetail");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Order", b =>
@@ -497,6 +520,25 @@ namespace FlowerShop.DataAccess.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("FlowerShop.DataAccess.Entities.ProductOrderDetail", b =>
+                {
+                    b.HasOne("FlowerShop.DataAccess.Entities.OrderDetail", "OrderDetail")
+                        .WithMany()
+                        .HasForeignKey("OrderDetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlowerShop.DataAccess.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderDetail");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Reservation", b =>
                 {
                     b.HasOne("FlowerShop.DataAccess.Entities.Order", "Order")
@@ -506,21 +548,6 @@ namespace FlowerShop.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("OrderDetailProduct", b =>
-                {
-                    b.HasOne("FlowerShop.DataAccess.Entities.OrderDetail", null)
-                        .WithMany()
-                        .HasForeignKey("OrderDetailsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FlowerShop.DataAccess.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Entities.Order", b =>

@@ -1,22 +1,24 @@
 ﻿namespace FlowerShop.DataAccess.CQRS.Queries.Order
 {
     using FlowerShop.DataAccess.Entities;
-    using FlowerShop.DataAccess.Enums;
     using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic;
+    using Sieve.Models;
+    using Sieve.Services;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetOrdersQuery : QueryBase<List<Order>>
+    public class GetOrdersQuery : QueryBaseWithSieve<IQueryable<Order>>
     {
-        public OrderState OrderState { get; init; }
+        public SieveModel SieveModel { get; init; }
 
-        public async override Task<List<Order>> Execute(FlowerShopStorageContext context)
+        public async override Task<IQueryable<Order>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
-            var ordersFilteredByState = OrderState != 0 ? 
-                await context.Orders.Where(x => x.OrderState == OrderState).ToListAsync() : await context.Orders.ToListAsync();
+            var query = context.Orders
+                .Include(x => x.OrderDetails)
+                .Include(x  => x.Reservations)
+                .AsNoTracking();
 
-            return ordersFilteredByState;
+            return await Task.FromResult(query);
         }
     }
 }

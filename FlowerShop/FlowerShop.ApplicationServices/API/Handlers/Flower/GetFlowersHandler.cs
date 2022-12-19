@@ -3,44 +3,50 @@
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Flower;
+    using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.ApplicationServices.Components.Flowers;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Flower;
-    using MediatR;
+    using FlowerShop.DataAccess.Entities;
     using Microsoft.Extensions.Logging;
-    using System.Collections.Generic;
+    using Sieve.Services;
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class GetFlowersHandler : IRequestHandler<GetFlowersRequest, GetFlowersResponse>
+    public class GetFlowersHandler : PagedRequestHandler<GetFlowersRequest, GetFlowersResponse>
     {
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
+        private readonly ISieveProcessor sieveProcessor;
         private readonly IFlowersConnector flowersConnector;
         private readonly ILogger<GetFlowersHandler> logger;
 
-        public GetFlowersHandler(IMapper mapper, IQueryExecutor queryExecutor, IFlowersConnector flowersConnector, ILogger<GetFlowersHandler> logger)
+        public GetFlowersHandler(IMapper mapper, IQueryExecutor queryExecutor, ISieveProcessor sieveProcessor, 
+            IFlowersConnector flowersConnector, ILogger<GetFlowersHandler> logger)
         {
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
+            this.sieveProcessor = sieveProcessor;
             this.flowersConnector = flowersConnector;
             this.logger = logger;
         }
 
-        public async Task<GetFlowersResponse> Handle(GetFlowersRequest request, CancellationToken cancellationToken)
+        public override async Task<GetFlowersResponse> Handle(GetFlowersRequest request, CancellationToken cancellationToken)
         {
-            var f = await this.flowersConnector.GetFlowersByType("kwiaty cięte");
-            foreach (var flower in f)
+            var cutFlowers = await this.flowersConnector.GetFlowersByType("Cut flowers: ");
+            foreach (var flower in cutFlowers)
             {
                 logger.LogInformation(flower);
             };
-            var query = new GetFlowersQuery() 
-            { 
-                Name = request.Name
+
+            var query = new  GetFlowersQuery() 
+            {
+                SieveModel = request.SieveModel
             };
-            var flowers = await this.queryExecutor.Execute(query);
-            if (flowers == null)
+
+            var flowers = await this.queryExecutor.ExecuteWithSieve(query);
+            if (flowers is null)
             {
                 return new GetFlowersResponse()
                 {
@@ -48,10 +54,10 @@
                 };
             }
 
-            var mappedFlowers = this.mapper.Map<List<Domain.Models.FlowerDTO>>(flowers);
+            var results = await flowers.ToPagedAsync<DataAccess.Entities.Flower, FlowerDTO>(sieveProcessor, mapper, query.SieveModel);
             var response = new GetFlowersResponse()
             {
-                Data = mappedFlowers
+                Data = results
             };
 
             return response;

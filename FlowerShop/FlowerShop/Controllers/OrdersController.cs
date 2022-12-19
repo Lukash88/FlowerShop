@@ -4,22 +4,24 @@
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Sieve.Models;
     using System.Threading.Tasks;
-
-    [ApiController]
-    [Route("[controller]")]
 
     public class OrdersController : ApiControllerBase
     {
-        public OrdersController(IMediator mediator, ILogger<OrdersController> logger) : base(mediator)
+        public OrdersController(IMediator mediator, ILogger<OrdersController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Orders");
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAllOrders([FromQuery] GetOrdersRequest request) =>
-            await this.HandleRequest<GetOrdersRequest, GetOrdersResponse>(request);
+        public async Task<IActionResult> GetAllOrders([FromQuery] SieveModel sieveModel)
+        {
+            GetOrdersRequest request = new GetOrdersRequest { SieveModel = sieveModel };
+            
+            return await this.HandleRequest<GetOrdersRequest, GetOrdersResponse>(request);
+        }
 
         [HttpGet]
         [Route("{orderId}")]
@@ -52,7 +54,7 @@
 
         [HttpPut]
         [Route("{orderId}")]
-        public async Task<IActionResult> UpdateOrderItemById([FromRoute] int orderId, [FromBody] UpdateOrderRequest request)
+        public async Task<IActionResult> UpdateOrderById([FromRoute] int orderId, [FromBody] UpdateOrderRequest request)
         {
             request.OrderId = orderId;
 

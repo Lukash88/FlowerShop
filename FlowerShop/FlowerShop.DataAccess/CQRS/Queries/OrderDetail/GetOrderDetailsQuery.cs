@@ -2,20 +2,25 @@
 {
     using FlowerShop.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic;
+    using Sieve.Models;
+    using Sieve.Services;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetOrderDetailsQuery : QueryBase<List<OrderDetail>>
+    public class GetOrderDetailsQuery : QueryBaseWithSieve<IQueryable<OrderDetail>>
     {
-        public string Name { get; init; }
+        public SieveModel SieveModel { get; init; }
 
-        public override async Task<List<OrderDetail>> Execute(FlowerShopStorageContext context)
+        public override async Task<IQueryable<OrderDetail>> Execute(FlowerShopStorageContext context, 
+            ISieveProcessor sieveProcessor)
         {
-            var orderDetailsFilteredById = !string.IsNullOrEmpty(Name) ?
-                await context.OrderDetails.Where(x => x.Name.Contains(Name)).ToListAsync() : await context.OrderDetails.ToListAsync();
+            var query = context.OrderDetails
+                .Include(x => x.Bouquets)
+                .Include(x => x.Decorations)
+                .Include(x => x.Products)
+                .AsNoTracking();
 
-            return orderDetailsFilteredById;
+            return await Task.FromResult(query);
         }
     }
 }

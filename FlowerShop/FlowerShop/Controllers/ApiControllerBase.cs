@@ -10,6 +10,8 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    [ApiController]
+    [Route("api/[controller]")]
     public abstract class ApiControllerBase : ControllerBase
     {
 

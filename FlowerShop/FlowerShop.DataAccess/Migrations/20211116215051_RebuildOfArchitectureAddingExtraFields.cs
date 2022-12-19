@@ -151,12 +151,12 @@ namespace FlowerShop.DataAccess.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            //migrationBuilder.AddColumn<int>(
-            //    name: "StockLevel",
-            //    table: "Flowers",
-            //    type: "int",
-            //    nullable: false,
-            //    defaultValue: 0);
+            migrationBuilder.AddColumn<int>(
+                name: "StockLevel",
+                table: "Flowers",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<string>(
                 name: "Category",
@@ -382,9 +382,9 @@ namespace FlowerShop.DataAccess.Migrations
                 name: "StockLevel",
                 table: "Products");
 
-            //migrationBuilder.DropColumn(
-            //    name: "StockLevel",
-            //    table: "Flowers");
+            migrationBuilder.DropColumn(
+                name: "StockLevel",
+                table: "Flowers");
 
             migrationBuilder.DropColumn(
                 name: "Category",

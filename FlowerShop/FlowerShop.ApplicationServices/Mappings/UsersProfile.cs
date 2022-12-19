@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain.User;
+    using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.DataAccess.Entities;
 
     public class UsersProfile : Profile
@@ -20,7 +21,7 @@
                 .ForMember(x => x.PostalCode, y => y.MapFrom(z => z.PostalCode))
                 .ForMember(x => x.City, y => y.MapFrom(z => z.City));
 
-            this.CreateMap<User, API.Domain.Models.UserDTO>()
+            this.CreateMap<User, UserDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.Role, y => y.MapFrom(z => z.Role))
                 .ForMember(x => x.FirstName, y => y.MapFrom(z => z.FirstName))
@@ -31,7 +32,11 @@
                 .ForMember(x => x.DateOfBirth, y => y.MapFrom(z => z.DateOfBirth))
                 .ForMember(x => x.Street, y => y.MapFrom(z => z.Street))
                 .ForMember(x => x.PostalCode, y => y.MapFrom(z => z.PostalCode))
-                .ForMember(x => x.City, y => y.MapFrom(z => z.City));
+                .ForMember(x => x.City, y => y.MapFrom(z => z.City))
+                .ForMember(x => x.Orders, y => y.MapFrom(z => z.Orders))
+                .ReverseMap();
+
+            this.CreateMap<Order, OrderDTO>().ReverseMap();
 
             this.CreateMap<RemoveUserRequest, User>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.UserId));
