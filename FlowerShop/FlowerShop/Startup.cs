@@ -25,17 +25,18 @@ using Microsoft.OpenApi.Models;
 using Sieve.Services;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using StackExchange.Redis;
 
 namespace FlowerShop
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IConfiguration config;
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration config)
+        {
+            this.config= config;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -69,7 +70,13 @@ namespace FlowerShop
 
             services.AddDbContext<FlowerShopStorageContext>(
                 opt =>
-                opt.UseSqlServer(this.Configuration.GetConnectionString("FlowerShopDatabaseConnection")));
+                opt.UseSqlServer(this.config.GetConnectionString("FlowerShopDatabaseConnection")));
+
+            services.AddSingleton<IConnectionMultiplexer>(c => {
+                var configuration = ConfigurationOptions.Parse(this.config.GetConnectionString("Redis"), true);
+
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
             services.AddControllers();//options =>
             //{
