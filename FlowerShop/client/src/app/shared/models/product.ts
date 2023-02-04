@@ -1,4 +1,4 @@
-export interface IProduct {
+export interface Product {
     id:               number;
     name:             string;
     shortDescription: string;
@@ -9,3 +9,5 @@ export interface IProduct {
     stockLevel:       number;
     //orderDetails:     OrderDetails;
 }
+
+export class Product implements Product {}

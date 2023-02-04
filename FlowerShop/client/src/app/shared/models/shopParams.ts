@@ -4,5 +4,5 @@ export class ShopParams {
     categorySelected: string;
     pageNumber = 1;
     pageSize = 3;
-    search: string;
+    search = '';
 } 
