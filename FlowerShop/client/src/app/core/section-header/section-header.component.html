@@ -6,7 +6,11 @@
                     <h1>{{ breadcrumbs[breadcrumbs.length-1].label | titlecase }}</h1>
                 </div>
                 <div class="col-3">
-                    <xng-breadcrumb></xng-breadcrumb>
+                    <xng-breadcrumb>
+                        <ng-container *xngBreadcrumbItem="let breadcrumb">
+                            {{breadcrumb | titlecase}}
+                        </ng-container>
+                    </xng-breadcrumb>
                 </div>
             </div>
         </div>

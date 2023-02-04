@@ -1,5 +1,5 @@
-<header>
-    <span *ngIf="totalCount && totalCount > 0">Showing 
+<header *ngIf="totalCount && pageNumber && pageSize > 0">
+    <span *ngIf="totalCount > 0">Showing 
         <strong>
             {{(pageNumber - 1) * pageSize + 1}} - 
             {{pageNumber * pageSize
