@@ -124,6 +124,7 @@ $tf/
 
 # ReSharper is a .NET coding add-in
 _ReSharper*/
+/_ReSharper.Caches/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 

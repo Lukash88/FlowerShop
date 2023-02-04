@@ -3,8 +3,11 @@
     <img src="/assets/images/logo.png" class="logo" style="max-height: 70px;" 
       alt="flower shop's logo" routerLink="/">
     <nav class="my-2 my-md-0 mr-md-3"  style="font-size: larger;">
-      <a class="p-2" [routerLink]="['/']" routerLinkActive="active" 
-        [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a class="p-2" 
+      routerLink="/" 
+      routerLinkActive="active" 
+      [routerLinkActiveOptions]="{exact: true}"
+  >Home</a>
       <a class="p-2"routerLink="/about-us" routerLinkActive="active">About us</a>
       <a class="p-2" routerLink="/offer" routerLinkActive="active">Offer</a>
       <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
@@ -12,9 +15,11 @@
       <a class="p-2" routerLink="/contact-us" routerLinkActive="active">Contact us</a>
     </nav>
     <div class="d-flex align-items-center">
-        <a class="position-relative">
+        <a routerLink="/basket" class="position-relative">
             <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
-            <div class="cart-no">5</div>
+            <div *ngIf="(basketService.basketSource$ | async) as basket" class="cart-no">
+              {{getCount(basket.items)}}
+          </div>
         </a>
         <a class="btn btn-login btn-outline-secondary">Login</a>
         <a class="btn btn-signup btn-outline-primary">Sign up</a>
