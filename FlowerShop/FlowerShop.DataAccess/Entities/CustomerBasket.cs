@@ -1,7 +1,7 @@
 namespace FlowerShop.DataAccess.Entities
 {
     using System.Collections.Generic;
-    
+
     public class CustomerBasket
     {
         public CustomerBasket()
@@ -14,6 +14,6 @@ namespace FlowerShop.DataAccess.Entities
         }
         
         public string Id { get; set; }
-        public List<BasketItems> Items { get; set; } = new();
+        public List<BasketItem> Items { get; set; } = new();
     }
 }
