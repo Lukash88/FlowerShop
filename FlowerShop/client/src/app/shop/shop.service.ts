@@ -1,8 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPagination } from '../shared/models/pagination';
-import { IProduct } from '../shared/models/product';
-import { map } from 'rxjs/operators';
+import { Pagination } from '../shared/models/pagination';
+import { Product } from '../shared/models/product';
 import { ShopParams } from '../shared/models/shopParams';
 
 @Injectable({
@@ -35,15 +34,10 @@ export class ShopService {
     params = params.set('Page', shopParams.pageNumber.toString());
     params = params.set('PageSize', shopParams.pageSize.toString());
 
-    return this.http.get<IPagination>(this.baseUrl + 'products', { observe: 'response', params })
-      .pipe(
-        map(response => {
-          return response.body;
-        })
-      );
+    return this.http.get<Pagination<Product[]>>(this.baseUrl + 'products', { params });
   }  
 
   getProduct(id: number) {
-    return this.http.get<IProduct>(this.baseUrl+ 'products/' + id);
+    return this.http.get<Product>(this.baseUrl+ 'products/' + id);
   }
 }

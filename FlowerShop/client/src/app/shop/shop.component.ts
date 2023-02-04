@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CategoryEnum } from '../shared/models/category';
-import { IProduct } from '../shared/models/product';
+import { Product } from '../shared/models/product';
 import { ShopParams } from '../shared/models/shopParams';
 import { ShopService } from './shop.service';
 
@@ -11,10 +11,10 @@ import { ShopService } from './shop.service';
 })
 export class ShopComponent implements OnInit {
   @ViewChild('search', { static: false }) searchTerm: ElementRef;  
-  products: IProduct[];  
+  products: Product[] = [];  
   categories = CategoryEnum;  
   shopParams = new ShopParams();
-  totalCount: number;
+  totalCount = 0;
   sortOptions = [
     {name: 'Alphabetical', value: 'name'},
     {name: 'Unalphabetical', value: '-name'},
@@ -29,15 +29,16 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
-    this.shopService.getProducts(this.shopParams).subscribe((response: any) => {
-      this.products = response.data.results;
-      this.shopParams.pageNumber = response.data.currentPage;
-      this.shopParams.pageSize = response.data.pageSize;
-      this.totalCount = response.data.rowCount;
-    }, error => {
-      console.log(error);
-    });
-  }
+    this.shopService.getProducts(this.shopParams).subscribe({
+      next: (response: any) => {
+        this.products = response.data.results;
+        this.shopParams.pageNumber = response.data.currentPage;
+        this.shopParams.pageSize = response.data.pageSize;
+        this.totalCount = response.data.rowCount;
+      },
+      error: error => console.log(error)
+    })
+  }  
   
   onCategorySelected(categoryName: CategoryEnum): void {
     this.shopParams.categorySelected = categoryName;
