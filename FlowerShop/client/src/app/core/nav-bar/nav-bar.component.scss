@@ -24,3 +24,22 @@
     margin-left: 30px;
 }
 
+.logo {
+    transition: 0.8s;
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    text-transform: uppercase;;
+    color: #343a40;
+    border-radius: 10px;
+    transition: background 0.4s;
+
+    &.active {
+        color: orange;
+    }
+} 

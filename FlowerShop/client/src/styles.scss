@@ -1,7 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import "~bootstrap/scss/bootstrap";
+@import "bootstrap/scss/bootstrap";
+
+/* Importing Bootswatch United Theme files. */
+@import "node_modules/bootswatch/dist/spacelab/_variables";
+@import "node_modules/bootswatch/dist/spacelab/bootstrap";
+@import "node_modules/bootswatch/dist/spacelab/_bootswatch";
 
 /* Importing Datepicker SCSS file. */
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+
+/* Importing Ngx Spinner Ball-fussion Theme files. */
+@import "node_modules/ngx-spinner/animations/ball-fussion.css";
+
+.xng-breadcrumb-root {
+    padding: 8px 16x;   
+    display: inline;
+    border-radius: 0;
+}
+
+label.xng-breadcrumb-trail {
+    margin-bottom: 0;
+    color: orange;
+}
+
+.xng-breadcrumb-separator {
+    padding: 0 0;
+}
