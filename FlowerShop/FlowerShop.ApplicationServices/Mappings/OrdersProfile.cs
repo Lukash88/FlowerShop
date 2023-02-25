@@ -11,7 +11,7 @@ namespace FlowerShop.ApplicationServices.Mappings
         public OrdersProfile()
         {
             this.CreateMap<AddOrderRequest, Order>()
-                .ForMember(x => x.UserId, y => y.MapFrom(z => z.UserId))
+                //.ForMember(x => x.UserId, y => y.MapFrom(z => z.UserId))
                 .ForMember(x => x.IsPaymentConfirmed, y => y.MapFrom(z => z.IsPaymentConfirmed))
                 .ForMember(x => x.Invoice, y => y.MapFrom(z => z.Invoice))
                 .ForMember(x => x.CreatedAt, y => y.MapFrom(z => z.CreatedAt))
@@ -21,7 +21,7 @@ namespace FlowerShop.ApplicationServices.Mappings
 
             this.CreateMap<Order, OrderDTO>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
-                .ForMember(x => x.UserId, y => y.MapFrom(z => z.UserId))
+                //.ForMember(x => x.UserId, y => y.MapFrom(z => z.UserId))
                 .ForMember(x => x.IsPaymentConfirmed, y => y.MapFrom(z => z.IsPaymentConfirmed))
                 .ForMember(x => x.Invoice, y => y.MapFrom(z => z.Invoice))
                 .ForMember(x => x.CreatedAt, y => y.MapFrom(z => z.CreatedAt))
@@ -41,7 +41,7 @@ namespace FlowerShop.ApplicationServices.Mappings
 
             this.CreateMap<UpdateOrderRequest, Order>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.OrderId))
-                .ForMember(x => x.UserId, y => y.MapFrom(z => z.UserId))
+                //.ForMember(x => x.UserId, y => y.MapFrom(z => z.UserId))
                 .ForMember(x => x.IsPaymentConfirmed, y => y.MapFrom(z => z.IsPaymentConfirmed))
                 .ForMember(x => x.Invoice, y => y.MapFrom(z => z.Invoice))
                 .ForMember(x => x.CreatedAt, y => y.MapFrom(z => z.CreatedAt))

@@ -44,10 +44,10 @@ namespace FlowerShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication("BasicAuthentication")
-                    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            //services.AddAuthentication("BasicAuthentication")
+            //        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-            services.AddScoped<IPasswordHasher<User>, BCryptPasswordHasher<User>>();
+            // services.AddScoped<IPasswordHasher<User>, BCryptPasswordHasher<User>>();
 
             services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
             // services.AddScoped<ISieveProcessor, SieveProcessor>();

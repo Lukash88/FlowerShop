@@ -2,7 +2,7 @@
 {
     using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class GetUsersResponse : ResponseBase<PagedResponse<UserDTO>>
+    public class GetUsersResponse // : ResponseBase<PagedResponse<UserDTO>>
     {
     }
 }

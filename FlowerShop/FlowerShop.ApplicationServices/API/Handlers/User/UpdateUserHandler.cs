@@ -11,7 +11,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class UpdateUserHandler : IRequestHandler<UpdateUserRequest, UpdateUserResponse>
+    public class UpdateUserHandler //: IRequestHandler<UpdateUserRequest, UpdateUserResponse>
     {
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
@@ -24,33 +24,33 @@
             this.commandExecutor = commandExecutor;
         }
 
-        public async Task<UpdateUserResponse> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
-        {
-            var query = new GetUserQuery()
-            {
-                Id = request.UserId
-            };
-            var getUser = await this.queryExecutor.Execute(query);
-            if (getUser == null)
-            {
-                return new UpdateUserResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+        //public async Task<UpdateUserResponse> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
+        //{
+        //    var query = new GetUserQuery()
+        //    {
+        //       // Id = request.UserId
+        //    };
+        //    //var getUser = await this.queryExecutor.Execute(query);
+        //    //if (getUser == null)
+        //    //{
+        //    //    return new UpdateUserResponse()
+        //    //    {
+        //    //        Error = new ErrorModel(ErrorType.NotFound)
+        //    //    };
+        //    //}
 
-            var mappedUser = this.mapper.Map<DataAccess.Core.Entities.User>(request);
-            var command = new UpdateUserCommand()
-            {
-                Parameter = mappedUser
-            };
-            var updatedUser = await this.commandExecutor.Execute(command);
-            var response =  new UpdateUserResponse()
-            {
-                Data = this.mapper.Map<Domain.Models.UserDTO>(updatedUser)
-            };
+        //    //var mappedUser = this.mapper.Map<DataAccess.Core.Entities.User>(request);
+        //    //var command = new UpdateUserCommand()
+        //    //{
+        //    //    Parameter = mappedUser
+        //    //};
+        //    //var updatedUser = await this.commandExecutor.Execute(command);
+        //    var response =  new UpdateUserResponse()
+        //    {
+        //        //Data = this.mapper.Map<Domain.Models.UserDTO>(updatedUser)
+        //    };
 
-            return response;
-        }
+        //    return response;
+        //}
     }
 }

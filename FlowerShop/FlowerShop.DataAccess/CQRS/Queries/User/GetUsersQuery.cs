@@ -8,18 +8,18 @@ namespace FlowerShop.DataAccess.CQRS.Queries.User
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetUsersQuery : QueryBaseWithSieve<IQueryable<Core.Entities.User>>
+    public class GetUsersQuery //: QueryBaseWithSieve<IQueryable<Core.Entities.User>>
     {
-        public SieveModel SieveModel { get; init; }
+        //public SieveModel SieveModel { get; init; }
 
-        public async override Task<IQueryable<Core.Entities.User>> Execute(FlowerShopStorageContext context, 
-            ISieveProcessor sieveProcessor)
-        {
-           var query = context.Users
-               .Include(x => x.Orders)
-               .AsNoTracking();
+        //public async override Task<IQueryable<Core.Entities.User>> Execute(FlowerShopStorageContext context, 
+        //    ISieveProcessor sieveProcessor)
+        //{
+        //   var query = context.Users
+        //       .Include(x => x.Orders)
+        //       .AsNoTracking();
 
-            return await Task.FromResult(query);
-        }
+        //    return await Task.FromResult(query);
+        //}
     }
 }
