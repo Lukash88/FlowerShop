@@ -7,7 +7,6 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
     using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -40,7 +39,7 @@
                 };
             }
 
-            var mappedBouquet = mapper.Map<Bouquet>(request);
+            var mappedBouquet = mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
             var command = new RemoveBouquetCommand()
             {
                Parameter = mappedBouquet

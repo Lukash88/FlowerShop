@@ -1,9 +1,10 @@
-﻿namespace FlowerShop.ApplicationServices.Mappings
+﻿using FlowerShop.DataAccess.Core.Entities;
+
+namespace FlowerShop.ApplicationServices.Mappings
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain.Models;
     using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
-    using FlowerShop.DataAccess.Entities;
     using System.Collections.Generic;
 
     public class OrderDetailsProfile : Profile

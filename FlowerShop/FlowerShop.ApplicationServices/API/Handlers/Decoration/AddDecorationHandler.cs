@@ -4,7 +4,6 @@
     using FlowerShop.ApplicationServices.API.Domain.Decoration;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Decoration;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -22,7 +21,7 @@
 
         public async Task<AddDecorationResponse> Handle(AddDecorationRequest request, CancellationToken cancellationToken)
         {
-            var decoration = this.mapper.Map<Decoration>(request);
+            var decoration = this.mapper.Map<DataAccess.Core.Entities.Decoration>(request);
             var command = new AddDecorationCommand() 
             { 
                 Parameter = decoration 

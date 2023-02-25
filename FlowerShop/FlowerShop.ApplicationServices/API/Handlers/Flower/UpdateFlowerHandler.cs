@@ -39,7 +39,7 @@
                 };
             }
 
-            var mappedFlower = this.mapper.Map<DataAccess.Entities.Flower>(request);
+            var mappedFlower = this.mapper.Map<DataAccess.Core.Entities.Flower>(request);
             var command = new UpdateFlowerCommand() 
             { 
                 Parameter = mappedFlower 

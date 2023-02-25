@@ -1,6 +1,5 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
 {
-    using FlowerShop.DataAccess.Enums;
     using MediatR;
     using System;
 

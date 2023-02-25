@@ -1,9 +1,10 @@
-﻿namespace FlowerShop.ApplicationServices.Mappings
+﻿using FlowerShop.DataAccess.Core.Entities;
+
+namespace FlowerShop.ApplicationServices.Mappings
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain.Bouquet;
     using FlowerShop.ApplicationServices.API.Domain.Models;
-    using FlowerShop.DataAccess.Entities;
     using System.Collections.Generic;
     using System.Linq;
 

@@ -9,7 +9,6 @@
     using FlowerShop.ApplicationServices.API.Handlers.Product;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Decoration;
-    using FlowerShop.DataAccess.Entities;
     using Microsoft.Extensions.Logging;
     using Sieve.Services;
     using System.Threading;
@@ -49,7 +48,7 @@
                 };
             }
 
-            var results = await decorations.ToPagedAsync<Decoration, DecorationDTO>(sieveProcessor, mapper, query.SieveModel);
+            var results = await decorations.ToPagedAsync<DataAccess.Core.Entities.Decoration, DecorationDTO>(sieveProcessor, mapper, query.SieveModel);
             var response = new GetDecorationsResponse()
             {
                 Data = results

@@ -39,7 +39,7 @@
                 };
             }
 
-            var mappedUser = this.mapper.Map<DataAccess.Entities.User>(request);
+            var mappedUser = this.mapper.Map<DataAccess.Core.Entities.User>(request);
             var command = new UpdateUserCommand()
             {
                 Parameter = mappedUser

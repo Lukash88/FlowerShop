@@ -1,4 +1,6 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
+﻿using FlowerShop.DataAccess.Core.Entities;
+
+namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain;
@@ -11,7 +13,6 @@
     using FlowerShop.DataAccess.CQRS.Queries.Order;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
     using FlowerShop.DataAccess.CQRS.Queries.Product;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System;
     using System.Collections.Generic;
@@ -80,7 +81,7 @@
             // retrieving list of chosen products based on their IDs
             var chosenProducts = getProducts.Where(x => productsId.Contains(x.Id)).ToList();
 
-            var orderDetail = this.mapper.Map<OrderDetail>(request);
+            var orderDetail = this.mapper.Map<DataAccess.Core.Entities.OrderDetail>(request);
 
             var bouquetOrderDetails = new List<BouquetOrderDetail>();
             foreach(var bouquet in chosenBouquets)

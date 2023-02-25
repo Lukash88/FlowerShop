@@ -1,11 +1,12 @@
-﻿namespace FlowerShop.DataAccess.CQRS.Commands.Flower
+﻿using FlowerShop.DataAccess.Data;
+
+namespace FlowerShop.DataAccess.CQRS.Commands.Flower
 {
-    using FlowerShop.DataAccess.Entities;
     using System.Threading.Tasks;
 
-    public class RemoveFlowerCommand : CommandBase<Flower, Flower>
+    public class RemoveFlowerCommand : CommandBase<Core.Entities.Flower, Core.Entities.Flower>
     {
-        public override async Task<Flower> Execute(FlowerShopStorageContext context)
+        public override async Task<Core.Entities.Flower> Execute(FlowerShopStorageContext context)
         {
             context.ChangeTracker.Clear();          
             context.Flowers.Remove(this.Parameter);

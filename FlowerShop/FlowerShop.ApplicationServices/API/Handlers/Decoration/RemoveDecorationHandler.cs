@@ -7,7 +7,6 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Decoration;
     using FlowerShop.DataAccess.CQRS.Queries.Decoration;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -40,7 +39,7 @@
                 };
             }
 
-            var mappedDecoration = mapper.Map<Decoration>(request);
+            var mappedDecoration = mapper.Map<DataAccess.Core.Entities.Decoration>(request);
             var command = new RemoveDecorationCommand()
             {
                 Parameter = mappedDecoration

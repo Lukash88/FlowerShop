@@ -1,6 +1,7 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Models
+﻿using FlowerShop.DataAccess.Core.Enums;
+
+namespace FlowerShop.ApplicationServices.API.Domain.Models
 {
-    using FlowerShop.DataAccess.Enums;
     using System.Collections.Generic;
 
     public class BouquetDTO

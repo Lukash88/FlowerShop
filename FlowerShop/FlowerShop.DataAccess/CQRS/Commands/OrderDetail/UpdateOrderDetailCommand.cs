@@ -1,11 +1,12 @@
-﻿namespace FlowerShop.DataAccess.CQRS.Commands.OrderDetail
+﻿using FlowerShop.DataAccess.Data;
+
+namespace FlowerShop.DataAccess.CQRS.Commands.OrderDetail
 {
-    using FlowerShop.DataAccess.Entities;
     using System.Threading.Tasks;
 
-    public class UpdateOrderDetailCommand : CommandBase<OrderDetail, OrderDetail>
+    public class UpdateOrderDetailCommand : CommandBase<Core.Entities.OrderDetail, Core.Entities.OrderDetail>
     {
-        public override async Task<OrderDetail> Execute(FlowerShopStorageContext context)
+        public override async Task<Core.Entities.OrderDetail> Execute(FlowerShopStorageContext context)
         {
             context.ChangeTracker.Clear();
             context.OrderDetails.Update(this.Parameter);

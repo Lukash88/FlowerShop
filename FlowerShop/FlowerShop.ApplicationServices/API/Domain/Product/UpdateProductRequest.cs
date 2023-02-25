@@ -1,6 +1,7 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Product
+﻿using FlowerShop.DataAccess.Core.Enums;
+
+namespace FlowerShop.ApplicationServices.API.Domain.Product
 {
-    using FlowerShop.DataAccess.Enums;
     using MediatR;
 
     public class UpdateProductRequest : IRequest<UpdateProductResponse>

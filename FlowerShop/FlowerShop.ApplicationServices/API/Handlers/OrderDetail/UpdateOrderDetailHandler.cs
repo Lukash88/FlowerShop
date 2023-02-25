@@ -1,7 +1,6 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
 {
     using AutoMapper;
-    using DataAccess.Entities;
     using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
@@ -58,7 +57,7 @@
                 };
             }
 
-            var mappedOrderDetail = this.mapper.Map<OrderDetail>(request);
+            var mappedOrderDetail = this.mapper.Map<DataAccess.Core.Entities.OrderDetail>(request);
             var command = new UpdateOrderDetailCommand()
             {
                 Parameter = mappedOrderDetail

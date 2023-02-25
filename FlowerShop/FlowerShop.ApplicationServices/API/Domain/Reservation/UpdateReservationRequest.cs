@@ -1,6 +1,7 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Reservation
+﻿using FlowerShop.DataAccess.Core.Enums;
+
+namespace FlowerShop.ApplicationServices.API.Domain.Reservation
 {
-    using FlowerShop.DataAccess.Enums;
     using MediatR;
     using System;
 

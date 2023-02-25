@@ -8,7 +8,6 @@
     using FlowerShop.ApplicationServices.API.Handlers.Product;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.Reservation;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using Microsoft.Extensions.Logging;
     using Sieve.Services;
@@ -50,7 +49,7 @@
                 };
             }
 
-            var results = await reservations.ToPagedAsync<Reservation, ReservationDTO>(sieveProcessor, mapper, query.SieveModel);
+            var results = await reservations.ToPagedAsync<DataAccess.Core.Entities.Reservation, ReservationDTO>(sieveProcessor, mapper, query.SieveModel);
             var response = new GetReservationsResponse()
             {
                 Data = results

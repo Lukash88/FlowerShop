@@ -1,7 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
+﻿using FlowerShop.DataAccess.Core.Enums;
+
+namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
 {
     using FlowerShop.ApplicationServices.API.Domain.Models;
-    using FlowerShop.DataAccess.Enums;
     using MediatR;
     using System;
     using System.Collections.Generic;

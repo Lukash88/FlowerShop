@@ -7,7 +7,6 @@
     using FlowerShop.ApplicationServices.API.ErrorHandling;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
-    using FlowerShop.DataAccess.Entities;
     using Microsoft.Extensions.Logging;
     using Sieve.Services;
     using System.Threading;
@@ -47,7 +46,7 @@
                 };
             }
 
-            var results = await orderDetails.ToPagedAsync<OrderDetail, OrderDetailDTO>(sieveProcessor, mapper, query.SieveModel);
+            var results = await orderDetails.ToPagedAsync<DataAccess.Core.Entities.OrderDetail, OrderDetailDTO>(sieveProcessor, mapper, query.SieveModel);
             var response = new GetOrderDetailsResponse()
             {
                 Data = results

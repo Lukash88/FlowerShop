@@ -7,7 +7,6 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
     using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -40,7 +39,7 @@
                 };
             }
 
-            var mappedOrderDetail = mapper.Map<OrderDetail>(request);
+            var mappedOrderDetail = mapper.Map<DataAccess.Core.Entities.OrderDetail>(request);
             var command = new RemoveOrderDetailCommand()
             {
                 Parameter = mappedOrderDetail

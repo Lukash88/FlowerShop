@@ -1,4 +1,6 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
+﻿using FlowerShop.DataAccess.Core.Entities;
+
+namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain.Bouquet;
@@ -6,7 +8,6 @@
     using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
     using FlowerShop.DataAccess.CQRS.Commands.BouquetFlower;
     using FlowerShop.DataAccess.CQRS.Queries.Flower;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System;
     using System.Collections.Generic;
@@ -39,7 +40,7 @@
             // retrieving list of chosen flowers based on their IDs
             var chosenFlowers = getFlowers.Where(x => flowersId.Contains(x.Id)).ToList();
 
-            var bouquet = this.mapper.Map<Bouquet>(request);
+            var bouquet = this.mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
 
             var bouquetFlowers = new List<BouquetFlower>();
             foreach (var flower in chosenFlowers)

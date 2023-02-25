@@ -4,7 +4,6 @@
     using FlowerShop.ApplicationServices.API.Domain.Product;
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Product;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -22,7 +21,7 @@
 
         public async Task<AddProductResponse> Handle(AddProductRequest request, CancellationToken cancellationToken)
         {
-            var product = this.mapper.Map<Product>(request);
+            var product = this.mapper.Map<DataAccess.Core.Entities.Product>(request);
             var command = new AddProductCommand() 
             { 
                 Parameter = product 

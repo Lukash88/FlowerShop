@@ -7,7 +7,6 @@ using FlowerShop.ApplicationServices.Mappings;
 using FlowerShop.Authentication;
 using FlowerShop.DataAccess;
 using FlowerShop.DataAccess.CQRS;
-using FlowerShop.DataAccess.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -25,6 +24,10 @@ using Microsoft.OpenApi.Models;
 using Sieve.Services;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Data;
+using FlowerShop.DataAccess.Repositories.AppRepository;
+using FlowerShop.DataAccess.Repositories.BasketRepository;
 using StackExchange.Redis;
 
 namespace FlowerShop

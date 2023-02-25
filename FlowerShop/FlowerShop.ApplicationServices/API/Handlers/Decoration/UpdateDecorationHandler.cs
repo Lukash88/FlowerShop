@@ -39,7 +39,7 @@
                 };
             }
 
-            var mappedDecoration = this.mapper.Map<DataAccess.Entities.Decoration>(request);
+            var mappedDecoration = this.mapper.Map<DataAccess.Core.Entities.Decoration>(request);
             var command = new UpdateDecorationCommand()
             {
                 Parameter = mappedDecoration

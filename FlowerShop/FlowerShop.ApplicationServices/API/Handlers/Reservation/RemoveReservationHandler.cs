@@ -3,7 +3,6 @@
     using AutoMapper;
     using FlowerShop.ApplicationServices.API.Domain.Reservation;
     using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.Entities;
     using FlowerShop.DataAccess.CQRS.Commands.Reservation;
     using MediatR;
     using System.Threading;
@@ -40,7 +39,7 @@
                 };
             }
 
-            var mappedReservation = mapper.Map<Reservation>(request);
+            var mappedReservation = mapper.Map<DataAccess.Core.Entities.Reservation>(request);
             var command = new RemoveReservationCommand()
             {
                 Parameter = mappedReservation

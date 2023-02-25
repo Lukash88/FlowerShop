@@ -1,17 +1,18 @@
-﻿namespace FlowerShop.DataAccess.CQRS.Queries.Decoration
+﻿using FlowerShop.DataAccess.Data;
+
+namespace FlowerShop.DataAccess.CQRS.Queries.Decoration
 {
-    using FlowerShop.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
     using Sieve.Models;
     using Sieve.Services;
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetDecorationsQuery : QueryBaseWithSieve<IQueryable<Decoration>>
+    public class GetDecorationsQuery : QueryBaseWithSieve<IQueryable<Core.Entities.Decoration>>
     {
         public SieveModel SieveModel { get; init; }
 
-        public override async Task<IQueryable<Decoration>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
+        public override async Task<IQueryable<Core.Entities.Decoration>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
             var query = context.Decorations.AsNoTracking();
 

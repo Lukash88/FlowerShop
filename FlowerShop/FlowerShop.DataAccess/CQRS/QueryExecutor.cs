@@ -1,5 +1,6 @@
 ﻿using FlowerShop.DataAccess.CQRS.Queries;
 using System.Threading.Tasks;
+using FlowerShop.DataAccess.Data;
 using Sieve.Services;
 
 namespace FlowerShop.DataAccess.CQRS

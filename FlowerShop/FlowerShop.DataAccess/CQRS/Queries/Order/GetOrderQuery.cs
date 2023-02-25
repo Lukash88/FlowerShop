@@ -1,14 +1,15 @@
-﻿namespace FlowerShop.DataAccess.CQRS.Queries.Order
+﻿using FlowerShop.DataAccess.Data;
+
+namespace FlowerShop.DataAccess.CQRS.Queries.Order
 {
-    using FlowerShop.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
 
-    public class GetOrderQuery : QueryBase<Order>
+    public class GetOrderQuery : QueryBase<Core.Entities.Order>
     {
         public int Id { get; init; }
 
-        public override async Task<Order> Execute(FlowerShopStorageContext context) =>         
+        public override async Task<Core.Entities.Order> Execute(FlowerShopStorageContext context) =>         
             await context.Orders
             .Include(x => x.OrderDetails)
             .Include(x  => x.Reservations)

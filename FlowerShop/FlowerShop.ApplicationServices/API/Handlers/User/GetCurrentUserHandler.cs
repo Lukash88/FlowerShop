@@ -7,7 +7,6 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.User;
     using FlowerShop.DataAccess.CQRS.Queries.User;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using Microsoft.AspNetCore.Identity;
     using System.Threading;
@@ -18,10 +17,10 @@
         private readonly ICommandExecutor commandExecutor;
         private readonly IQueryExecutor queryExecutor;
         private readonly IMapper mapper;
-        private readonly IPasswordHasher<User> passwordHasher;
+        private readonly IPasswordHasher<DataAccess.Core.Entities.User> passwordHasher;
 
         public GetCurrentUserHandler(ICommandExecutor commandExecutor, IQueryExecutor queryExecutor, 
-            IMapper mapper, IPasswordHasher<User> passwordHasher)
+            IMapper mapper, IPasswordHasher<DataAccess.Core.Entities.User> passwordHasher)
         {
             this.commandExecutor = commandExecutor;
             this.queryExecutor = queryExecutor;
@@ -46,7 +45,7 @@
                 };                
             }
 
-            var user = this.mapper.Map<User>(request);
+            var user = this.mapper.Map<DataAccess.Core.Entities.User>(request);
             var command = new AddUserCommand() 
             { 
                 Parameter = user 

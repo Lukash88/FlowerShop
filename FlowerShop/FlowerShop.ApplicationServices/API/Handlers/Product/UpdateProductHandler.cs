@@ -39,7 +39,7 @@
                 };
             }
 
-            var mappedProduct = this.mapper.Map<DataAccess.Entities.Product>(request);
+            var mappedProduct = this.mapper.Map<DataAccess.Core.Entities.Product>(request);
             var command = new UpdateProductCommand()
             {
                 Parameter = mappedProduct

@@ -1,6 +1,5 @@
 ﻿using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.User;
-using FlowerShop.DataAccess.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using FlowerShop.DataAccess.Core.Entities;
 
 namespace FlowerShop.Authentication
 {

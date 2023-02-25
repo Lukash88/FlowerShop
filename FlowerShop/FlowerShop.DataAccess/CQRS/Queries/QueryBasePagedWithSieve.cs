@@ -1,5 +1,6 @@
 ﻿using Sieve.Services;
 using System.Threading.Tasks;
+using FlowerShop.DataAccess.Data;
 
 namespace FlowerShop.DataAccess.CQRS.Queries
 {

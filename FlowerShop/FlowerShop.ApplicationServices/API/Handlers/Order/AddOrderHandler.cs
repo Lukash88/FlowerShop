@@ -8,7 +8,6 @@
     using FlowerShop.DataAccess.CQRS.Commands.Order;
     using FlowerShop.DataAccess.CQRS.Queries.Order;
     using FlowerShop.DataAccess.CQRS.Queries.User;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using Sieve.Models;
     using System.Linq;
@@ -45,7 +44,7 @@
                 };
             }
 
-            var order = this.mapper.Map<Order>(request);
+            var order = this.mapper.Map<DataAccess.Core.Entities.Order>(request);
             var command = new AddOrderCommand()
             {
                 Parameter = order

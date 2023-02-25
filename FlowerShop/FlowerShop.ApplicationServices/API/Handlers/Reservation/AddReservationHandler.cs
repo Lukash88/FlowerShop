@@ -8,7 +8,6 @@
     using FlowerShop.DataAccess.CQRS.Commands.Reservation;
     using FlowerShop.DataAccess.CQRS.Queries.Order;
     using FlowerShop.DataAccess.CQRS.Queries.Reservation;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using Sieve.Models;
     using System.Linq;
@@ -43,7 +42,7 @@
                 };
             }
 
-            var reservation = this.mapper.Map<Reservation>(request);
+            var reservation = this.mapper.Map<DataAccess.Core.Entities.Reservation>(request);
             var command = new AddReservationCommand() 
             { 
                 Parameter = reservation 

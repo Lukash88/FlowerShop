@@ -1,6 +1,7 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Decoration
+﻿using FlowerShop.DataAccess.Core.Enums;
+
+namespace FlowerShop.ApplicationServices.API.Domain.Decoration
 {
-    using FlowerShop.DataAccess.Enums;
     using MediatR;
 
     public class AddDecorationRequest : IRequest<AddDecorationResponse>

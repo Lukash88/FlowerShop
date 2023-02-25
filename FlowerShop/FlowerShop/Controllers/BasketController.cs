@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using FlowerShop.DataAccess;
-using FlowerShop.DataAccess.Entities;
+using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Repositories.BasketRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlowerShop.Controllers

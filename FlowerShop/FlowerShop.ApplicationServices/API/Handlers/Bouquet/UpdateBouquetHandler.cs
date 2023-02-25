@@ -1,7 +1,6 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
     using AutoMapper;
-    using DataAccess.Entities;
     using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Bouquet;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
@@ -40,7 +39,7 @@
                 };
             }
 
-            var mapppedBouquet = this.mapper.Map<Bouquet>(request);
+            var mapppedBouquet = this.mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
             var command = new UpdateBouquetCommand()
             {
                 Parameter = mapppedBouquet

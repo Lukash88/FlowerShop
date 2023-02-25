@@ -1,12 +1,13 @@
-﻿namespace FlowerShop.DataAccess.CQRS.Commands.BouquetOrderDetail
+﻿using FlowerShop.DataAccess.Data;
+
+namespace FlowerShop.DataAccess.CQRS.Commands.BouquetOrderDetail
 {
-    using FlowerShop.DataAccess.Entities;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public class AddBouquetOrderDetailCommand : CommandBase<List<BouquetOrderDetail>, List<BouquetOrderDetail>>
+    public class AddBouquetOrderDetailCommand : CommandBase<List<Core.Entities.BouquetOrderDetail>, List<Core.Entities.BouquetOrderDetail>>
     {
-        public override async Task<List<BouquetOrderDetail>> Execute(FlowerShopStorageContext context)
+        public override async Task<List<Core.Entities.BouquetOrderDetail>> Execute(FlowerShopStorageContext context)
         {
             context.BouquetOrderDetails.AddRange(this.Parameter);
             await context.SaveChangesAsync();

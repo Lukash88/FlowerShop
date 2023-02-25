@@ -7,7 +7,6 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.Product;
     using FlowerShop.DataAccess.CQRS.Queries.Product;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -40,7 +39,7 @@
                 };
             }
 
-            var mappedProduct = mapper.Map<Product>(request);
+            var mappedProduct = mapper.Map<DataAccess.Core.Entities.Product>(request);
             var command = new RemoveProductCommand()
             {
                 Parameter = mappedProduct

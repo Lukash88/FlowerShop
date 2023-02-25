@@ -1,6 +1,7 @@
-﻿namespace FlowerShop.DataAccess.CQRS.Queries.Flower
+﻿using FlowerShop.DataAccess.Data;
+
+namespace FlowerShop.DataAccess.CQRS.Queries.Flower
 {
-    using FlowerShop.DataAccess.Entities;
     using Microsoft.EntityFrameworkCore;
     using Sieve.Models;
     using Sieve.Services;
@@ -8,11 +9,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class GetFlowersQuery : QueryBaseWithSieve<IQueryable<Flower>>
+    public class GetFlowersQuery : QueryBaseWithSieve<IQueryable<Core.Entities.Flower>>
     {
         public SieveModel SieveModel { get; init; }
 
-        public async override Task<IQueryable<Flower>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
+        public async override Task<IQueryable<Core.Entities.Flower>> Execute(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
             var query = context.Flowers.AsNoTracking();
 

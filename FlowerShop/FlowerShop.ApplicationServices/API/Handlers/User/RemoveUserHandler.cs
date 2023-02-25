@@ -7,7 +7,6 @@
     using FlowerShop.DataAccess.CQRS;
     using FlowerShop.DataAccess.CQRS.Commands.User;
     using FlowerShop.DataAccess.CQRS.Queries.User;
-    using FlowerShop.DataAccess.Entities;
     using MediatR;
     using System.Threading;
     using System.Threading.Tasks;
@@ -40,7 +39,7 @@
                 };
             }
 
-            var mappedUser = mapper.Map<User>(request);
+            var mappedUser = mapper.Map<DataAccess.Core.Entities.User>(request);
             var command = new RemoveUserCommand()
             {
                 Parameter = mappedUser

@@ -1,7 +1,6 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
 {
     using AutoMapper;
-    using DataAccess.Entities;
     using FlowerShop.ApplicationServices.API.Domain;
     using FlowerShop.ApplicationServices.API.Domain.Reservation;
     using FlowerShop.ApplicationServices.API.ErrorHandling;
@@ -56,7 +55,7 @@
                 };
             }
 
-            var mappedReservation = this.mapper.Map<Reservation>(request);
+            var mappedReservation = this.mapper.Map<DataAccess.Core.Entities.Reservation>(request);
             var command = new UpdateReservationCommand()
             {
                 Parameter = mappedReservation

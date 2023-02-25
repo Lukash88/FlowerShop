@@ -1,4 +1,4 @@
-﻿using FlowerShop.DataAccess.Entities;
+﻿using FlowerShop.DataAccess.Core.Entities;
 using Sieve.Services;
 
 namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
