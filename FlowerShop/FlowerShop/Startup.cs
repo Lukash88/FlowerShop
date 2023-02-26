@@ -24,11 +24,11 @@ using Microsoft.OpenApi.Models;
 using Sieve.Services;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Data;
 using FlowerShop.DataAccess.Repositories.AppRepository;
 using FlowerShop.DataAccess.Repositories.BasketRepository;
 using StackExchange.Redis;
+using FlowerShop.DataAccess.Identity;
 
 namespace FlowerShop
 {
@@ -44,6 +44,20 @@ namespace FlowerShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IBasketRepository, BasketRepository>();
+
+            services.AddDbContext<FlowerShopStorageContext>(opt =>
+                opt.UseSqlServer(this.config.GetConnectionString("FlowerShopDatabaseConnection")));
+            services.AddDbContext<AppIdentityDbContext>(opt =>
+                opt.UseSqlServer(this.config.GetConnectionString("IdentityDatabaseConnection")));
+
+            services.AddSingleton<IConnectionMultiplexer>(c => {
+                var configuration = ConfigurationOptions.Parse(this.config.GetConnectionString("Redis"), true);
+
+                return ConnectionMultiplexer.Connect(configuration);
+            });
+
             //services.AddAuthentication("BasicAuthentication")
             //        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
@@ -68,19 +82,6 @@ namespace FlowerShop
             services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
 
             services.AddMediatR(typeof(ResponseBase<>));
-
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IBasketRepository, BasketRepository>();
-
-            services.AddDbContext<FlowerShopStorageContext>(
-                opt =>
-                opt.UseSqlServer(this.config.GetConnectionString("FlowerShopDatabaseConnection")));
-
-            services.AddSingleton<IConnectionMultiplexer>(c => {
-                var configuration = ConfigurationOptions.Parse(this.config.GetConnectionString("Redis"), true);
-
-                return ConnectionMultiplexer.Connect(configuration);
-            });
 
             services.AddControllers();//options =>
             //{
