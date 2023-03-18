@@ -2,7 +2,7 @@
 
 namespace FlowerShop.ApplicationServices.API.Domain.User
 {
-    public class GetUserByIdResponse // : ResponseBase<UserDTO>
+    public class UpdateUserAddressResponse : ResponseBase<AddressDto>
     {
     }
 }

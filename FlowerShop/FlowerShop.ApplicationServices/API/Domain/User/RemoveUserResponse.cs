@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.User
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class RemoveUserResponse // : ResponseBase<UserDTO>
+namespace FlowerShop.ApplicationServices.API.Domain.User
+{
+    public class RemoveUserResponse // : ResponseBase<UserDto>
     {
     }
 }
