@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace FlowerShop.DataAccess.Identity
 {
@@ -23,11 +18,6 @@ namespace FlowerShop.DataAccess.Identity
 
             var connectionString = configuration.GetConnectionString("IdentityDatabaseConnection");
             optionsBuilder.UseSqlServer(connectionString);
-
-
-            // optionsBuilder.UseSqlServer(this.configuration.GetConnectionString("IdentityDatabaseConnection"));
-            //optionsBuilder.UseSqlServer("Data Source =.\\SQLEXPRESS; Initial Catalog = IdentityFlowerShop; Integrated Security = True");
-            // optionsBuilder.UseSqlServer(this.configuration.GetConnectionString("IdentityDatabaseConnection"));
 
             return new AppIdentityDbContext(optionsBuilder.Options);
         }

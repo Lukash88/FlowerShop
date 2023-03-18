@@ -1,7 +1,4 @@
-﻿using FlowerShop.DataAccess.Core.Enums;
-using System;
-
-namespace FlowerShop.DataAccess.Core.Entities.Identity
+﻿namespace FlowerShop.DataAccess.Core.Entities.Identity
 {
     public class Address
     {

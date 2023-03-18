@@ -10,6 +10,10 @@ namespace FlowerShop.DataAccess.Identity.Configurations
         {
             builder
                 .Property(x => x.UserName)
+                .HasMaxLength(50);
+
+            builder
+                .Property(x => x.DisplayName)
                 .IsRequired()
                 .HasMaxLength(50);
         }
