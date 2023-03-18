@@ -1,15 +1,14 @@
-﻿namespace FlowerShop.Controllers
-{
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using System.Linq;
-    using System.Net;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
+﻿using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
+namespace FlowerShop.Controllers
+{
     [ApiController]
     [Route("api/[controller]")]
     public abstract class ApiControllerBase : ControllerBase
@@ -18,7 +17,7 @@
         private readonly IMediator mediator;
         private readonly ILogger logger;
 
-        public ApiControllerBase(IMediator mediator, ILogger logger)
+        protected ApiControllerBase(IMediator mediator, ILogger logger)
         {
             this.mediator = mediator;
             this.logger = logger;
@@ -35,16 +34,14 @@
                     .Where(x => x.Value.Errors.Any())
                     .Select(x => new { property = x.Key, errors = x.Value.Errors}));
             }
-
-            var userName = this.User.FindFirstValue(ClaimTypes.Name);
-
+            
             var response = await this.mediator.Send(request);
             if (response.Error != null)
             {
                 return this.ErrorResponse(response.Error);
-            }     
+            }
             
-                return this.Ok(response);
+            return this.Ok(response);
         }
 
         private IActionResult ErrorResponse(ErrorModel errorModel)
@@ -67,6 +64,7 @@
                 ErrorType.UnsupportedMethod => HttpStatusCode.MethodNotAllowed,
                 ErrorType.TooManyRequests => (HttpStatusCode)429,
                 ErrorType.Conflict => HttpStatusCode.Conflict,
+                ErrorType.BadRequest => HttpStatusCode.BadRequest,
                 _ => HttpStatusCode.BadRequest,
             };
         }
