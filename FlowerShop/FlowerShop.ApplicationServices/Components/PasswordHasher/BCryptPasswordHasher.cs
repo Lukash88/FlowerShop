@@ -2,15 +2,15 @@
 
 namespace FlowerShop.ApplicationServices.Components.PasswordHasher
 {
-    public class BCryptPasswordHasher<User> : IPasswordHasher<User> where User : class
+    public class BCryptPasswordHasher<AppUser> : IPasswordHasher<AppUser> where AppUser : class
     {
         
-        public string HashPassword(User user, string password)
+        public string HashPassword(AppUser user, string password)
         {  
             return BCrypt.Net.BCrypt.HashPassword(password, 12);
         }
 
-        public PasswordVerificationResult VerifyHashedPassword(User user, string hashedPassword, string providedPassword)
+        public PasswordVerificationResult VerifyHashedPassword(AppUser user, string hashedPassword, string providedPassword)
         {
             var isValid = BCrypt.Net.BCrypt.Verify(providedPassword, hashedPassword);
 
