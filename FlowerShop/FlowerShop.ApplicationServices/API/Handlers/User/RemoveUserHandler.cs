@@ -1,16 +1,5 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.User;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.User;
-    using FlowerShop.DataAccess.CQRS.Queries.User;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public class RemoveUserHandler //: IRequestHandler<RemoveUserRequest, RemoveUserResponse>
     {
     //    private readonly IMapper mapper;

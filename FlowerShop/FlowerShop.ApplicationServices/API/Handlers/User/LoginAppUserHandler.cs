@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
-    public class GetCurrentUserHandler : IRequestHandler<GetCurrentUserRequest, GetCurrentUserResponse>
+    public class LoginAppUserHandler : IRequestHandler<LoginAppUserRequest, LoginAppUserResponse>
     {
         private readonly IMapper mapper;
         private readonly IPasswordHasher<AppUser> passwordHasher;
@@ -20,7 +20,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
 
-        public GetCurrentUserHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, ITokenService tokenService,
+        public LoginAppUserHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, ITokenService tokenService,
             UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             this.mapper = mapper;
@@ -30,23 +30,34 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
             this.signInManager = signInManager;
         }
 
-        public async Task<GetCurrentUserResponse> Handle(GetCurrentUserRequest request, CancellationToken cancellationToken)
+        public async Task<LoginAppUserResponse> Handle(LoginAppUserRequest request, CancellationToken cancellationToken)
         {
-            var getUser = await this.userManager.FindByEmailAsync(request.CurrentUserEmail);
+            var getUser = await this.userManager.FindByEmailAsync(request.Email);
+
             if (getUser == null)
             {
-                return new GetCurrentUserResponse()
+                return new LoginAppUserResponse()
                 {
-                    Error = new ErrorModel(ErrorType.NotFound)
+                    Error = new ErrorModel(ErrorType.Unauthorized)
                 };
             }
 
-            var user = this.mapper.Map<UserDto>(getUser);
-            user.Token = this.tokenService.CreateToken(getUser);
+            var signInResult = await this.signInManager.CheckPasswordSignInAsync(getUser, request.Password, false);
 
-            var response = new GetCurrentUserResponse()
+            if (!signInResult.Succeeded)
             {
-                Data = user
+                return new LoginAppUserResponse()
+                {
+                    Error = new ErrorModel(ErrorType.Unauthorized)
+                };
+            }
+
+            var loggedUser = this.mapper.Map<UserDto>(getUser);
+            loggedUser.Token = this.tokenService.CreateToken(getUser);
+
+            var response = new LoginAppUserResponse()
+            {
+                Data = loggedUser
             };
 
             return response;

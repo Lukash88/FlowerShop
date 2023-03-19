@@ -1,22 +1,27 @@
-﻿namespace FlowerShop.ApplicationServices.API.Validators.User
-{
-    using FlowerShop.ApplicationServices.API.Domain.User;
-    using FluentValidation;
+﻿using FlowerShop.ApplicationServices.API.Domain.User;
+using FluentValidation;
 
-    public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
+namespace FlowerShop.ApplicationServices.API.Validators.User
+{
+    public class UpdateUserRequestValidator : AbstractValidator<UpdateUserAddressRequest>
     {
         public UpdateUserRequestValidator()
         {
-            this.RuleFor(x => x.UserId).NotNull().WithMessage("CHOOSE_NUMBER_GREATER_THAN_0");
-            this.RuleFor(x => (int)x.Role).InclusiveBetween(1, 3).NotEmpty().WithMessage("CHOOSE_1_-_3");
-            this.RuleFor(x => x.FirstName).Length(2, 50).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_2_TO_50_CHARACTERS");
-            this.RuleFor(x => x.SecondName).Length(2, 50).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_2_TO_50_CHARACTERS");
-            this.RuleFor(x => x.UserName).Length(3, 50).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_3_TO_50_CHARACTERS");
-            this.RuleFor(x => x.Password).Length(5, 50).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_5_TO_50_CHARACTERS");
-            this.RuleFor(x => x.Email).Length(5, 50).EmailAddress().NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_5_TO_50_CHARACTERS");
-            this.RuleFor(x => x.Street).Length(3, 50).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_3_TO_50_CHARACTERS");
-            this.RuleFor(x => x.PostalCode).Length(3, 20).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_3_TO_20_CHARACTERS");
-            this.RuleFor(x => x.City).Length(3, 50).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_3_TO_50_CHARACTERS");
+            RuleLevelCascadeMode = CascadeMode.Stop;
+
+            this.RuleFor(x => x.FirstName).NotNull().NotEmpty().Length(2, 50).NotEmpty()
+                .WithMessage("First name must contain 2 - 50 characters");
+            this.RuleFor(x => x.LastName).NotNull().NotEmpty().Length(2, 50)
+                .WithMessage("Last name must contain 2 - 50 characters");
+            this.RuleFor(x => x.Email).NotNull().NotEmpty().Length(5, 50)
+                .WithMessage("Email must contain 5 - 50 characters")
+                .EmailAddress().WithMessage("Provide valid email format");
+            this.RuleFor(x => x.Street).NotNull().NotEmpty().Length(3, 50)
+                .WithMessage("Street must contain 3-50 characters");
+            this.RuleFor(x => x.City).NotNull().NotEmpty().Length(3, 50)
+                .WithMessage("City must contain 3-50 characters");
+            this.RuleFor(x => x.PostalCode).NotNull().NotEmpty().Length(4, 20)
+                .WithMessage("Postal code must contain 4-20 characters");
         }
     }
 }

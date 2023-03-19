@@ -1,17 +1,5 @@
 ﻿namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Models;
-    using FlowerShop.ApplicationServices.API.Domain.User;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Queries.User;
-    using Microsoft.Extensions.Logging;
-    using Sieve.Services;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public class GetUsersHandler // : PagedRequestHandler<GetUsersRequest, GetUsersResponse>
     {
         //private readonly IMapper mapper;

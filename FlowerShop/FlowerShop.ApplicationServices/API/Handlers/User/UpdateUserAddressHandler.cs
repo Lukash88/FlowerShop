@@ -7,12 +7,13 @@ using FlowerShop.ApplicationServices.Components.Token;
 using FlowerShop.DataAccess.Core.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
-    public class GetCurrentUserHandler : IRequestHandler<GetCurrentUserRequest, GetCurrentUserResponse>
+    public class UpdateUserAddressHandler : IRequestHandler<UpdateUserAddressRequest, UpdateUserAddressResponse>
     {
         private readonly IMapper mapper;
         private readonly IPasswordHasher<AppUser> passwordHasher;
@@ -20,7 +21,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
 
-        public GetCurrentUserHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, ITokenService tokenService,
+        public UpdateUserAddressHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, ITokenService tokenService,
             UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             this.mapper = mapper;
@@ -30,23 +31,33 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
             this.signInManager = signInManager;
         }
 
-        public async Task<GetCurrentUserResponse> Handle(GetCurrentUserRequest request, CancellationToken cancellationToken)
+        public async Task<UpdateUserAddressResponse> Handle(UpdateUserAddressRequest request, CancellationToken cancellationToken)
         {
-            var getUser = await this.userManager.FindByEmailAsync(request.CurrentUserEmail);
+            var getUser = await this.userManager.Users.Include(x => x.Address)
+                .SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
             if (getUser == null)
             {
-                return new GetCurrentUserResponse()
+                return new UpdateUserAddressResponse()
                 {
                     Error = new ErrorModel(ErrorType.NotFound)
                 };
             }
 
-            var user = this.mapper.Map<UserDto>(getUser);
-            user.Token = this.tokenService.CreateToken(getUser);
+            getUser.Address = this.mapper.Map<UpdateUserAddressRequest, Address>(request);
+            var updatedUser = await this.userManager.UpdateAsync(getUser);
 
-            var response = new GetCurrentUserResponse()
+            if (!updatedUser.Succeeded)
             {
-                Data = user
+                return new UpdateUserAddressResponse()
+                {
+                    Error = new ErrorModel(ErrorType.BadRequest + "\nProblem updating the user")
+                };
+            }
+            var addressDto = this.mapper.Map<Address, AddressDto>(getUser.Address);
+
+            var response = new UpdateUserAddressResponse()
+            {
+                Data = addressDto
             };
 
             return response;

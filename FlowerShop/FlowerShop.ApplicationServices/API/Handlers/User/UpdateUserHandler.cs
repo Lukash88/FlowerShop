@@ -1,16 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.User
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.User;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.User;
-    using FlowerShop.DataAccess.CQRS.Queries.User;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using AutoMapper;
+using FlowerShop.DataAccess.CQRS;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.User
+{
     public class UpdateUserHandler //: IRequestHandler<UpdateUserRequest, UpdateUserResponse>
     {
         private readonly IMapper mapper;
