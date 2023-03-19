@@ -1,4 +1,6 @@
-﻿using FlowerShop.DataAccess.Core.Entities;
+﻿using System;
+using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,6 +26,9 @@ namespace FlowerShop.DataAccess.Data.Configurations
 
             builder
                 .Property(x => x.OrderState)
+                .HasConversion(
+                    os => os.ToString(),
+                    os => (OrderState)Enum.Parse(typeof(OrderState), os))
                 .IsRequired();
 
             builder

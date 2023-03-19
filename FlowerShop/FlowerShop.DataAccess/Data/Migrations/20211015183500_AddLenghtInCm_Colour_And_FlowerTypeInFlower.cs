@@ -7,7 +7,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Colour",
+                name: "Color",
                 table: "Flowers",
                 type: "nvarchar(max)",
                 nullable: true);
@@ -30,7 +30,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Colour",
+                name: "Color",
                 table: "Flowers");
 
             migrationBuilder.DropColumn(

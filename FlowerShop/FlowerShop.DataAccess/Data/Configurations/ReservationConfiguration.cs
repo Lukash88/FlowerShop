@@ -1,4 +1,6 @@
-﻿using FlowerShop.DataAccess.Core.Entities;
+﻿using System;
+using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,7 +11,10 @@ namespace FlowerShop.DataAccess.Data.Configurations
         public void Configure(EntityTypeBuilder<Reservation> builder)
         {
             builder
-             .Property(x => x.ReservationStatus)                            
+             .Property(x => x.ReservationStatus)
+             .HasConversion(
+                 rs => rs.ToString(),
+                 rs => (ReservationStateEnum)Enum.Parse(typeof(ReservationStateEnum), rs))
              .IsRequired();
 
             builder                                                         
@@ -22,7 +27,10 @@ namespace FlowerShop.DataAccess.Data.Configurations
              .HasDefaultValueSql("getdate()");                                                 
                                                                             
             builder                                                         
-             .Property(x => x.EventType)                                    
+             .Property(x => x.EventType)
+             .HasConversion(
+                 et => et.ToString(), 
+                 et => (EventType)Enum.Parse(typeof(EventType), et))
              .IsRequired();                                             
                                                                             
             builder                                                         

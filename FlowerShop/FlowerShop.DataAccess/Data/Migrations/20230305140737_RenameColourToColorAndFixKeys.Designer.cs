@@ -4,14 +4,16 @@ using FlowerShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowerShop.DataAccess.Data.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    partial class FlowerShopStorageContextModelSnapshot : ModelSnapshot
+    [Migration("20230305140737_RenameColourToColorAndFixKeys")]
+    partial class RenameColourToColorAndFixKeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +28,8 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("DecorationWay")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DecorationWay")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageThumbnailUrl")
                         .HasColumnType("nvarchar(max)");
@@ -36,16 +37,14 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Occasion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Occasion")
+                        .HasColumnType("int");
 
                     b.Property<int>("StockLevel")
                         .HasColumnType("int");
 
-                    b.Property<string>("TypeOfArrangement")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TypeOfArrangement")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -118,9 +117,8 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasPrecision(14, 2)
                         .HasColumnType("decimal(14,2)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<int>("StockLevel")
                         .HasColumnType("int");
@@ -155,18 +153,16 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Color")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("FlowerType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FlowerType")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageThumbnailUrl")
                         .HasColumnType("nvarchar(max)");
@@ -214,9 +210,8 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.Property<bool>("IsPaymentConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("OrderState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderState")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -273,9 +268,8 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageThumbnailUrl")
                         .HasColumnType("nvarchar(max)");
@@ -357,16 +351,14 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("EventType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EventType")
+                        .HasColumnType("int");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReservationStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ReservationStatus")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ReservedOn")
                         .ValueGeneratedOnAdd()

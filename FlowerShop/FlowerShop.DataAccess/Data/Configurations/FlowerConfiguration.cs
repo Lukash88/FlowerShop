@@ -1,6 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace FlowerShop.DataAccess.Data.Configurations
 {
@@ -14,6 +16,9 @@ namespace FlowerShop.DataAccess.Data.Configurations
                 .HasMaxLength(100);
 
             builder.Property(x => x.FlowerType)
+                .HasConversion(
+                    ft => ft.ToString(),
+                    ft => (FlowerType)Enum.Parse(typeof(FlowerType), ft))
                 .IsRequired();
 
             builder
@@ -24,7 +29,10 @@ namespace FlowerShop.DataAccess.Data.Configurations
             builder.Property(x => x.LengthInCm)
                 .IsRequired();
 
-            builder.Property(x => x.Colour)
+            builder.Property(x => x.Color)
+                .HasConversion(
+                    c => c.ToString(),
+                    c => (FlowerColor)Enum.Parse(typeof(FlowerColor), c))
                 .IsRequired();
 
             builder.Property(x => x.StockLevel)

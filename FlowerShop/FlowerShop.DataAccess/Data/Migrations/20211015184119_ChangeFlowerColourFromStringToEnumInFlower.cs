@@ -7,7 +7,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<int>(
-                name: "Colour",
+                name: "Color",
                 table: "Flowers",
                 type: "int",
                 nullable: false,
@@ -20,7 +20,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Colour",
+                name: "Color",
                 table: "Flowers",
                 type: "nvarchar(max)",
                 nullable: true,
