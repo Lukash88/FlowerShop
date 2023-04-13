@@ -1,10 +1,9 @@
-﻿using FlowerShop.DataAccess.Core.Enums;
+﻿using System;
+using FlowerShop.DataAccess.Core.Enums;
+using MediatR;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Order
 {
-    using MediatR;
-    using System;
-
     public class AddOrderRequest : IRequest<AddOrderResponse>
     {
         public int UserId { get; set; }

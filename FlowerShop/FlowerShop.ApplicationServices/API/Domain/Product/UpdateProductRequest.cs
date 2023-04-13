@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
+using MediatR;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Product
 {
-    using MediatR;
-
     public class UpdateProductRequest : IRequest<UpdateProductResponse>
     {
         public int ProductId;

@@ -1,13 +1,13 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Product
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain.Product;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.Product;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Product;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.Product;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Product
+{
     public class AddProductHandler : IRequestHandler<AddProductRequest, AddProductResponse>
     {
         private readonly ICommandExecutor commandExecutor;
@@ -29,7 +29,7 @@
             var addedProduct = await this.commandExecutor.Execute(command);
             var response =  new AddProductResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ProductDTO>(addedProduct)
+                Data = this.mapper.Map<Domain.Models.ProductDto>(addedProduct)
             };
 
             return response;

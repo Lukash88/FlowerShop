@@ -1,11 +1,10 @@
-﻿using FlowerShop.DataAccess.Core.Enums;
+﻿using System;
+using System.Collections.Generic;
+using FlowerShop.DataAccess.Core.Enums;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Models
 {
-    using System;
-    using System.Collections.Generic;
-
-    public class OrderDTO
+    public class OrderDto
     {
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -16,7 +15,7 @@ namespace FlowerShop.ApplicationServices.API.Domain.Models
         public int Quantity { get; set; }
         public decimal? Sum { get; set; }
 
-        public List<ReservationDTO> Reservations { get; set; } = new List<ReservationDTO>();
-        public List<OrderDetailDTO> OrderDetails { get; set; } = new List<OrderDetailDTO>();
+        public List<ReservationDto> Reservations { get; set; } = new();
+        public List<OrderDetailDto> OrderDetails { get; set; } = new();
     }
 }

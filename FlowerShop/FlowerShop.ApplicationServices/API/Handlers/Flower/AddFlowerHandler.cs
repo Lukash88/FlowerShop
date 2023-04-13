@@ -1,14 +1,13 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Flower
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Flower;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.Flower;
+using MediatR;
+
+namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain.Flower;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.Flower;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-
     public class AddFlowerHandler : IRequestHandler<AddFlowerRequest, AddFlowerResponse>
     {
         private readonly ICommandExecutor commandExecutor;
@@ -30,7 +29,7 @@
             var addedFlower = await this.commandExecutor.Execute(command);
             var response =  new AddFlowerResponse()
             {
-                Data = this.mapper.Map<Domain.Models.FlowerDTO>(addedFlower)
+                Data = this.mapper.Map<Domain.Models.FlowerDto>(addedFlower)
             };
 
             return response;

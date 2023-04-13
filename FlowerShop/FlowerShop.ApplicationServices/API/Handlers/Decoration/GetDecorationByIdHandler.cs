@@ -1,15 +1,16 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Decoration;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Queries.Decoration;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Decoration;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Queries.Decoration;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
+{
     public class GetDecorationByIdHandler : IRequestHandler<GetDecorationByIdRequest, GetDecorationByIdResponse>
     {
         private readonly IMapper mapper;
@@ -36,7 +37,7 @@
                 };
             }
 
-            var mappedDecoration = this.mapper.Map<Domain.Models.DecorationDTO>(decoration);
+            var mappedDecoration = this.mapper.Map<DecorationDto>(decoration);
             var response = new GetDecorationByIdResponse()
             {
                 Data = mappedDecoration

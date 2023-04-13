@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
+using MediatR;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Flower
 {
-    using MediatR;
-
     public class UpdateFlowerRequest : IRequest<UpdateFlowerResponse>
     {
         public int FlowerId;
@@ -11,7 +10,7 @@ namespace FlowerShop.ApplicationServices.API.Domain.Flower
         public FlowerType FlowerType { get; set; }
         public string Description { get; set; }
         public int LengthInCm { get; set; }
-        public FlowerColour Colour { get; set; }
+        public FlowerColor Color { get; set; }
         public int StockLevel { get; set; }
         public decimal? Price { get; set; }
     }

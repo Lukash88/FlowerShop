@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class AddBouquetResponse : ResponseBase<BouquetDTO>
+namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
+{
+    public class AddBouquetResponse : ResponseBase<BouquetDto>
     {
     }
 }

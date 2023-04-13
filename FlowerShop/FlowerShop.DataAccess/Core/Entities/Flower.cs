@@ -9,7 +9,7 @@ namespace FlowerShop.DataAccess.Core.Entities
         public FlowerType FlowerType { get; set; }
         public string Description { get; set; }
         public int? LengthInCm { get; set; }
-        public FlowerColour Colour { get; set; }
+        public FlowerColor Color { get; set; }
         public int StockLevel { get; set; }
         public decimal? Price { get; set; }
         public string ImageUrl { get; set; }

@@ -1,11 +1,10 @@
-﻿using FlowerShop.DataAccess.Core.Entities;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.ApplicationServices.API.Domain.Order;
+using FlowerShop.DataAccess.Core.Entities;
 
 namespace FlowerShop.ApplicationServices.Mappings
 {
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain.Order;
-    using FlowerShop.ApplicationServices.API.Domain.Models;
-
     public class OrdersProfile : Profile
     {
         public OrdersProfile()
@@ -19,7 +18,7 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(x => x.Quantity, y => y.MapFrom(z => z.Quantity))
                 .ForMember(x => x.Sum, y => y.MapFrom(z => z.Sum));
 
-            this.CreateMap<Order, OrderDTO>()
+            this.CreateMap<Order, OrderDto>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 //.ForMember(x => x.UserId, y => y.MapFrom(z => z.UserId))
                 .ForMember(x => x.IsPaymentConfirmed, y => y.MapFrom(z => z.IsPaymentConfirmed))
@@ -32,9 +31,9 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(x => x.OrderDetails, y => y.MapFrom(z => z.OrderDetails))
                 .ReverseMap();
 
-            this.CreateMap<Reservation, ReservationDTO>().ReverseMap();
+            this.CreateMap<Reservation, ReservationDto>().ReverseMap();
             
-            this.CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
+            this.CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
 
             this.CreateMap<RemoveOrderRequest, Order>()
                .ForMember(x => x.Id, y => y.MapFrom(z => z.OrderId));

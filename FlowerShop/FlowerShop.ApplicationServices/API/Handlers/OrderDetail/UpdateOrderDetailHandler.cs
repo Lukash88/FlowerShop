@@ -1,19 +1,18 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
-    using FlowerShop.DataAccess.CQRS.Queries.Order;
-    using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
-    using MediatR;
-    using Sieve.Models;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
+using FlowerShop.DataAccess.CQRS.Queries.Order;
+using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
+{
     public class UpdateOrderDetailHandler : IRequestHandler<UpdateOrderDetailRequest, UpdateOrderDetailResponse>
     {
         private readonly IMapper mapper;
@@ -65,7 +64,7 @@
             var updatedOrderDetail = await this.commandExecutor.Execute(command);
             var response =  new UpdateOrderDetailResponse()
             {
-                Data = this.mapper.Map<Domain.Models.OrderDetailDTO>(updatedOrderDetail)
+                Data = this.mapper.Map<Domain.Models.OrderDetailDto>(updatedOrderDetail)
             };
 
             return response;

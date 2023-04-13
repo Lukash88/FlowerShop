@@ -1,16 +1,17 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Bouquet;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
-    using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Bouquet;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
+using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
+{
     public class RemoveBouquetHandler : IRequestHandler<RemoveBouquetRequest, RemoveBouquetResponse>
     {
         private readonly IMapper mapper;
@@ -47,7 +48,7 @@
             var removedBouquet = await this.commandExecutor.Execute(command);
             var response = new RemoveBouquetResponse()
             {
-                Data = this.mapper.Map<Domain.Models.BouquetDTO>(removedBouquet)
+                Data = this.mapper.Map<BouquetDto>(removedBouquet)
             };
 
             return response;

@@ -1,20 +1,17 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Models;
-    using FlowerShop.ApplicationServices.API.Domain.Reservation;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.ApplicationServices.API.Handlers.Product;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Queries.Reservation;
-    using MediatR;
-    using Microsoft.Extensions.Logging;
-    using Sieve.Services;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.ApplicationServices.API.Domain.Reservation;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Queries.Reservation;
+using Microsoft.Extensions.Logging;
+using Sieve.Services;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+{
     public class GetReservationsHandler : PagedRequestHandler<GetReservationsRequest, GetReservationsResponse>
     {
         private readonly IMapper mapper;
@@ -49,7 +46,8 @@
                 };
             }
 
-            var results = await reservations.ToPagedAsync<DataAccess.Core.Entities.Reservation, ReservationDTO>(sieveProcessor, mapper, query.SieveModel);
+            var results = await reservations.ToPagedAsync<DataAccess.Core.Entities.Reservation, ReservationDto>(sieveProcessor, 
+                mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetReservationsResponse()
             {
                 Data = results

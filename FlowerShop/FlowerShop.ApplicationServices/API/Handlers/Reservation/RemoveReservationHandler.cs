@@ -1,16 +1,16 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain.Reservation;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.Reservation;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using FlowerShop.DataAccess.CQRS.Queries.Reservation;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Reservation;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.Reservation;
+using FlowerShop.DataAccess.CQRS.Queries.Reservation;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+{
     public class RemoveReservationHandler : IRequestHandler<RemoveReservationRequest, RemoveReservationResponse>
     {
         private readonly IMapper mapper;
@@ -47,7 +47,7 @@
             var removedReservation = await this.commandExecutor.Execute(command);
             var response = new RemoveReservationResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ReservationDTO>(removedReservation)
+                Data = this.mapper.Map<Domain.Models.ReservationDto>(removedReservation)
             };
 
             return response;

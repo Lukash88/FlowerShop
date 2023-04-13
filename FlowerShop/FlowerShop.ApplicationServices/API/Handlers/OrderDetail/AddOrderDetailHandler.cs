@@ -1,25 +1,24 @@
-﻿using FlowerShop.DataAccess.Core.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
+using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
+using FlowerShop.DataAccess.CQRS.Queries.Decoration;
+using FlowerShop.DataAccess.CQRS.Queries.Order;
+using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
+using FlowerShop.DataAccess.CQRS.Queries.Product;
+using MediatR;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
 {
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
-    using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
-    using FlowerShop.DataAccess.CQRS.Queries.Decoration;
-    using FlowerShop.DataAccess.CQRS.Queries.Order;
-    using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
-    using FlowerShop.DataAccess.CQRS.Queries.Product;
-    using MediatR;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public class AddOrderDetailHandler : IRequestHandler<AddOrderDetailRequest, AddOrderDetailResponse>
     {
         private readonly ICommandExecutor commandExecutor;
@@ -55,7 +54,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
             // retrieving list of bouqs
             var getBouquets = await this.queryExecutor.ExecuteWithSieve(bouquetsQuery);
             // retrieving list of chosen bouqs and their IDs in form of List<Tuple<int, int>
-            var bouquetsIdAndQuantity = request.BouquetsIdAndQuandity;
+            var bouquetsIdAndQuantity = request.BouquetsIdAndQuantity;
             // list of bouqs IDs
             var bouquetsId = bouquetsIdAndQuantity.Select(x => x.Item1);
             // retrieving list of chosen flowers based on their IDs
@@ -65,7 +64,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
             // retrieving list of decorations
             var getDecorations = await this.queryExecutor.ExecuteWithSieve(decorationsQuery);
             // retrieving list of chosen decos and their IDs in form of List<Tuple<int, int>
-            var decorationsIdAndQuantity = request.DecorationsIdAndQuandity;
+            var decorationsIdAndQuantity = request.DecorationsIdAndQuantity;
             // list of decos IDs
             var decorationsId = decorationsIdAndQuantity.Select(x => x.Item1);
             // retrieving list of chosen flowers based on their IDs
@@ -75,7 +74,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
             // retrieving list of products
             var getProducts = await this.queryExecutor.ExecuteWithSieve(productsQuery);
             // retrieving list of chosen products and their IDs in form of List<Tuple<int, int>
-            var productsIdAndQuantity = request.ProductsIdAndQuandity;
+            var productsIdAndQuantity = request.ProductsIdAndQuantity;
             // list of products IDs
             var productsId = productsIdAndQuantity.Select(x => x.Item1);
             // retrieving list of chosen products based on their IDs
@@ -129,7 +128,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
 
             var response = new AddOrderDetailResponse()
             {
-                Data = this.mapper.Map<Domain.Models.OrderDetailDTO>(addedOrderDetail)
+                Data = this.mapper.Map<Domain.Models.OrderDetailDto>(addedOrderDetail)
             };
 
             return response;

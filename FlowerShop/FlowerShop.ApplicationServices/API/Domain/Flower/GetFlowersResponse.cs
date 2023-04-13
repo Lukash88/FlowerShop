@@ -1,9 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Flower
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
-    using System.Collections.Generic;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class GetFlowersResponse : ResponseBase<PagedResponse<FlowerDTO>>
+namespace FlowerShop.ApplicationServices.API.Domain.Flower
+{
+    public class GetFlowersResponse : ResponseBase<PagedResponse<FlowerDto>>
     {
     }
 }

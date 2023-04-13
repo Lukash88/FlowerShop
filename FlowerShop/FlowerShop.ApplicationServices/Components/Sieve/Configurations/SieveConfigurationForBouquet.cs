@@ -1,11 +1,5 @@
-﻿using Sieve.Models;
+﻿using FlowerShop.DataAccess.Core.Entities;
 using Sieve.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FlowerShop.DataAccess.Core.Entities;
 
 namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
 {
@@ -29,6 +23,5 @@ namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
                 .CanSort()
                 .CanFilter();
         }
-
     }
 }

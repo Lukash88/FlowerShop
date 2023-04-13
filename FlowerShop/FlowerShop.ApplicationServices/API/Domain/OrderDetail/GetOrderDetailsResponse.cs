@@ -1,9 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
-    using System.Collections.Generic;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class GetOrderDetailsResponse : ResponseBase<PagedResponse<OrderDetailDTO>>
+namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
+{
+    public class GetOrderDetailsResponse : ResponseBase<PagedResponse<OrderDetailDto>>
     {
     }
 }

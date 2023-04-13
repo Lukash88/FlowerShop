@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
+using MediatR;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Product
 {
-    using MediatR;
-
     public class AddProductRequest : IRequest<AddProductResponse>
     {
         public string Name { get; set; }

@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Order
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class UpdateOrderResponse : ResponseBase<OrderDTO>
+namespace FlowerShop.ApplicationServices.API.Domain.Order
+{
+    public class UpdateOrderResponse : ResponseBase<OrderDto>
     {
     }
 }

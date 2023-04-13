@@ -1,10 +1,9 @@
-﻿using FlowerShop.DataAccess.Core.Enums;
+﻿using System;
+using FlowerShop.DataAccess.Core.Enums;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Models
 {
-    using System;
-
-    public class ReservationDTO
+    public class ReservationDto
     {
         public int Id { get; set; }
         public int OrderId { get; set; }

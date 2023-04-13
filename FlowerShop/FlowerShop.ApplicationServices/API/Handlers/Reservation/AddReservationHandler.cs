@@ -1,19 +1,18 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Reservation;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.Reservation;
-    using FlowerShop.DataAccess.CQRS.Queries.Order;
-    using FlowerShop.DataAccess.CQRS.Queries.Reservation;
-    using MediatR;
-    using Sieve.Models;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Reservation;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.Reservation;
+using FlowerShop.DataAccess.CQRS.Queries.Order;
+using FlowerShop.DataAccess.CQRS.Queries.Reservation;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+{
     public class AddReservationHandler : IRequestHandler<AddReservationRequest, AddReservationResponse>
     {
         private readonly ICommandExecutor commandExecutor;
@@ -50,7 +49,7 @@
             var addedReservation = await this.commandExecutor.Execute(command);
             var response = new AddReservationResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ReservationDTO>(addedReservation)
+                Data = this.mapper.Map<Domain.Models.ReservationDto>(addedReservation)
             };
 
             return response;

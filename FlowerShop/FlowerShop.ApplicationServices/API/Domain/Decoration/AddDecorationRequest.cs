@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
+using MediatR;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Decoration
 {
-    using MediatR;
-
     public class AddDecorationRequest : IRequest<AddDecorationResponse>
     {
         public string Name { get; set; }

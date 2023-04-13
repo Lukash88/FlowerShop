@@ -5,7 +5,7 @@ namespace FlowerShop.DataAccess.Core.Entities
 {
     public class Bouquet : EntityBase
     {
-        public Occassion Occasion { get; set; }
+        public Occasion Occasion { get; set; }
         public TypeOfFlowerArrangement TypeOfArrangement { get; set; }
         public DecorationWay DecorationWay { get; set; }
         public int StockLevel { get; set; }

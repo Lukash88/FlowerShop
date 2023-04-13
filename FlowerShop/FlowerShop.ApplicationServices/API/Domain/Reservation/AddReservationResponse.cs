@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Reservation
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class AddReservationResponse : ResponseBase<ReservationDTO>
+namespace FlowerShop.ApplicationServices.API.Domain.Reservation
+{
+    public class AddReservationResponse : ResponseBase<ReservationDto>
     {
     }
 }

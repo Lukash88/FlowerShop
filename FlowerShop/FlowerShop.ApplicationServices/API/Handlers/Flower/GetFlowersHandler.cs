@@ -1,18 +1,18 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Flower
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Flower;
-    using FlowerShop.ApplicationServices.API.Domain.Models;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.ApplicationServices.Components.Flowers;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Queries.Flower;
-    using Microsoft.Extensions.Logging;
-    using Sieve.Services;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Flower;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.ApplicationServices.Components.Flowers;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Queries.Flower;
+using Microsoft.Extensions.Logging;
+using Sieve.Services;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Flower
+{
     public class GetFlowersHandler : PagedRequestHandler<GetFlowersRequest, GetFlowersResponse>
     {
         private readonly IMapper mapper;
@@ -53,7 +53,8 @@
                 };
             }
 
-            var results = await flowers.ToPagedAsync<DataAccess.Core.Entities.Flower, FlowerDTO>(sieveProcessor, mapper, query.SieveModel);
+            var results = await flowers.ToPagedAsync<DataAccess.Core.Entities.Flower, FlowerDto>(sieveProcessor, 
+                mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetFlowersResponse()
             {
                 Data = results

@@ -1,16 +1,16 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
-    using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.OrderDetail;
+using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
+{
     public class RemoveOrderDetailHandler : IRequestHandler<RemoveOrderDetailRequest, RemoveOrderDetailResponse>
     {
         private readonly IMapper mapper;
@@ -47,7 +47,7 @@
             var removedOrderDetail = await this.commandExecutor.Execute(command);
             var response = new RemoveOrderDetailResponse()
             {
-                Data = this.mapper.Map<Domain.Models.OrderDetailDTO>(removedOrderDetail)
+                Data = this.mapper.Map<Domain.Models.OrderDetailDto>(removedOrderDetail)
             };
 
             return response;

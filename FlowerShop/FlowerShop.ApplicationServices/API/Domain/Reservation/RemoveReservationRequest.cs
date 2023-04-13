@@ -1,7 +1,7 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Reservation
-{
-    using MediatR;
+﻿using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Domain.Reservation
+{
     public class RemoveReservationRequest : IRequest<RemoveReservationResponse>
     {
         public int ReservationId { get; init; }

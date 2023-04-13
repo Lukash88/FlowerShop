@@ -1,16 +1,17 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Bouquet;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
-    using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Bouquet;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
+using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
+{
     public class UpdateBouquetHandler : IRequestHandler<UpdateBouquetRequest, UpdateBouquetResponse>
     {
         private readonly IMapper mapper;
@@ -39,15 +40,15 @@
                 };
             }
 
-            var mapppedBouquet = this.mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
+            var mappedBouquet = this.mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
             var command = new UpdateBouquetCommand()
             {
-                Parameter = mapppedBouquet
+                Parameter = mappedBouquet
             };
             var updatedBouquet = await this.commandExecutor.Execute(command);
             var response = new UpdateBouquetResponse()
             {
-                Data = this.mapper.Map<Domain.Models.BouquetDTO>(updatedBouquet)
+                Data = this.mapper.Map<BouquetDto>(updatedBouquet)
             };
 
             return response;

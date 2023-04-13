@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class GetOrderDetailByIdResponse : ResponseBase<OrderDetailDTO>
+namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
+{
+    public class GetOrderDetailByIdResponse : ResponseBase<OrderDetailDto>
     {
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class RemoveOrderDetailResponse : ResponseBase<OrderDetailDTO>
+namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
+{
+    public class RemoveOrderDetailResponse : ResponseBase<OrderDetailDto>
     {
     }
 }

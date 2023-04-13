@@ -1,17 +1,17 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Models;
-    using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
-    using Microsoft.Extensions.Logging;
-    using Sieve.Services;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Queries.OrderDetail;
+using Microsoft.Extensions.Logging;
+using Sieve.Services;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.OrderDetail
+{
     public class GetOrderDetailsHandler : PagedRequestHandler<GetOrderDetailsRequest, GetOrderDetailsResponse>
     {
         private readonly IMapper mapper;
@@ -46,7 +46,8 @@
                 };
             }
 
-            var results = await orderDetails.ToPagedAsync<DataAccess.Core.Entities.OrderDetail, OrderDetailDTO>(sieveProcessor, mapper, query.SieveModel);
+            var results = await orderDetails.ToPagedAsync<DataAccess.Core.Entities.OrderDetail, OrderDetailDto>(sieveProcessor, 
+                mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetOrderDetailsResponse()
             {
                 Data = results

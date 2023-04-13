@@ -1,15 +1,15 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Reservation;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Queries.Reservation;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Reservation;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Queries.Reservation;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+{
     public class GetReservationByIdHandler : IRequestHandler<GetReservationByIdRequest, GetReservationByIdResponse>
     {
         private readonly IMapper mapper;
@@ -36,7 +36,7 @@
                 };
             }
 
-            var mappedReservation = this.mapper.Map<Domain.Models.ReservationDTO>(reservation);
+            var mappedReservation = this.mapper.Map<Domain.Models.ReservationDto>(reservation);
             var response = new GetReservationByIdResponse()
             {
                 Data = mappedReservation

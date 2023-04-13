@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Models
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-    public class OrderDetailDTO
+namespace FlowerShop.ApplicationServices.API.Domain.Models
+{
+    public class OrderDetailDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,9 +11,9 @@
         public decimal? Price { get; set; }
 
         public int OrderId { get; set; }
-        public OrderDTO OrderDTO { get; set; }
-        public List<ProductDTO> Products { get; set; } = new();
-        public List<BouquetDTO> Bouquets { get; set; } = new();
-        public List<DecorationDTO> Decorations { get; set; } = new();
+        public OrderDto OrderDto { get; set; }
+        public List<ProductDto> Products { get; set; } = new();
+        public List<BouquetDto> Bouquets { get; set; } = new();
+        public List<DecorationDto> Decorations { get; set; } = new();
     }
 }

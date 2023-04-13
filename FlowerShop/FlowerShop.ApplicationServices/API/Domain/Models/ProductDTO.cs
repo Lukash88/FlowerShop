@@ -2,9 +2,7 @@
 
 namespace FlowerShop.ApplicationServices.API.Domain.Models
 {
-    using System.Collections.Generic;
-
-    public class ProductDTO
+    public class ProductDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -15,6 +13,6 @@ namespace FlowerShop.ApplicationServices.API.Domain.Models
         public string ImageUrl { get; set; }
         public int StockLevel { get; set; }
 
-        public IList<OrderDetailDTO> OrderDetails { get; set; }
+      //  public IList<OrderDetailDto> OrderDetails { get; set; }
     }
 }

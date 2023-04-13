@@ -1,11 +1,10 @@
-﻿using FlowerShop.DataAccess.Core.Entities;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.ApplicationServices.API.Domain.Reservation;
+using FlowerShop.DataAccess.Core.Entities;
 
 namespace FlowerShop.ApplicationServices.Mappings
 {
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain.Reservation;
-    using FlowerShop.ApplicationServices.API.Domain.Models;
-
     public class ReservationsProfile : Profile
     {
         public ReservationsProfile()
@@ -22,7 +21,7 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(x => x.EventPostalCode, y => y.MapFrom(z => z.EventPostalCode))
                 .ForMember(x => x.ServicePrice, y => y.MapFrom(z => z.ServicePrice));
 
-            this.CreateMap<Reservation, ReservationDTO>()
+            this.CreateMap<Reservation, ReservationDto>()
                 .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
                 .ForMember(x => x.OrderId, y => y.MapFrom(z => z.OrderId))
                 .ForMember(x => x.DateOfEvent, y => y.MapFrom(z => z.DateOfEvent))

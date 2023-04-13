@@ -1,8 +1,7 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
-{
-    using MediatR;
-    using System;
+﻿using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Domain.OrderDetail
+{
     public class UpdateOrderDetailRequest : IRequest<UpdateOrderDetailResponse>
     {
         public int OrderDetailId;

@@ -1,16 +1,16 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Flower
-{
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Flower;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.Flower;
-    using FlowerShop.DataAccess.CQRS.Queries.Flower;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Flower;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.Flower;
+using FlowerShop.DataAccess.CQRS.Queries.Flower;
+using MediatR;
 
+namespace FlowerShop.ApplicationServices.API.Handlers.Flower
+{
     public class UpdateFlowerHandler : IRequestHandler<UpdateFlowerRequest, UpdateFlowerResponse>
     {
         private readonly IMapper mapper;
@@ -48,7 +48,7 @@
 
             var response =  new UpdateFlowerResponse()
             {
-                Data = this.mapper.Map<Domain.Models.FlowerDTO>(updatedFlower)
+                Data = this.mapper.Map<Domain.Models.FlowerDto>(updatedFlower)
             };
 
             return response;

@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Flower
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class GetFlowerByIdResponse : ResponseBase<FlowerDTO>
+namespace FlowerShop.ApplicationServices.API.Domain.Flower
+{
+    public class GetFlowerByIdResponse : ResponseBase<FlowerDto>
     {
     }
 }

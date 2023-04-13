@@ -1,10 +1,5 @@
-﻿using Sieve.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FlowerShop.DataAccess.Core.Entities;
+﻿using FlowerShop.DataAccess.Core.Entities;
+using Sieve.Services;
 
 namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
 {

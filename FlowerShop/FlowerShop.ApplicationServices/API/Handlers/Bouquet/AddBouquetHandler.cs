@@ -1,20 +1,19 @@
-﻿using FlowerShop.DataAccess.Core.Entities;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Bouquet;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
+using FlowerShop.DataAccess.CQRS.Queries.Flower;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain.Bouquet;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
-    using FlowerShop.DataAccess.CQRS.Commands.BouquetFlower;
-    using FlowerShop.DataAccess.CQRS.Queries.Flower;
-    using MediatR;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public class AddBouquetHandler : IRequestHandler<AddBouquetRequest, AddBouquetResponse>
     {
         private readonly ICommandExecutor commandExecutor;
@@ -34,7 +33,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
             // retrieving list of flowers
             var getFlowers = await this.queryExecutor.ExecuteWithSieve(flowersQuery);
             // retrieving list of chosen flowers and their IDs in form of List<Tuple<int, int>
-            var flowersIdAndQuantity = request.FlowersIdAndQuandity;
+            var flowersIdAndQuantity = request.FlowersIdAndQuantity;
             // list of flowers IDs
             var flowersId = flowersIdAndQuantity.Select(x => x.Item1);
             // retrieving list of chosen flowers based on their IDs
@@ -64,7 +63,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 
             var response = new AddBouquetResponse()
             {
-                Data = this.mapper.Map<Domain.Models.BouquetDTO>(addedBouquet)
+                Data = this.mapper.Map<BouquetDto>(addedBouquet)
             };
 
             return response;

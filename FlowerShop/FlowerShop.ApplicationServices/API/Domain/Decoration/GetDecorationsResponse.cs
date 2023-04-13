@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Decoration
-{
-    using FlowerShop.ApplicationServices.API.Domain.Models;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-    public class GetDecorationsResponse : ResponseBase<PagedResponse<DecorationDTO>>
+namespace FlowerShop.ApplicationServices.API.Domain.Decoration
+{
+    public class GetDecorationsResponse : ResponseBase<PagedResponse<DecorationDto>>
     {
     }
 }

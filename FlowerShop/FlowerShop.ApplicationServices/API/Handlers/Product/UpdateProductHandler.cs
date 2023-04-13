@@ -1,17 +1,16 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.Product
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Product;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.Product;
+using FlowerShop.DataAccess.CQRS.Queries.Product;
+using MediatR;
+
+namespace FlowerShop.ApplicationServices.API.Handlers.Product
 {
-    using AutoMapper;
-    using FlowerShop.ApplicationServices.API.Domain;
-    using FlowerShop.ApplicationServices.API.Domain.Product;
-    using FlowerShop.ApplicationServices.API.ErrorHandling;
-    using FlowerShop.DataAccess.CQRS;
-    using FlowerShop.DataAccess.CQRS.Commands.Product;
-    using FlowerShop.DataAccess.CQRS.Queries.Product;
-    using MediatR;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-
     public class UpdateProductHandler : IRequestHandler<UpdateProductRequest, UpdateProductResponse>
     {
         private readonly IMapper mapper;
@@ -47,7 +46,7 @@
             var productFromDb = await this.commandExecutor.Execute(command);
             var response = new UpdateProductResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ProductDTO>(productFromDb)
+                Data = this.mapper.Map<Domain.Models.ProductDto>(productFromDb)
             };
 
             return response;
