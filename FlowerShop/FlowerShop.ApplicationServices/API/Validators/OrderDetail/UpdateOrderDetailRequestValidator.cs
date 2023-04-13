@@ -1,17 +1,22 @@
-﻿namespace FlowerShop.ApplicationServices.API.Validators.OrderDetail
-{
-    using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
-    using FluentValidation;
+﻿using FlowerShop.ApplicationServices.API.Domain.OrderDetail;
+using FluentValidation;
 
+namespace FlowerShop.ApplicationServices.API.Validators.OrderDetail
+{
     public class UpdateOrderDetailRequestValidator : AbstractValidator<UpdateOrderDetailRequest>
     {
         public UpdateOrderDetailRequestValidator()
         {
-            this.RuleFor(x => x.OrderDetailId).NotNull().WithMessage("CHOOSE_NUMBER_GREATER_THAN_0_AND_VALID_ORDERDETAIL_ID");
-            this.RuleFor(x => x.OrderId).GreaterThan(0).WithMessage("CHOOSE_NUMBER_GREATER_THAN_0_AND_VALID_ORDER_ID");            
-            this.RuleFor(x => x.Description).Length(5, 200).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_5_TO_200_CHARACTERS");
-            this.RuleFor(x => x.Category).Length(3, 100).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_3_TO_100_CHARACTERS");
-            this.RuleFor(x => x.Price).NotEmpty().WithMessage("INSERT_VALUE");
+            RuleLevelCascadeMode = CascadeMode.Stop;
+            
+            this.RuleFor(x => x.OrderId).NotNull().NotEmpty().WithMessage("BasketId cannot be empty or null")
+                .GreaterThan(0).WithMessage("Order Id must be greater than 0");
+            this.RuleFor(x => x.Description).NotNull().NotEmpty().Length(5, 200)
+                .WithMessage("Description must contain 5-200 characters");
+            this.RuleFor(x => x.Category).NotNull().NotEmpty().Length(3, 100)
+                .WithMessage("Category must contain 3-100 characters");
+            this.RuleFor(x => x.Price).NotNull().NotEmpty().WithMessage("Price cannot be empty or null")
+                .GreaterThan(0).WithMessage("Price must be greater than 0");
         }
     }
 }

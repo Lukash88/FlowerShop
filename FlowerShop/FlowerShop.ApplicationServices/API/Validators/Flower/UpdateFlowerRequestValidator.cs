@@ -1,19 +1,26 @@
-﻿namespace FlowerShop.ApplicationServices.API.Validators.Flower
-{
-    using FlowerShop.ApplicationServices.API.Domain.Flower;
-    using FluentValidation;
+﻿using FlowerShop.ApplicationServices.API.Domain.Flower;
+using FluentValidation;
 
+namespace FlowerShop.ApplicationServices.API.Validators.Flower
+{
     public class UpdateFlowerRequestValidator : AbstractValidator<UpdateFlowerRequest>
     {
         public UpdateFlowerRequestValidator()
         {
-            this.RuleFor(x => x.FlowerId).NotNull().WithMessage("CHOOSE_NUMBER_GREATER_THAN_0");
-            this.RuleFor(x => x.Name).Length(3, 100).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_3_TO_100_CHARACTERS");
-            this.RuleFor(x => (int)x.FlowerType).InclusiveBetween(1, 3).WithMessage("CHOOSE_NUMBER_BETWEEN_1_-_3");
-            this.RuleFor(x => x.Description).Length(1, 500).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_1_TO_500_CHARACTERS");
-            this.RuleFor(x => x.LengthInCm).Must(x => x >= 0 && x <= 255).WithMessage("CHOOSE_LENGTH_BETWEEN_0_ - _255");
-            this.RuleFor(x => (int)x.Colour).InclusiveBetween(1, 10).WithMessage("CHOOSE_NUMBER_BETWEEN_1_-_10");
-            this.RuleFor(x => x.Price).NotEmpty().WithMessage("INSERT_VALUE");
+            RuleLevelCascadeMode = CascadeMode.Stop;
+
+            this.RuleFor(x => x.Name).NotNull().NotEmpty().Length(3, 100)
+                .WithMessage("Name must contain 3-100 characters");
+            this.RuleFor(x => (int)x.FlowerType).NotNull().NotEmpty().InclusiveBetween(1, 3)
+                .WithMessage("Choose number between 1-3");
+            this.RuleFor(x => x.Description).NotNull().NotEmpty().Length(5, 500)
+                .WithMessage("Description must contain 5-500 characters");
+            this.RuleFor(x => x.LengthInCm).NotNull().NotEmpty().InclusiveBetween(1, 500)
+                .WithMessage("Choose length between 1-500 cm");
+            this.RuleFor(x => (int)x.Color).NotNull().NotEmpty().InclusiveBetween(1, 10)
+                .WithMessage("Choose color between 1-10");
+            this.RuleFor(x => x.Price).NotNull().NotEmpty().WithMessage("Price cannot be empty or null")
+                .GreaterThan(0).WithMessage("Price must be greater than 0");
         }
     }
 }

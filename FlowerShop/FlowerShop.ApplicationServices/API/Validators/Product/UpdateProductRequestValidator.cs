@@ -1,18 +1,24 @@
-﻿namespace FlowerShop.ApplicationServices.API.Validators.Product
-{
-    using FlowerShop.ApplicationServices.API.Domain.Product;
-    using FluentValidation;
+﻿using FlowerShop.ApplicationServices.API.Domain.Product;
+using FluentValidation;
 
+namespace FlowerShop.ApplicationServices.API.Validators.Product
+{
     public class UpdateProductRequestValidator : AbstractValidator<UpdateProductRequest>
     {
         public UpdateProductRequestValidator()
         {
-            this.RuleFor(x => x.ProductId).NotNull().WithMessage("CHOOSE_NUMBER_GREATER_THAN_0");
-            this.RuleFor(x => x.Name).Length(3, 30).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_3_TO_30_CHARACTERS");
-            this.RuleFor(x => x.ShortDescription).Length(5, 200).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_5_TO_200_CHARACTERS");
-            this.RuleFor(x => x.LongDescription).Length(5, 500).NotEmpty().WithMessage("STRING_MUST_CONTAIN_FROM_3_TO_500_CHARACTERS");
-            this.RuleFor(x => (int)x.Category).InclusiveBetween(1, 4).WithMessage("CHOOSE_1_-_4");
-            this.RuleFor(x => x.Price).NotEmpty().WithMessage("INSERT_VALUE");
+            RuleLevelCascadeMode = CascadeMode.Stop;
+            
+            this.RuleFor(x => x.Name).NotNull().NotEmpty().Length(3, 30)
+                .WithMessage("Name must contain 3-30 characters");
+            this.RuleFor(x => x.ShortDescription).NotNull().NotEmpty().Length(5, 200)
+                .WithMessage("Description must contain 5-200 characters");
+            this.RuleFor(x => x.LongDescription).NotNull().NotEmpty().Length(5, 500)
+                .WithMessage("Description must contain 5-500 characters");
+            this.RuleFor(x => (int)x.Category).NotNull().NotEmpty().InclusiveBetween(1, 4)
+                .WithMessage("Choose category between 1-4");
+            this.RuleFor(x => x.Price).NotNull().NotEmpty().WithMessage("Price cannot be empty or null")
+                .GreaterThan(0).WithMessage("Price must be greater than 0");
         }
     }
 }
