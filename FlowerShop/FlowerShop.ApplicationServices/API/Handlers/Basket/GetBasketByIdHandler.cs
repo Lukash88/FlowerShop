@@ -35,8 +35,10 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
             var getBasket = await this.basketRepository.GetBasketAsync(request.BasketId);
             if (getBasket == null)
             {
-                var newBasket = new CustomerBasket(request.BasketId);
-                var mappedNewBasket = this.mapper.Map<CustomerBasket, CustomerBasketDto>(newBasket);
+                var newBasket = new CustomerBasket(request.BasketId); 
+                var updatedBasket = await this.basketRepository.UpdateBasketAsync(newBasket);
+                var mappedNewBasket = this.mapper.Map<CustomerBasket, CustomerBasketDto>(updatedBasket);
+               
 
                 return new GetBasketByIdResponse()
                 {

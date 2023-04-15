@@ -1,40 +1,61 @@
-using System.Threading.Tasks;
-using FlowerShop.DataAccess;
-using FlowerShop.DataAccess.Core.Entities;
+using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Basket;
 using FlowerShop.DataAccess.Repositories.BasketRepository;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace FlowerShop.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class BasketController : ControllerBase
+    [Authorize]
+    public class BasketController : ApiControllerBase
     {
         private readonly IBasketRepository basketRepository;
+        private readonly IMapper mapper;
 
-        public BasketController(IBasketRepository basketRepository)
+        public BasketController(IBasketRepository basketRepository, IMapper mapper,
+            IMediator mediator, ILogger<BasketController> logger) : base(mediator, logger)
         {
             this.basketRepository = basketRepository;
+            this.mapper = mapper;
+            logger.LogInformation("We are in Basket Controller");
         }
 
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<CustomerBasket>> GetBasketById(string id)
+        [Route("{basketId}")]
+        public async Task<IActionResult> GetBasketById([FromRoute] string basketId)
         {
-            var basket = await this.basketRepository.GetBasketAsync(id);
+            var request = new GetBasketByIdRequest()
+            {
+                BasketId = basketId
+            };
 
-            return Ok(basket ?? new CustomerBasket(id));
+            return await this.HandleRequest<GetBasketByIdRequest, GetBasketByIdResponse>(request);
         }
 
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasket basket) 
+        [Route("{basketId}")]
+        public async Task<IActionResult> UpdateBasket([FromRoute] string basketId, [FromBody] UpdateBasketRequest request)
         {
-            var updatedBasket = await this.basketRepository.UpdateBasketAsync(basket);
+            request.BasketId = basketId;
 
-            return Ok(basket);
+            return await this.HandleRequest<UpdateBasketRequest, UpdateBasketResponse>(request);
         }
 
         [HttpDelete]
-        public async Task DeleteBasketAsync(string id) =>        
-            await this.basketRepository.DeleteBasketAsync(id);   
+        [Route("{basketId}")]
+        public async Task<IActionResult> DeleteBasketAsync([FromRoute] string basketId)
+        {
+            var request = new RemoveBasketRequest()
+            {
+                BasketId = basketId
+            };
+
+            return await this.HandleRequest<RemoveBasketRequest, RemoveBasketResponse>(request);
+        }  
     }
 }
