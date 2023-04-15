@@ -1,12 +1,14 @@
-﻿namespace FlowerShop.Controllers
-{
-    using FlowerShop.ApplicationServices.API.Domain.Order;
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using Sieve.Models;
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FlowerShop.ApplicationServices.API.Domain.Order;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Sieve.Models;
 
+namespace FlowerShop.Controllers
+{
+    [Authorize]
     public class OrdersController : ApiControllerBase
     {
         public OrdersController(IMediator mediator, ILogger<OrdersController> logger) : base(mediator, logger)
@@ -18,7 +20,10 @@
         [Route("")]
         public async Task<IActionResult> GetAllOrders([FromQuery] SieveModel sieveModel)
         {
-            GetOrdersRequest request = new GetOrdersRequest { SieveModel = sieveModel };
+            var request = new GetOrdersRequest
+            {
+                SieveModel = sieveModel
+            };
             
             return await this.HandleRequest<GetOrdersRequest, GetOrdersResponse>(request);
         }

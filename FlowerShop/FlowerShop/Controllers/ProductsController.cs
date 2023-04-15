@@ -1,13 +1,13 @@
-﻿namespace FlowerShop.Controllers
-{
-    using FlowerShop.ApplicationServices.API.Domain.Product;
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using System.Threading.Tasks;
-    using Sieve.Models;
-    using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using FlowerShop.ApplicationServices.API.Domain.Product;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Sieve.Models;
 
+namespace FlowerShop.Controllers
+{
     [Authorize]
     public class ProductsController : ApiControllerBase
     {
@@ -21,7 +21,10 @@
         [Route("")]
         public async Task<IActionResult> GetAllProducts([FromQuery] SieveModel sieveModel)
         {            
-            GetProductsRequest request = new GetProductsRequest { SieveModel = sieveModel };
+            var request = new GetProductsRequest
+            {
+                SieveModel = sieveModel
+            };
 
             return await this.HandleRequest<GetProductsRequest, GetProductsResponse>(request);
         }

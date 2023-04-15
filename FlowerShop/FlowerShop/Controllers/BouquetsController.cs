@@ -1,13 +1,13 @@
-﻿namespace FlowerShop.Controllers
-{
-    using FlowerShop.ApplicationServices.API.Domain.Bouquet;
-    using MediatR;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using Sieve.Models;
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FlowerShop.ApplicationServices.API.Domain.Bouquet;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Sieve.Models;
 
+namespace FlowerShop.Controllers
+{
     [Authorize]
     public class BouquetsController : ApiControllerBase
     {
@@ -15,15 +15,20 @@
         {
             logger.LogInformation("We are in Bouquets");
         }
+
         [AllowAnonymous]
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetAllBouquets([FromQuery] SieveModel sieveModel)
         {
-            GetBouquetsRequest request = new GetBouquetsRequest { SieveModel = sieveModel };
+            var request = new GetBouquetsRequest
+            {
+                SieveModel = sieveModel
+            };
 
             return await this.HandleRequest<GetBouquetsRequest, GetBouquetsResponse>(request);
         }
+
         [AllowAnonymous]
         [HttpGet]
         [Route("{bouquetId}")]
@@ -36,11 +41,13 @@
 
             return await this.HandleRequest<GetBouquetByIdRequest, GetBouquetByIdResponse>(request);
         }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddBouquet([FromBody] AddBouquetRequest request) => 
             await this.HandleRequest<AddBouquetRequest, AddBouquetResponse>(request);
+
         [AllowAnonymous]
         [HttpDelete]
         [Route("{bouquetId}")]
@@ -53,6 +60,7 @@
 
             return await this.HandleRequest<RemoveBouquetRequest, RemoveBouquetResponse>(request);
         }
+
         [AllowAnonymous]
         [HttpPut]
         [Route("{bouquetId}")]
@@ -60,6 +68,7 @@
         {
             request.BouquetId = bouquetId;
 
-            return await this.HandleRequest<UpdateBouquetRequest, UpdateBouquetResponse>(request);        }
+            return await this.HandleRequest<UpdateBouquetRequest, UpdateBouquetResponse>(request);
+        }
     }
 }

@@ -1,24 +1,29 @@
-﻿namespace FlowerShop.Controllers
-{
-    using FlowerShop.ApplicationServices.API.Domain.Reservation;
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using Sieve.Models;
-    using System.Threading.Tasks;
+﻿using FlowerShop.ApplicationServices.API.Domain.Reservation;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Sieve.Models;
+using System.Threading.Tasks;
 
+namespace FlowerShop.Controllers
+{
+    [Authorize]
     public class ReservationsController : ApiControllerBase
     {
         public ReservationsController(IMediator mediator, ILogger<ReservationsController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Reservations");
         }
-
+       
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetAllReservations([FromQuery] SieveModel sieveModel)
         {
-            GetReservationsRequest request = new GetReservationsRequest { SieveModel = sieveModel };
+            var request = new GetReservationsRequest
+            {
+                SieveModel = sieveModel
+            };
 
             return await this.HandleRequest<GetReservationsRequest, GetReservationsResponse>(request);
         }

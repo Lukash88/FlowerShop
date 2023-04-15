@@ -1,12 +1,14 @@
-﻿namespace FlowerShop.Controllers
+﻿using System.Threading.Tasks;
+using FlowerShop.ApplicationServices.API.Domain.Decoration;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Sieve.Models;
+
+namespace FlowerShop.Controllers
 {
-    using FlowerShop.ApplicationServices.API.Domain.Decoration;
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using Sieve.Models;
-    using System.Threading.Tasks;
-    
+    [Authorize]
     public class DecorationsController : ApiControllerBase
     {
         public DecorationsController(IMediator mediator, ILogger<DecorationsController> logger) : base(mediator, logger)
@@ -14,15 +16,20 @@
             logger.LogInformation("We are in Decorations");
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetAllDecorations([FromQuery] SieveModel sieveModel)
         {
-            GetDecorationsRequest request = new GetDecorationsRequest { SieveModel = sieveModel };
+            var request = new GetDecorationsRequest
+            {
+                SieveModel = sieveModel
+            };
 
            return await this.HandleRequest<GetDecorationsRequest, GetDecorationsResponse>(request);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("{decorationId}")]
         public async Task<IActionResult> GetDecorationById([FromRoute] int decorationId)

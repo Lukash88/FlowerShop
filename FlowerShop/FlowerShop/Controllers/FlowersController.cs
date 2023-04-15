@@ -1,12 +1,14 @@
-﻿namespace FlowerShop.Controllers
-{
-    using FlowerShop.ApplicationServices.API.Domain.Flower;
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using Sieve.Models;
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FlowerShop.ApplicationServices.API.Domain.Flower;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Sieve.Models;
 
+namespace FlowerShop.Controllers
+{
+    [Authorize]
     public class FlowersController : ApiControllerBase
     {
         public FlowersController(IMediator mediator, ILogger<FlowersController> logger) : base(mediator, logger)
@@ -14,15 +16,20 @@
             logger.LogInformation("We are in Flowers");
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("")]
         public async Task<IActionResult> GetAllFlowers([FromQuery] SieveModel sieveModel)
         {
-            GetFlowersRequest request = new GetFlowersRequest { SieveModel = sieveModel };
+            var request = new GetFlowersRequest
+            {
+                SieveModel = sieveModel
+            };
             
             return await this.HandleRequest<GetFlowersRequest, GetFlowersResponse>(request);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("{flowerId}")]
         public async Task<IActionResult> GetFlowerById([FromRoute] int flowerId)
