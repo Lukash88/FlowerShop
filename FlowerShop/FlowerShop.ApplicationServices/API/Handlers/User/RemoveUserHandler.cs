@@ -1,45 +1,53 @@
-﻿namespace FlowerShop.ApplicationServices.API.Handlers.User
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.User;
+using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.DataAccess.Core.Entities.Identity;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
-    public class RemoveUserHandler //: IRequestHandler<RemoveUserRequest, RemoveUserResponse>
+    public class RemoveUserHandler : IRequestHandler<RemoveUserRequest, RemoveUserResponse>
     {
-    //    private readonly IMapper mapper;
-    //    private readonly IQueryExecutor queryExecutor;
-    //    private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper mapper;
+        private readonly UserManager<AppUser> userManager;
 
-    //    public RemoveUserHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
-    //    {
-    //        this.mapper = mapper;
-    //        this.queryExecutor = queryExecutor;
-    //        this.commandExecutor = commandExecutor;
-    //    }
+        public RemoveUserHandler(IMapper mapper, UserManager<AppUser> userManager)
+        {
+            this.mapper = mapper;
+            this.userManager = userManager;
+        }
 
-    //    public async Task<RemoveUserResponse> Handle(RemoveUserRequest request, CancellationToken cancellationToken)
-    //    {
-    //        var query = new GetUserQuery()
-    //        {
-    //          //  Id = request.UserId
-    //        };
-    //      //  var getUser = await this.queryExecutor.Execute(query);
-    //        //if (getUser == null)
-    //        //{
-    //        //    return new RemoveUserResponse()
-    //        //    {
-    //        //        Error = new ErrorModel(ErrorType.NotFound)
-    //        //    };
-    //        //}
+        public async Task<RemoveUserResponse> Handle(RemoveUserRequest request, CancellationToken cancellationToken)
+        {
+            var getUser = await this.userManager.Users.SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
+            if (getUser == null)
+            {
+                return new RemoveUserResponse()
+                {
+                    Error = new ErrorModel(ErrorType.NotFound + " - User not found")
+                };
+            }
 
-    //        //var mappedUser = mapper.Map<DataAccess.Core.Entities.User>(request);
-    //        //var command = new RemoveUserCommand()
-    //        //{
-    //        //    Parameter = mappedUser
-    //        //};
-    //        //var removedUser = await this.commandExecutor.Execute(command);
-    //        var response = new RemoveUserResponse()
-    //        {
-    //            Data = null
-    //        };
+            var removedUser =   await this.userManager.DeleteAsync(getUser);
+            if (!removedUser.Succeeded)
+            {
+                return new RemoveUserResponse()
+                {
+                    Error = new ErrorModel(ErrorType.BadRequest + " - Problem removing the user")
+                };
+            }
 
-    //        return response;
-    //    }
+            var response = new RemoveUserResponse()
+            {
+                Data = null
+            };
+
+            return response;
+        }
     }
 }

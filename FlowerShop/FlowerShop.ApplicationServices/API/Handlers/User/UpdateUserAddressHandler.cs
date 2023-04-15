@@ -50,7 +50,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
             {
                 return new UpdateUserAddressResponse()
                 {
-                    Error = new ErrorModel(ErrorType.BadRequest + "\nProblem updating the user")
+                    Error = new ErrorModel(ErrorType.BadRequest + " - Problem updating the user")
                 };
             }
             var addressDto = this.mapper.Map<Address, AddressDto>(getUser.Address);

@@ -59,6 +59,14 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(x => x.City, y => y.MapFrom(z => z.City))
                 .ReverseMap();
 
+            this.CreateMap<UpdateUserRequest, AppUser>()
+                .ForMember(x => x.DisplayName, y => y.MapFrom(z => z.DisplayName))
+                .ForMember(x => x.Email, y => y.MapFrom(z => z.Email))
+                .ForMember(x => x.DateOfBirth, y => y.MapFrom(z => z.DateOfBirth))
+                .ForMember(x => x.Gender, y => y.MapFrom(z => z.Gender))
+                .ReverseMap();
+
+
             this.CreateMap<UpdateUserAddressRequest, Address>()
                 .ForMember(x => x.FirstName, y => y.MapFrom(z => z.FirstName))
                 .ForMember(x => x.LastName, y => y.MapFrom(z => z.LastName))

@@ -73,6 +73,18 @@ namespace FlowerShop.Controllers
 
             return await this.HandleRequest<GetUserAddressRequest, GetUserAddressResponse>(request);
         }
+        
+        [HttpPut]
+        [Route("")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest request)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            request.Email = email;
+
+            await CheckEmailExistsAsync(new CheckEmailExistsRequest(request.NewEmail));
+
+            return await this.HandleRequest<UpdateUserRequest, UpdateUserResponse>(request);
+        }
 
         [HttpPut]
         [Route("address")]
@@ -83,6 +95,18 @@ namespace FlowerShop.Controllers
             request.Email = email;
 
             return await this.HandleRequest<UpdateUserAddressRequest, UpdateUserAddressResponse>(request);
+        }
+
+        [HttpDelete]
+        [Route("")]
+        public async Task<IActionResult> RemoveUserByEmail(string userEmail)
+        {
+            var request = new RemoveUserRequest()
+            {
+                Email = userEmail
+            };
+
+            return await this.HandleRequest<RemoveUserRequest, RemoveUserResponse>(request);
         }
     }
 }
