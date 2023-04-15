@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using FlowerShop.DataAccess.Core.Entities;
+﻿using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlowerShop.DataAccess.Data
@@ -10,8 +10,7 @@ namespace FlowerShop.DataAccess.Data
         {
         }
 
-       // public DbSet<User> Users { get; set; }
-        public DbSet<Order> Orders { get; set; }       
+        public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Decoration> Decorations { get; set; }
@@ -26,8 +25,17 @@ namespace FlowerShop.DataAccess.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly
-                (Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfiguration(new BouquetConfiguration());
+            modelBuilder.ApplyConfiguration(new BouquetFlowerConfiguration());
+            modelBuilder.ApplyConfiguration(new BouquetOrderDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new DecorationConfiguration());
+            modelBuilder.ApplyConfiguration(new BouquetOrderDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new FlowerConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductOrderDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new ReservationConfiguration());
         }
     }
 }
