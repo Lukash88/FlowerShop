@@ -32,14 +32,31 @@
     cursor: pointer;
 }
 
-a {
+a.menu-items  {
     text-decoration: none;
-    text-transform: uppercase;;
+    text-transform: uppercase;
     color: #343a40;
     border-radius: 10px;
     transition: background 0.4s;
 
     &.active {
-        color: orange;
+        color: royalblue;
+        font-weight: 600;
     }
 } 
+
+a.dropdown {
+    text-decoration: none;
+    text-transform: none;
+    color: #343a40;
+    border-radius: 10px;
+    transition: background 0.4s;
+
+    &.active {
+        color: royalblue;        
+    }
+}
+
+.dropdown-toggle {
+    text-decoration: none;
+}
