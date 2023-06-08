@@ -13,7 +13,7 @@ namespace FlowerShop.ApplicationServices.API.Validators.User
                 .WithMessage("First name must contain 2 - 50 characters");
             this.RuleFor(x => x.LastName).NotNull().NotEmpty().Length(2, 50)
                 .WithMessage("Last name must contain 2 - 50 characters");
-            this.RuleFor(x => x.DisplayName).NotNull().NotEmpty().Length(3, 50)
+            this.RuleFor(x => x.DisplayName).NotNull().NotEmpty().Length(2, 50)
                 .WithMessage("Display name must contain 2 - 50 characters");
             this.RuleFor(x => x.Password).NotNull().NotEmpty().Length(8, 20)
                 .WithMessage("Password must contain 8 - 20 characters")
