@@ -15,10 +15,13 @@
       <a class="menu-items p-2" routerLink="/contact-us" routerLinkActive="active">Contact us</a>
     </nav>
     <div class="d-flex align-items-center">
-        <a routerLink="/basket" class="position-relative">
-            <i class="fa fa-shopping-cart fa-2x me-3 text-dark"></i>
-            <div *ngIf="(basketService.basketSource$ | async) as basket" class="cart-no">
-              {{getCount(basket.items)}}
+        <a 
+          *ngIf="(basketService.basketSource$ | async) as basket" 
+          routerLink="/basket/{{basket.id}}" class="position-relative">
+          <i class="fa fa-shopping-cart fa-2x me-3 text-dark"></i>
+          <div  class="cart-no">
+            <!-- <div *ngIf="(basketService.basketSource$ | async) as basket" class="cart-no"> -->
+            {{getCount(basket.items)}}
           </div>
         </a>
         <ng-container *ngIf="(accountService.currentUser$ | async) === null">
@@ -32,7 +35,10 @@
             </a>
             <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
               <li class="py-1">
-                <a routerLink="/basket" class="dropdown-item">
+                <a 
+                  *ngIf="(basketService.basketSource$ | async) as basket" 
+                  routerLink="/basket/{{basket.id}}" 
+                  class="dropdown-item">
                   <i class="fa fa-shopping-cart me-3"></i> Your basket
                 </a>
               </li>
