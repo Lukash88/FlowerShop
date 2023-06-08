@@ -19,18 +19,18 @@ export class BasketService {
   constructor(private http: HttpClient) {}
 
   getBasket(id: string) {
-    return this.http.get<Basket>(this.baseUrl + 'basket?id=' + id).subscribe({
-      next: (basket) => {
-        this.basketSource.next(basket);
+    return this.http.get<Basket>(this.baseUrl + 'basket/' + id).subscribe({
+      next: (basket: any) => {
+        this.basketSource.next(basket.data);
         this.calculateTotals();
       },
     });
   }
 
   setBasket(basket: Basket) {
-    return this.http.post<Basket>(this.baseUrl + 'basket', basket).subscribe({
-      next: (basket) => {
-        this.basketSource.next(basket);
+    return this.http.post<Basket>(this.baseUrl + 'basket/' + basket.id, basket).subscribe({
+      next: (basket: any) => {
+        this.basketSource.next(basket.data);
         this.calculateTotals();
       },
     });
@@ -62,7 +62,7 @@ export class BasketService {
   }
 
   deleteBasket(basket: Basket) {
-    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe({
+    return this.http.delete(this.baseUrl + 'basket/' + basket.id).subscribe({
       next: () => {
         this.basketSource.next(null);
         this.basketTotalSource.next(null);
@@ -101,11 +101,11 @@ export class BasketService {
     return {
       id: item.id,
       name: item.name,
-      description: item.shortDescription,
+      shortDescription: item.shortDescription,
       price: item.price,
       quantity: 0,
       imageUrl: item.imageUrl,
-      category: item.category,
+      category: item.category
     };
   }
 
