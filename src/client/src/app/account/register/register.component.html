@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center mt-5">
+    <div class="col-3">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="text-center mb-4">
+                <h1 class="mb-3">Sign up</h1>
+            </div>
+
+            <div class="mb-3">
+                <label style="margin-right: 10px; margin-bottom: 10px;">Gender (optional): 
+                </label><br>
+                <label *ngFor="let gender of genders" >
+                    <ul>
+                       <input type="radio" [value]="gender.value" formControlName="gender"> 
+                            {{gender.text}}
+                   </ul>
+                 </label>               
+            </div>
+
+            <app-text-input [formControl]="$any(registerForm.controls['displayName'])"
+                [label]="'Display Name'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['email'])" [label]="'Email'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['password'])" [label]="'Password'"
+                [type]="'password'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" [label]="'Confirm Password'"
+                [type]="'password'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['firstName'])"
+                [label]="'First Name'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['lastName'])"
+                [label]="'Last Name'"></app-text-input>
+            <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])"
+                [label]="'Date of Birth'"></app-date-picker>
+            <app-text-input [formControl]="$any(registerForm.controls['street'])" [label]="'Street'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['postalCode'])"
+                [label]="'Postal Code'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['city'])" [label]="'City'"></app-text-input>
+
+            <ul class="text-danger list-unstyled" *ngIf="errors">
+                <li *ngFor="let error of errors">
+                    {{error}}
+                </li>
+            </ul>
+
+            <div class="text-center">
+                <button [disabled]="registerForm.invalid" class="btn btn-lg btn-primary my-3 me-4 col-5"
+                    type="submit">Sign up</button>
+                <button class="btn btn-lg btn-light my-3 col-5" type="button" (click)="cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
