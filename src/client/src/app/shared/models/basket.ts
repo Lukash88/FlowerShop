@@ -8,7 +8,8 @@ export interface Basket {
 export interface BasketItem {
     id: number;
     name: string;
-    description: string;
+    // description: string;
+    shortDescription: string;
     price: number;
     quantity: number;
     imageUrl: string;
