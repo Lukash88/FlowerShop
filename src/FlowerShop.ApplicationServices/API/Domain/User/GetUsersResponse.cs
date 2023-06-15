@@ -2,7 +2,7 @@
 
 namespace FlowerShop.ApplicationServices.API.Domain.User
 {
-    public class GetUsersResponse // : ResponseBase<PagedResponse<UserDTO>>
+    public class GetUsersResponse  : ResponseBase<PagedResponse<AppUserDto>>
     {
     }
 }

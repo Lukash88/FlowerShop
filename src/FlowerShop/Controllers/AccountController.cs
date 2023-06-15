@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Sieve.Models;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -35,6 +36,18 @@ namespace FlowerShop.Controllers
             };
 
             return await this.HandleRequest<GetCurrentUserRequest, GetCurrentUserResponse>(request);
+        }
+        
+        [HttpGet]
+        [Route("all")]
+        public async Task<IActionResult> GetUsers([FromQuery] SieveModel sieveModel)
+        {
+            var request = new GetUsersRequest()
+            {
+                SieveModel = sieveModel
+            };
+
+            return await this.HandleRequest<GetUsersRequest, GetUsersResponse>(request);
         }
 
         [AllowAnonymous]

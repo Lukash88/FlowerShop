@@ -36,12 +36,8 @@ namespace FlowerShop.Controllers
             }
             
             var response = await this.mediator.Send(request);
-            if (response.Error != null)
-            {
-                return this.ErrorResponse(response.Error);
-            }
-            
-            return this.Ok(response);
+
+            return response.Error != null ? this.ErrorResponse(response.Error) : this.Ok(response);
         }
 
         private IActionResult ErrorResponse(ErrorModel errorModel)

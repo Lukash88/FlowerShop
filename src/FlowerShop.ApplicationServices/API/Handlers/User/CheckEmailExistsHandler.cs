@@ -23,19 +23,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
         {
             var  emailExists =  await this.userManager.FindByEmailAsync(request.EmailToCheck) != null;
 
-            if (emailExists)
-            {
-                return new CheckEmailExistsResponse()
+            return emailExists 
+                ? new CheckEmailExistsResponse()
                 {
-                    Error = new ErrorModel("Email is already taken"),    
-                    Result = true
+                    Error = new ErrorModel("Email is already taken")
+                } 
+                : new CheckEmailExistsResponse()
+                {
+                    Data = false
                 };
-            }
-
-            return new CheckEmailExistsResponse()
-            {
-                Result = false
-            };
         }
     }
 }
