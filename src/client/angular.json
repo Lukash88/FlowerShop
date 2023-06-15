@@ -76,8 +76,8 @@
             },
             "development": {
               "browserTarget": "client:build:development",
-              "sslKey": "ssl/server.key",
-              "sslCert": "ssl/server.crt",
+              "sslKey": "ssl/localhost-key.pem",
+              "sslCert": "ssl/localhost.pem",
               "ssl": true
             }
           },
