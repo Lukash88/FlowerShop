@@ -6,14 +6,14 @@
             </div>
 
             <div class="mb-3">
-                <label style="margin-right: 10px; margin-bottom: 10px;">Gender (optional): 
+                 <label style="margin-right: 10px; margin-bottom: 10px;">Gender (optional): 
                 </label><br>
-                <label *ngFor="let gender of genders" >
+                 <label *ngFor="let gender of genders" >
                     <ul>
                        <input type="radio" [value]="gender.value" formControlName="gender"> 
                             {{gender.text}}
                    </ul>
-                 </label>               
+                 </label>  
             </div>
 
             <app-text-input [formControl]="$any(registerForm.controls['displayName'])"
