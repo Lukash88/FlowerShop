@@ -36,7 +36,7 @@
 
             <ul class="text-danger list-unstyled" *ngIf="errors">
                 <li *ngFor="let error of errors">
-                    {{error}}
+                    {{error | json}}
                 </li>
             </ul>
 
