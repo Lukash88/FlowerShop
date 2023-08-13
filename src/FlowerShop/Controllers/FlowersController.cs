@@ -41,6 +41,7 @@ namespace FlowerShop.Controllers
             return await this.HandleRequest<GetFlowerByIdRequest, GetFlowerByIdResponse>(request);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddFlower([FromBody] AddFlowerRequest request) =>

@@ -1,23 +1,24 @@
-﻿using System.Threading.Tasks;
-using FlowerShop.ApplicationServices.API.Domain.Order;
+﻿using FlowerShop.ApplicationServices.API.Domain.Order;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sieve.Models;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace FlowerShop.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class OrdersController : ApiControllerBase
     {
         public OrdersController(IMediator mediator, ILogger<OrdersController> logger) : base(mediator, logger)
         {
             logger.LogInformation("We are in Orders");
         }
-
+        
         [HttpGet]
-        [Route("")]
+        [Route("all")]
         public async Task<IActionResult> GetAllOrders([FromQuery] SieveModel sieveModel)
         {
             var request = new GetOrdersRequest
@@ -29,6 +30,20 @@ namespace FlowerShop.Controllers
         }
 
         [HttpGet]
+        [Route("")]
+        public async Task<IActionResult> GetOrdersForUser([FromQuery] SieveModel sieveModel)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var request = new GetOrdersForUserRequest()
+            {
+                Email = email,
+                SieveModel = sieveModel
+            };
+
+            return await this.HandleRequest<GetOrdersForUserRequest, GetOrdersResponse>(request);
+        }
+        
+        [HttpGet]
         [Route("{orderId}")]
         public async Task<IActionResult> GetOrderById([FromRoute] int orderId)
         {
@@ -39,12 +54,18 @@ namespace FlowerShop.Controllers
 
             return await this.HandleRequest<GetOrderByIdRequest, GetOrderByIdResponse>(request);
         }
-
+        
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> AddOrder([FromBody] AddOrderRequest request) =>
-            await this.HandleRequest<AddOrderRequest, AddOrderResponse>(request);
+        public async Task<IActionResult> AddOrder([FromBody] AddOrderRequest request)
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            request.BuyerEmail = email;
 
+            return await this.HandleRequest<AddOrderRequest, AddOrderResponse>(request);
+        }
+            
+        
         [HttpDelete]
         [Route("{orderId}")]
         public async Task<IActionResult> RemoveOrderById([FromRoute] int orderId)
