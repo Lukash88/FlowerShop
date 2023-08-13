@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.CQRS.Queries.Order
 {
-    public class GetOrdersQuery : QueryBaseWithSieve<IQueryable<Core.Entities.OrderAggregate.Order>>
+    public class GetOrdersForUserQuery : QueryBaseWithSieve<IQueryable<Core.Entities.OrderAggregate.Order>>
     {
         public SieveModel SieveModel { get; init; }
+        public string Email { get; init; }
 
         public override async Task<IQueryable<Core.Entities.OrderAggregate.Order>> Execute(
             FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
             var query = context.Orders
+                .Where(x => x.BuyerEmail == Email)
                 .Include(x => x.OrderItems)
                 .Include(x => x.DeliveryMethod)
                 .Include(x => x.Reservations)

@@ -1,11 +1,9 @@
 ﻿using FlowerShop.DataAccess.Data;
+using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.CQRS.Commands.Product
 {
-    using System.Threading.Tasks;
-
     public class AddProductCommand : CommandBase<Core.Entities.Product, Core.Entities.Product>
-
     {
         public override async Task<Core.Entities.Product> Execute(FlowerShopStorageContext context)
         {

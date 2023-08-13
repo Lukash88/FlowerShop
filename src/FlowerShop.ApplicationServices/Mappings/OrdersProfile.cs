@@ -47,7 +47,7 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.BuyerEmail, opt => opt.MapFrom(src => src.BuyerEmail))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.ShipToAddress, opt => opt.MapFrom(src => src.ShipToAddress))
-                .ForMember(dest => dest.DeliveryMethod.Id, opt => opt.MapFrom(src => src.DeliveryMethodId))
+                .ForPath(dest => dest.DeliveryMethod.Id, opt => opt.MapFrom(src => src.DeliveryMethodId))
                 .ForMember(dest => dest.Subtotal, opt => opt.MapFrom(src => src.Subtotal))
                 .ForMember(dest => dest.OrderState, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.Invoice, opt => opt.MapFrom(src => src.Invoice))

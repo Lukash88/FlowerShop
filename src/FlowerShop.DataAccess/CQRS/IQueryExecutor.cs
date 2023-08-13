@@ -1,8 +1,8 @@
-﻿namespace FlowerShop.DataAccess.CQRS
-{
-    using FlowerShop.DataAccess.CQRS.Queries;
-    using System.Threading.Tasks;
+﻿using FlowerShop.DataAccess.CQRS.Queries;
+using System.Threading.Tasks;
 
+namespace FlowerShop.DataAccess.CQRS
+{
     public interface IQueryExecutor
     {
         Task<TResult> Execute<TResult>(QueryBase<TResult> query);
