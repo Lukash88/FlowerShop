@@ -9,45 +9,45 @@ namespace FlowerShop.ApplicationServices.Mappings
     {
         public ReservationsProfile()
         {
-            this.CreateMap<AddReservationRequest, Reservation>()
-                .ForMember(x => x.OrderId, y => y.MapFrom(z => z.OrderId))
-                .ForMember(x => x.DateOfEvent, y => y.MapFrom(z => z.DateOfEvent))
-                .ForMember(x => x.ReservedOn, y => y.MapFrom(z => z.ReservedOn))
-                .ForMember(x => x.ReservationStatus, y => y.MapFrom(z => z.ReservationStatus))
-                .ForMember(x => x.EventType, y => y.MapFrom(z => z.EventType))
-                .ForMember(x => x.EventDescription, y => y.MapFrom(z => z.EventDescription))
-                .ForMember(x => x.EventStreet, y => y.MapFrom(z => z.EventStreet))
-                .ForMember(x => x.EventCity, y => y.MapFrom(z => z.EventCity))
-                .ForMember(x => x.EventPostalCode, y => y.MapFrom(z => z.EventPostalCode))
-                .ForMember(x => x.ServicePrice, y => y.MapFrom(z => z.ServicePrice));
+            CreateMap<AddReservationRequest, Reservation>()
+                .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
+                .ForMember(dest => dest.DateOfEvent, opt => opt.MapFrom(src => src.DateOfEvent))
+                .ForMember(dest => dest.ReservedOn, opt => opt.MapFrom(src => src.ReservedOn))
+                .ForMember(dest => dest.ReservationStatus, opt => opt.MapFrom(src => src.ReservationStatus))
+                .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.EventType))
+                .ForMember(dest => dest.EventDescription, opt => opt.MapFrom(src => src.EventDescription))
+                .ForMember(dest => dest.EventStreet, opt => opt.MapFrom(src => src.EventStreet))
+                .ForMember(dest => dest.EventCity, opt => opt.MapFrom(src => src.EventCity))
+                .ForMember(dest => dest.EventPostalCode, opt => opt.MapFrom(src => src.EventPostalCode))
+                .ForMember(dest => dest.ServicePrice, opt => opt.MapFrom(src => src.ServicePrice));
 
-            this.CreateMap<Reservation, ReservationDto>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
-                .ForMember(x => x.OrderId, y => y.MapFrom(z => z.OrderId))
-                .ForMember(x => x.DateOfEvent, y => y.MapFrom(z => z.DateOfEvent))
-                .ForMember(x => x.ReservedOn, y => y.MapFrom(z => z.ReservedOn))
-                .ForMember(x => x.ReservationStatus, y => y.MapFrom(z => z.ReservationStatus))
-                .ForMember(x => x.EventType, y => y.MapFrom(z => z.EventType))
-                .ForMember(x => x.EventDescription, y => y.MapFrom(z => z.EventDescription))
-                .ForMember(x => x.EventStreet, y => y.MapFrom(z => z.EventStreet))
-                .ForMember(x => x.EventCity, y => y.MapFrom(z => z.EventCity))
-                .ForMember(x => x.EventPostalCode, y => y.MapFrom(z => z.EventPostalCode));
+            CreateMap<Reservation, ReservationDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
+                .ForMember(dest => dest.DateOfEvent, opt => opt.MapFrom(src => src.DateOfEvent))
+                .ForMember(dest => dest.ReservedOn, opt => opt.MapFrom(src => src.ReservedOn))
+                .ForMember(dest => dest.ReservationStatus, opt => opt.MapFrom(src => src.ReservationStatus))
+                .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.EventType))
+                .ForMember(dest => dest.EventDescription, opt => opt.MapFrom(src => src.EventDescription))
+                .ForMember(dest => dest.EventStreet, opt => opt.MapFrom(src => src.EventStreet))
+                .ForMember(dest => dest.EventCity, opt => opt.MapFrom(src => src.EventCity))
+                .ForMember(dest => dest.EventPostalCode, opt => opt.MapFrom(src => src.EventPostalCode));
 
-            this.CreateMap<RemoveReservationRequest, Reservation>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.ReservationId));
+            CreateMap<RemoveReservationRequest, Reservation>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ReservationId));
 
-            this.CreateMap<UpdateReservationRequest, Reservation>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.ReservationId))
-                .ForMember(x => x.OrderId, y => y.MapFrom(z => z.OrderId))
-                .ForMember(x => x.DateOfEvent, y => y.MapFrom(z => z.DateOfEvent))
-                .ForMember(x => x.ReservedOn, y => y.MapFrom(z => z.ReservedOn))
-                .ForMember(x => x.ReservationStatus, y => y.MapFrom(z => z.ReservationStatus))
-                .ForMember(x => x.EventType, y => y.MapFrom(z => z.EventType))
-                .ForMember(x => x.EventDescription, y => y.MapFrom(z => z.EventDescription))
-                .ForMember(x => x.EventStreet, y => y.MapFrom(z => z.EventStreet))
-                .ForMember(x => x.EventCity, y => y.MapFrom(z => z.EventCity))
-                .ForMember(x => x.EventPostalCode, y => y.MapFrom(z => z.EventPostalCode))
-                .ForMember(x => x.ServicePrice, y => y.MapFrom(z => z.ServicePrice));
+            CreateMap<UpdateReservationRequest, Reservation>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ReservationId))
+                .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId))
+                .ForMember(dest => dest.DateOfEvent, opt => opt.MapFrom(src => src.DateOfEvent))
+                .ForMember(dest => dest.ReservedOn, opt => opt.MapFrom(src => src.ReservedOn))
+                .ForMember(dest => dest.ReservationStatus, opt => opt.MapFrom(src => src.ReservationStatus))
+                .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.EventType))
+                .ForMember(dest => dest.EventDescription, opt => opt.MapFrom(src => src.EventDescription))
+                .ForMember(dest => dest.EventStreet, opt => opt.MapFrom(src => src.EventStreet))
+                .ForMember(dest => dest.EventCity, opt => opt.MapFrom(src => src.EventCity))
+                .ForMember(dest => dest.EventPostalCode, opt => opt.MapFrom(src => src.EventPostalCode))
+                .ForMember(dest => dest.ServicePrice, opt => opt.MapFrom(src => src.ServicePrice));
         }
     }
 }

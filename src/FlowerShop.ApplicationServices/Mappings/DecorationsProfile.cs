@@ -2,7 +2,6 @@
 using FlowerShop.ApplicationServices.API.Domain.Decoration;
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.DataAccess.Core.Entities;
-using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 
 namespace FlowerShop.ApplicationServices.Mappings
 {
@@ -28,8 +27,6 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.ImageThumbnailUrl, opt => opt.MapFrom(src => src.ImageThumbnailUrl))
                 .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
                 .ReverseMap();
-
-            CreateMap<OrderItem, OrderItemDto>().ReverseMap();
 
             CreateMap<RemoveDecorationRequest, Decoration>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.DecorationId));

@@ -9,23 +9,23 @@ namespace FlowerShop.ApplicationServices.Mappings
     {
         public BasketProfile()
         {
-            this.CreateMap<CustomerBasketDto, CustomerBasket>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
+            CreateMap<CustomerBasketDto, CustomerBasket>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ReverseMap();
 
-            this.CreateMap<BasketItemDto, BasketItem>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
-                .ForMember(x => x.ShortDescription, y => y.MapFrom(z => z.ShortDescription))
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.Quantity, y => y.MapFrom(z => z.Quantity))
-                .ForMember(x => x.ImageUrl, y => y.MapFrom(z => z.ImageUrl))
-                .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
+            CreateMap<BasketItemDto, BasketItem>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.ShortDescription, opt => opt.MapFrom(src => src.ShortDescription))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
                 .ReverseMap();
 
-            this.CreateMap<UpdateBasketRequest, CustomerBasket>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.BasketId))
-                .ForMember(x => x.Items, y => y.MapFrom(z => z.Items));
+            CreateMap<UpdateBasketRequest, CustomerBasket>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BasketId))
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
         }
     }
 }
