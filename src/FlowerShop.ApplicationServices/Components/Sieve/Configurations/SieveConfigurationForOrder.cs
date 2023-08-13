@@ -1,5 +1,4 @@
-﻿using FlowerShop.DataAccess.Core.Entities;
-using Sieve.Services;
+﻿using Sieve.Services;
 
 namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
 {
@@ -7,11 +6,15 @@ namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
     {
         public void Configure(SievePropertyMapper mapper)
         {
-            mapper.Property<Order>(o => o.OrderState)
-               .CanSort()
-               .CanFilter(); ;
+            mapper.Property<DataAccess.Core.Entities.OrderAggregate.Order>(o => o.BuyerEmail)
+                .CanSort()
+                .CanFilter();
 
-            mapper.Property<Order>(o => o.IsPaymentConfirmed)
+            mapper.Property<DataAccess.Core.Entities.OrderAggregate.Order>(o => o.CreatedAt)
+                .CanSort()
+                .CanFilter();
+
+            mapper.Property<DataAccess.Core.Entities.OrderAggregate.Order>(o => o.OrderState)
                 .CanSort()
                 .CanFilter();
         }

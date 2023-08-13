@@ -2,6 +2,7 @@
 using FlowerShop.ApplicationServices.API.Domain.Decoration;
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 
 namespace FlowerShop.ApplicationServices.Mappings
 {
@@ -9,38 +10,36 @@ namespace FlowerShop.ApplicationServices.Mappings
     {
         public DecorationsProfile()
         {
-            this.CreateMap<AddDecorationRequest, Decoration>()
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
-                .ForMember(x => x.Role, y => y.MapFrom(z => z.Role))
-                .ForMember(x => x.IsAvailable, y => y.MapFrom(z => z.IsAvailable))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
+            CreateMap<AddDecorationRequest, Decoration>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel));
 
-            this.CreateMap<Decoration, DecorationDto>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
-                .ForMember(x => x.Role, y => y.MapFrom(z => z.Role))
-                .ForMember(x => x.IsAvailable, y => y.MapFrom(z => z.IsAvailable))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-                //.ForMember(x => x.OrderDetails, y => y.MapFrom(z => z.OrderDetails))
+            CreateMap<Decoration, DecorationDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.ShortDescription, opt => opt.MapFrom(src => src.ShortDescription))
+                .ForMember(dest => dest.LongDescription, opt => opt.MapFrom(src => src.LongDescription))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+                .ForMember(dest => dest.ImageThumbnailUrl, opt => opt.MapFrom(src => src.ImageThumbnailUrl))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
                 .ReverseMap();
 
-            this.CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
+            CreateMap<OrderItem, OrderItemDto>().ReverseMap();
 
-            this.CreateMap<RemoveDecorationRequest, Decoration>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.DecorationId));
+            CreateMap<RemoveDecorationRequest, Decoration>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.DecorationId));
 
-            this.CreateMap<UpdateDecorationRequest, Decoration>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.DecorationId))
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
-                .ForMember(x => x.Role, y => y.MapFrom(z => z.Role))
-                .ForMember(x => x.IsAvailable, y => y.MapFrom(z => z.IsAvailable))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
+            CreateMap<UpdateDecorationRequest, Decoration>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.DecorationId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel));
         }
     }
 }                 

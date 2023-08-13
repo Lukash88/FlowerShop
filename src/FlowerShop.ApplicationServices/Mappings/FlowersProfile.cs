@@ -9,42 +9,37 @@ namespace FlowerShop.ApplicationServices.Mappings
     {
         public FlowersProfile()
         {
-            this.CreateMap<AddFlowerRequest, Flower>()
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.FlowerType, y => y.MapFrom(z => z.FlowerType))
-                .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
-                .ForMember(x => x.LengthInCm, y => y.MapFrom(z => z.LengthInCm))
-                .ForMember(x => x.Color, y => y.MapFrom(z => z.Color))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));
+            CreateMap<AddFlowerRequest, Flower>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.FlowerType, opt => opt.MapFrom(src => src.FlowerType))
+                .ForMember(dest => dest.LengthInCm, opt => opt.MapFrom(src => src.LengthInCm))
+                .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
 
 
-            this.CreateMap<Flower, FlowerDto>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.FlowerType, y => y.MapFrom(z => z.FlowerType))
-                .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
-                .ForMember(x => x.LengthInCm, y => y.MapFrom(z => z.LengthInCm))
-                .ForMember(x => x.Color, y => y.MapFrom(z => z.Color))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                //.ForMember(x => x.Bouquets, y => y.MapFrom(z => z.Bouquets))
+            CreateMap<Flower, FlowerDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.FlowerType, opt => opt.MapFrom(src => src.FlowerType))
+                .ForMember(dest => dest.LengthInCm, opt => opt.MapFrom(src => src.LengthInCm))
+                .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                //.ForMember(dest => dest.Bouquets, opt => opt.MapFrom(src => src.Bouquets))
                 .ReverseMap();
 
-            this.CreateMap<Bouquet, BouquetDto>().ReverseMap();
+            CreateMap<RemoveFlowerRequest, Flower>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.FlowerId));
 
-            this.CreateMap<RemoveFlowerRequest, Flower>()
-             .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId));
-
-            this.CreateMap<UpdateFlowerRequest, Flower>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.FlowerId))
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.FlowerType, y => y.MapFrom(z => z.FlowerType))
-                .ForMember(x => x.Description, y => y.MapFrom(z => z.Description))
-                .ForMember(x => x.LengthInCm, y => y.MapFrom(z => z.LengthInCm))
-                .ForMember(x => x.Color, y => y.MapFrom(z => z.Color))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price));
+            CreateMap<UpdateFlowerRequest, Flower>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.FlowerId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.FlowerType, opt => opt.MapFrom(src => src.FlowerType))
+                .ForMember(dest => dest.LengthInCm, opt => opt.MapFrom(src => src.LengthInCm))
+                .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
         }
     }
 }

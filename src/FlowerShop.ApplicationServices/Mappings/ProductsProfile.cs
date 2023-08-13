@@ -2,6 +2,7 @@
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.Product;
 using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 
 namespace FlowerShop.ApplicationServices.Mappings
 {
@@ -9,41 +10,43 @@ namespace FlowerShop.ApplicationServices.Mappings
     {
         public ProductsProfile()
         {
-            this.CreateMap<AddProductRequest, Product>()
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.ShortDescription, y => y.MapFrom(z => z.ShortDescription))
-                .ForMember(x => x.LongDescription, y => y.MapFrom(z => z.LongDescription))
-                .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.ImageUrl, y => y.MapFrom(z => z.ImageUrl))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
+            CreateMap<AddProductRequest, Product>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.ShortDescription, opt => opt.MapFrom(src => src.ShortDescription))
+                .ForMember(dest => dest.LongDescription, opt => opt.MapFrom(src => src.LongDescription))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+                .ForMember(dest => dest.ImageThumbnailUrl, opt => opt.MapFrom(src => src.ImageThumbnailUrl))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel));
 
-            this.CreateMap<Product, ProductDto>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.ShortDescription, y => y.MapFrom(z => z.ShortDescription))
-                .ForMember(x => x.LongDescription, y => y.MapFrom(z => z.LongDescription))
-                .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.ImageUrl, y => y.MapFrom(z => z.ImageUrl))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-                //.ForMember(x => x.OrderDetails, y => y.MapFrom(z => z.OrderDetails))
+            CreateMap<Product, ProductDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.ShortDescription, opt => opt.MapFrom(src => src.ShortDescription))
+                .ForMember(dest => dest.LongDescription, opt => opt.MapFrom(src => src.LongDescription))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+                .ForMember(dest => dest.ImageThumbnailUrl, opt => opt.MapFrom(src => src.ImageThumbnailUrl))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
                 .ReverseMap();
 
-            this.CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
+            CreateMap<OrderItem, OrderItemDto>().ReverseMap();
 
-            this.CreateMap<RemoveProductRequest, Product>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.ProductId));
+            CreateMap<RemoveProductRequest, Product>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId));
 
-            this.CreateMap<UpdateProductRequest, Product>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.ProductId))
-                .ForMember(x => x.Name, y => y.MapFrom(z => z.Name))
-                .ForMember(x => x.ShortDescription, y => y.MapFrom(z => z.ShortDescription))
-                .ForMember(x => x.LongDescription, y => y.MapFrom(z => z.LongDescription))
-                .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
-                .ForMember(x => x.Price, y => y.MapFrom(z => z.Price))
-                .ForMember(x => x.ImageUrl, y => y.MapFrom(z => z.ImageUrl))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
+            CreateMap<UpdateProductRequest, Product>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.ShortDescription, opt => opt.MapFrom(src => src.ShortDescription))
+                .ForMember(dest => dest.LongDescription, opt => opt.MapFrom(src => src.LongDescription))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+                .ForMember(dest => dest.ImageThumbnailUrl, opt => opt.MapFrom(src => src.ImageThumbnailUrl))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel));
         }
     }
 }

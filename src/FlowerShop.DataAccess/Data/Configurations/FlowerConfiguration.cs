@@ -10,38 +10,20 @@ namespace FlowerShop.DataAccess.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Flower> builder)
         {
-            builder
-                .Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            builder.Property(x => x.FlowerType)
+            builder.Property(f => f.FlowerType)
                 .HasConversion(
                     ft => ft.ToString(),
                     ft => (FlowerType)Enum.Parse(typeof(FlowerType), ft))
                 .IsRequired();
 
-            builder
-                .Property(x => x.Description)
-                .IsRequired()
-                .HasMaxLength(500);
+            builder.Property(f => f.LengthInCm)
+                .IsRequired(false);
 
-            builder.Property(x => x.LengthInCm)
-                .IsRequired();
-
-            builder.Property(x => x.Color)
+            builder.Property(f => f.Color)
                 .HasConversion(
                     c => c.ToString(),
                     c => (FlowerColor)Enum.Parse(typeof(FlowerColor), c))
-                .IsRequired();
-
-            builder.Property(x => x.StockLevel)
-                .IsRequired();
-
-            builder
-               .Property(x => x.Price)
-               .HasPrecision(14, 2)
-               .IsRequired(false);
+                .IsRequired();;
         }
     }
 }

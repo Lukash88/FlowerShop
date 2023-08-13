@@ -11,37 +11,37 @@ namespace FlowerShop.ApplicationServices.Mappings
     {
         public BouquetsProfile()
         {
-            this.CreateMap<AddBouquetRequest, Bouquet>()
-                .ForMember(x => x.Occasion, y => y.MapFrom(z => z.Occasion))
-                .ForMember(x => x.TypeOfArrangement, y => y.MapFrom(z => z.TypeOfArrangement))
-                .ForMember(x => x.DecorationWay, y => y.MapFrom(z => z.DecorationWay))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-                .ForMember(x => x.Flowers, y => y.MapFrom(z => z.Flowers ?? new List<FlowerDto>()));
+            CreateMap<AddBouquetRequest, Bouquet>()
+                .ForMember(dest => dest.Occasion, opt => opt.MapFrom(src => src.Occasion))
+                .ForMember(dest => dest.TypeOfArrangement, opt => opt.MapFrom(src => src.TypeOfArrangement))
+                .ForMember(dest => dest.DecorationWay, opt => opt.MapFrom(src => src.DecorationWay))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
+                .ForMember(dest => dest.Flowers, opt => opt.MapFrom(src => src.Flowers ?? new List<FlowerDto>()));
 
-            this.CreateMap<Bouquet, BouquetFlower>()
-                .ForMember(x => x.BouquetId, y => y.MapFrom(z => z.Id))
-                .ForMember(x => x.FlowerId, y => y.MapFrom(z => z.Flowers.Select(x => x.Id)));
+            CreateMap<Bouquet, BouquetFlower>()
+                .ForMember(dest => dest.BouquetId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.FlowerId, opt => opt.MapFrom(src => src.Flowers.Select(dest => dest.Id)));
 
-            this.CreateMap<Bouquet, BouquetDto>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
-                .ForMember(x => x.Occasion, y => y.MapFrom(z => z.Occasion))
-                .ForMember(x => x.TypeOfArrangement, y => y.MapFrom(z => z.TypeOfArrangement))
-                .ForMember(x => x.DecorationWay, y => y.MapFrom(z => z.DecorationWay))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel))
-                .ForMember(x => x.Flowers, y => y.MapFrom(z => z.Flowers))
+            CreateMap<Bouquet, BouquetDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Occasion, opt => opt.MapFrom(src => src.Occasion))
+                .ForMember(dest => dest.TypeOfArrangement, opt => opt.MapFrom(src => src.TypeOfArrangement))
+                .ForMember(dest => dest.DecorationWay, opt => opt.MapFrom(src => src.DecorationWay))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
+                .ForMember(dest => dest.Flowers, opt => opt.MapFrom(src => src.Flowers))
                 .ReverseMap();
 
-            this.CreateMap<Flower, FlowerDto>().ReverseMap();
+            CreateMap<Flower, FlowerDto>().ReverseMap();
 
-            this.CreateMap<RemoveBouquetRequest, Bouquet>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.BouquetId));
+            CreateMap<RemoveBouquetRequest, Bouquet>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BouquetId));
 
-            this.CreateMap<UpdateBouquetRequest, Bouquet>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.BouquetId))
-                .ForMember(x => x.Occasion, y => y.MapFrom(z => z.Occasion))
-                .ForMember(x => x.TypeOfArrangement, y => y.MapFrom(z => z.TypeOfArrangement))
-                .ForMember(x => x.DecorationWay, y => y.MapFrom(z => z.DecorationWay))
-                .ForMember(x => x.StockLevel, y => y.MapFrom(z => z.StockLevel));
+            CreateMap<UpdateBouquetRequest, Bouquet>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BouquetId))
+                .ForMember(dest => dest.Occasion, opt => opt.MapFrom(src => src.Occasion))
+                .ForMember(dest => dest.TypeOfArrangement, opt => opt.MapFrom(src => src.TypeOfArrangement))
+                .ForMember(dest => dest.DecorationWay, opt => opt.MapFrom(src => src.DecorationWay))
+                .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel));
         }
     }
 }

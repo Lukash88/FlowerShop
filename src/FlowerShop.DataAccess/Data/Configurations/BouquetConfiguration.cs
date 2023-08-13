@@ -11,36 +11,32 @@ namespace FlowerShop.DataAccess.Data.Configurations
         public void Configure(EntityTypeBuilder<Bouquet> builder)
         {
             builder
-                .Property(x => x.Occasion)
+                .Property(b => b.Occasion)
                 .HasConversion(
             o => o.ToString(),
             o => (Occasion)Enum.Parse(typeof(Occasion), o))
                 .IsRequired();
 
             builder
-                .Property(x => x.TypeOfArrangement)
+                .Property(b => b.TypeOfArrangement)
                 .HasConversion(
                     t => t.ToString(),
                     t => (TypeOfFlowerArrangement)Enum.Parse(typeof(TypeOfFlowerArrangement), t))
                 .IsRequired();
 
             builder
-                .Property(x => x.DecorationWay)
+                .Property(b => b.DecorationWay)
                 .HasConversion(
                     dw => dw.ToString(),
                     dw => (DecorationWay)Enum.Parse(typeof(DecorationWay), dw))
                 .IsRequired();
 
             builder
-                .Property(x => x.StockLevel)
-                .IsRequired();
-
-            builder
                 .HasMany(x => x.Flowers)
                 .WithMany(x => x.Bouquets)
                 .UsingEntity<BouquetFlower>(
-                    x => x.HasOne(x => x.Flower).WithMany().HasForeignKey(x => x.FlowerId),
-                    x => x.HasOne(x => x.Bouquet).WithMany().HasForeignKey(x => x.BouquetId));
+                x => x.HasOne(x => x.Flower).WithMany().HasForeignKey(x => x.FlowerId).OnDelete(DeleteBehavior.NoAction),
+                x => x.HasOne(x => x.Bouquet).WithMany().HasForeignKey(x => x.BouquetId).OnDelete(DeleteBehavior.NoAction));
         }
     }
 }
