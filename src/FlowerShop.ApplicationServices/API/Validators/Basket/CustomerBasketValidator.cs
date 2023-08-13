@@ -7,7 +7,7 @@ namespace FlowerShop.ApplicationServices.API.Validators.Basket
     {
         public CustomerBasketValidator()
         {
-            this.RuleFor(x => x.Id).NotNull().NotEmpty()
+            RuleFor(x => x.Id).NotNull().NotEmpty()
                 .WithMessage("BasketId cannot be empty or null");
         }
     }
