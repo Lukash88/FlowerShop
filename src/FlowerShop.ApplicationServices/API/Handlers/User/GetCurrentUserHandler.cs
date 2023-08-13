@@ -33,7 +33,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
         public async Task<GetCurrentUserResponse> Handle(GetCurrentUserRequest request, CancellationToken cancellationToken)
         {
             var getUser = await this.userManager.FindByEmailAsync(request.CurrentUserEmail);
-            if (getUser == null)
+            if (getUser is null)
             {
                 return new GetCurrentUserResponse()
                 {

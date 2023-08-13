@@ -38,7 +38,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
             };
 
             var reservations = await this.queryExecutor.ExecuteWithSieve(query);
-            if (reservations == null)
+            if (reservations is null)
             {
                 return new GetReservationsResponse()
                 {

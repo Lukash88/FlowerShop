@@ -28,7 +28,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
                 Id = request.ProductId
             };
             var product = await this.queryExecutor.Execute(query);
-            if (product == null)
+            if (product is null)
             {
                 return new GetProductByIdResponse()
                 {

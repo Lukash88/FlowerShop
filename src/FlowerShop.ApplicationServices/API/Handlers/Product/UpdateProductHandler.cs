@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
                 Id = request.ProductId
             };
             var getProduct = await this.queryExecutor.Execute(query);
-            if (getProduct == null)
+            if (getProduct is null)
             {
                 return new UpdateProductResponse()
                 {

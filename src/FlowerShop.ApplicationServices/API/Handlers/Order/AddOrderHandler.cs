@@ -2,60 +2,62 @@
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.ApplicationServices.Components.Order;
 using FlowerShop.DataAccess.CQRS;
-using FlowerShop.DataAccess.CQRS.Commands.Order;
-using FlowerShop.DataAccess.CQRS.Queries.Order;
-using FlowerShop.DataAccess.CQRS.Queries.User;
+using FlowerShop.DataAccess.Repositories.BasketRepository;
 using MediatR;
-using Sieve.Models;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
-    public class AddOrderHandler // : IRequestHandler<AddOrderRequest, AddOrderResponse>
+    public class AddOrderHandler  : IRequestHandler<AddOrderRequest, AddOrderResponse>
     {
         private readonly ICommandExecutor commandExecutor;
         private readonly IMapper mapper;
         private readonly IQueryExecutor queryExecutor;
+        private readonly IBasketRepository basketRepository;
+        private readonly IOrderService orderService;
 
-        public AddOrderHandler(ICommandExecutor commandExecutor, IMapper mapper, IQueryExecutor queryExecutor)
+        public AddOrderHandler(ICommandExecutor commandExecutor, IMapper mapper, IQueryExecutor queryExecutor, 
+            IBasketRepository basketRepository, IOrderService orderService)
         {
             this.commandExecutor = commandExecutor;
             this.mapper = mapper;
             this.queryExecutor = queryExecutor;
+            this.basketRepository = basketRepository;
+            this.orderService = orderService;
         }
 
-        //public async Task<AddOrderResponse> Handle(AddOrderRequest request, CancellationToken cancellationToken)
-        //{
-        //    var ordersQuery = new GetOrdersQuery(); 
-        //    var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
-        //    var usersQuery = new GetUsersQuery();
-        //    var getUsers = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
+        public async Task<AddOrderResponse> Handle(AddOrderRequest request, CancellationToken cancellationToken)
+        {
+            // get items from the product repo  
+            var items = await this.orderService.GetOrderItems(request.BasketId);
 
-        //    //if ((getUsers.Select(x => x.BasketId).Contains(request.UserId) &&
-        //    //    getOrders.Select(x => x.UserId).Contains(request.UserId)) ||
-        //    //    !getOrders.Select(x => x.BasketId).Contains(request.UserId))
-        //    //{
-        //    //    return new AddOrderResponse()
-        //    //    {
-        //    //        Error = new ErrorModel(ErrorType.NotFound)
-        //    //    };
-        //    //}
+            // get delivery method from the repo
+            var deliveryMethod = await this.orderService.GetDeliveryMethod(request.DeliveryMethodId);
 
-        //    var order = this.mapper.Map<DataAccess.Core.Entities.Order>(request);
-        //    var command = new AddOrderCommand()
-        //    {
-        //        Parameter = order
-        //    };
-        //    var addedOrder = await this.commandExecutor.Execute(command);
-        //    var response = new AddOrderResponse()
-        //    {
-        //        Data = this.mapper.Map<Domain.Models.OrderDTO>(addedOrder)
-        //    };
+            // calculate subtotal
+            var subtotal = this.orderService.GetSubtotal(items);
 
-        //    return response;
-        //}
+            // create order
+            var order = this.mapper.Map<DataAccess.Core.Entities.OrderAggregate.Order>(request);
+            var addedOrder = await this.orderService.CreateOrder(order, deliveryMethod, items, subtotal, request.BuyerEmail,
+                request.ShipToAddress);
+            if (addedOrder is null)
+            {
+                return new AddOrderResponse()
+                {
+                    Error = new ErrorModel(ErrorType.BadRequest + " - Problem creating order")
+                };
+            }
+
+            var response = new AddOrderResponse()
+            {
+                Data = this.mapper.Map<Domain.Models.OrderToReturnDto>(addedOrder)
+            };
+
+            return response;
+        }
     }
 }

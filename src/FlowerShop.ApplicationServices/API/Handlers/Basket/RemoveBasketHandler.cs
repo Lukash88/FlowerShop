@@ -20,10 +20,11 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
             this.basketRepository = basketRepository;
         }
 
-        public async Task<RemoveBasketResponse> Handle(RemoveBasketRequest request, CancellationToken cancellationToken)
+        public async Task<RemoveBasketResponse> Handle(RemoveBasketRequest request, 
+            CancellationToken cancellationToken)
         {
             var getBasket = await this.basketRepository.GetBasketAsync(request.BasketId);
-            if (getBasket == null)
+            if (getBasket is null)
             {
                 return new RemoveBasketResponse()
                 {
@@ -31,7 +32,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
                 };
             }
 
-            var isRemoved =  await this.basketRepository.DeleteBasketAsync(request.BasketId);
+            var isRemoved = await this.basketRepository.DeleteBasketAsync(request.BasketId);
             if (!isRemoved)
             {
                 return new RemoveBasketResponse()

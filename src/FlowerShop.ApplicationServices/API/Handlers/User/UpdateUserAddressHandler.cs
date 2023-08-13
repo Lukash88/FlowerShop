@@ -35,7 +35,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
         {
             var getUser = await this.userManager.Users.Include(x => x.Address)
                 .SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
-            if (getUser == null)
+            if (getUser is null)
             {
                 return new UpdateUserAddressResponse()
                 {

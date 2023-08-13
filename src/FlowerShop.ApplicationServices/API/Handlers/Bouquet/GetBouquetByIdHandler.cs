@@ -29,7 +29,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
                 Id = request.BouquetId
             };
             var bouquet = await this.queryExecutor.Execute(query);  
-            if (bouquet == null)
+            if (bouquet is null)
             {
                 return new GetBouquetByIdResponse()
                 {

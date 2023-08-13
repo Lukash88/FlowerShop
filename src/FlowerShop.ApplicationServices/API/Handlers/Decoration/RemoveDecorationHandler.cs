@@ -31,7 +31,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
                 Id = request.DecorationId
             };
             var getDecoration = await this.queryExecutor.Execute(query);
-            if (getDecoration == null)
+            if (getDecoration is null)
             {
                 return new RemoveDecorationResponse()
                 {

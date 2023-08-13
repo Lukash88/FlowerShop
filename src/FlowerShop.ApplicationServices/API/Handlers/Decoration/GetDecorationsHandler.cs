@@ -38,7 +38,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
             };
 
             var decorations = await this.queryExecutor.ExecuteWithSieve(query);
-            if (decorations == null)
+            if (decorations is null)
             {
                 return new GetDecorationsResponse()
                 {

@@ -34,7 +34,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
         {
             var getUser = await this.userManager.FindByEmailAsync(request.Email);
 
-            if (getUser == null)
+            if (getUser is null)
             {
                 return new LoginAppUserResponse()
                 {

@@ -32,10 +32,13 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
             var flowersQuery = new GetFlowersQuery();
             // retrieving list of flowers
             var getFlowers = await this.queryExecutor.ExecuteWithSieve(flowersQuery);
+
             // retrieving list of chosen flowers and their IDs in form of List<Tuple<int, int>
             var flowersIdAndQuantity = request.FlowersIdAndQuantity;
+
             // list of flowers IDs
             var flowersId = flowersIdAndQuantity.Select(x => x.Item1);
+
             // retrieving list of chosen flowers based on their IDs
             var chosenFlowers = getFlowers.Where(x => flowersId.Contains(x.Id)).ToList();
 
@@ -48,8 +51,10 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
                 {
                     Bouquet = bouquet,
                     FlowerId = flower.Id,
+
                     // retrieving of single flower quantity based on its ID from List<Tuple<int, int>
-                    FlowerQuantity = flowersIdAndQuantity.Where(x => x.Item1 == flower.Id).Select(x => x.Item2).FirstOrDefault()
+                    FlowerQuantity = flowersIdAndQuantity.Where(x => x.Item1 == flower.Id)
+                    .Select(x => x.Item2).FirstOrDefault()
                 });
             }
 

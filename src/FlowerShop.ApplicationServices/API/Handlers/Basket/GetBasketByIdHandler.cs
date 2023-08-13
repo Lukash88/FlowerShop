@@ -22,9 +22,10 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
             this.mapper = mapper;
         }
 
-        public async Task<GetBasketByIdResponse> Handle(GetBasketByIdRequest request, CancellationToken cancellationToken)
+        public async Task<GetBasketByIdResponse> Handle(GetBasketByIdRequest request, 
+            CancellationToken cancellationToken)
         {
-            if (request.BasketId == null)
+            if (request.BasketId is null)
             {
                 return new GetBasketByIdResponse()
                 {
@@ -33,7 +34,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
             }
 
             var getBasket = await this.basketRepository.GetBasketAsync(request.BasketId);
-            if (getBasket == null)
+            if (getBasket is null)
             {
                 var newBasket = new CustomerBasket(request.BasketId); 
                 var updatedBasket = await this.basketRepository.UpdateBasketAsync(newBasket);

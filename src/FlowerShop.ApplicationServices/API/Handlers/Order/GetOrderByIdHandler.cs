@@ -28,7 +28,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
                 Id = request.OrderId
             };
             var order = await this.queryExecutor.Execute(query);
-            if (order == null)
+            if (order is null)
             {
                 return new GetOrderByIdResponse()
                 {
@@ -36,7 +36,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
                 };
             }
 
-            var mappedOrder = this.mapper.Map<Domain.Models.OrderDto>(order);
+            var mappedOrder = this.mapper.Map<Domain.Models.OrderToReturnDto>(order);
             var response = new GetOrderByIdResponse()
             {
                 Data = mappedOrder
