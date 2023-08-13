@@ -4,14 +4,16 @@ using FlowerShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowerShop.DataAccess.Data.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    partial class FlowerShopStorageContextModelSnapshot : ModelSnapshot
+    [Migration("20230729162750_OrderEntitiesAddedAndCConfigured")]
+    partial class OrderEntitiesAddedAndCConfigured
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,7 +111,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -253,9 +255,8 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 {
                     b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Decoration");
                 });
@@ -351,10 +352,11 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.OrderItem", b =>
                 {
-                    b.HasOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order", null)
+                    b.HasOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.ProductItemOrdered", "ItemOrdered", b1 =>
                         {
@@ -381,6 +383,8 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         });
 
                     b.Navigation("ItemOrdered");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Reservation", b =>

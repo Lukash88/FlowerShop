@@ -4,14 +4,16 @@ using FlowerShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowerShop.DataAccess.Data.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    partial class FlowerShopStorageContextModelSnapshot : ModelSnapshot
+    [Migration("20230729210123_SetOrderIdInOrderItemsToNullable")]
+    partial class SetOrderIdInOrderItemsToNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,9 +255,8 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 {
                     b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Decoration");
                 });

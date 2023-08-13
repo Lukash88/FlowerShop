@@ -2,41 +2,41 @@
 
 namespace FlowerShop.DataAccess.Data.Migrations
 {
-    public partial class RemovedNavigationFieldsBetweenOrderAndOrderDetails : Migration
+    public partial class RemoveRelationOrderItemAndDecoration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_OrderDetails_Orders_OrderId",
+                name: "FK_OrderItems_Products_DecorationId",
                 table: "OrderItems");
 
             migrationBuilder.DropIndex(
-                name: "IX_OrderDetails_OrderId",
+                name: "IX_OrderItems_DecorationId",
                 table: "OrderItems");
 
             migrationBuilder.DropColumn(
-                name: "OrderId",
+                name: "DecorationId",
                 table: "OrderItems");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "OrderId",
+                name: "DecorationId",
                 table: "OrderItems",
                 type: "int",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_OrderId",
+                name: "IX_OrderItems_DecorationId",
                 table: "OrderItems",
-                column: "OrderId");
+                column: "DecorationId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_OrderDetails_Orders_OrderId",
+                name: "FK_OrderItems_Products_DecorationId",
                 table: "OrderItems",
-                column: "OrderId",
-                principalTable: "Orders",
+                column: "DecorationId",
+                principalTable: "Products",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }

@@ -4,20 +4,55 @@ using FlowerShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowerShop.DataAccess.Data.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    partial class FlowerShopStorageContextModelSnapshot : ModelSnapshot
+    [Migration("20230725192717_RemoveRelationOrderDetailDecoration")]
+    partial class RemoveRelationOrderDetailDecoration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Bouquet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DecorationWay")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageThumbnailUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Occasion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StockLevel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeOfArrangement")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bouquets");
+                });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.BouquetFlower", b =>
                 {
@@ -37,92 +72,176 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.ToTable("BouquetsFlowers");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.DeliveryMethod", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Decoration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("DeliveryTime")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<string>("ImageThumbnailUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ShortName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StockLevel")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryMethods");
+                    b.ToTable("Decorations");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.DecorationOrderDetail", b =>
+                {
+                    b.Property<int>("DecorationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DecorationQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("DecorationId", "OrderDetailId");
+
+                    b.HasIndex("OrderDetailId");
+
+                    b.ToTable("DecorationOrderDetails");
+                });
+
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Flower", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BuyerEmail")
+                    b.Property<string>("Color")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("FlowerType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageThumbnailUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("LengthInCm")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal?>("Price")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
+
+                    b.Property<int>("StockLevel")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Flowers");
+                });
+
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
-
-                    b.Property<int?>("DeliveryMethodId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Invoice")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<bool>("IsPaymentConfirmed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("OrderState")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PaymentIntentId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal?>("Sum")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DeliveryMethodId");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.OrderItem", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("OrderId")
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Price")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Product", b =>
@@ -133,10 +252,6 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -152,11 +267,12 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal?>("Price")
+                        .HasPrecision(14, 2)
+                        .HasColumnType("decimal(14,2)");
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()
@@ -169,8 +285,6 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Product");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Reservation", b =>
@@ -230,66 +344,18 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Bouquet", b =>
-                {
-                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
-
-                    b.Property<string>("DecorationWay")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Occasion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeOfArrangement")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Bouquet");
-                });
-
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Decoration", b =>
-                {
-                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Decoration");
-                });
-
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Flower", b =>
-                {
-                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
-
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FlowerType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("LengthInCm")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("Flower");
-                });
-
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.BouquetFlower", b =>
                 {
                     b.HasOne("FlowerShop.DataAccess.Core.Entities.Bouquet", "Bouquet")
                         .WithMany()
                         .HasForeignKey("BouquetId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FlowerShop.DataAccess.Core.Entities.Flower", "Flower")
                         .WithMany()
                         .HasForeignKey("FlowerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Bouquet");
@@ -297,95 +363,39 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.Navigation("Flower");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.DecorationOrderDetail", b =>
                 {
-                    b.HasOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
+                    b.HasOne("FlowerShop.DataAccess.Core.Entities.Decoration", "Decoration")
                         .WithMany()
-                        .HasForeignKey("DeliveryMethodId");
-
-                    b.OwnsOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Address", "ShipToAddress", b1 =>
-                        {
-                            b1.Property<int>("OrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.Property<string>("FirstName")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.Property<string>("LastName")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.Property<string>("PostalCode")
-                                .IsRequired()
-                                .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)");
-
-                            b1.Property<string>("Street")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.HasKey("OrderId");
-
-                            b1.ToTable("Orders");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId");
-                        });
-
-                    b.Navigation("DeliveryMethod");
-
-                    b.Navigation("ShipToAddress")
+                        .HasForeignKey("DecorationId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("FlowerShop.DataAccess.Core.Entities.OrderDetail", "OrderDetail")
+                        .WithMany()
+                        .HasForeignKey("OrderDetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Decoration");
+
+                    b.Navigation("OrderDetail");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.OrderItem", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderDetail", b =>
                 {
-                    b.HasOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order", null)
-                        .WithMany("OrderItems")
+                    b.HasOne("FlowerShop.DataAccess.Core.Entities.Order", "Order")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.OwnsOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.ProductItemOrdered", "ItemOrdered", b1 =>
-                        {
-                            b1.Property<int>("OrderItemId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<string>("ImageUrl")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<int>("ProductItemId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("ProductName")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("OrderItemId");
-
-                            b1.ToTable("OrderItems");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderItemId");
-                        });
-
-                    b.Navigation("ItemOrdered");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Reservation", b =>
                 {
-                    b.HasOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order", "Order")
+                    b.HasOne("FlowerShop.DataAccess.Core.Entities.Order", "Order")
                         .WithMany("Reservations")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -394,9 +404,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Order", b =>
                 {
-                    b.Navigation("OrderItems");
+                    b.Navigation("OrderDetails");
 
                     b.Navigation("Reservations");
                 });

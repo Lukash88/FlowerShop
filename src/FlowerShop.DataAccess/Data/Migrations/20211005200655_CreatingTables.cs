@@ -140,7 +140,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetails",
+                name: "OrderItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -199,7 +199,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     table.ForeignKey(
                         name: "FK_OrderItems_OrderDetails_OrderDetailId",
                         column: x => x.OrderDetailId,
-                        principalTable: "OrderDetails",
+                        principalTable: "OrderItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -293,7 +293,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_ReservationId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "ReservationId",
                 unique: true);
 
@@ -352,7 +352,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "OrderDetails");
+                name: "OrderItems");
 
             migrationBuilder.DropTable(
                 name: "Reservations");

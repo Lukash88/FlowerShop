@@ -9,7 +9,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_OrderDetails_Reservations_ReservationId",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropTable(
                 name: "BouquetOrderItem");
@@ -32,11 +32,11 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_OrderDetails",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropIndex(
                 name: "IX_OrderDetails_ReservationId",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropColumn(
                 name: "DateOfEvent",
@@ -72,23 +72,23 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "CreatedAt",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropColumn(
                 name: "OrderState",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropColumn(
                 name: "ProductQuantity",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropColumn(
                 name: "ReservationId",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.RenameTable(
-                name: "OrderDetails",
-                newName: "OrderDetail");
+                name: "OrderItems",
+                newName: "OrderItem");
 
             migrationBuilder.RenameColumn(
                 name: "ReservedOn",
@@ -160,7 +160,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "Category",
-                table: "OrderDetail",
+                table: "OrderItem",
                 type: "nvarchar(200)",
                 maxLength: 200,
                 nullable: false,
@@ -168,7 +168,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "Description",
-                table: "OrderDetail",
+                table: "OrderItem",
                 type: "nvarchar(200)",
                 maxLength: 200,
                 nullable: false,
@@ -176,7 +176,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "Name",
-                table: "OrderDetail",
+                table: "OrderItem",
                 type: "nvarchar(50)",
                 maxLength: 50,
                 nullable: false,
@@ -184,13 +184,13 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddColumn<int>(
                 name: "OrderId",
-                table: "OrderDetail",
+                table: "OrderItem",
                 type: "int",
                 nullable: true);
 
             migrationBuilder.AddColumn<decimal>(
                 name: "Price",
-                table: "OrderDetail",
+                table: "OrderItem",
                 type: "decimal(14,2)",
                 precision: 14,
                 scale: 2,
@@ -199,7 +199,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_OrderDetail",
-                table: "OrderDetail",
+                table: "OrderItem",
                 column: "Id");
 
             migrationBuilder.CreateTable(
@@ -221,7 +221,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     table.ForeignKey(
                         name: "FK_BouquetOrderDetail_OrderDetail_OrderDetailsId",
                         column: x => x.OrderDetailsId,
-                        principalTable: "OrderDetail",
+                        principalTable: "OrderItem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -245,7 +245,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     table.ForeignKey(
                         name: "FK_DecorationOrderDetail_OrderDetail_OrderDetailsId",
                         column: x => x.OrderDetailsId,
-                        principalTable: "OrderDetail",
+                        principalTable: "OrderItem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -263,7 +263,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     table.ForeignKey(
                         name: "FK_OrderDetailProduct_OrderDetail_OrderDetailsId",
                         column: x => x.OrderDetailsId,
-                        principalTable: "OrderDetail",
+                        principalTable: "OrderItem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -304,7 +304,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetail_OrderId",
-                table: "OrderDetail",
+                table: "OrderItem",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
@@ -329,7 +329,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_OrderDetail_Reservations_OrderId",
-                table: "OrderDetail",
+                table: "OrderItem",
                 column: "OrderId",
                 principalTable: "Reservations",
                 principalColumn: "Id",
@@ -340,7 +340,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_OrderDetail_Reservations_OrderId",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.DropTable(
                 name: "BouquetOrderDetail");
@@ -356,11 +356,11 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_OrderDetail",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.DropIndex(
                 name: "IX_OrderDetail_OrderId",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.DropColumn(
                 name: "OrderState",
@@ -388,27 +388,27 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "Category",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.DropColumn(
                 name: "Description",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.DropColumn(
                 name: "Name",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.DropColumn(
                 name: "OrderId",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.DropColumn(
                 name: "Price",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.RenameTable(
-                name: "OrderDetail",
-                newName: "OrderDetails");
+                name: "OrderItem",
+                newName: "OrderItems");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedAt",
@@ -499,35 +499,35 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedAt",
-                table: "OrderDetails",
+                table: "OrderItems",
                 type: "datetime2",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.AddColumn<int>(
                 name: "OrderState",
-                table: "OrderDetails",
+                table: "OrderItems",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "ProductQuantity",
-                table: "OrderDetails",
+                table: "OrderItems",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "ReservationId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_OrderDetails",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "Id");
 
             migrationBuilder.CreateTable(
@@ -548,7 +548,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     table.ForeignKey(
                         name: "FK_OrderItems_OrderDetails_OrderDetailId",
                         column: x => x.OrderDetailId,
-                        principalTable: "OrderDetails",
+                        principalTable: "OrderItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -653,7 +653,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_ReservationId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "ReservationId",
                 unique: true);
 
@@ -685,7 +685,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_OrderDetails_Reservations_ReservationId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "ReservationId",
                 principalTable: "Reservations",
                 principalColumn: "Id",

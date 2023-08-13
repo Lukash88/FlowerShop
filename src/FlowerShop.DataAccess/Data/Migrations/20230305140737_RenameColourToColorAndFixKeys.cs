@@ -49,7 +49,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 name: "FK_DecorationOrderDetails_OrderDetails_OrderDetailId",
                 table: "DecorationOrderDetails",
                 column: "OrderDetailId",
-                principalTable: "OrderDetails",
+                principalTable: "OrderItems",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -99,7 +99,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 name: "FK_DecorationsOrderDetails_OrderDetails_OrderDetailId",
                 table: "DecorationsOrderDetails",
                 column: "OrderDetailId",
-                principalTable: "OrderDetails",
+                principalTable: "OrderItems",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
