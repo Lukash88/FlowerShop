@@ -10,8 +10,8 @@ namespace FlowerShop.ApplicationServices.API.Domain.User
         public DateTime? DateOfBirth { get; init; }
         public Gender? Gender { get; init; }
         public string Email;// { get; set; }
-        public string NewEmail { get; set; }
-        public string NewPassword { get; set; }
-        public string ExistingPassword { get; set; }
+        public string NewEmail { get; init; }
+        public string NewPassword { get; init; }
+        public string ExistingPassword { get; init; }
     }
 }
