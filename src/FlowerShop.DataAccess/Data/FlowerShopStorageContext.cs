@@ -19,13 +19,11 @@ namespace FlowerShop.DataAccess.Data
         public DbSet<Bouquet> Bouquets { get; set; }
         public DbSet<Flower> Flowers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<BouquetFlower> BouquetFlowers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BouquetConfiguration());
-            modelBuilder.ApplyConfiguration(new BouquetFlowerConfiguration());
             modelBuilder.ApplyConfiguration(new DeliveryMethodConfiguration());
             modelBuilder.ApplyConfiguration(new DecorationConfiguration());
             modelBuilder.ApplyConfiguration(new FlowerConfiguration());

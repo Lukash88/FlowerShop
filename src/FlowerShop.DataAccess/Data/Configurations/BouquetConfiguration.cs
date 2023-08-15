@@ -30,13 +30,6 @@ namespace FlowerShop.DataAccess.Data.Configurations
                     dw => dw.ToString(),
                     dw => (DecorationWay)Enum.Parse(typeof(DecorationWay), dw))
                 .IsRequired();
-
-            builder
-                .HasMany(x => x.Flowers)
-                .WithMany(x => x.Bouquets)
-                .UsingEntity<BouquetFlower>(
-                x => x.HasOne(x => x.Flower).WithMany().HasForeignKey(x => x.FlowerId).OnDelete(DeleteBehavior.NoAction),
-                x => x.HasOne(x => x.Bouquet).WithMany().HasForeignKey(x => x.BouquetId).OnDelete(DeleteBehavior.NoAction));
         }
     }
 }

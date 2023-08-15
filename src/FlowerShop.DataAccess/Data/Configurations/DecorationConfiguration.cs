@@ -1,8 +1,8 @@
-﻿using System;
-using FlowerShop.DataAccess.Core.Entities;
+﻿using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace FlowerShop.DataAccess.Data.Configurations
 {

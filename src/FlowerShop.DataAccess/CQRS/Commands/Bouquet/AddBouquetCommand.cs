@@ -1,19 +1,15 @@
 ﻿using FlowerShop.DataAccess.Data;
+using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.CQRS.Commands.Bouquet
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    public class AddBouquetCommand : CommandBase<Tuple<Core.Entities.Bouquet, List<Core.Entities.BouquetFlower>>, Core.Entities.Bouquet>
+    public class AddBouquetCommand : CommandBase<Core.Entities.Bouquet, Core.Entities.Bouquet>
     {
         public override async Task<Core.Entities.Bouquet> Execute(FlowerShopStorageContext context)
         {
-            await context.Bouquets.AddAsync(this.Parameter.Item1);
-            await context.BouquetFlowers.AddRangeAsync(this.Parameter.Item2);
+            await context.Bouquets.AddAsync(this.Parameter);
             await context.SaveChangesAsync();
-            return this.Parameter.Item1;
+            return this.Parameter;
         }
     }
 }

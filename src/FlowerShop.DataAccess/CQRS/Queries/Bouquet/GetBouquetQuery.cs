@@ -10,7 +10,6 @@ namespace FlowerShop.DataAccess.CQRS.Queries.Bouquet
 
         public override async Task<Core.Entities.Bouquet> Execute(FlowerShopStorageContext context) 
             => await context.Bouquets
-                .Include(x => x.Flowers)
                 .FirstOrDefaultAsync(x => x.Id == this.Id);
     }
 }

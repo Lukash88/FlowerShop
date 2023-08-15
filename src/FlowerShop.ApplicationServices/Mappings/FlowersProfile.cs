@@ -26,7 +26,6 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color))
                 .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
-                //.ForMember(dest => dest.Bouquets, opt => opt.MapFrom(src => src.Bouquets))
                 .ReverseMap();
 
             CreateMap<RemoveFlowerRequest, Flower>()

@@ -15,7 +15,6 @@ namespace FlowerShop.DataAccess.CQRS.Queries.Bouquet
             ISieveProcessor sieveProcessor)
         {
             var query = context.Bouquets
-                .Include(x => x.Flowers)
                 .AsNoTracking();
 
             return await Task.FromResult(query);

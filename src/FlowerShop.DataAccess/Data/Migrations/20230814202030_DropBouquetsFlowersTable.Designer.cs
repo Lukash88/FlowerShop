@@ -4,14 +4,16 @@ using FlowerShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowerShop.DataAccess.Data.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    partial class FlowerShopStorageContextModelSnapshot : ModelSnapshot
+    [Migration("20230814202030_DropBouquetsFlowersTable")]
+    partial class DropBouquetsFlowersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

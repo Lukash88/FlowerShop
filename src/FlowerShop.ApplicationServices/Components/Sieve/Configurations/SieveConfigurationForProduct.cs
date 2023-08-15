@@ -18,8 +18,6 @@ namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
             mapper.Property<Product>(p => p.Category)
                 .CanSort()
                 .CanFilter();
-
-            //return mapper;
         }
     }
 }
