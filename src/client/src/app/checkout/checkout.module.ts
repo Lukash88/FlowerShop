@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { CheckoutComponent } from './checkout.component';
 import { CheckoutRoutingModule } from './checkout-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { CheckoutAddressComponent } from './checkout-address/checkout-address.component';
 
 @NgModule({
   declarations: [
-    CheckoutComponent
+    CheckoutComponent,
+    CheckoutAddressComponent
   ],
   imports: [
     CommonModule,

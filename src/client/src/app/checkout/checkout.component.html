@@ -3,13 +3,13 @@
         <div class="col-8">
             <app-stepper [linearModeSelected]="false" #appStepper>
                 <cdk-step [label]="'Address'">
-                    Step 1
+                    <app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address>  
                 </cdk-step>
                 <cdk-step [label]="'Delivery'">
                     Step 2
                 </cdk-step>
                 <cdk-step [label]="'Review'">
-                    Step 3
+                    Step 3   
                 </cdk-step>
                 <cdk-step [label]="'Payment'">
                     Step 4
