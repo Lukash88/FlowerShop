@@ -17,6 +17,9 @@ export class CheckoutComponent {
       street: ['', Validators.required],
       postalCode: ['', Validators.required],
       city: ['', Validators.required],
+    }),
+    deliveryForm: this.fb.group({
+      deliveryMethod: ['', Validators.required]
     })
   })
  }
