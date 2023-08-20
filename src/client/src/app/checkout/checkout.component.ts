@@ -20,6 +20,9 @@ export class CheckoutComponent {
     }),
     deliveryForm: this.fb.group({
       deliveryMethod: ['', Validators.required]
+    }),
+    paymentForm: this.fb.group({
+      nameOnCard: ['', Validators.required]
     })
   })
  }
