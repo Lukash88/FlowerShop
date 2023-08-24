@@ -3,9 +3,9 @@
         <thead class="text-uppercase" [class.bg-light]="isBasket">
             <tr>
                 <th><div class="py-2">Product</div></th>
-                <th><div class="py-2">Price</div></th>
-                <th [class.text-center]="!isBasket"><div class="py-2">Quantity</div></th>
-                <th><div class="py-2">Total</div></th>
+                <th><div class="py-2 text-center">Price</div></th>
+                <th><div class="py-2 text-center">Quantity</div></th>
+                <th><div class="py-2 text-center">Total</div></th>
                 <th *ngIf="isBasket" class="align-middle text-center"><div class="py-2">Remove</div></th>
             </tr>
         </thead>
@@ -30,10 +30,9 @@
                         </div>
                     </div>
                 </th>
-                <td class="align-middle"><strong>{{item.price | currency}}</strong></td>
+                <td class="align-middle text-center"><strong>{{item.price | currency}}</strong></td>
                 <td class="align-middle">
-                    <div class="d-flex align-items-center" 
-                    [class.justify-content-center]="!isBasket">
+                    <div class="d-flex align-items-center justify-content-center">
                         <i *ngIf="isBasket" class="fa fa-minus-circle text-warning m-2"
                             style="cursor: pointer; font-size: 2em;"
                             (click)="removeBasketItem(item.id, 1)"
@@ -45,11 +44,11 @@
                         ></i>
                     </div>
                 </td>
-                <td class="align-middle"><strong>{{item.price * item.quantity | currency}}</strong></td>
-                <td class="align-middle" *ngIf="isBasket">
+                <td class="align-middle text-center"><strong>{{item.price * item.quantity | currency}}</strong></td>
+                <td class="align-middle text-center" *ngIf="isBasket">
                     <a class="text-danger">
-                        <i class="fa fa-trash"
-                            style="cursor: pointer; font-size: 2em"
+                        <i class="fa fa-trash "
+                            style="cursor: pointer; font-size: 2em;"
                             (click)="removeBasketItem(item.id, item.quantity)"
                         ></i>
                     </a>

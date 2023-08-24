@@ -17,7 +17,11 @@ export class CheckoutDeliveryComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkoutService.getDeliveryMethods().subscribe({
-      next: (dm: any) => this.deliveryMethods = dm.data
+      next: dm => this.deliveryMethods = dm
     })
+  }
+
+  setShippingPrice(deliveryMethod: DeliveryMethod) {
+    this.basketService.setShippingPrice(deliveryMethod);
   }
 }
