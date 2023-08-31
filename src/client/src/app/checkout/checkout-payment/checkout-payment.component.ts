@@ -27,7 +27,6 @@ export class CheckoutPaymentComponent {
         this.basketService.deleteLocalBasket();
         const navigationExtras: NavigationExtras = {state: order};
         this.router.navigate(['checkout/success'], navigationExtras);
-        console.log(order);
       }
     }); 
   }
