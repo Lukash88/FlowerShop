@@ -12,6 +12,6 @@ export class CheckoutSuccessComponent {
 
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
-    this.order = navigation?.extras?.state as Order
+    this.order = navigation?.extras?.state.data as Order
   }
 }
