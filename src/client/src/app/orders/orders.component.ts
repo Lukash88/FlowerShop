@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '../shared/models/order';
 import { OrdersService } from './orders.service';
+import { PaginationParams } from '../shared/models/order';
 
 @Component({
   selector: 'app-orders',
@@ -9,6 +10,8 @@ import { OrdersService } from './orders.service';
 })
 export class OrdersComponent implements OnInit {
   orders: Order[] = [];
+  paginationParams = new PaginationParams;
+  totalCount = 0;
 
   constructor(private orderService: OrdersService) { }
 
@@ -17,8 +20,21 @@ export class OrdersComponent implements OnInit {
   }
 
   getOrders() {
-    this.orderService.getOrdersForUser().subscribe({
-      next: (orders: any) => this.orders = orders.data.results
+    this.orderService.getOrdersForUser(this.paginationParams).subscribe({
+      next: (response: any) => { 
+        this.orders = response.data.results;
+        this.paginationParams.pageNumber = response.data.currentPage;
+        this.paginationParams.pageSize = response.data.pageSize;
+        this.totalCount = response.data.rowCount;
+      },
+      error: error => console.log(error)
     })
+  }
+
+  onPageChanged(event: any) {
+    if (this.paginationParams.pageNumber !== event) {
+      this.paginationParams.pageNumber = event;
+      this.getOrders();
+    }
   }
 }

@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Order } from '../shared/models/order';
+import { Order, PaginationParams } from '../shared/models/order';
+import { Pagination } from '../shared/models/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,11 @@ export class OrdersService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getOrdersForUser() {
-    return this.httpClient.get<Order[]>(this.baseUrl + 'orders');
+  getOrdersForUser(paginationParams: PaginationParams) {
+    let params = new HttpParams().set('Page', paginationParams.pageNumber.toString());
+    params = params.set('PageSize', paginationParams.pageSize.toString());
+
+    return this.httpClient.get<Pagination<Order[]>>(this.baseUrl + 'orders', { params });
   }
 
   getOrderDetailed(id: number) {

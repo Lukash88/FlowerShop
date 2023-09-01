@@ -27,3 +27,8 @@ export interface OrderToCreate {
     deliveryMethodId: number;
     shipToAddress: Address;
 }
+
+export class PaginationParams {
+  pageNumber = 1;
+  pageSize = 5;
+} 
