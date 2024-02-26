@@ -13,6 +13,7 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.BuyerEmail, opt => opt.MapFrom(src => src.BuyerEmail))
                 .ForMember(dest => dest.ShipToAddress, opt => opt.MapFrom(src => src.ShipToAddress))
                 .ForPath(dest => dest.DeliveryMethod.Id, opt => opt.MapFrom(src => src.DeliveryMethodId))
+                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.Items))
                 .ForMember(dest => dest.Subtotal, opt => opt.MapFrom(src => src.Subtotal))
                 .ForMember(dest => dest.OrderState, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.Invoice, opt => opt.MapFrom(src => src.Invoice));
@@ -36,9 +37,7 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.GetTotal()))
                 .ForMember(dest => dest.Invoice, opt => opt.MapFrom(src => src.Invoice))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.OrderState));
-
-            CreateMap<AddressDto, Address>().ReverseMap();
-
+            
             CreateMap<RemoveOrderRequest, Order>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderId));
 

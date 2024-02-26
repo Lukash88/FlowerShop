@@ -2,7 +2,6 @@
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.User;
 using FlowerShop.DataAccess.Core.Entities.Identity;
-using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using Address = FlowerShop.DataAccess.Core.Entities.Identity.Address;
 
 namespace FlowerShop.ApplicationServices.Mappings
@@ -67,7 +66,6 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                 .ReverseMap();
 
-
             CreateMap<UpdateUserAddressRequest, Address>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
@@ -75,8 +73,6 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.PostalCode, opt => opt.MapFrom(src => src.PostalCode))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
                 .ReverseMap();
-
-            CreateMap<Order, OrderDto>().ReverseMap();
         }
     }
 }

@@ -32,8 +32,6 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
                 .ReverseMap();
 
-            CreateMap<OrderItem, OrderItemDto>().ReverseMap();
-
             CreateMap<RemoveProductRequest, Product>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId));
 

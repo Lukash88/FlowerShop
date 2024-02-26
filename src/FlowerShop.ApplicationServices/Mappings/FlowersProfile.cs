@@ -17,7 +17,6 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.StockLevel, opt => opt.MapFrom(src => src.StockLevel))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
 
-
             CreateMap<Flower, FlowerDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
