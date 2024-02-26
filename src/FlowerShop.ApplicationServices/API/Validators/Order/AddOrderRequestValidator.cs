@@ -9,13 +9,11 @@ namespace FlowerShop.ApplicationServices.API.Validators.Order
         {
             RuleLevelCascadeMode = CascadeMode.Stop;
 
-            RuleFor(x => x.BuyerEmail).NotNull().NotEmpty().Length(5, 50)
+            RuleFor(x => x.BuyerEmail).Length(5, 50)
                 .WithMessage("Email must contain 5 - 50 characters")
                 .EmailAddress().WithMessage("Provide valid email format");
             RuleFor(x => x.Invoice).Length(0, 500)
                 .WithMessage("Invoice can contain up to 500 characters");
-            RuleFor(x => x.Status).NotNull().NotEmpty()
-                .WithMessage("Order Status cannot be empty or null");
         }    
     }
 }

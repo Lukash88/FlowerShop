@@ -1,19 +1,17 @@
-﻿using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using FlowerShop.ApplicationServices.API.Domain.Order;
+using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
+using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {
     public interface IOrderService
     {
-        public Task<List<OrderItem>> GetOrderItems(string basketId);
-
-        public Task<DataAccess.Core.Entities.OrderAggregate.Order> CreateOrder(
-            DataAccess.Core.Entities.OrderAggregate.Order order,
-            DeliveryMethod deliveryMethod, List<OrderItem> items, decimal subtotal, string email,
-            Address shippingAddress);
-
-        public decimal GetSubtotal(List<OrderItem> items);
-        public Task<DeliveryMethod> GetDeliveryMethod(int id);
+        Task<OrderEntity> ProcessOrder(AddOrderRequest request, OrderEntity order);
+        Task<OrderEntity> CreateOrder(OrderEntity order);
+        Task<DeliveryMethod> GetDeliveryMethod(int id);
+        Task<List<OrderItem>> GetOrderItems(string basketId);
+        decimal GetSubtotal(IEnumerable<OrderItem> items);
     }
 }
