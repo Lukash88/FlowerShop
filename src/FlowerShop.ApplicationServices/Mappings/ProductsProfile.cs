@@ -2,7 +2,6 @@
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.Product;
 using FlowerShop.DataAccess.Core.Entities;
-using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 
 namespace FlowerShop.ApplicationServices.Mappings
 {

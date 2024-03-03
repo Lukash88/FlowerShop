@@ -31,7 +31,8 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.EventDescription, opt => opt.MapFrom(src => src.EventDescription))
                 .ForMember(dest => dest.EventStreet, opt => opt.MapFrom(src => src.EventStreet))
                 .ForMember(dest => dest.EventCity, opt => opt.MapFrom(src => src.EventCity))
-                .ForMember(dest => dest.EventPostalCode, opt => opt.MapFrom(src => src.EventPostalCode));
+                .ForMember(dest => dest.EventPostalCode, opt => opt.MapFrom(src => src.EventPostalCode))
+                .ReverseMap();
 
             CreateMap<RemoveReservationRequest, Reservation>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ReservationId));
