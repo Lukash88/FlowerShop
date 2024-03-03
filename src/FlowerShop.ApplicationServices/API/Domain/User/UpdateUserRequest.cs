@@ -9,7 +9,7 @@ namespace FlowerShop.ApplicationServices.API.Domain.User
         public string DisplayName { get; init; }
         public DateTime? DateOfBirth { get; init; }
         public Gender? Gender { get; init; }
-        public string Email;// { get; set; }
+        public string Email { get; set; }
         public string NewEmail { get; init; }
         public string NewPassword { get; init; }
         public string ExistingPassword { get; init; }

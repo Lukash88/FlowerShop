@@ -1,56 +1,51 @@
 ﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
+using FlowerShop.ApplicationServices.Components.Order;
 using FlowerShop.DataAccess.CQRS;
-using FlowerShop.DataAccess.CQRS.Commands.Order;
-using FlowerShop.DataAccess.CQRS.Queries.Order;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
-    public class UpdateOrderHandler  : IRequestHandler<UpdateOrderRequest, UpdateOrderResponse>
+    public class UpdateOrderHandler : IRequestHandler<UpdateOrderRequest, UpdateOrderResponse>
     {
-        private readonly IMapper mapper;
-        private readonly ICommandExecutor commandExecutor;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly IMapper _mapper;
+        private readonly ICommandExecutor _commandExecutor;
+        private readonly IQueryExecutor _queryExecutor; 
+        private readonly IOrderService _orderService;
 
-        public UpdateOrderHandler(IMapper mapper, ICommandExecutor commandExecutor, IQueryExecutor queryExecutor)
+        public UpdateOrderHandler(IMapper mapper, ICommandExecutor commandExecutor, IQueryExecutor queryExecutor, IOrderService orderService)
         {
-            this.mapper = mapper;
-            this.commandExecutor = commandExecutor;
-            this.queryExecutor = queryExecutor;
+            _mapper = mapper;
+            _commandExecutor = commandExecutor;
+            _queryExecutor = queryExecutor;
+            _orderService = orderService;
         }
 
         public async Task<UpdateOrderResponse> Handle(UpdateOrderRequest request, CancellationToken cancellationToken)
         {
-            var query = new GetOrderQuery()
+            try
             {
-                Id = request.OrderId
-            };
-            var getOrder = await this.queryExecutor.Execute(query);
-            if (getOrder is null)
+                var order = _mapper.Map<OrderEntity>(request);
+                var updatedOrder = await _orderService.ProcessUpdateOrder(request, order);
+                var orderDto = _mapper.Map<OrderToReturnDto>(updatedOrder);
+
+                return new UpdateOrderResponse() { Data = orderDto };
+            }
+            catch (Exception ex)
             {
+                // TODO: Log the exception
                 return new UpdateOrderResponse()
                 {
-                    Error = new ErrorModel(ErrorType.NotFound)
+                    Error = new ErrorModel(ErrorType.BadRequest + " - Problem updating order. " + ex.Message)
                 };
             }
-
-            var mappedOrder = this.mapper.Map<DataAccess.Core.Entities.OrderAggregate.Order>(request);
-            var command = new UpdateOrderCommand()
-            {
-                Parameter = mappedOrder
-            };
-            var updatedOrder = await this.commandExecutor.Execute(command);
-            var response = new UpdateOrderResponse()
-            {
-                Data = this.mapper.Map<Domain.Models.OrderToReturnDto>(updatedOrder)
-            };
-
-            return response;
         }
     }
 }

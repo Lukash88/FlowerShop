@@ -9,15 +9,14 @@ namespace FlowerShop.ApplicationServices.API.Validators.Order
         {
             RuleLevelCascadeMode = CascadeMode.Stop;
 
-            RuleFor(x => x.OrderId).NotNull().NotEmpty().WithMessage("Order Id cannot be empty or null")
-                .GreaterThan(0).WithMessage("Order Id must be greater than 0");
-            RuleFor(x => x.BuyerEmail).NotNull().NotEmpty().Length(5, 50)
+           RuleFor(x => x.BuyerEmail).NotNull().NotEmpty().Length(5, 50)
                 .WithMessage("Email must contain 5 - 50 characters")
                 .EmailAddress().WithMessage("Provide valid email format");
+            RuleForEach(x => x.OrderItems).SetValidator(new OrderItemValidator());
             RuleFor(x => x.Invoice).Length(0, 500)
                 .WithMessage("Invoice can contain up to 500 characters");
             RuleFor(x => x.Status).NotNull().NotEmpty()
-                .WithMessage("Order Status cannot be empty or null");;
+                .WithMessage("Order Status cannot be empty or null");
         }
     }
 }

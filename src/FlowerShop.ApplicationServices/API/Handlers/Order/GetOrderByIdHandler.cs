@@ -2,11 +2,13 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Order;
 using MediatR;
+using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
@@ -21,7 +23,8 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
             this.queryExecutor = queryExecutor;
         }
 
-        public async Task<GetOrderByIdResponse> Handle(GetOrderByIdRequest request, CancellationToken cancellationToken)
+        public async Task<GetOrderByIdResponse> Handle(GetOrderByIdRequest request, 
+            CancellationToken cancellationToken)
         {
             var query = new GetOrderQuery()
             {
@@ -36,7 +39,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
                 };
             }
 
-            var mappedOrder = this.mapper.Map<Domain.Models.OrderToReturnDto>(order);
+            var mappedOrder = this.mapper.Map<OrderEntity, OrderToReturnDto>(order);
             var response = new GetOrderByIdResponse()
             {
                 Data = mappedOrder

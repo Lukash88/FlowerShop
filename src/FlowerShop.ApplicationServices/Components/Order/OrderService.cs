@@ -49,6 +49,13 @@ namespace FlowerShop.ApplicationServices.Components.Order
             return await _commandExecutor.Execute(addOrderCommand);
         }
 
+        public async Task<OrderEntity> UpdateOrder(OrderEntity order)
+        {
+            var updatedOrderCommand = new UpdateOrderCommand { Parameter = order };
+
+            return await _commandExecutor.Execute(updatedOrderCommand);
+        }
+
         public async Task<List<OrderItem>> GetOrderItems(string basketId)
         {
             var basket = await _basketRepository.GetBasketAsync(basketId);
@@ -77,6 +84,39 @@ namespace FlowerShop.ApplicationServices.Components.Order
         public decimal GetSubtotal(IEnumerable<OrderItem> items)
         {
             return items.Sum(item => item.Price * item.Quantity);
+        }
+
+        public async Task<List<OrderItem>> GetOrderItemsForUpdate(UpdateOrderRequest request, OrderEntity order)
+        {
+            var items = new List<OrderItem>();
+            foreach (var item in request.OrderItems)
+            {
+                var productItem = await _queryExecutor.Execute(new GetProductQuery { Id = item.ProductId });
+                var orderItem = new OrderItem(
+                    new ProductItemOrdered(productItem.Id, productItem.Name, productItem.ImageUrl),
+                    productItem.Price,
+                    item.Quantity
+                );
+                items.Add(orderItem);
+            }
+
+            return items;
+        }
+
+        public async Task<OrderEntity> ProcessUpdateOrder(UpdateOrderRequest request, OrderEntity order)
+        {
+            var items = await GetOrderItemsForUpdate(request, order);
+            var deliveryMethod = await GetDeliveryMethod(request.DeliveryMethodId);
+            var subtotal = GetSubtotal(items);
+
+            order.DeliveryMethod = deliveryMethod;
+            order.OrderItems = items;
+            order.Subtotal = subtotal;
+            order.BuyerEmail = request.BuyerEmail;
+            order.ShipToAddress = request.ShipToAddress;
+            order.Invoice = MakeInvoice(order);
+
+            return await UpdateOrder(order);
         }
 
         private static string MakeInvoice(OrderEntity order)

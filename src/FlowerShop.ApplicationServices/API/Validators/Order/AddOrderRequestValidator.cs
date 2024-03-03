@@ -12,6 +12,7 @@ namespace FlowerShop.ApplicationServices.API.Validators.Order
             RuleFor(x => x.BuyerEmail).Length(5, 50)
                 .WithMessage("Email must contain 5 - 50 characters")
                 .EmailAddress().WithMessage("Provide valid email format");
+            RuleForEach(x => x.Items).SetValidator(new OrderItemValidator());
             RuleFor(x => x.Invoice).Length(0, 500)
                 .WithMessage("Invoice can contain up to 500 characters");
         }    

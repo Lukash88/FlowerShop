@@ -13,5 +13,7 @@ namespace FlowerShop.ApplicationServices.Components.Order
         Task<DeliveryMethod> GetDeliveryMethod(int id);
         Task<List<OrderItem>> GetOrderItems(string basketId);
         decimal GetSubtotal(IEnumerable<OrderItem> items);
+        Task<OrderEntity> UpdateOrder(OrderEntity order);
+        Task<OrderEntity> ProcessUpdateOrder(UpdateOrderRequest request, OrderEntity order);
     }
 }
