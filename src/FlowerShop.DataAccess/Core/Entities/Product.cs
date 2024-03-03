@@ -1,9 +1,11 @@
-﻿using FlowerShop.DataAccess.Core.Enums;
+﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
+using FlowerShop.DataAccess.Core.Enums;
 
 namespace FlowerShop.DataAccess.Core.Entities
 {
-    public abstract class Product : EntityBase
+    public abstract class Product : IEntityBase
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }

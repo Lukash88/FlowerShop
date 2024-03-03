@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using FlowerShop.DataAccess.Core.Entities.Interfaces;
 using FlowerShop.DataAccess.Core.Enums;
 
 namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate
 {
-    public class Order : EntityBase
+    public class Order : IEntityBase
     {
         public Order()
         {
@@ -20,6 +21,7 @@ namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate
             Subtotal = subtotal;
         }
 
+        public int Id { get; set; }
         public string BuyerEmail { get; set; }
         public DateTime CreatedAt { get; set; }
         public Address ShipToAddress { get; set; }

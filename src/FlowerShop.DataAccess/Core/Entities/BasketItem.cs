@@ -1,8 +1,9 @@
+using FlowerShop.DataAccess.Core.Entities.Interfaces;
 using FlowerShop.DataAccess.Core.Enums;
 
 namespace FlowerShop.DataAccess.Core.Entities
 {
-    public class BasketItem
+    public class BasketItem : IEntityBase
     {
         public int Id { get; set; }
         public string Name { get; set; }
