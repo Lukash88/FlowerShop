@@ -5,7 +5,7 @@ using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {
-    internal sealed class OrderData : IOrderData
+    public sealed class OrderData : IOrderData
     {
         private readonly ICommandExecutor _commandExecutor;
 

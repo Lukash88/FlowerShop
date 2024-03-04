@@ -6,14 +6,14 @@ using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {
-    internal sealed class OrderService : IOrderService
+    public sealed class OrderService : IOrderService
     {
         private readonly IOrderData _orderData;
         private readonly IDeliveryMethodService _deliveryMethodService;
         private readonly IOrderItemService _orderItemService;
 
-        public OrderService(IOrderData orderData, DeliveryMethodService deliveryMethodService,
-            OrderItemService orderItemService)
+        public OrderService(IOrderData orderData, IDeliveryMethodService deliveryMethodService,
+            IOrderItemService orderItemService)
         {
             _orderData = orderData;
             _deliveryMethodService = deliveryMethodService;

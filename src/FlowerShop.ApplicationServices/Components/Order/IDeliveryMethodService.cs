@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {
-    internal interface IDeliveryMethodService
+    public interface IDeliveryMethodService
     {
         Task<DeliveryMethod> GetDeliveryMethod(int id);
     }

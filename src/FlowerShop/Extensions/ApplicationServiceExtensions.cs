@@ -23,6 +23,9 @@ namespace FlowerShop.Extensions
 
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderData, OrderData>();
+            services.AddScoped<IOrderItemService, OrderItemService>();
+            services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
 
             services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
             // services.AddScoped<ISieveProcessor, SieveProcessor>();

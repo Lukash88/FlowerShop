@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {
-    internal sealed class DeliveryMethodService : IDeliveryMethodService
+    public sealed class DeliveryMethodService : IDeliveryMethodService
     {
         private readonly IQueryExecutor _queryExecutor;
 

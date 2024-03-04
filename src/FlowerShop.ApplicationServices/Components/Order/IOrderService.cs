@@ -4,7 +4,7 @@ using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {
-    internal interface IOrderService
+    public interface IOrderService
     {
         Task<OrderEntity> ProcessOrder(AddOrderRequest request, OrderEntity order);
         Task<OrderEntity> ProcessUpdateOrder(UpdateOrderRequest request, OrderEntity order);

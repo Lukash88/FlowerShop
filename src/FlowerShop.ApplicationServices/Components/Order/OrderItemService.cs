@@ -10,7 +10,7 @@ using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {
-    internal sealed class OrderItemService : IOrderItemService
+    public sealed class OrderItemService : IOrderItemService
     {
         private readonly IBasketRepository _basketRepository;
         private readonly IQueryExecutor _queryExecutor;
