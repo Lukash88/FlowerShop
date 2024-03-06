@@ -31,7 +31,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
                 Id = request.FlowerId
             };
             var getFlower = await this.queryExecutor.Execute(query);
-            if (getFlower == null)
+            if (getFlower is null)
             {
                 return new RemoveFlowerResponse()
                 {

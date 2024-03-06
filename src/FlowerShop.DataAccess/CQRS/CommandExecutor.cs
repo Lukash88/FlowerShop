@@ -1,10 +1,6 @@
 ﻿using FlowerShop.DataAccess.CQRS.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FlowerShop.DataAccess.Data;
+using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.CQRS
 {
@@ -16,6 +12,7 @@ namespace FlowerShop.DataAccess.CQRS
         {
             this.context = context;
         }
+
         public Task<TResult> Execute<TParameters, TResult>(CommandBase<TParameters, TResult> command)
         {
             return command.Execute(this.context);

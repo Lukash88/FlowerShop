@@ -17,7 +17,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AlterColumn<decimal>(
                 name: "Price",
-                table: "OrderDetails",
+                table: "OrderItems",
                 type: "decimal(14,2)",
                 precision: 14,
                 scale: 2,
@@ -42,7 +42,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AlterColumn<decimal>(
                 name: "Price",
-                table: "OrderDetails",
+                table: "OrderItems",
                 type: "decimal(14,2)",
                 precision: 14,
                 scale: 2,

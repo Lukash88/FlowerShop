@@ -7,6 +7,6 @@
             this.Error = error;
         }
 
-        public string Error { get; set; }
+        public string Error { get; }
     }
 }

@@ -25,7 +25,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddColumn<int>(
                 name: "OrderId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
@@ -37,12 +37,12 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_OrderId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "OrderId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_OrderDetails_Orders_OrderId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "OrderId",
                 principalTable: "Orders",
                 principalColumn: "Id",
@@ -61,7 +61,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_OrderDetails_Orders_OrderId",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Reservations_Orders_OrderId",
@@ -69,7 +69,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_OrderDetails_OrderId",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Reservations",
@@ -77,7 +77,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "OrderId",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.RenameTable(
                 name: "Reservations",

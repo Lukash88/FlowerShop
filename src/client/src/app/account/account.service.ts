@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, of, tap, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../shared/models/user';
+import { Address, User } from '../shared/models/user';
 import { Router } from '@angular/router';
 import { IValidationResponse } from '../shared/models/validationResponse';
 
@@ -69,5 +69,13 @@ export class AccountService {
     return this.http.get<IValidationResponse>(
       this.baseUrl + 'account/emailExists?EmailToCheck=' + email
     );
+  }
+
+  getUserAddress() {
+    return this.http.get<Address>(this.baseUrl + 'account/address');
+  }
+
+  updateUserAddress(address: Address) {
+    return this.http.put(this.baseUrl + 'account/address', address);
   }
 }

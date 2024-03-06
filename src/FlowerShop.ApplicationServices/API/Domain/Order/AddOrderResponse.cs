@@ -2,7 +2,7 @@
 
 namespace FlowerShop.ApplicationServices.API.Domain.Order
 {
-    public class AddOrderResponse : ResponseBase<OrderDto>
+    public class AddOrderResponse : ResponseBase<OrderToReturnDto>
     {
     }
 }

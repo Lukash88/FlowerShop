@@ -5,6 +5,6 @@ namespace FlowerShop.ApplicationServices.API.Domain.Reservation
 {
     public class GetReservationsRequest : IRequest<GetReservationsResponse>
     {
-        public SieveModel SieveModel { get; set; }
+        public SieveModel SieveModel { get; init; }
     }
 }

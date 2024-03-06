@@ -38,7 +38,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
             };
 
             var orders = await this.queryExecutor.ExecuteWithSieve(query);
-            if (orders == null)
+            if (orders is null)
             {
                 return new GetOrdersResponse()
                 {
@@ -46,7 +46,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
                 };
             }
 
-            var results = await orders.ToPagedAsync<DataAccess.Core.Entities.Order, OrderDto>(sieveProcessor, 
+            var results = await orders.ToPagedAsync<DataAccess.Core.Entities.OrderAggregate.Order, OrderToReturnDto>(sieveProcessor, 
                 mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetOrdersResponse()
             {

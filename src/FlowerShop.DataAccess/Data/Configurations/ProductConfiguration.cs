@@ -1,8 +1,8 @@
-﻿using System;
-using FlowerShop.DataAccess.Core.Entities;
+﻿using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace FlowerShop.DataAccess.Data.Configurations
 {
@@ -11,33 +11,33 @@ namespace FlowerShop.DataAccess.Data.Configurations
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder
-               .Property(x => x.Name)
+               .Property(p => p.Name)
                .IsRequired()
-               .HasMaxLength(30);
+               .HasMaxLength(100);
 
             builder
-                .Property(x => x.ShortDescription)
+                .Property(p => p.ShortDescription)
                 .IsRequired()
                 .HasMaxLength(200);
 
             builder
-                .Property(x => x.LongDescription)
+                .Property(p => p.LongDescription)
                 .HasMaxLength(500);
 
             builder
-               .Property(x => x.Category)
+               .Property(p => p.Category)
                .HasConversion(
                    c => c.ToString(),
                    c => (Category)Enum.Parse(typeof(Category), c))
                .IsRequired();
 
             builder
-               .Property(x => x.Price)
-               .HasPrecision(14, 2)
-               .IsRequired(false);
+               .Property(p => p.Price)
+               .HasColumnType("decimal(18,2)")
+               .IsRequired();
 
             builder
-                .Property(x => x.StockLevel)
+                .Property(p => p.StockLevel)
                 .IsRequired();
         }
     }

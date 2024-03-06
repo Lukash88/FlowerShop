@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Core.Entities.Interfaces;
 
 namespace FlowerShop.DataAccess.Repositories.AppRepository
 {
-    public interface IRepository<T> where T : EntityBase
+    public interface IRepository<T> where T : IEntityBase
     {
         Task<List<T>> GetAll();
 

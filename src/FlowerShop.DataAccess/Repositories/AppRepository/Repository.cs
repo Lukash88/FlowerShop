@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Core.Entities.Interfaces;
 using FlowerShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlowerShop.DataAccess.Repositories.AppRepository
 {
-    public class Repository<T> : IRepository<T> where T : EntityBase
+    public class Repository<T> : IRepository<T> where T : class, IEntityBase
     {
-        protected readonly FlowerShopStorageContext context;
-        private DbSet<T> entities;
+        private readonly FlowerShopStorageContext context;
+        private readonly DbSet<T> entities;
 
         public Repository(FlowerShopStorageContext context)
         {

@@ -28,7 +28,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
                 Id = request.ReservationId
             };
             var reservation = await this.queryExecutor.Execute(query);
-            if (reservation == null)
+            if (reservation is null)
             {
                 return new GetReservationByIdResponse()
                 {

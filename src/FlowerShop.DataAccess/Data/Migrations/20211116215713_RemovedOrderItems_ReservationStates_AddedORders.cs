@@ -16,7 +16,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_OrderDetail_Reservations_OrderId",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_OrderDetailProduct_OrderDetail_OrderDetailsId",
@@ -36,15 +36,15 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_OrderDetail",
-                table: "OrderDetail");
+                table: "OrderItem");
 
             migrationBuilder.RenameTable(
                 name: "Reservations",
                 newName: "Orders");
 
             migrationBuilder.RenameTable(
-                name: "OrderDetail",
-                newName: "OrderDetails");
+                name: "OrderItem",
+                newName: "OrderItems");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Reservations_UserId",
@@ -53,7 +53,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.RenameIndex(
                 name: "IX_OrderDetail_OrderId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 newName: "IX_OrderDetails_OrderId");
 
             migrationBuilder.AddPrimaryKey(
@@ -63,14 +63,14 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_OrderDetails",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BouquetOrderDetail_OrderDetails_OrderDetailsId",
                 table: "BouquetOrderDetail",
                 column: "OrderDetailsId",
-                principalTable: "OrderDetails",
+                principalTable: "OrderItems",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
@@ -78,7 +78,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 name: "FK_DecorationOrderDetail_OrderDetails_OrderDetailsId",
                 table: "DecorationOrderDetail",
                 column: "OrderDetailsId",
-                principalTable: "OrderDetails",
+                principalTable: "OrderItems",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
@@ -86,13 +86,13 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 name: "FK_OrderDetailProduct_OrderDetails_OrderDetailsId",
                 table: "OrderDetailProduct",
                 column: "OrderDetailsId",
-                principalTable: "OrderDetails",
+                principalTable: "OrderItems",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_OrderDetails_Orders_OrderId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "OrderId",
                 principalTable: "Orders",
                 principalColumn: "Id",
@@ -131,7 +131,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropForeignKey(
                 name: "FK_OrderDetails_Orders_OrderId",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Orders_Users_UserId",
@@ -147,15 +147,15 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_OrderDetails",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.RenameTable(
                 name: "Orders",
                 newName: "Reservations");
 
             migrationBuilder.RenameTable(
-                name: "OrderDetails",
-                newName: "OrderDetail");
+                name: "OrderItems",
+                newName: "OrderItem");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Orders_UserId",
@@ -164,7 +164,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.RenameIndex(
                 name: "IX_OrderDetails_OrderId",
-                table: "OrderDetail",
+                table: "OrderItem",
                 newName: "IX_OrderDetail_OrderId");
 
             migrationBuilder.AddPrimaryKey(
@@ -174,14 +174,14 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_OrderDetail",
-                table: "OrderDetail",
+                table: "OrderItem",
                 column: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BouquetOrderDetail_OrderDetail_OrderDetailsId",
                 table: "BouquetOrderDetail",
                 column: "OrderDetailsId",
-                principalTable: "OrderDetail",
+                principalTable: "OrderItem",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
@@ -189,13 +189,13 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 name: "FK_DecorationOrderDetail_OrderDetail_OrderDetailsId",
                 table: "DecorationOrderDetail",
                 column: "OrderDetailsId",
-                principalTable: "OrderDetail",
+                principalTable: "OrderItem",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_OrderDetail_Reservations_OrderId",
-                table: "OrderDetail",
+                table: "OrderItem",
                 column: "OrderId",
                 principalTable: "Reservations",
                 principalColumn: "Id",
@@ -205,7 +205,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 name: "FK_OrderDetailProduct_OrderDetail_OrderDetailsId",
                 table: "OrderDetailProduct",
                 column: "OrderDetailsId",
-                principalTable: "OrderDetail",
+                principalTable: "OrderItem",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 

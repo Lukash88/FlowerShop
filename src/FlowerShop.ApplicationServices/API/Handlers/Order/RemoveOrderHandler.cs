@@ -31,7 +31,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
                 Id = request.OrderId
             };
             var getOrder = await this.queryExecutor.Execute(query);
-            if (getOrder == null)
+            if (getOrder is null)
             {
                 return new RemoveOrderResponse()
                 {
@@ -39,15 +39,17 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
                 };
             }
 
-            var mappedOrder = mapper.Map<DataAccess.Core.Entities.Order>(request);
+            var mappedOrder = mapper.Map<DataAccess.Core.Entities.OrderAggregate.Order>(request);
             var command = new RemoveOrderCommand()
             {
                 Parameter = mappedOrder
             };
             var removedOrder = await this.commandExecutor.Execute(command);
+            removedOrder.DeliveryMethod = new();
+            
             var response = new RemoveOrderResponse()
             {
-                Data = this.mapper.Map<Domain.Models.OrderDto>(removedOrder)
+                Data = this.mapper.Map<Domain.Models.OrderToReturnDto>(removedOrder)
             };
 
             return response;

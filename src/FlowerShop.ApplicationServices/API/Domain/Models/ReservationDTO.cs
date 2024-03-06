@@ -5,16 +5,16 @@ namespace FlowerShop.ApplicationServices.API.Domain.Models
 {
     public class ReservationDto
     {
-        public int Id { get; set; }
-        public int OrderId { get; set; }
-        public DateTime DateOfEvent { get; set; }
-        public DateTime ReservedOn { get; set; }
-        public ReservationStateEnum ReservationStatus { get; set; }
-        public EventType EventType { get; set; }
-        public string EventDescription { get; set; }     
-        public string EventStreet { get; set; }
-        public string EventCity { get; set; }
-        public string EventPostalCode { get; set; }
-        public decimal? ServicePrice { get; set; }
+        public int Id { get; init; }
+        public int OrderId { get; init; }
+        public DateTime DateOfEvent { get; init; }
+        public DateTime ReservedOn { get; init; }
+        public ReservationStateEnum ReservationStatus { get; init; }
+        public EventType EventType { get; init; }
+        public string EventDescription { get; init; }     
+        public string EventStreet { get; init; }
+        public string EventCity { get; init; }
+        public string EventPostalCode { get; init; }
+        public decimal? ServicePrice { get; init; }
     }
 }

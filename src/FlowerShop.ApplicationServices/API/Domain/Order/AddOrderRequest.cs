@@ -1,17 +1,19 @@
-﻿using System;
-using FlowerShop.DataAccess.Core.Enums;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using MediatR;
+using System.Collections.Generic;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Order
 {
     public class AddOrderRequest : IRequest<AddOrderResponse>
     {
-        public int UserId { get; set; }
-        public bool IsPaymentConfirmed { get; set; }
-        public string Invoice { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public OrderState OrderState { get; set; }
-        public int Quantity { get; set; }
-        public decimal? Sum { get; set; }
+        public string BasketId { get; init; }
+        public string BuyerEmail { get; set; }
+        public Address ShipToAddress { get; init; }
+        public List<OrderItemDto> Items { get; init; }
+        public int DeliveryMethodId { get; init; }
+        public decimal Subtotal { get; init; }
+        public string Status { get; init; }
+        public string Invoice { get; init; }
     }
 }

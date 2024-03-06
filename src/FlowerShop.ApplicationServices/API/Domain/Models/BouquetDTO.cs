@@ -2,16 +2,10 @@
 
 namespace FlowerShop.ApplicationServices.API.Domain.Models
 {
-    using System.Collections.Generic;
-
-    public class BouquetDto
+    public class BouquetDto : ProductDto
     {
-        public int Id { get; set; }
-        public Occasion Occasion { get; set; }
-        public TypeOfFlowerArrangement TypeOfArrangement { get; set; } 
-        public DecorationWay DecorationWay { get; set; }
-        public int StockLevel { get; set; }
-        public List<FlowerDto> Flowers { get; set; } = new();
-        public List<OrderDetailDto> OrderDetails { get; set; } = new();
+        public Occasion Occasion { get; init; }
+        public TypeOfFlowerArrangement TypeOfArrangement { get; init; }
+        public DecorationWay DecorationWay { get; init; }
     }
 }

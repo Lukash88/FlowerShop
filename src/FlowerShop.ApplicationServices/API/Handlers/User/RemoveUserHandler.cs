@@ -25,7 +25,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
         public async Task<RemoveUserResponse> Handle(RemoveUserRequest request, CancellationToken cancellationToken)
         {
             var getUser = await this.userManager.Users.SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
-            if (getUser == null)
+            if (getUser is null)
             {
                 return new RemoveUserResponse()
                 {

@@ -29,7 +29,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     table.ForeignKey(
                         name: "FK_BouquetsOrderDetails_OrderDetails_OrderDetailId",
                         column: x => x.OrderDetailId,
-                        principalTable: "OrderDetails",
+                        principalTable: "OrderItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -64,7 +64,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     table.ForeignKey(
                         name: "FK_BouquetOrderDetail_OrderDetails_OrderDetailsId",
                         column: x => x.OrderDetailsId,
-                        principalTable: "OrderDetails",
+                        principalTable: "OrderItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });

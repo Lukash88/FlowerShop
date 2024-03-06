@@ -41,14 +41,12 @@ namespace FlowerShop.Controllers
 
             return await this.HandleRequest<GetBouquetByIdRequest, GetBouquetByIdResponse>(request);
         }
-
-        [AllowAnonymous]
+        
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddBouquet([FromBody] AddBouquetRequest request) => 
             await this.HandleRequest<AddBouquetRequest, AddBouquetResponse>(request);
 
-        [AllowAnonymous]
         [HttpDelete]
         [Route("{bouquetId}")]
         public async Task<IActionResult> RemoveBouquetById([FromRoute] int bouquetId)
@@ -60,8 +58,7 @@ namespace FlowerShop.Controllers
 
             return await this.HandleRequest<RemoveBouquetRequest, RemoveBouquetResponse>(request);
         }
-
-        [AllowAnonymous]
+        
         [HttpPut]
         [Route("{bouquetId}")]
         public async Task<IActionResult> UpdateBouquetById([FromRoute] int bouquetId, [FromBody] UpdateBouquetRequest request)

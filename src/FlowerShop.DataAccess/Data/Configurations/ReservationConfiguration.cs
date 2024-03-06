@@ -55,6 +55,7 @@ namespace FlowerShop.DataAccess.Data.Configurations
 
             builder
                .Property(x => x.ServicePrice)
+               //.HasColumnType("decimal(18,2)")
                .HasPrecision(14, 2)
                .IsRequired(false);
         }

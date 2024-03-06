@@ -1,10 +1,13 @@
 ﻿using System;
+using FlowerShop.DataAccess.Core.Entities.Interfaces;
+using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using FlowerShop.DataAccess.Core.Enums;
 
 namespace FlowerShop.DataAccess.Core.Entities
 {
-    public class Reservation : EntityBase
+    public class Reservation : IEntityBase
     {
+        public int Id { get; set; }
         public DateTime DateOfEvent { get; set; }
         public DateTime ReservedOn { get; set; }
         public ReservationStateEnum ReservationStatus{ get; set; }

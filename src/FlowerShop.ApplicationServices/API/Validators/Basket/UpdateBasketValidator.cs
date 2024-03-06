@@ -7,7 +7,7 @@ namespace FlowerShop.ApplicationServices.API.Validators.Basket
     {
         public UpdateBasketValidator()
         {
-            this.RuleForEach(x => x.Items).SetValidator(new BasketItemValidator());
+            RuleForEach(x => x.Items).SetValidator(new BasketItemValidator());
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FlowerShop.ApplicationServices.API.Validators.Bouquet;
 using FlowerShop.ApplicationServices.Components.Flowers;
+using FlowerShop.ApplicationServices.Components.Order;
 using FlowerShop.ApplicationServices.Components.Sieve;
 using FlowerShop.ApplicationServices.Components.Token;
 using FlowerShop.DataAccess.CQRS;
@@ -21,6 +22,10 @@ namespace FlowerShop.Extensions
             services.AddScoped<IBasketRepository, BasketRepository>();
 
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderData, OrderData>();
+            services.AddScoped<IOrderItemService, OrderItemService>();
+            services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
 
             services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
             // services.AddScoped<ISieveProcessor, SieveProcessor>();

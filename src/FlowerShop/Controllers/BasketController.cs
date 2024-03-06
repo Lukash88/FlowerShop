@@ -23,7 +23,6 @@ namespace FlowerShop.Controllers
             logger.LogInformation("We are in Basket Controller");
         }
 
-        [AllowAnonymous]
         [HttpGet]
         [Route("{basketId}")]
         public async Task<IActionResult> GetBasketById([FromRoute] string basketId)
@@ -35,8 +34,7 @@ namespace FlowerShop.Controllers
 
             return await this.HandleRequest<GetBasketByIdRequest, GetBasketByIdResponse>(request);
         }
-
-        [AllowAnonymous]
+        
         [HttpPost]
         [Route("{basketId}")]
         public async Task<IActionResult> UpdateBasket([FromRoute] string basketId, [FromBody] UpdateBasketRequest request)

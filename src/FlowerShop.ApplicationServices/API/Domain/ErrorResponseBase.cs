@@ -2,6 +2,6 @@
 {
     public class ErrorResponseBase
     {
-        public ErrorModel Error { get; set; }
+        public ErrorModel Error { get; init; }
     }
 }

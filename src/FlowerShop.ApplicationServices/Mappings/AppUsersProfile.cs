@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.User;
-using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Core.Entities.Identity;
+using Address = FlowerShop.DataAccess.Core.Entities.Identity.Address;
 
 namespace FlowerShop.ApplicationServices.Mappings
 {
@@ -10,72 +10,61 @@ namespace FlowerShop.ApplicationServices.Mappings
     {
         public AppUsersProfile()
         {
-            this.CreateMap<RegisterAppUserRequest, AppUser>()
-                .ForMember(x => x.DisplayName, y => y.MapFrom(z => z.DisplayName))
-                .ForMember(x => x.Email, y => y.MapFrom(z => z.Email))
-                .ForMember(x => x.UserName, y => y.MapFrom(z => z.Email))
-                .ForPath(x => x.Address.FirstName, y => y.MapFrom(z => z.FirstName))
-                .ForPath(x => x.Address.LastName, y => y.MapFrom(z => z.LastName))
-                .ForMember(x => x.PasswordHash, y => y.MapFrom(z => z.Password))
-                .ForMember(x => x.DateOfBirth, y => y.MapFrom(z => z.DateOfBirth))
-                .ForMember(x => x.Gender, y => y.MapFrom(z => z.Gender))
-                .ForPath(x => x.Address.Street, y => y.MapFrom(z => z.Street))
-                .ForPath(x => x.Address.PostalCode, y => y.MapFrom(z => z.PostalCode))
-                .ForPath(x => x.Address.City, y => y.MapFrom(z => z.City))
+            CreateMap<RegisterAppUserRequest, AppUser>()
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+                .ForPath(dest => dest.Address.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForPath(dest => dest.Address.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password))
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
+                .ForPath(dest => dest.Address.Street, opt => opt.MapFrom(src => src.Street))
+                .ForPath(dest => dest.Address.PostalCode, opt => opt.MapFrom(src => src.PostalCode))
+                .ForPath(dest => dest.Address.City, opt => opt.MapFrom(src => src.City))
                 .ReverseMap();
 
-            this.CreateMap<AppUser, AppUserDto>()
-                .ForMember(x => x.DisplayName, y => y.MapFrom(z => z.DisplayName))
-                .ForMember(x => x.Email, y => y.MapFrom(z => z.Email))
-                .ForMember(x => x.DateOfBirth, y => y.MapFrom(z => z.DateOfBirth))
-                .ForMember(x => x.Gender, y => y.MapFrom(z => z.Gender))
+            CreateMap<AppUser, AppUserDto>()
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                 .ReverseMap();
 
-            this.CreateMap<RegisterAppUserRequest, AppUserDto>()
-                .ForMember(x => x.DisplayName, y => y.MapFrom(z => z.DisplayName))
-                .ForMember(x => x.Email, y => y.MapFrom(z => z.Email))
-                .ForMember(x => x.DateOfBirth, y => y.MapFrom(z => z.DateOfBirth))
-                .ForMember(x => x.Gender, y => y.MapFrom(z => z.Gender))
+            CreateMap<RegisterAppUserRequest, AppUserDto>()
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                 .ReverseMap();
 
-            this.CreateMap<AppUser, UserDto>()
-                .ForMember(x => x.DisplayName, y => y.MapFrom(z => z.DisplayName))
-                .ForMember(x => x.Email, y => y.MapFrom(z => z.Email))
+            CreateMap<AppUser, UserDto>()
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ReverseMap();
 
-            this.CreateMap<AppUser, AddressDto>()
-                .ForPath(x => x.FirstName, y => y.MapFrom(z => z.Address.FirstName))
-                .ForPath(x => x.LastName, y => y.MapFrom(z => z.Address.LastName))
-                .ForPath(x => x.Street, y => y.MapFrom(z => z.Address.Street))
-                .ForPath(x => x.PostalCode, y => y.MapFrom(z => z.Address.PostalCode))
-                .ForPath(x => x.City, y => y.MapFrom(z => z.Address.City))
+            CreateMap<Address, AddressDto>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Street))
+                .ForMember(dest => dest.PostalCode, opt => opt.MapFrom(src => src.PostalCode))
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
                 .ReverseMap();
 
-            this.CreateMap<Address, AddressDto>()
-                .ForMember(x => x.FirstName, y => y.MapFrom(z => z.FirstName))
-                .ForMember(x => x.LastName, y => y.MapFrom(z => z.LastName))
-                .ForMember(x => x.Street, y => y.MapFrom(z => z.Street))
-                .ForMember(x => x.PostalCode, y => y.MapFrom(z => z.PostalCode))
-                .ForMember(x => x.City, y => y.MapFrom(z => z.City))
+            CreateMap<UpdateUserRequest, AppUser>()
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                 .ReverseMap();
 
-            this.CreateMap<UpdateUserRequest, AppUser>()
-                .ForMember(x => x.DisplayName, y => y.MapFrom(z => z.DisplayName))
-                .ForMember(x => x.Email, y => y.MapFrom(z => z.Email))
-                .ForMember(x => x.DateOfBirth, y => y.MapFrom(z => z.DateOfBirth))
-                .ForMember(x => x.Gender, y => y.MapFrom(z => z.Gender))
+            CreateMap<UpdateUserAddressRequest, Address>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Street))
+                .ForMember(dest => dest.PostalCode, opt => opt.MapFrom(src => src.PostalCode))
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.City))
                 .ReverseMap();
-
-
-            this.CreateMap<UpdateUserAddressRequest, Address>()
-                .ForMember(x => x.FirstName, y => y.MapFrom(z => z.FirstName))
-                .ForMember(x => x.LastName, y => y.MapFrom(z => z.LastName))
-                .ForMember(x => x.Street, y => y.MapFrom(z => z.Street))
-                .ForMember(x => x.PostalCode, y => y.MapFrom(z => z.PostalCode))
-                .ForMember(x => x.City, y => y.MapFrom(z => z.City))
-                .ReverseMap();
-
-            this.CreateMap<Order, OrderDto>().ReverseMap();
         }
     }
 }

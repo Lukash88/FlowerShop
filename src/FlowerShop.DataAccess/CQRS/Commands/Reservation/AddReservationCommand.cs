@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Data;
+using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.CQRS.Commands.Reservation
 {
-    using System.Threading.Tasks;
-
     public class AddReservationCommand : CommandBase<Core.Entities.Reservation, Core.Entities.Reservation>
     {
         public override async Task<Core.Entities.Reservation> Execute(FlowerShopStorageContext context)

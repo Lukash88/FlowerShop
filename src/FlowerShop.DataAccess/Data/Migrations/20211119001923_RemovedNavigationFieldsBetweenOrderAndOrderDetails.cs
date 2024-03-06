@@ -8,33 +8,33 @@ namespace FlowerShop.DataAccess.Data.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_OrderDetails_Orders_OrderId",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropIndex(
                 name: "IX_OrderDetails_OrderId",
-                table: "OrderDetails");
+                table: "OrderItems");
 
             migrationBuilder.DropColumn(
                 name: "OrderId",
-                table: "OrderDetails");
+                table: "OrderItems");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
                 name: "OrderId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 type: "int",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_OrderId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "OrderId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_OrderDetails_Orders_OrderId",
-                table: "OrderDetails",
+                table: "OrderItems",
                 column: "OrderId",
                 principalTable: "Orders",
                 principalColumn: "Id",

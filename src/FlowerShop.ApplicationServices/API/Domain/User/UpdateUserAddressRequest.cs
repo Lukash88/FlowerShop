@@ -4,7 +4,7 @@ namespace FlowerShop.ApplicationServices.API.Domain.User
 {
     public class UpdateUserAddressRequest : IRequest<UpdateUserAddressResponse>
     {
-        public string Email;
+        public string Email { get; set; }
         public string FirstName { get; init; }
         public string LastName { get; init; }
         public string Street { get; init; }

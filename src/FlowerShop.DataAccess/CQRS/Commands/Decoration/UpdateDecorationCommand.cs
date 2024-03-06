@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Data;
+using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.CQRS.Commands.Decoration
 {
-    using System.Threading.Tasks;
-
     public class UpdateDecorationCommand : CommandBase<Core.Entities.Decoration, Core.Entities.Decoration>
     {
         public override async Task<Core.Entities.Decoration> Execute(FlowerShopStorageContext context)

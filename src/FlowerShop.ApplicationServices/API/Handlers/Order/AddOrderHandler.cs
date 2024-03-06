@@ -2,60 +2,44 @@
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
-using FlowerShop.DataAccess.CQRS;
-using FlowerShop.DataAccess.CQRS.Commands.Order;
-using FlowerShop.DataAccess.CQRS.Queries.Order;
-using FlowerShop.DataAccess.CQRS.Queries.User;
+using FlowerShop.ApplicationServices.Components.Order;
 using MediatR;
-using Sieve.Models;
-using System.Linq;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
-    public class AddOrderHandler // : IRequestHandler<AddOrderRequest, AddOrderResponse>
+    public class AddOrderHandler : IRequestHandler<AddOrderRequest, AddOrderResponse>
     {
-        private readonly ICommandExecutor commandExecutor;
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly IOrderService _orderService;
+        private readonly IMapper _mapper;
 
-        public AddOrderHandler(ICommandExecutor commandExecutor, IMapper mapper, IQueryExecutor queryExecutor)
+        public AddOrderHandler(IOrderService orderService, IMapper mapper)
         {
-            this.commandExecutor = commandExecutor;
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
+            _orderService = orderService;
+            _mapper = mapper;
         }
 
-        //public async Task<AddOrderResponse> Handle(AddOrderRequest request, CancellationToken cancellationToken)
-        //{
-        //    var ordersQuery = new GetOrdersQuery(); 
-        //    var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
-        //    var usersQuery = new GetUsersQuery();
-        //    var getUsers = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
-
-        //    //if ((getUsers.Select(x => x.BasketId).Contains(request.UserId) &&
-        //    //    getOrders.Select(x => x.UserId).Contains(request.UserId)) ||
-        //    //    !getOrders.Select(x => x.BasketId).Contains(request.UserId))
-        //    //{
-        //    //    return new AddOrderResponse()
-        //    //    {
-        //    //        Error = new ErrorModel(ErrorType.NotFound)
-        //    //    };
-        //    //}
-
-        //    var order = this.mapper.Map<DataAccess.Core.Entities.Order>(request);
-        //    var command = new AddOrderCommand()
-        //    {
-        //        Parameter = order
-        //    };
-        //    var addedOrder = await this.commandExecutor.Execute(command);
-        //    var response = new AddOrderResponse()
-        //    {
-        //        Data = this.mapper.Map<Domain.Models.OrderDTO>(addedOrder)
-        //    };
-
-        //    return response;
-        //}
+        public async Task<AddOrderResponse> Handle(AddOrderRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var order = _mapper.Map<OrderEntity>(request);
+                var addedOrder = await _orderService.ProcessOrder(request, order);
+                var orderDto = _mapper.Map<Domain.Models.OrderToReturnDto>(addedOrder);
+                
+                return new AddOrderResponse { Data = orderDto };
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log the exception
+                return new AddOrderResponse
+                {
+                    Error = new ErrorModel(ErrorType.BadRequest + " - Problem creating order. " + ex.Message)
+                };
+            }
+        }
     }
 }

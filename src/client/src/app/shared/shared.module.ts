@@ -10,6 +10,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TextInputComponent } from './components/text-input/text-input.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { StepperComponent } from './components/stepper/stepper.component';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { BasketSummaryComponent } from './basket-summary/basket-summary.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,7 +21,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     PagerComponent,
     OrderTotalsComponent,
     TextInputComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    StepperComponent,
+    BasketSummaryComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +31,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     CarouselModule.forRoot(),
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    CdkStepperModule,
+    RouterModule
   ],
   exports: [
     PaginationModule,
@@ -37,7 +45,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     BsDropdownModule,
     TextInputComponent,
     BsDatepickerModule,
-    DatePickerComponent
+    DatePickerComponent,
+    StepperComponent,
+    CdkStepperModule,
+    BasketSummaryComponent
   ]
 })
 export class SharedModule { }

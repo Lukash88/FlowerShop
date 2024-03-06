@@ -22,14 +22,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
             this.queryExecutor = queryExecutor;
         }
 
-        public async Task<GetDecorationByIdResponse> Handle(GetDecorationByIdRequest request, CancellationToken cancellationToken)
+        public async Task<GetDecorationByIdResponse> Handle(GetDecorationByIdRequest request,
+            CancellationToken cancellationToken)
         {
             var query = new GetDecorationQuery()
             {
                 Id = request.DecorationId
             };
             var decoration = await this.queryExecutor.Execute(query);
-            if (decoration == null)
+            if (decoration is null)
             {
                 return new GetDecorationByIdResponse()
                 {
