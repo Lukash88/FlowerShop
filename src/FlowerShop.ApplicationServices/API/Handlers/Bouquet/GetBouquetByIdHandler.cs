@@ -13,13 +13,13 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
     public class GetBouquetByIdHandler : IRequestHandler<GetBouquetByIdRequest, GetBouquetByIdResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
 
         public GetBouquetByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
         }
 
         public async Task<GetBouquetByIdResponse> Handle(GetBouquetByIdRequest request, CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
             {
                 Id = request.BouquetId
             };
-            var bouquet = await this.queryExecutor.Execute(query);  
+            var bouquet = await _queryExecutor.Execute(query);  
             if (bouquet is null)
             {
                 return new GetBouquetByIdResponse()
@@ -37,7 +37,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
                 };
             }
 
-            var mappedBouquet = this.mapper.Map<BouquetDto>(bouquet);
+            var mappedBouquet = _mapper.Map<BouquetDto>(bouquet);
             var response = new GetBouquetByIdResponse()
             {
                 Data = mappedBouquet

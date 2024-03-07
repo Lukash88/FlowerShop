@@ -9,6 +9,6 @@ namespace FlowerShop.DataAccess.CQRS.Queries.Reservation
         public int Id { get; init; }
 
         public override async Task<Core.Entities.Reservation> Execute(FlowerShopStorageContext context) 
-            => await context.Reservations.FirstOrDefaultAsync(x => x.Id == this.Id);
+            => await context.Reservations.FirstOrDefaultAsync(x => x.Id == Id);
     }
 }

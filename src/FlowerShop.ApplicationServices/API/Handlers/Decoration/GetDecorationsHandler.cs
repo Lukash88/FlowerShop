@@ -14,30 +14,30 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
 {
     public class GetDecorationsHandler : PagedRequestHandler<GetDecorationsRequest, GetDecorationsResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ISieveProcessor sieveProcessor;
-        private readonly ILogger<GetDecorationsHandler> logger;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ISieveProcessor _sieveProcessor;
+        private readonly ILogger<GetDecorationsHandler> _logger;
 
         public GetDecorationsHandler(IMapper mapper, IQueryExecutor queryExecutor,
             ISieveProcessor sieveProcessor, ILogger<GetDecorationsHandler> logger)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.sieveProcessor = sieveProcessor;
-            this.logger = logger;   
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _sieveProcessor = sieveProcessor;
+            _logger = logger;   
         }
 
         public override async Task<GetDecorationsResponse> Handle(GetDecorationsRequest request, CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Getting a list of Decorations");
+            _logger.LogInformation("Getting a list of Decorations");
 
             var query = new GetDecorationsQuery()
             {
                 SieveModel = request.SieveModel
             };
 
-            var decorations = await this.queryExecutor.ExecuteWithSieve(query);
+            var decorations = await _queryExecutor.ExecuteWithSieve(query);
             if (decorations is null)
             {
                 return new GetDecorationsResponse()
@@ -46,8 +46,8 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
                 };
             }
 
-            var results = await decorations.ToPagedAsync<DataAccess.Core.Entities.Decoration, DecorationDto>(sieveProcessor, 
-                mapper, query.SieveModel, cancellationToken: cancellationToken);
+            var results = await decorations.ToPagedAsync<DataAccess.Core.Entities.Decoration, DecorationDto>(_sieveProcessor, 
+                _mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetDecorationsResponse()
             {
                 Data = results

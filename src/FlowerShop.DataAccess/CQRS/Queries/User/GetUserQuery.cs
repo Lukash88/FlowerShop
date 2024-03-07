@@ -14,7 +14,7 @@ namespace FlowerShop.DataAccess.CQRS.Queries.User
         //public override async Task<Core.Entities.User> Execute(FlowerShopStorageContext context) =>
         //    await context.Users
         //    .Include(x => x.Orders)
-        //    .FirstOrDefaultAsync(x => x.UserName == this.UserName || 
-        //        x.Email == this.Email || x.Id == Id);
+        //    .FirstOrDefaultAsync(x => x.UserName == UserName || 
+        //        x.Email == Email || x.Id == Id);
     }
 }

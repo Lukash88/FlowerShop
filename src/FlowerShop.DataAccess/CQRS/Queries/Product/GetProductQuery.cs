@@ -9,6 +9,6 @@ namespace FlowerShop.DataAccess.CQRS.Queries.Product
         public int Id { get; init; }
 
         public override async Task<Core.Entities.Product> Execute(FlowerShopStorageContext context)
-            => await context.Products.FirstOrDefaultAsync(x => x.Id == this.Id);
+            => await context.Products.FirstOrDefaultAsync(x => x.Id == Id);
     }
 }

@@ -9,23 +9,23 @@ namespace FlowerShop.DataAccess.Repositories.AppRepository
 {
     public class Repository<T> : IRepository<T> where T : class, IEntityBase
     {
-        private readonly FlowerShopStorageContext context;
-        private readonly DbSet<T> entities;
+        private readonly FlowerShopStorageContext _context;
+        private readonly DbSet<T> _entities;
 
         public Repository(FlowerShopStorageContext context)
         {
-            this.context = context;
-            entities = context.Set<T>();
+            _context = context;
+            _entities = context.Set<T>();
         }      
 
         public Task<List<T>> GetAll()
         {
-            return entities.ToListAsync();
+            return _entities.ToListAsync();
         }
 
         public Task<T> GetById(int id)
         {
-            return entities.SingleOrDefaultAsync(s => s.Id == id);
+            return _entities.SingleOrDefaultAsync(s => s.Id == id);
         }
 
         public Task Insert(T entity)
@@ -35,8 +35,8 @@ namespace FlowerShop.DataAccess.Repositories.AppRepository
                 throw  new ArgumentNullException("entity");
             }
 
-            entities.Add(entity);
-            return context.SaveChangesAsync();
+            _entities.Add(entity);
+            return _context.SaveChangesAsync();
         }
 
         public Task Update(T entity)
@@ -46,14 +46,14 @@ namespace FlowerShop.DataAccess.Repositories.AppRepository
                 throw new ArgumentNullException("entity");
             }
 
-            return context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
         {
-            T entity = await entities.SingleOrDefaultAsync(x => x.Id == id);
-            entities.Remove(entity);
-            await context.SaveChangesAsync();
+            T entity = await _entities.SingleOrDefaultAsync(x => x.Id == id);
+            _entities.Remove(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

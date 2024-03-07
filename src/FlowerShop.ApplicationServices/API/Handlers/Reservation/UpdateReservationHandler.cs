@@ -15,15 +15,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
 {
     public class UpdateReservationHandler : IRequestHandler<UpdateReservationRequest, UpdateReservationResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
 
         public UpdateReservationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
         }
 
         public async Task<UpdateReservationResponse> Handle(UpdateReservationRequest request, CancellationToken cancellationToken)
@@ -32,7 +32,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
             {
                 Id = request.ReservationId
             };
-            var getReservation = await this.queryExecutor.Execute(query);
+            var getReservation = await _queryExecutor.Execute(query);
             if (getReservation is null)
             {
                 return new UpdateReservationResponse()
@@ -42,9 +42,9 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
             }
 
             var reservationsQuery = new GetReservationsQuery();
-            var getReservations = await this.queryExecutor.ExecuteWithSieve(reservationsQuery);
+            var getReservations = await _queryExecutor.ExecuteWithSieve(reservationsQuery);
             var ordersQuery = new GetOrdersQuery();
-            var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
+            var getOrders = await _queryExecutor.ExecuteWithSieve(ordersQuery);
 
             if (!getOrders.Select(x => x.Id).Contains(request.OrderId)) 
             {
@@ -54,15 +54,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
                 };
             }
 
-            var mappedReservation = this.mapper.Map<DataAccess.Core.Entities.Reservation>(request);
+            var mappedReservation = _mapper.Map<DataAccess.Core.Entities.Reservation>(request);
             var command = new UpdateReservationCommand()
             {
                 Parameter = mappedReservation
             };
-            var updatedReservation = await this.commandExecutor.Execute(command);
+            var updatedReservation = await _commandExecutor.Execute(command);
             var response =  new UpdateReservationResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ReservationDto>(updatedReservation)
+                Data = _mapper.Map<Domain.Models.ReservationDto>(updatedReservation)
             };
 
             return response;

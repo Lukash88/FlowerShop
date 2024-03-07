@@ -13,15 +13,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
 {
     public class RemoveReservationHandler : IRequestHandler<RemoveReservationRequest, RemoveReservationResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
 
         public RemoveReservationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
         }
 
         public async Task<RemoveReservationResponse> Handle(RemoveReservationRequest request, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
             {
                 Id = request.ReservationId
             };
-            var getReservation = await this.queryExecutor.Execute(query);
+            var getReservation = await _queryExecutor.Execute(query);
             if (getReservation is null)
             {
                 return new RemoveReservationResponse()
@@ -39,15 +39,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
                 };
             }
 
-            var mappedReservation = mapper.Map<DataAccess.Core.Entities.Reservation>(request);
+            var mappedReservation = _mapper.Map<DataAccess.Core.Entities.Reservation>(request);
             var command = new RemoveReservationCommand()
             {
                 Parameter = mappedReservation
             };
-            var removedReservation = await this.commandExecutor.Execute(command);
+            var removedReservation = await _commandExecutor.Execute(command);
             var response = new RemoveReservationResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ReservationDto>(removedReservation)
+                Data = _mapper.Map<Domain.Models.ReservationDto>(removedReservation)
             };
 
             return response;

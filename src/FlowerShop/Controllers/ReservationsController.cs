@@ -25,7 +25,7 @@ namespace FlowerShop.Controllers
                 SieveModel = sieveModel
             };
 
-            return await this.HandleRequest<GetReservationsRequest, GetReservationsResponse>(request);
+            return await HandleRequest<GetReservationsRequest, GetReservationsResponse>(request);
         }
 
         [HttpGet]
@@ -37,13 +37,13 @@ namespace FlowerShop.Controllers
                 ReservationId = reservationId
             };
             
-            return await this.HandleRequest<GetReservationByIdRequest, GetReservationByIdResponse>(request);
+            return await HandleRequest<GetReservationByIdRequest, GetReservationByIdResponse>(request);
         }
 
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddReservation([FromBody] AddReservationRequest request) =>
-            await this.HandleRequest<AddReservationRequest, AddReservationResponse>(request);
+            await HandleRequest<AddReservationRequest, AddReservationResponse>(request);
 
         [HttpDelete]
         [Route("{reservationId}")]
@@ -54,7 +54,7 @@ namespace FlowerShop.Controllers
                 ReservationId = reservationId
             };
            
-            return await this.HandleRequest<RemoveReservationRequest, RemoveReservationResponse>(request);
+            return await HandleRequest<RemoveReservationRequest, RemoveReservationResponse>(request);
         }
 
         [HttpPut]
@@ -63,7 +63,7 @@ namespace FlowerShop.Controllers
         {
             request.ReservationId = reservationId;
             
-            return await this.HandleRequest<UpdateReservationRequest, UpdateReservationResponse>(request);
+            return await HandleRequest<UpdateReservationRequest, UpdateReservationResponse>(request);
         }
     }
 }

@@ -8,9 +8,9 @@ namespace FlowerShop.DataAccess.CQRS.Commands.User
     {
         //public override async Task<Core.Entities.User> Execute(FlowerShopStorageContext context)
         //{
-        //    await context.Users.AddAsync(this.Parameter);
+        //    await context.Users.AddAsync(Parameter);
         //    await context.SaveChangesAsync();
-        //    return this.Parameter;
+        //    return Parameter;
         //}
     }
 }

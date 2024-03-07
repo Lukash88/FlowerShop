@@ -14,18 +14,18 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
     public class UpdateUserHandler : IRequestHandler<UpdateUserRequest, UpdateUserResponse>
     {
-        private readonly IMapper mapper;
-        private readonly UserManager<AppUser> userManager;
+        private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
 
         public UpdateUserHandler(IMapper mapper, UserManager<AppUser> userManager)
         {
-            this.mapper = mapper;
-            this.userManager = userManager;
+            _mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<UpdateUserResponse> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
         {
-            var getUser = await this.userManager.Users.SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
+            var getUser = await _userManager.Users.SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
             if (getUser is null)
             {
                 return new UpdateUserResponse()
@@ -39,9 +39,9 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
             getUser.DateOfBirth = request.DateOfBirth;
             getUser.Gender = request.Gender;
             getUser.Email = request.NewEmail;
-            getUser.PasswordHash = this.userManager.PasswordHasher.HashPassword(default, request.NewPassword);
+            getUser.PasswordHash = _userManager.PasswordHasher.HashPassword(default, request.NewPassword);
             
-            var updatedUser = await this.userManager.UpdateAsync(getUser);
+            var updatedUser = await _userManager.UpdateAsync(getUser);
             if (!updatedUser.Succeeded)
             {
                 return new UpdateUserResponse()
@@ -50,7 +50,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
                 };
             }
 
-            var mappedUser = this.mapper.Map<AppUser, AppUserDto>(getUser);
+            var mappedUser = _mapper.Map<AppUser, AppUserDto>(getUser);
             var response = new UpdateUserResponse()
             {
                 Data = mappedUser

@@ -14,30 +14,30 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
 {
     public class GetProductsHandler : PagedRequestHandler<GetProductsRequest, GetProductsResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ISieveProcessor sieveProcessor;
-        private readonly ILogger<GetProductsHandler> logger;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ISieveProcessor _sieveProcessor;
+        private readonly ILogger<GetProductsHandler> _logger;
 
         public GetProductsHandler(IMapper mapper, IQueryExecutor queryExecutor, 
             ISieveProcessor sieveProcessor, ILogger<GetProductsHandler> logger)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.sieveProcessor = sieveProcessor;
-            this.logger = logger;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _sieveProcessor = sieveProcessor;
+            _logger = logger;
         }
 
         public override async Task<GetProductsResponse> Handle(GetProductsRequest request, CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Getting a list of Products");
+            _logger.LogInformation("Getting a list of Products");
 
             var query = new GetProductsQuery()
             {
                 SieveModel = request.SieveModel
             };
 
-            var products = await this.queryExecutor.ExecuteWithSieve(query);
+            var products = await _queryExecutor.ExecuteWithSieve(query);
             if (products is null)
             {
                 return new GetProductsResponse()
@@ -46,8 +46,8 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
                 };
             }          
 
-            var results = await products.ToPagedAsync<DataAccess.Core.Entities.Product, ProductDto>(sieveProcessor, 
-                mapper, query.SieveModel, cancellationToken: cancellationToken);
+            var results = await products.ToPagedAsync<DataAccess.Core.Entities.Product, ProductDto>(_sieveProcessor, 
+                _mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetProductsResponse() 
             { 
                 Data = results 

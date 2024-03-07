@@ -26,7 +26,7 @@ namespace FlowerShop.Controllers
                 SieveModel = sieveModel
             };
 
-            return await this.HandleRequest<GetBouquetsRequest, GetBouquetsResponse>(request);
+            return await HandleRequest<GetBouquetsRequest, GetBouquetsResponse>(request);
         }
 
         [AllowAnonymous]
@@ -39,13 +39,13 @@ namespace FlowerShop.Controllers
                 BouquetId = bouquetId
             };
 
-            return await this.HandleRequest<GetBouquetByIdRequest, GetBouquetByIdResponse>(request);
+            return await HandleRequest<GetBouquetByIdRequest, GetBouquetByIdResponse>(request);
         }
         
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddBouquet([FromBody] AddBouquetRequest request) => 
-            await this.HandleRequest<AddBouquetRequest, AddBouquetResponse>(request);
+            await HandleRequest<AddBouquetRequest, AddBouquetResponse>(request);
 
         [HttpDelete]
         [Route("{bouquetId}")]
@@ -56,7 +56,7 @@ namespace FlowerShop.Controllers
                 BouquetId = bouquetId
             };
 
-            return await this.HandleRequest<RemoveBouquetRequest, RemoveBouquetResponse>(request);
+            return await HandleRequest<RemoveBouquetRequest, RemoveBouquetResponse>(request);
         }
         
         [HttpPut]
@@ -65,7 +65,7 @@ namespace FlowerShop.Controllers
         {
             request.BouquetId = bouquetId;
 
-            return await this.HandleRequest<UpdateBouquetRequest, UpdateBouquetResponse>(request);
+            return await HandleRequest<UpdateBouquetRequest, UpdateBouquetResponse>(request);
         }
     }
 }

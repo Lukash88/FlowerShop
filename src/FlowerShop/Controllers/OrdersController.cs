@@ -26,7 +26,7 @@ namespace FlowerShop.Controllers
                 SieveModel = sieveModel
             };
             
-            return await this.HandleRequest<GetOrdersRequest, GetOrdersResponse>(request);
+            return await HandleRequest<GetOrdersRequest, GetOrdersResponse>(request);
         }
 
         [HttpGet]
@@ -40,7 +40,7 @@ namespace FlowerShop.Controllers
                 SieveModel = sieveModel
             };
 
-            return await this.HandleRequest<GetOrdersForUserRequest, GetOrdersResponse>(request);
+            return await HandleRequest<GetOrdersForUserRequest, GetOrdersResponse>(request);
         }
         
         [HttpGet]
@@ -52,7 +52,7 @@ namespace FlowerShop.Controllers
                 OrderId = orderId
             };
 
-            return await this.HandleRequest<GetOrderByIdRequest, GetOrderByIdResponse>(request);
+            return await HandleRequest<GetOrderByIdRequest, GetOrderByIdResponse>(request);
         }
         
         [HttpPost]
@@ -62,7 +62,7 @@ namespace FlowerShop.Controllers
             var email = User.FindFirstValue(ClaimTypes.Email);
             request.BuyerEmail = email;
 
-            return await this.HandleRequest<AddOrderRequest, AddOrderResponse>(request);
+            return await HandleRequest<AddOrderRequest, AddOrderResponse>(request);
         }
             
         
@@ -75,7 +75,7 @@ namespace FlowerShop.Controllers
                 OrderId = orderId
             };
 
-            return await this.HandleRequest<RemoveOrderRequest, RemoveOrderResponse>(request);
+            return await HandleRequest<RemoveOrderRequest, RemoveOrderResponse>(request);
         }
 
         [HttpPut]
@@ -84,7 +84,7 @@ namespace FlowerShop.Controllers
         {
             request.OrderId = orderId;
 
-            return await this.HandleRequest<UpdateOrderRequest, UpdateOrderResponse>(request);
+            return await HandleRequest<UpdateOrderRequest, UpdateOrderResponse>(request);
         }
     }
 }

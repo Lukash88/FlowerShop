@@ -15,23 +15,23 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
 {
     public class AddReservationHandler : IRequestHandler<AddReservationRequest, AddReservationResponse>
     {
-        private readonly ICommandExecutor commandExecutor;
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
 
         public AddReservationHandler(ICommandExecutor commandExecutor, IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.commandExecutor = commandExecutor;
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
         }
 
         public async Task<AddReservationResponse> Handle(AddReservationRequest request, CancellationToken cancellationToken)
         {
             var reservationsQuery = new GetReservationsQuery();
-            var getReservations = await this.queryExecutor.ExecuteWithSieve(reservationsQuery);
+            var getReservations = await _queryExecutor.ExecuteWithSieve(reservationsQuery);
             var ordersQuery = new GetOrdersQuery();
-            var getOrders = await this.queryExecutor.ExecuteWithSieve(ordersQuery);
+            var getOrders = await _queryExecutor.ExecuteWithSieve(ordersQuery);
 
             if (!getOrders.Select(x => x.Id).Contains(request.OrderId))
             {
@@ -41,15 +41,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
                 };
             }
 
-            var reservation = this.mapper.Map<DataAccess.Core.Entities.Reservation>(request);
+            var reservation = _mapper.Map<DataAccess.Core.Entities.Reservation>(request);
             var command = new AddReservationCommand() 
             { 
                 Parameter = reservation 
             };
-            var addedReservation = await this.commandExecutor.Execute(command);
+            var addedReservation = await _commandExecutor.Execute(command);
             var response = new AddReservationResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ReservationDto>(addedReservation)
+                Data = _mapper.Map<Domain.Models.ReservationDto>(addedReservation)
             };
 
             return response;

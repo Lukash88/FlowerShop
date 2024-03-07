@@ -26,7 +26,7 @@ namespace FlowerShop.Controllers
                 SieveModel = sieveModel
             };
 
-           return await this.HandleRequest<GetDecorationsRequest, GetDecorationsResponse>(request);
+           return await HandleRequest<GetDecorationsRequest, GetDecorationsResponse>(request);
         }
 
         [AllowAnonymous]
@@ -39,13 +39,13 @@ namespace FlowerShop.Controllers
                 DecorationId = decorationId
             };
 
-            return await this.HandleRequest<GetDecorationByIdRequest, GetDecorationByIdResponse>(request);
+            return await HandleRequest<GetDecorationByIdRequest, GetDecorationByIdResponse>(request);
         }
 
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddDecoration([FromBody] AddDecorationRequest request) =>
-            await this.HandleRequest<AddDecorationRequest, AddDecorationResponse>(request);
+            await HandleRequest<AddDecorationRequest, AddDecorationResponse>(request);
 
         [HttpDelete]
         [Route("{decorationId}")]
@@ -56,7 +56,7 @@ namespace FlowerShop.Controllers
                 DecorationId = decorationId
             };
 
-            return await this.HandleRequest<RemoveDecorationRequest, RemoveDecorationResponse>(request);
+            return await HandleRequest<RemoveDecorationRequest, RemoveDecorationResponse>(request);
         }
 
         [HttpPut]
@@ -65,7 +65,7 @@ namespace FlowerShop.Controllers
         {
             request.DecorationId = decorationId;
 
-            return await this.HandleRequest<UpdateDecorationRequest, UpdateDecorationResponse>(request);
+            return await HandleRequest<UpdateDecorationRequest, UpdateDecorationResponse>(request);
         }
     }
 }

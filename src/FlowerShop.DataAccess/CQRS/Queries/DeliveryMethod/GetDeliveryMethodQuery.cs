@@ -10,6 +10,6 @@ namespace FlowerShop.DataAccess.CQRS.Queries.DeliveryMethod
 
         public override async Task<Core.Entities.OrderAggregate.DeliveryMethod> Execute(
             FlowerShopStorageContext context)
-            => await context.DeliveryMethods.FirstOrDefaultAsync(x => x.Id == this.Id);
+            => await context.DeliveryMethods.FirstOrDefaultAsync(x => x.Id == Id);
     }
 }

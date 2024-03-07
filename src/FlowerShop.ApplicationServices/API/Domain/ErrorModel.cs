@@ -4,7 +4,7 @@
     {
         public ErrorModel(string error)
         {
-            this.Error = error;
+            Error = error;
         }
 
         public string Error { get; }

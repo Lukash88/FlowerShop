@@ -14,15 +14,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
     public class UpdateBouquetHandler : IRequestHandler<UpdateBouquetRequest, UpdateBouquetResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
 
         public UpdateBouquetHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
         }
 
         public async Task<UpdateBouquetResponse> Handle(UpdateBouquetRequest request, CancellationToken cancellationToken)
@@ -31,7 +31,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
             {
                 Id = request.BouquetId
             };
-            var getBouquet = await this.queryExecutor.Execute(query);
+            var getBouquet = await _queryExecutor.Execute(query);
             if (getBouquet is null)
             {
                 return new UpdateBouquetResponse()
@@ -40,15 +40,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
                 };
             }
 
-            var mappedBouquet = this.mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
+            var mappedBouquet = _mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
             var command = new UpdateBouquetCommand()
             {
                 Parameter = mappedBouquet
             };
-            var updatedBouquet = await this.commandExecutor.Execute(command);
+            var updatedBouquet = await _commandExecutor.Execute(command);
             var response = new UpdateBouquetResponse()
             {
-                Data = this.mapper.Map<BouquetDto>(updatedBouquet)
+                Data = _mapper.Map<BouquetDto>(updatedBouquet)
             };
 
             return response;

@@ -16,28 +16,28 @@ namespace FlowerShop
 {
     public class Startup
     {
-        private readonly IConfiguration config;
+        private readonly IConfiguration _config;
 
         public Startup(IConfiguration config)
         {
-            this.config = config;
+            _config = config;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<FlowerShopStorageContext>(opt =>
-                opt.UseSqlServer(this.config.GetConnectionString("FlowerShopDatabaseConnection")));
+                opt.UseSqlServer(_config.GetConnectionString("FlowerShopDatabaseConnection")));
             services.AddDbContext<AppIdentityDbContext>(opt =>
-                opt.UseSqlServer(this.config.GetConnectionString("IdentityDatabaseConnection")));
+                opt.UseSqlServer(_config.GetConnectionString("IdentityDatabaseConnection")));
             services.AddSingleton<IConnectionMultiplexer>(c => {
-                var configuration = ConfigurationOptions.Parse(this.config.GetConnectionString("Redis"), true);
+                var configuration = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"), true);
 
                 return ConnectionMultiplexer.Connect(configuration);
             });
 
             services.AddApplicationServices();
-            services.AddIdentityServices(this.config);
+            services.AddIdentityServices(_config);
             services.AddSwaggerDocumentation();
 
             services.AddAutoMapper(typeof(ReservationsProfile).Assembly);

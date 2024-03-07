@@ -13,15 +13,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
     public class RemoveOrderHandler : IRequestHandler<RemoveOrderRequest, RemoveOrderResponse>
     {
-        private readonly IMapper mapper;
-        private readonly ICommandExecutor commandExecutor;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly IMapper _mapper;
+        private readonly ICommandExecutor _commandExecutor;
+        private readonly IQueryExecutor _queryExecutor;
 
         public RemoveOrderHandler(IMapper mapper, ICommandExecutor commandExecutor, IQueryExecutor queryExecutor)
         {
-            this.mapper = mapper;
-            this.commandExecutor = commandExecutor;
-            this.queryExecutor = queryExecutor;
+            _mapper = mapper;
+            _commandExecutor = commandExecutor;
+            _queryExecutor = queryExecutor;
         }
 
         public async Task<RemoveOrderResponse> Handle(RemoveOrderRequest request, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
             {
                 Id = request.OrderId
             };
-            var getOrder = await this.queryExecutor.Execute(query);
+            var getOrder = await _queryExecutor.Execute(query);
             if (getOrder is null)
             {
                 return new RemoveOrderResponse()
@@ -39,17 +39,17 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
                 };
             }
 
-            var mappedOrder = mapper.Map<DataAccess.Core.Entities.OrderAggregate.Order>(request);
+            var mappedOrder = _mapper.Map<DataAccess.Core.Entities.OrderAggregate.Order>(request);
             var command = new RemoveOrderCommand()
             {
                 Parameter = mappedOrder
             };
-            var removedOrder = await this.commandExecutor.Execute(command);
+            var removedOrder = await _commandExecutor.Execute(command);
             removedOrder.DeliveryMethod = new();
             
             var response = new RemoveOrderResponse()
             {
-                Data = this.mapper.Map<Domain.Models.OrderToReturnDto>(removedOrder)
+                Data = _mapper.Map<Domain.Models.OrderToReturnDto>(removedOrder)
             };
 
             return response;

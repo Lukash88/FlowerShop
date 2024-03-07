@@ -7,9 +7,9 @@ namespace FlowerShop.DataAccess.CQRS.Commands.Product
     {
         public override async Task<Core.Entities.Product> Execute(FlowerShopStorageContext context)
         {
-            await context.Products.AddAsync(this.Parameter);
+            await context.Products.AddAsync(Parameter);
             await context.SaveChangesAsync();
-            return this.Parameter;
+            return Parameter;
         }
     }
 }

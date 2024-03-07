@@ -13,6 +13,6 @@ namespace FlowerShop.DataAccess.CQRS.Queries.Order
                 .Include(x => x.OrderItems)
                 .Include(x => x.DeliveryMethod)
                 .Include(x => x.Reservations)
-                .FirstOrDefaultAsync(x => x.Id == this.Id);
+                .FirstOrDefaultAsync(x => x.Id == Id);
     }
 }

@@ -13,15 +13,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
 {
     public class RemoveProductHandler : IRequestHandler<RemoveProductRequest, RemoveProductResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
 
         public RemoveProductHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {           
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
         }
 
         public async Task<RemoveProductResponse> Handle(RemoveProductRequest request, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
             {
                 Id = request.ProductId
             };
-            var getProduct = await this.queryExecutor.Execute(query);
+            var getProduct = await _queryExecutor.Execute(query);
             if (getProduct is null)
             {
                 return new RemoveProductResponse()
@@ -39,15 +39,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
                 };
             }
 
-            var mappedProduct = mapper.Map<DataAccess.Core.Entities.Product>(request);
+            var mappedProduct = _mapper.Map<DataAccess.Core.Entities.Product>(request);
             var command = new RemoveProductCommand()
             {
                 Parameter = mappedProduct
             };
-            var removedProduct = await this.commandExecutor.Execute(command);
+            var removedProduct = await _commandExecutor.Execute(command);
             var response = new RemoveProductResponse()
             {
-                Data = this.mapper.Map<Domain.Models.ProductDto>(removedProduct)
+                Data = _mapper.Map<Domain.Models.ProductDto>(removedProduct)
             };
 
             return response;
