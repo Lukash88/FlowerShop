@@ -13,15 +13,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
     public class UpdateFlowerHandler : IRequestHandler<UpdateFlowerRequest, UpdateFlowerResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
 
         public UpdateFlowerHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
         }
 
         public async Task<UpdateFlowerResponse> Handle(UpdateFlowerRequest request, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
             {
                 Id = request.FlowerId
             };
-            var getFlower = await this.queryExecutor.Execute(query);
+            var getFlower = await _queryExecutor.Execute(query);
             if (getFlower is null)
             {
                 return new UpdateFlowerResponse()
@@ -39,16 +39,16 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
                 };
             }
 
-            var mappedFlower = this.mapper.Map<DataAccess.Core.Entities.Flower>(request);
+            var mappedFlower = _mapper.Map<DataAccess.Core.Entities.Flower>(request);
             var command = new UpdateFlowerCommand() 
             { 
                 Parameter = mappedFlower 
             };
-            var updatedFlower = await this.commandExecutor.Execute(command);
+            var updatedFlower = await _commandExecutor.Execute(command);
 
             var response =  new UpdateFlowerResponse()
             {
-                Data = this.mapper.Map<Domain.Models.FlowerDto>(updatedFlower)
+                Data = _mapper.Map<Domain.Models.FlowerDto>(updatedFlower)
             };
 
             return response;

@@ -12,14 +12,14 @@ namespace FlowerShop.Controllers
     [Authorize]
     public class BasketController : ApiControllerBase
     {
-        private readonly IBasketRepository basketRepository;
-        private readonly IMapper mapper;
+        private readonly IBasketRepository _basketRepository;
+        private readonly IMapper _mapper;
 
         public BasketController(IBasketRepository basketRepository, IMapper mapper,
             IMediator mediator, ILogger<BasketController> logger) : base(mediator, logger)
         {
-            this.basketRepository = basketRepository;
-            this.mapper = mapper;
+            _basketRepository = basketRepository;
+            _mapper = mapper;
             logger.LogInformation("We are in Basket Controller");
         }
 
@@ -32,7 +32,7 @@ namespace FlowerShop.Controllers
                 BasketId = basketId
             };
 
-            return await this.HandleRequest<GetBasketByIdRequest, GetBasketByIdResponse>(request);
+            return await HandleRequest<GetBasketByIdRequest, GetBasketByIdResponse>(request);
         }
         
         [HttpPost]
@@ -41,7 +41,7 @@ namespace FlowerShop.Controllers
         {
             request.BasketId = basketId;
 
-            return await this.HandleRequest<UpdateBasketRequest, UpdateBasketResponse>(request);
+            return await HandleRequest<UpdateBasketRequest, UpdateBasketResponse>(request);
         }
 
         [HttpDelete]
@@ -53,7 +53,7 @@ namespace FlowerShop.Controllers
                 BasketId = basketId
             };
 
-            return await this.HandleRequest<RemoveBasketRequest, RemoveBasketResponse>(request);
+            return await HandleRequest<RemoveBasketRequest, RemoveBasketResponse>(request);
         }  
     }
 }

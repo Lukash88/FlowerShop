@@ -14,30 +14,30 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
     public class GetBouquetsHandler : PagedRequestHandler<GetBouquetsRequest, GetBouquetsResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ISieveProcessor sieveProcessor;
-        private readonly ILogger<GetBouquetsHandler> logger;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ISieveProcessor _sieveProcessor;
+        private readonly ILogger<GetBouquetsHandler> _logger;
 
         public GetBouquetsHandler(IMapper mapper, IQueryExecutor queryExecutor,
             ISieveProcessor sieveProcessor, ILogger<GetBouquetsHandler> logger)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.sieveProcessor = sieveProcessor;
-            this.logger = logger;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _sieveProcessor = sieveProcessor;
+            _logger = logger;
         }        
 
         public override async Task<GetBouquetsResponse> Handle(GetBouquetsRequest request, CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Getting a list of Bouquets");
+            _logger.LogInformation("Getting a list of Bouquets");
 
             var query = new GetBouquetsQuery()
             {
                 SieveModel = request.SieveModel
             };
 
-            var bouquets = await this.queryExecutor.ExecuteWithSieve(query);
+            var bouquets = await _queryExecutor.ExecuteWithSieve(query);
             if (bouquets is null)
             {
                 return new GetBouquetsResponse()
@@ -46,8 +46,8 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
                 };
             }
 
-            var results = await bouquets.ToPagedAsync<DataAccess.Core.Entities.Bouquet, BouquetDto>(sieveProcessor, 
-                mapper, query.SieveModel, cancellationToken: cancellationToken);
+            var results = await bouquets.ToPagedAsync<DataAccess.Core.Entities.Bouquet, BouquetDto>(_sieveProcessor, 
+                _mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetBouquetsResponse()
             {
                 Data = results

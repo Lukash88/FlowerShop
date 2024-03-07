@@ -26,7 +26,7 @@ namespace FlowerShop.Controllers
                 SieveModel = sieveModel
             };
             
-            return await this.HandleRequest<GetFlowersRequest, GetFlowersResponse>(request);
+            return await HandleRequest<GetFlowersRequest, GetFlowersResponse>(request);
         }
 
         [AllowAnonymous]
@@ -38,14 +38,14 @@ namespace FlowerShop.Controllers
             {
                 FlowerId = flowerId
             };
-            return await this.HandleRequest<GetFlowerByIdRequest, GetFlowerByIdResponse>(request);
+            return await HandleRequest<GetFlowerByIdRequest, GetFlowerByIdResponse>(request);
         }
 
         [AllowAnonymous]
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddFlower([FromBody] AddFlowerRequest request) =>
-            await this.HandleRequest<AddFlowerRequest, AddFlowerResponse>(request);
+            await HandleRequest<AddFlowerRequest, AddFlowerResponse>(request);
 
         [HttpDelete]
         [Route("{flowerId}")]
@@ -55,7 +55,7 @@ namespace FlowerShop.Controllers
             {
                 FlowerId = flowerId           
             };
-            return await this.HandleRequest<RemoveFlowerRequest, RemoveFlowerResponse>(request);
+            return await HandleRequest<RemoveFlowerRequest, RemoveFlowerResponse>(request);
         }
 
         [HttpPut]
@@ -63,7 +63,7 @@ namespace FlowerShop.Controllers
         public async Task<IActionResult> UpdateFlowerById([FromRoute] int flowerId, [FromBody] UpdateFlowerRequest request)
         {
             request.FlowerId = flowerId;
-            return await this.HandleRequest<UpdateFlowerRequest, UpdateFlowerResponse>(request);
+            return await HandleRequest<UpdateFlowerRequest, UpdateFlowerResponse>(request);
         }
     }
 }

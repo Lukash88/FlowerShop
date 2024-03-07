@@ -14,30 +14,30 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
     public class GetOrdersHandler : PagedRequestHandler<GetOrdersRequest, GetOrdersResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ISieveProcessor sieveProcessor;
-        private readonly ILogger<GetOrdersHandler> logger;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ISieveProcessor _sieveProcessor;
+        private readonly ILogger<GetOrdersHandler> _logger;
 
         public GetOrdersHandler(IMapper mapper, IQueryExecutor queryExecutor, 
             ISieveProcessor sieveProcessor, ILogger<GetOrdersHandler> logger)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.sieveProcessor = sieveProcessor;
-            this.logger = logger;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _sieveProcessor = sieveProcessor;
+            _logger = logger;
         }
 
         public override async Task<GetOrdersResponse> Handle(GetOrdersRequest request, CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Getting a list of Orders");
+            _logger.LogInformation("Getting a list of Orders");
 
             var query = new GetOrdersQuery()
             {
                 SieveModel = request.SieveModel
             };
 
-            var orders = await this.queryExecutor.ExecuteWithSieve(query);
+            var orders = await _queryExecutor.ExecuteWithSieve(query);
             if (orders is null)
             {
                 return new GetOrdersResponse()
@@ -46,8 +46,8 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
                 };
             }
 
-            var results = await orders.ToPagedAsync<DataAccess.Core.Entities.OrderAggregate.Order, OrderToReturnDto>(sieveProcessor, 
-                mapper, query.SieveModel, cancellationToken: cancellationToken);
+            var results = await orders.ToPagedAsync<DataAccess.Core.Entities.OrderAggregate.Order, OrderToReturnDto>(_sieveProcessor, 
+                _mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetOrdersResponse()
             {
                 Data = results

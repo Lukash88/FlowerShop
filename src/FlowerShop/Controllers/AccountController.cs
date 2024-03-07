@@ -14,14 +14,14 @@ namespace FlowerShop.Controllers
     [Authorize]
     public class AccountController : ApiControllerBase
     {
-        private readonly UserManager<AppUser> userManager;
-        private readonly SignInManager<AppUser> signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, 
             IMediator mediator, ILogger<AccountController> logger) : base(mediator, logger)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
             logger.LogInformation("We are in Users");
         }
         
@@ -35,7 +35,7 @@ namespace FlowerShop.Controllers
                 CurrentUserEmail = email
             };
 
-            return await this.HandleRequest<GetCurrentUserRequest, GetCurrentUserResponse>(request);
+            return await HandleRequest<GetCurrentUserRequest, GetCurrentUserResponse>(request);
         }
         
         [HttpGet]
@@ -47,21 +47,21 @@ namespace FlowerShop.Controllers
                 SieveModel = sieveModel
             };
 
-            return await this.HandleRequest<GetUsersRequest, GetUsersResponse>(request);
+            return await HandleRequest<GetUsersRequest, GetUsersResponse>(request);
         }
 
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginAppUserRequest request) =>
-            await this.HandleRequest<LoginAppUserRequest, LoginAppUserResponse>(request);
+            await HandleRequest<LoginAppUserRequest, LoginAppUserResponse>(request);
 
         [AllowAnonymous]
         [HttpGet]
         [Route("emailExists")]
         public async Task<IActionResult> CheckEmailExistsAsync([FromQuery] CheckEmailExistsRequest request)
         {
-            return await this.HandleRequest<CheckEmailExistsRequest, CheckEmailExistsResponse>(request);
+            return await HandleRequest<CheckEmailExistsRequest, CheckEmailExistsResponse>(request);
         }
 
         [AllowAnonymous]
@@ -71,7 +71,7 @@ namespace FlowerShop.Controllers
         {
             await CheckEmailExistsAsync(new CheckEmailExistsRequest(request.Email));
 
-            return await this.HandleRequest<RegisterAppUserRequest, RegisterAppUserResponse>(request);
+            return await HandleRequest<RegisterAppUserRequest, RegisterAppUserResponse>(request);
         }
         
         [HttpGet]
@@ -84,7 +84,7 @@ namespace FlowerShop.Controllers
                 Email = email
             };
 
-            return await this.HandleRequest<GetUserAddressRequest, GetUserAddressResponse>(request);
+            return await HandleRequest<GetUserAddressRequest, GetUserAddressResponse>(request);
         }
         
         [HttpPut]
@@ -96,7 +96,7 @@ namespace FlowerShop.Controllers
 
             await CheckEmailExistsAsync(new CheckEmailExistsRequest(request.NewEmail));
 
-            return await this.HandleRequest<UpdateUserRequest, UpdateUserResponse>(request);
+            return await HandleRequest<UpdateUserRequest, UpdateUserResponse>(request);
         }
 
         [HttpPut]
@@ -107,7 +107,7 @@ namespace FlowerShop.Controllers
             var email = User.FindFirstValue(ClaimTypes.Email);
             request.Email = email;
 
-            return await this.HandleRequest<UpdateUserAddressRequest, UpdateUserAddressResponse>(request);
+            return await HandleRequest<UpdateUserAddressRequest, UpdateUserAddressResponse>(request);
         }
 
         [HttpDelete]
@@ -119,7 +119,7 @@ namespace FlowerShop.Controllers
                 Email = userEmail
             };
 
-            return await this.HandleRequest<RemoveUserRequest, RemoveUserResponse>(request);
+            return await HandleRequest<RemoveUserRequest, RemoveUserResponse>(request);
         }
     }
 }

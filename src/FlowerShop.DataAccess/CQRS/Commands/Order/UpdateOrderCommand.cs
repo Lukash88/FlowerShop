@@ -8,9 +8,9 @@ namespace FlowerShop.DataAccess.CQRS.Commands.Order
         public override async Task<Core.Entities.OrderAggregate.Order> Execute(FlowerShopStorageContext context)
         {
             context.ChangeTracker.Clear();
-            context.Orders.Update(this.Parameter);
+            context.Orders.Update(Parameter);
             await context.SaveChangesAsync();
-            return this.Parameter;
+            return Parameter;
         }
     }
 }

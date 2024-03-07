@@ -15,28 +15,28 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
     public class GetFlowersHandler : PagedRequestHandler<GetFlowersRequest, GetFlowersResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ISieveProcessor sieveProcessor;
-        private readonly IFlowersConnector flowersConnector;
-        private readonly ILogger<GetFlowersHandler> logger;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ISieveProcessor _sieveProcessor;
+        private readonly IFlowersConnector _flowersConnector;
+        private readonly ILogger<GetFlowersHandler> _logger;
 
         public GetFlowersHandler(IMapper mapper, IQueryExecutor queryExecutor, ISieveProcessor sieveProcessor, 
             IFlowersConnector flowersConnector, ILogger<GetFlowersHandler> logger)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.sieveProcessor = sieveProcessor;
-            this.flowersConnector = flowersConnector;
-            this.logger = logger;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _sieveProcessor = sieveProcessor;
+            _flowersConnector = flowersConnector;
+            _logger = logger;
         }
 
         public override async Task<GetFlowersResponse> Handle(GetFlowersRequest request, CancellationToken cancellationToken)
         {
-            var cutFlowers = await this.flowersConnector.GetFlowersByType("Cut flowers: ");
+            var cutFlowers = await _flowersConnector.GetFlowersByType("Cut flowers: ");
             foreach (var flower in cutFlowers)
             {
-                logger.LogInformation(flower);
+                _logger.LogInformation(flower);
             };
 
             var query = new  GetFlowersQuery() 
@@ -44,7 +44,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
                 SieveModel = request.SieveModel
             };
 
-            var flowers = await this.queryExecutor.ExecuteWithSieve(query);
+            var flowers = await _queryExecutor.ExecuteWithSieve(query);
             if (flowers is null)
             {
                 return new GetFlowersResponse()
@@ -53,8 +53,8 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
                 };
             }
 
-            var results = await flowers.ToPagedAsync<DataAccess.Core.Entities.Flower, FlowerDto>(sieveProcessor, 
-                mapper, query.SieveModel, cancellationToken: cancellationToken);
+            var results = await flowers.ToPagedAsync<DataAccess.Core.Entities.Flower, FlowerDto>(_sieveProcessor, 
+                _mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetFlowersResponse()
             {
                 Data = results

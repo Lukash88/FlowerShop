@@ -12,13 +12,13 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
 {
     public class GetProductByIdHandler : IRequestHandler<GetProductByIdRequest, GetProductByIdResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
 
         public GetProductByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
         }
 
         public async Task<GetProductByIdResponse> Handle(GetProductByIdRequest request, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
             {
                 Id = request.ProductId
             };
-            var product = await this.queryExecutor.Execute(query);
+            var product = await _queryExecutor.Execute(query);
             if (product is null)
             {
                 return new GetProductByIdResponse()
@@ -36,7 +36,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Product
                 };
             }
 
-            var mappedProduct = this.mapper.Map<Domain.Models.ProductDto>(product);
+            var mappedProduct = _mapper.Map<Domain.Models.ProductDto>(product);
             var response = new GetProductByIdResponse()
             {
                 Data = mappedProduct

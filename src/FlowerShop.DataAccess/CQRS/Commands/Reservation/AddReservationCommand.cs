@@ -7,9 +7,9 @@ namespace FlowerShop.DataAccess.CQRS.Commands.Reservation
     {
         public override async Task<Core.Entities.Reservation> Execute(FlowerShopStorageContext context)
         {
-            await context.Reservations.AddAsync(this.Parameter);
+            await context.Reservations.AddAsync(Parameter);
             await context.SaveChangesAsync();
-            return this.Parameter;
+            return Parameter;
         }
     }
 }

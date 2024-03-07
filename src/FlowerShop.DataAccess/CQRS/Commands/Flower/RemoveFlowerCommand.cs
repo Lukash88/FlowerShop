@@ -8,9 +8,9 @@ namespace FlowerShop.DataAccess.CQRS.Commands.Flower
         public override async Task<Core.Entities.Flower> Execute(FlowerShopStorageContext context)
         {
             context.ChangeTracker.Clear();
-            context.Flowers.Remove(this.Parameter);
+            context.Flowers.Remove(Parameter);
             await context.SaveChangesAsync();
-            return this.Parameter;
+            return Parameter;
         }
     }
 }

@@ -14,15 +14,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
 {
     public class UpdateDecorationHandler : IRequestHandler<UpdateDecorationRequest, UpdateDecorationResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
 
         public UpdateDecorationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
         }
 
         public async  Task<UpdateDecorationResponse> Handle(UpdateDecorationRequest request, CancellationToken cancellationToken)
@@ -31,7 +31,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
             {
                 Id = request.DecorationId
             };
-            var getDecoration = await this.queryExecutor.Execute(query);
+            var getDecoration = await _queryExecutor.Execute(query);
             if (getDecoration is null)
             {
                 return new UpdateDecorationResponse()
@@ -40,15 +40,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
                 };
             }
 
-            var mappedDecoration = this.mapper.Map<DataAccess.Core.Entities.Decoration>(request);
+            var mappedDecoration = _mapper.Map<DataAccess.Core.Entities.Decoration>(request);
             var command = new UpdateDecorationCommand()
             {
                 Parameter = mappedDecoration
             };
-            var updatedDecoration = await this.commandExecutor.Execute(command);
+            var updatedDecoration = await _commandExecutor.Execute(command);
             var response = new UpdateDecorationResponse()
             {
-                Data = this.mapper.Map<DecorationDto>(updatedDecoration)
+                Data = _mapper.Map<DecorationDto>(updatedDecoration)
             };
 
             return response;

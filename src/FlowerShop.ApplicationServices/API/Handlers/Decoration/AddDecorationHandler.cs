@@ -11,26 +11,26 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
 {
     public class AddDecorationHandler : IRequestHandler<AddDecorationRequest, AddDecorationResponse>
     {
-        private readonly ICommandExecutor commandExecutor;
-        private readonly IMapper mapper;
+        private readonly ICommandExecutor _commandExecutor;
+        private readonly IMapper _mapper;
 
         public AddDecorationHandler(ICommandExecutor commandExecutor, IMapper mapper)
         {
-            this.commandExecutor = commandExecutor;
-            this.mapper = mapper;
+            _commandExecutor = commandExecutor;
+            _mapper = mapper;
         }
 
         public async Task<AddDecorationResponse> Handle(AddDecorationRequest request, CancellationToken cancellationToken)
         {
-            var decoration = this.mapper.Map<DataAccess.Core.Entities.Decoration>(request);
+            var decoration = _mapper.Map<DataAccess.Core.Entities.Decoration>(request);
             var command = new AddDecorationCommand() 
             { 
                 Parameter = decoration 
             };
-            var addedDecoration = await this.commandExecutor.Execute(command);
+            var addedDecoration = await _commandExecutor.Execute(command);
             var response = new AddDecorationResponse()
             {
-                Data = this.mapper.Map<DecorationDto>(addedDecoration)
+                Data = _mapper.Map<DecorationDto>(addedDecoration)
             };
 
             return response;

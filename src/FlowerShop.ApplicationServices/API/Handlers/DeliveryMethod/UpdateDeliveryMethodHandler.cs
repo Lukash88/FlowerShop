@@ -14,16 +14,16 @@ namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
 {
     public class UpdateDeliveryMethodHandler : IRequestHandler<UpdateDeliveryMethodRequest, UpdateDeliveryMethodResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
 
         public UpdateDeliveryMethodHandler(IMapper mapper, IQueryExecutor queryExecutor,
             ICommandExecutor commandExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
         }
 
         public async Task<UpdateDeliveryMethodResponse> Handle(UpdateDeliveryMethodRequest request,
@@ -33,7 +33,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
             {
                 Id = request.MethodId
             };
-            var getDeliveryMethod = await this.queryExecutor.Execute(query);
+            var getDeliveryMethod = await _queryExecutor.Execute(query);
             if (getDeliveryMethod is null)
             {
                 return new UpdateDeliveryMethodResponse()
@@ -42,15 +42,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
                 };
             }
 
-            var mappedDeliveryMethod = this.mapper.Map<DataAccess.Core.Entities.OrderAggregate.DeliveryMethod>(request);
+            var mappedDeliveryMethod = _mapper.Map<DataAccess.Core.Entities.OrderAggregate.DeliveryMethod>(request);
             var command = new UpdateDeliveryMethodCommand()
             {
                 Parameter = mappedDeliveryMethod
             };
-            var updatedDeliveryMethod = await this.commandExecutor.Execute(command);
+            var updatedDeliveryMethod = await _commandExecutor.Execute(command);
             var response = new UpdateDeliveryMethodResponse()
             {
-                Data = this.mapper.Map<DeliveryMethodDto>(updatedDeliveryMethod)
+                Data = _mapper.Map<DeliveryMethodDto>(updatedDeliveryMethod)
             };
 
             return response;

@@ -13,15 +13,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
 {
     public class RemoveDecorationHandler : IRequestHandler<RemoveDecorationRequest, RemoveDecorationResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
 
         public RemoveDecorationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
         }
 
         public async Task<RemoveDecorationResponse> Handle(RemoveDecorationRequest request, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
             {
                 Id = request.DecorationId
             };
-            var getDecoration = await this.queryExecutor.Execute(query);
+            var getDecoration = await _queryExecutor.Execute(query);
             if (getDecoration is null)
             {
                 return new RemoveDecorationResponse()
@@ -39,15 +39,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
                 };
             }
 
-            var mappedDecoration = mapper.Map<DataAccess.Core.Entities.Decoration>(request);
+            var mappedDecoration = _mapper.Map<DataAccess.Core.Entities.Decoration>(request);
             var command = new RemoveDecorationCommand()
             {
                 Parameter = mappedDecoration
             };
-            var removedBouquet = await this.commandExecutor.Execute(command);            
+            var removedBouquet = await _commandExecutor.Execute(command);            
             var response = new RemoveDecorationResponse()
             {
-                Data = this.mapper.Map<Domain.Models.DecorationDto>(removedBouquet)
+                Data = _mapper.Map<Domain.Models.DecorationDto>(removedBouquet)
             };
 
             return response;

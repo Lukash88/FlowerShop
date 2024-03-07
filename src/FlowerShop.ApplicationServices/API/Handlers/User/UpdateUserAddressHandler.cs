@@ -15,25 +15,25 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
     public class UpdateUserAddressHandler : IRequestHandler<UpdateUserAddressRequest, UpdateUserAddressResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IPasswordHasher<AppUser> passwordHasher;
-        private readonly ITokenService tokenService;
-        private readonly UserManager<AppUser> userManager;
-        private readonly SignInManager<AppUser> signInManager;
+        private readonly IMapper _mapper;
+        private readonly IPasswordHasher<AppUser> _passwordHasher;
+        private readonly ITokenService _tokenService;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
         public UpdateUserAddressHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, ITokenService tokenService,
             UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
-            this.mapper = mapper;
-            this.passwordHasher = passwordHasher;
-            this.tokenService = tokenService;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _mapper = mapper;
+            _passwordHasher = passwordHasher;
+            _tokenService = tokenService;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<UpdateUserAddressResponse> Handle(UpdateUserAddressRequest request, CancellationToken cancellationToken)
         {
-            var getUser = await this.userManager.Users.Include(x => x.Address)
+            var getUser = await _userManager.Users.Include(x => x.Address)
                 .SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
             if (getUser is null)
             {
@@ -43,8 +43,8 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
                 };
             }
 
-            getUser.Address = this.mapper.Map<UpdateUserAddressRequest, Address>(request);
-            var updatedUser = await this.userManager.UpdateAsync(getUser);
+            getUser.Address = _mapper.Map<UpdateUserAddressRequest, Address>(request);
+            var updatedUser = await _userManager.UpdateAsync(getUser);
 
             if (!updatedUser.Succeeded)
             {
@@ -53,7 +53,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
                     Error = new ErrorModel(ErrorType.BadRequest + " - Problem updating the user")
                 };
             }
-            var addressDto = this.mapper.Map<Address, AddressDto>(getUser.Address);
+            var addressDto = _mapper.Map<Address, AddressDto>(getUser.Address);
 
             var response = new UpdateUserAddressResponse()
             {

@@ -14,13 +14,13 @@ namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
     public class
         GetDeliveryMethodByIdHandler : IRequestHandler<GetDeliveryMethodByIdRequest, GetDeliveryMethodByIdResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
 
         public GetDeliveryMethodByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
         }
 
         public async Task<GetDeliveryMethodByIdResponse> Handle(GetDeliveryMethodByIdRequest request,
@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
             {
                 Id = request.MethodId
             };
-            var deliveryMethod = await this.queryExecutor.Execute(query);
+            var deliveryMethod = await _queryExecutor.Execute(query);
             if (deliveryMethod is null)
             {
                 return new GetDeliveryMethodByIdResponse()
@@ -39,7 +39,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
                 };
             }
 
-            var mappedDeliveryMethod = this.mapper.Map<DeliveryMethodDto>(deliveryMethod);
+            var mappedDeliveryMethod = _mapper.Map<DeliveryMethodDto>(deliveryMethod);
             var response = new GetDeliveryMethodByIdResponse()
             {
                 Data = mappedDeliveryMethod

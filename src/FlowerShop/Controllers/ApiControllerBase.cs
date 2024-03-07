@@ -13,37 +13,36 @@ namespace FlowerShop.Controllers
     [Route("api/[controller]")]
     public abstract class ApiControllerBase : ControllerBase
     {
-
-        private readonly IMediator mediator;
-        private readonly ILogger logger;
+        private readonly IMediator _mediator;
+        private readonly ILogger _logger;
 
         protected ApiControllerBase(IMediator mediator, ILogger logger)
         {
-            this.mediator = mediator;
-            this.logger = logger;
+            _mediator = mediator;
+            _logger = logger;
         }
 
         protected async Task<IActionResult> HandleRequest<TRequest, TResponse>(TRequest request)
             where TRequest : IRequest<TResponse>
             where TResponse : ErrorResponseBase
         {
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return this.BadRequest(
-                    this.ModelState
+                return BadRequest(
+                    ModelState
                     .Where(x => x.Value.Errors.Any())
                     .Select(x => new { property = x.Key, errors = x.Value.Errors}));
             }
             
-            var response = await this.mediator.Send(request);
+            var response = await _mediator.Send(request);
 
-            return response.Error != null ? this.ErrorResponse(response.Error) : this.Ok(response);
+            return response.Error != null ? ErrorResponse(response.Error) : Ok(response);
         }
 
         private IActionResult ErrorResponse(ErrorModel errorModel)
         {
             var httpCode = GetHttpStatusCode(errorModel.Error);
-            logger.LogError($"An Error occurred: {(int)httpCode} {httpCode.ToString()}.");
+            _logger.LogError($"An Error occurred: {(int)httpCode} {httpCode.ToString()}.");
             return StatusCode((int)httpCode, errorModel);
         }
 
