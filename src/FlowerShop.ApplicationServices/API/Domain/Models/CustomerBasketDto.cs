@@ -6,5 +6,8 @@ namespace FlowerShop.ApplicationServices.API.Domain.Models
     {
         public string Id { get; init; }
         public List<BasketItemDto> Items { get; init; } = new();
+        public int? DeliveryMethodId { get; init; }
+        public string ClientSecret { get; init; }
+        public string PaymentIntentId { get; init; }
     }
 }
