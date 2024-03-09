@@ -17,27 +17,27 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
     public class GetUsersHandler  : PagedRequestHandler<GetUsersRequest, GetUsersResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ISieveProcessor sieveProcessor;
-        private readonly ILogger<GetUsersHandler> logger;
-        private readonly UserManager<AppUser> userManager;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ISieveProcessor _sieveProcessor;
+        private readonly ILogger<GetUsersHandler> _logger;
+        private readonly UserManager<AppUser> _userManager;
 
         public GetUsersHandler(IMapper mapper, IQueryExecutor queryExecutor,
             ISieveProcessor sieveProcessor, ILogger<GetUsersHandler> logger, UserManager<AppUser> userManager)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.sieveProcessor = sieveProcessor;
-            this.logger = logger;
-            this.userManager = userManager;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _sieveProcessor = sieveProcessor;
+            _logger = logger;
+            _userManager = userManager;
         }
 
         public override async Task<GetUsersResponse> Handle(GetUsersRequest request, CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Getting a list of Users");
+            _logger.LogInformation("Getting a list of Users");
 
-            var users = this.userManager.Users.Include(x => x.Address).AsQueryable().AsNoTracking();          
+            var users = _userManager.Users.Include(x => x.Address).AsQueryable().AsNoTracking();          
             if (!users.Any())
             {
                 return new GetUsersResponse()
@@ -46,8 +46,8 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
                 };
             }
 
-            var results = await users.ToPagedAsync<AppUser, AppUserDto>(sieveProcessor, 
-                mapper, request.SieveModel, cancellationToken: cancellationToken);
+            var results = await users.ToPagedAsync<AppUser, AppUserDto>(_sieveProcessor, 
+                _mapper, request.SieveModel, cancellationToken: cancellationToken);
             var response = new GetUsersResponse()
             {
                   Data = results

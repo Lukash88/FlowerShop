@@ -26,7 +26,7 @@ namespace FlowerShop.Controllers
                 SieveModel = sieveModel
             };
 
-            return await this.HandleRequest<GetDeliveryMethodsRequest, GetDeliveryMethodsResponse>(request);
+            return await HandleRequest<GetDeliveryMethodsRequest, GetDeliveryMethodsResponse>(request);
         }
 
         [AllowAnonymous]
@@ -39,14 +39,14 @@ namespace FlowerShop.Controllers
                 MethodId = methodId
             };
 
-            return await this.HandleRequest<GetDeliveryMethodByIdRequest, GetDeliveryMethodByIdResponse>(request);
+            return await HandleRequest<GetDeliveryMethodByIdRequest, GetDeliveryMethodByIdResponse>(request);
         }
 
         [AllowAnonymous]
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddDeliveryMethod([FromBody] AddDeliveryMethodRequest request) =>
-            await this.HandleRequest<AddDeliveryMethodRequest, AddDeliveryMethodResponse>(request);
+            await HandleRequest<AddDeliveryMethodRequest, AddDeliveryMethodResponse>(request);
 
         [HttpDelete]
         [Route("{methodId}")]
@@ -57,7 +57,7 @@ namespace FlowerShop.Controllers
                 MethodId = methodId
             };
 
-            return await this.HandleRequest<RemoveDeliveryMethodRequest, RemoveDeliveryMethodResponse>(request);
+            return await HandleRequest<RemoveDeliveryMethodRequest, RemoveDeliveryMethodResponse>(request);
         }
         [AllowAnonymous]
         [HttpPut]
@@ -66,7 +66,7 @@ namespace FlowerShop.Controllers
         {
             request.MethodId = methodId;
 
-            return await this.HandleRequest<UpdateDeliveryMethodRequest, UpdateDeliveryMethodResponse>(request);
+            return await HandleRequest<UpdateDeliveryMethodRequest, UpdateDeliveryMethodResponse>(request);
         }
     }
 }

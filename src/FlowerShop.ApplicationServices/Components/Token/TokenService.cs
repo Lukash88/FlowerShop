@@ -11,12 +11,13 @@ namespace FlowerShop.ApplicationServices.Components.Token
 {
     public class TokenService : ITokenService
     {
-        private readonly IConfiguration config;
-        private readonly SymmetricSecurityKey key;
+        private readonly IConfiguration _config;
+        private readonly SymmetricSecurityKey _key;
+        
         public TokenService(IConfiguration config)
         {
-            this.config = config;
-            this.key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.config["Token:Key"]));
+            _config = config;
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
         }
         public string CreateToken(AppUser user)
         {
@@ -26,7 +27,7 @@ namespace FlowerShop.ApplicationServices.Components.Token
                 new Claim(ClaimTypes.GivenName, user.DisplayName)
             };
 
-            var creds = new SigningCredentials(this.key, SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
@@ -34,7 +35,7 @@ namespace FlowerShop.ApplicationServices.Components.Token
                 // 7 days set only for development
                 Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = creds,
-                Issuer = this.config["Token:Issuer"]
+                Issuer = _config["Token:Issuer"]
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

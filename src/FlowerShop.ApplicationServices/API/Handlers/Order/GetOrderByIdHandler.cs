@@ -14,13 +14,13 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {
     public class GetOrderByIdHandler : IRequestHandler<GetOrderByIdRequest, GetOrderByIdResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
 
         public GetOrderByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
         }
 
         public async Task<GetOrderByIdResponse> Handle(GetOrderByIdRequest request, 
@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
             {
                 Id = request.OrderId
             };
-            var order = await this.queryExecutor.Execute(query);
+            var order = await _queryExecutor.Execute(query);
             if (order is null)
             {
                 return new GetOrderByIdResponse()
@@ -39,7 +39,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Order
                 };
             }
 
-            var mappedOrder = this.mapper.Map<OrderEntity, OrderToReturnDto>(order);
+            var mappedOrder = _mapper.Map<OrderEntity, OrderToReturnDto>(order);
             var response = new GetOrderByIdResponse()
             {
                 Data = mappedOrder

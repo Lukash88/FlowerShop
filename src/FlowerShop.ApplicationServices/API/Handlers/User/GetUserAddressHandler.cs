@@ -15,25 +15,25 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
     public class GetUserAddressHandler : IRequestHandler<GetUserAddressRequest, GetUserAddressResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IPasswordHasher<AppUser> passwordHasher;
-        private readonly ITokenService tokenService;
-        private readonly UserManager<AppUser> userManager;
-        private readonly SignInManager<AppUser> signInManager;
+        private readonly IMapper _mapper;
+        private readonly IPasswordHasher<AppUser> _passwordHasher;
+        private readonly ITokenService _tokenService;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
         public GetUserAddressHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, ITokenService tokenService,
             UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
-            this.mapper = mapper;
-            this.passwordHasher = passwordHasher;
-            this.tokenService = tokenService;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _mapper = mapper;
+            _passwordHasher = passwordHasher;
+            _tokenService = tokenService;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<GetUserAddressResponse> Handle(GetUserAddressRequest request, CancellationToken cancellationToken)
         {
-            var getUser = await this.userManager.Users.Include(x => x.Address)
+            var getUser = await _userManager.Users.Include(x => x.Address)
                 .SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
             if (getUser is null)
             {
@@ -43,7 +43,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
                 };
             }
 
-            var addressDto = this.mapper.Map<Address, AddressDto>(getUser.Address);
+            var addressDto = _mapper.Map<Address, AddressDto>(getUser.Address);
             var response = new GetUserAddressResponse()
             {
                 Data = addressDto

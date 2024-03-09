@@ -7,28 +7,28 @@ namespace FlowerShop.DataAccess.CQRS
 {
     public class QueryExecutor : IQueryExecutor
     {
-        private readonly FlowerShopStorageContext context;
-        private readonly ISieveProcessor sieveProcessor;
+        private readonly FlowerShopStorageContext _context;
+        private readonly ISieveProcessor _sieveProcessor;
 
         public QueryExecutor(FlowerShopStorageContext context, ISieveProcessor sieveProcessor)
         {
-            this.context = context;
-            this.sieveProcessor = sieveProcessor;
+            _context = context;
+            _sieveProcessor = sieveProcessor;
         }
 
         public Task<TResult> Execute<TResult>(QueryBase<TResult> query)
         {
-            return query.Execute(this.context);
+            return query.Execute(_context);
         }
 
         public Task<TResult> ExecutePagedWithSieve<TResult>(QueryBasePagedWithSieve<TResult> query)
         {
-            return query.Execute(this.context, this.sieveProcessor);
+            return query.Execute(_context, _sieveProcessor);
         }
 
         public Task<TResult> ExecuteWithSieve<TResult>(QueryBaseWithSieve<TResult> query)
         {
-            return query.Execute(this.context, this.sieveProcessor);
+            return query.Execute(_context, _sieveProcessor);
         }
     }
 }   

@@ -12,13 +12,13 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
 {
     public class GetReservationByIdHandler : IRequestHandler<GetReservationByIdRequest, GetReservationByIdResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
 
         public GetReservationByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
         }
 
         public async Task<GetReservationByIdResponse> Handle(GetReservationByIdRequest request, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
             {
                 Id = request.ReservationId
             };
-            var reservation = await this.queryExecutor.Execute(query);
+            var reservation = await _queryExecutor.Execute(query);
             if (reservation is null)
             {
                 return new GetReservationByIdResponse()
@@ -36,7 +36,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
                 };
             }
 
-            var mappedReservation = this.mapper.Map<Domain.Models.ReservationDto>(reservation);
+            var mappedReservation = _mapper.Map<Domain.Models.ReservationDto>(reservation);
             var response = new GetReservationByIdResponse()
             {
                 Data = mappedReservation

@@ -13,13 +13,13 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
 {
     public class GetDecorationByIdHandler : IRequestHandler<GetDecorationByIdRequest, GetDecorationByIdResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
 
         public GetDecorationByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
         }
 
         public async Task<GetDecorationByIdResponse> Handle(GetDecorationByIdRequest request,
@@ -29,7 +29,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
             {
                 Id = request.DecorationId
             };
-            var decoration = await this.queryExecutor.Execute(query);
+            var decoration = await _queryExecutor.Execute(query);
             if (decoration is null)
             {
                 return new GetDecorationByIdResponse()
@@ -38,7 +38,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
                 };
             }
 
-            var mappedDecoration = this.mapper.Map<DecorationDto>(decoration);
+            var mappedDecoration = _mapper.Map<DecorationDto>(decoration);
             var response = new GetDecorationByIdResponse()
             {
                 Data = mappedDecoration

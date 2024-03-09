@@ -13,13 +13,13 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
 {
     public class GetBasketByIdHandler : IRequestHandler<GetBasketByIdRequest, GetBasketByIdResponse>
     {
-        private readonly IBasketRepository basketRepository;
-        private readonly IMapper mapper;
+        private readonly IBasketRepository _basketRepository;
+        private readonly IMapper _mapper;
 
         public GetBasketByIdHandler(IBasketRepository basketRepository, IMapper mapper)
         {
-            this.basketRepository = basketRepository;
-            this.mapper = mapper;
+            _basketRepository = basketRepository;
+            _mapper = mapper;
         }
 
         public async Task<GetBasketByIdResponse> Handle(GetBasketByIdRequest request, 
@@ -33,12 +33,12 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
                 };
             }
 
-            var getBasket = await this.basketRepository.GetBasketAsync(request.BasketId);
+            var getBasket = await _basketRepository.GetBasketAsync(request.BasketId);
             if (getBasket is null)
             {
                 var newBasket = new CustomerBasket(request.BasketId); 
-                var updatedBasket = await this.basketRepository.UpdateBasketAsync(newBasket);
-                var mappedNewBasket = this.mapper.Map<CustomerBasket, CustomerBasketDto>(updatedBasket);
+                var updatedBasket = await _basketRepository.UpdateBasketAsync(newBasket);
+                var mappedNewBasket = _mapper.Map<CustomerBasket, CustomerBasketDto>(updatedBasket);
                
 
                 return new GetBasketByIdResponse()
@@ -47,7 +47,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
                 };
             }
 
-            var customerBasket = this.mapper.Map<CustomerBasket, CustomerBasketDto>(getBasket);
+            var customerBasket = _mapper.Map<CustomerBasket, CustomerBasketDto>(getBasket);
             var response = new GetBasketByIdResponse()
             {
                 Data = customerBasket

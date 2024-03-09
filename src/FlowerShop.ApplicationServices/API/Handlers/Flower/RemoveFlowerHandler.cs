@@ -13,15 +13,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
 {
     public class RemoveFlowerHandler : IRequestHandler<RemoveFlowerRequest, RemoveFlowerResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ICommandExecutor commandExecutor;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ICommandExecutor _commandExecutor;
 
         public RemoveFlowerHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
         {
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.commandExecutor = commandExecutor;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _commandExecutor = commandExecutor;
         }
 
         public async Task<RemoveFlowerResponse> Handle(RemoveFlowerRequest request, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
             {
                 Id = request.FlowerId
             };
-            var getFlower = await this.queryExecutor.Execute(query);
+            var getFlower = await _queryExecutor.Execute(query);
             if (getFlower is null)
             {
                 return new RemoveFlowerResponse()
@@ -39,15 +39,15 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Flower
                 };
             }
 
-            var mappedFlower = mapper.Map<DataAccess.Core.Entities.Flower>(request);
+            var mappedFlower = _mapper.Map<DataAccess.Core.Entities.Flower>(request);
             var command = new RemoveFlowerCommand()
              {
                  Parameter = mappedFlower                
             };
-            var removedFlower = await this.commandExecutor.Execute(command);
+            var removedFlower = await _commandExecutor.Execute(command);
             var response = new RemoveFlowerResponse()
             {
-                Data = this.mapper.Map<Domain.Models.FlowerDto>(removedFlower)
+                Data = _mapper.Map<Domain.Models.FlowerDto>(removedFlower)
             };
 
             return response;

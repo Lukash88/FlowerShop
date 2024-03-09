@@ -14,30 +14,30 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
 {
     public class GetReservationsHandler : PagedRequestHandler<GetReservationsRequest, GetReservationsResponse>
     {
-        private readonly IMapper mapper;
-        private readonly IQueryExecutor queryExecutor;
-        private readonly ISieveProcessor sieveProcessor;
-        private readonly ILogger<GetReservationsHandler> logger;
+        private readonly IMapper _mapper;
+        private readonly IQueryExecutor _queryExecutor;
+        private readonly ISieveProcessor _sieveProcessor;
+        private readonly ILogger<GetReservationsHandler> _logger;
 
         public GetReservationsHandler(IMapper mapper, IQueryExecutor queryExecutor, 
             ISieveProcessor sieveProcessor, ILogger<GetReservationsHandler> logger)
         {                                                                         
-            this.mapper = mapper;
-            this.queryExecutor = queryExecutor;
-            this.sieveProcessor = sieveProcessor;
-            this.logger = logger;
+            _mapper = mapper;
+            _queryExecutor = queryExecutor;
+            _sieveProcessor = sieveProcessor;
+            _logger = logger;
         }
 
         public override async Task<GetReservationsResponse> Handle(GetReservationsRequest request, CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Getting a list of Reservations");
+            _logger.LogInformation("Getting a list of Reservations");
 
             var query = new GetReservationsQuery()
             {
                 SieveModel = request.SieveModel
             };
 
-            var reservations = await this.queryExecutor.ExecuteWithSieve(query);
+            var reservations = await _queryExecutor.ExecuteWithSieve(query);
             if (reservations is null)
             {
                 return new GetReservationsResponse()
@@ -46,8 +46,8 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
                 };
             }
 
-            var results = await reservations.ToPagedAsync<DataAccess.Core.Entities.Reservation, ReservationDto>(sieveProcessor, 
-                mapper, query.SieveModel, cancellationToken: cancellationToken);
+            var results = await reservations.ToPagedAsync<DataAccess.Core.Entities.Reservation, ReservationDto>(_sieveProcessor, 
+                _mapper, query.SieveModel, cancellationToken: cancellationToken);
             var response = new GetReservationsResponse()
             {
                 Data = results

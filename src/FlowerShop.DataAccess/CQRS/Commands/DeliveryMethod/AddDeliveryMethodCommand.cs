@@ -8,9 +8,9 @@ namespace FlowerShop.DataAccess.CQRS.Commands.DeliveryMethod
     {
         public override async Task<Core.Entities.OrderAggregate.DeliveryMethod> Execute(FlowerShopStorageContext context)
         {
-            await context.DeliveryMethods.AddAsync(this.Parameter);
+            await context.DeliveryMethods.AddAsync(Parameter);
             await context.SaveChangesAsync();
-            return this.Parameter;
+            return Parameter;
         }
     }
 }

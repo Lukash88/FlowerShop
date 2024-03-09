@@ -11,27 +11,27 @@ namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
 {
     public class AddDeliveryMethodHandler : IRequestHandler<AddDeliveryMethodRequest, AddDeliveryMethodResponse>
     {
-        private readonly ICommandExecutor commandExecutor;
-        private readonly IMapper mapper;
+        private readonly ICommandExecutor _commandExecutor;
+        private readonly IMapper _mapper;
 
         public AddDeliveryMethodHandler(ICommandExecutor commandExecutor, IMapper mapper)
         {
-            this.commandExecutor = commandExecutor;
-            this.mapper = mapper;
+            _commandExecutor = commandExecutor;
+            _mapper = mapper;
         }
 
         public async Task<AddDeliveryMethodResponse> Handle(AddDeliveryMethodRequest request,
             CancellationToken cancellationToken)
         {
-            var deliveryMethod = this.mapper.Map<DataAccess.Core.Entities.OrderAggregate.DeliveryMethod>(request);
+            var deliveryMethod = _mapper.Map<DataAccess.Core.Entities.OrderAggregate.DeliveryMethod>(request);
             var command = new AddDeliveryMethodCommand()
             {
                 Parameter = deliveryMethod
             };
-            var addedDeliveryMethod = await this.commandExecutor.Execute(command);
+            var addedDeliveryMethod = await _commandExecutor.Execute(command);
             var response = new AddDeliveryMethodResponse()
             {
-                Data = this.mapper.Map<DeliveryMethodDto>(addedDeliveryMethod)
+                Data = _mapper.Map<DeliveryMethodDto>(addedDeliveryMethod)
             };
 
             return response;

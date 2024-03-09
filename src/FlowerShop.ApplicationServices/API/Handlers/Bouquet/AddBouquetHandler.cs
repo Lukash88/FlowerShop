@@ -11,26 +11,26 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {
     public class AddBouquetHandler : IRequestHandler<AddBouquetRequest, AddBouquetResponse>
     {
-        private readonly ICommandExecutor commandExecutor;
-        private readonly IMapper mapper;
+        private readonly ICommandExecutor _commandExecutor;
+        private readonly IMapper _mapper;
 
         public AddBouquetHandler(ICommandExecutor commandExecutor, IMapper mapper)
         {
-            this.commandExecutor = commandExecutor;
-            this.mapper = mapper;
+            _commandExecutor = commandExecutor;
+            _mapper = mapper;
         }
 
         public async Task<AddBouquetResponse> Handle(AddBouquetRequest request, CancellationToken cancellationToken)
         {
-            var bouquet = this.mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
+            var bouquet = _mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
             var command = new AddBouquetCommand()
             {
                 Parameter = bouquet
             };
-            var addedBouquet = await this.commandExecutor.Execute(command);
+            var addedBouquet = await _commandExecutor.Execute(command);
             var response = new AddBouquetResponse()
             {
-                Data = this.mapper.Map<BouquetDto>(addedBouquet)
+                Data = _mapper.Map<BouquetDto>(addedBouquet)
             };
 
             return response;

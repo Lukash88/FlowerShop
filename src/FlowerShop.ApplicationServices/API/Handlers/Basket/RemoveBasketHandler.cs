@@ -11,19 +11,19 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
 {
     public class RemoveBasketHandler : IRequestHandler<RemoveBasketRequest, RemoveBasketResponse>
     {
-        private readonly IBasketRepository basketRepository;
-        private readonly IMapper mapper;
+        private readonly IBasketRepository _basketRepository;
+        private readonly IMapper _mapper;
 
         public RemoveBasketHandler(IBasketRepository basketRepository, IMapper mapper)
         {
-            this.mapper = mapper;
-            this.basketRepository = basketRepository;
+            _mapper = mapper;
+            _basketRepository = basketRepository;
         }
 
         public async Task<RemoveBasketResponse> Handle(RemoveBasketRequest request, 
             CancellationToken cancellationToken)
         {
-            var getBasket = await this.basketRepository.GetBasketAsync(request.BasketId);
+            var getBasket = await _basketRepository.GetBasketAsync(request.BasketId);
             if (getBasket is null)
             {
                 return new RemoveBasketResponse()
@@ -32,7 +32,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
                 };
             }
 
-            var isRemoved = await this.basketRepository.DeleteBasketAsync(request.BasketId);
+            var isRemoved = await _basketRepository.DeleteBasketAsync(request.BasketId);
             if (!isRemoved)
             {
                 return new RemoveBasketResponse()
