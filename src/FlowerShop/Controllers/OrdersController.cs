@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FlowerShop.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class OrdersController : ApiControllerBase
     {
         public OrdersController(IMediator mediator, ILogger<OrdersController> logger) : base(mediator, logger)
