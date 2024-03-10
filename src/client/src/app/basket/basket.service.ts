@@ -16,14 +16,25 @@ export class BasketService {
   basketSource$ = this.basketSource.asObservable();
   private basketTotalSource = new BehaviorSubject<BasketTotals | null>(null);
   basketTotalSource$ = this.basketTotalSource.asObservable();
-  shipping = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  createPaymentIntent() {
+    return this.http.post<Basket>(this.baseUrl + 'payments/' + this.getCurrentBasketValue()?.id, { })
+    .pipe(
+      map((basket: any) => {
+        basket = basket.data;
+        console.log(basket);
+        this.basketSource.next(basket);
+      })
+    );
+  }
 
   getBasket(id: string) {
     return this.http.get<Basket>(this.baseUrl + 'basket/' + id).subscribe({
       next: (basket: any) => {
-        this.basketSource.next(basket.data);
+        basket = basket.data;
+        this.basketSource.next(basket);
         this.calculateTotals();
       },
     });
@@ -32,7 +43,8 @@ export class BasketService {
   setBasket(basket: Basket) {
     return this.http.post<Basket>(this.baseUrl + 'basket/' + basket.id, basket).subscribe({
       next: (basket: any) => {
-        this.basketSource.next(basket.data);
+        basket = basket.data;
+        this.basketSource.next(basket);
         this.calculateTotals();
       },
     });
@@ -82,8 +94,8 @@ export class BasketService {
     if (!basket) return;
     const subtotal = basket.items.reduce((a, b) => (b.price * b.quantity) + a, 0);
     const tax = subtotal * 0.08;
-    const total = subtotal + this.shipping;
-    this.basketTotalSource.next({shipping: this.shipping, subtotal, tax, total });
+    const total = subtotal + basket.shippingPrice;
+    this.basketTotalSource.next({shipping: basket.shippingPrice, subtotal, tax, total });
   }
 
   private addOrUpdateItem(items: BasketItem[], itemToAdd: BasketItem, quantity: number): BasketItem[] {
@@ -119,7 +131,11 @@ export class BasketService {
   }
 
   setShippingPrice(deliveryMethod: DeliveryMethod) {
-    this.shipping = deliveryMethod.price;
-    this.calculateTotals();
+    const basket = this.getCurrentBasketValue();   
+    if (basket) {
+      basket.shippingPrice = deliveryMethod.price;
+      basket.deliveryMethodId = deliveryMethod.id;
+      this.setBasket(basket);
+    }
   }
 } 

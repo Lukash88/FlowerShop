@@ -29,8 +29,9 @@ export class AccountService {
     return this.http.get<User>(this.baseUrl + 'account', { headers }).pipe(
       map((user: any) => {
         if (user) {
-          localStorage.setItem('token', user.data.token);
-          this.currentUserSource.next(user.data);
+          user = user.data;
+          localStorage.setItem('token', user.token);
+          this.currentUserSource.next(user);
           return user;
         } else {
           return null;

@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 export interface Basket {
     id: string;
     items: BasketItem[];
+    deliveryMethodId?: number;
+    shippingPrice: number;
+    clientSecret?: string;
+    paymentIntentId?: string;
 }
 
 export interface BasketItem {
@@ -19,6 +23,7 @@ export interface BasketItem {
 export class Basket implements Basket {
     id = uuidv4();
     items: BasketItem[] = [];
+    shippingPrice = 0;
 }
 
 export interface BasketTotals {
