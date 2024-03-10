@@ -15,6 +15,7 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.DeliveryMethodId, opt => opt.MapFrom(src => src.DeliveryMethodId))
                 .ForMember(dest => dest.ClientSecret, opt => opt.MapFrom(src => src.ClientSecret))
                 .ForMember(dest => dest.PaymentIntentId, opt => opt.MapFrom(src => src.PaymentIntentId))
+                .ForMember(dest => dest.ShippingPrice, opt => opt.MapFrom(src => src.ShippingPrice))
                 .ReverseMap();
 
             CreateMap<BasketItemDto, BasketItem>()
@@ -31,7 +32,8 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BasketId))
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items))
                 .ForMember(dest => dest.ClientSecret, opt => opt.MapFrom(src => src.ClientSecret))
-                .ForMember(dest => dest.PaymentIntentId, opt => opt.MapFrom(src => src.PaymentIntentId));
+                .ForMember(dest => dest.PaymentIntentId, opt => opt.MapFrom(src => src.PaymentIntentId))
+                .ForMember(dest => dest.ShippingPrice, opt => opt.MapFrom(src => src.ShippingPrice));
         }
     }
 }
