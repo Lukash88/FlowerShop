@@ -28,8 +28,8 @@ export class AccountService {
 
     return this.http.get<User>(this.baseUrl + 'account', { headers }).pipe(
       map((user: any) => {
-        if (user) {
-          user = user.data;
+        user = user.data;
+        if (user) {          
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
           return user;
