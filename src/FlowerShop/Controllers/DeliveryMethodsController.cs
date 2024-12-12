@@ -11,7 +11,8 @@ namespace FlowerShop.Controllers
     [Authorize]
     public class DeliveryMethodsController : ApiControllerBase
     {
-        public DeliveryMethodsController(IMediator mediator, ILogger<DeliveryMethodsController> logger) : base(mediator, logger)
+        public DeliveryMethodsController(IMediator mediator, ILogger<DeliveryMethodsController> logger) 
+            : base(mediator, logger)
         {
             logger.LogInformation("We are in Delivery Methods");
         }
@@ -34,7 +35,7 @@ namespace FlowerShop.Controllers
         [Route("{methodId}")]
         public async Task<IActionResult> GetDeliveryMethodById([FromRoute] int methodId)
         {
-            var request = new GetDeliveryMethodByIdRequest()
+            var request = new GetDeliveryMethodByIdRequest
             {
                 MethodId = methodId
             };
@@ -42,7 +43,6 @@ namespace FlowerShop.Controllers
             return await HandleRequest<GetDeliveryMethodByIdRequest, GetDeliveryMethodByIdResponse>(request);
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> AddDeliveryMethod([FromBody] AddDeliveryMethodRequest request) =>
@@ -52,17 +52,18 @@ namespace FlowerShop.Controllers
         [Route("{methodId}")]
         public async Task<IActionResult> RemoveDeliveryMethodById([FromRoute] int methodId)
         {
-            var request = new RemoveDeliveryMethodRequest()
+            var request = new RemoveDeliveryMethodRequest
             {
                 MethodId = methodId
             };
 
             return await HandleRequest<RemoveDeliveryMethodRequest, RemoveDeliveryMethodResponse>(request);
         }
-        [AllowAnonymous]
+
         [HttpPut]
         [Route("{methodId}")]
-        public async Task<IActionResult> UpdateDeliveryMethodById([FromRoute] int methodId, [FromBody] UpdateDeliveryMethodRequest request)
+        public async Task<IActionResult> UpdateDeliveryMethodById([FromRoute] int methodId,
+            [FromBody] UpdateDeliveryMethodRequest request)
         {
             request.MethodId = methodId;
 

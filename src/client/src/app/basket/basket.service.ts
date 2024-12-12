@@ -16,6 +16,7 @@ export class BasketService {
   basketSource$ = this.basketSource.asObservable();
   private basketTotalSource = new BehaviorSubject<BasketTotals | null>(null);
   basketTotalSource$ = this.basketTotalSource.asObservable();
+  shippingPrice = 0.00;
 
   constructor(private http: HttpClient) { }
 
@@ -75,10 +76,11 @@ export class BasketService {
     }
   }
 
-  deleteBasket(basket: Basket) {
+  deleteBasket(basket: Basket) {    
     return this.http.delete(this.baseUrl + 'basket/' + basket.id).subscribe({
       next: () => {
         this.deleteLocalBasket();
+        this.shippingPrice = 0.00;
       }
     });
   }
@@ -94,8 +96,8 @@ export class BasketService {
     if (!basket) return;
     const subtotal = basket.items.reduce((a, b) => (b.price * b.quantity) + a, 0);
     const tax = subtotal * 0.08;
-    const total = subtotal + basket.shippingPrice;
-    this.basketTotalSource.next({shipping: basket.shippingPrice, subtotal, tax, total });
+    const total = subtotal + this.shippingPrice;
+    this.basketTotalSource.next({ shipping: this.shippingPrice, subtotal, tax, total });
   }
 
   private addOrUpdateItem(items: BasketItem[], itemToAdd: BasketItem, quantity: number): BasketItem[] {
@@ -131,11 +133,11 @@ export class BasketService {
   }
 
   setShippingPrice(deliveryMethod: DeliveryMethod) {
-    const basket = this.getCurrentBasketValue();   
-    if (basket) {
-      basket.shippingPrice = deliveryMethod.price;
+    const basket = this.getCurrentBasketValue(); 
+    if (deliveryMethod && basket) {
       basket.deliveryMethodId = deliveryMethod.id;
+      this.shippingPrice = deliveryMethod.price;
       this.setBasket(basket);
-    }
+    }    
   }
-} 
+}

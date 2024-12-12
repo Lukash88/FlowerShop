@@ -9,6 +9,5 @@ namespace FlowerShop.ApplicationServices.API.Domain.Models
         public int? DeliveryMethodId { get; set; }
         public string ClientSecret { get; init; }
         public string PaymentIntentId { get; init; }
-        public decimal ShippingPrice { get; init; }
     }
 }

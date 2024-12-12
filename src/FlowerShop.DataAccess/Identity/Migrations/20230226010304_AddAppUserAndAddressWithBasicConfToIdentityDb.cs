@@ -71,7 +71,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "ShipToAddress",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -181,7 +181,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_AppUserId",
-                table: "Address",
+                table: "ShipToAddress",
                 column: "AppUserId",
                 unique: true,
                 filter: "[AppUserId] IS NOT NULL");
@@ -229,7 +229,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "ShipToAddress");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
