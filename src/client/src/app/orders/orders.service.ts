@@ -16,10 +16,10 @@ export class OrdersService {
     let params = new HttpParams().set('Page', paginationParams.pageNumber.toString());
     params = params.set('PageSize', paginationParams.pageSize.toString());
 
-    return this.httpClient.get<Pagination<Order[]>>(this.baseUrl + 'orders', { params });
+    return this.httpClient.get<Pagination<Order[]>>(this.baseUrl + 'orders/userOrders', { params });
   }
 
   getOrderDetailed(id: number) {
-    return this.httpClient.get<Order>(this.baseUrl + 'orders/' + id);
+    return this.httpClient.get<Order>(this.baseUrl + 'orders/userOrders/' + id);
   }
 }
