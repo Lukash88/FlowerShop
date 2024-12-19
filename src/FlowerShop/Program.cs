@@ -20,6 +20,7 @@ namespace FlowerShop
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
             try
             {
                 var userManager = services.GetRequiredService<UserManager<AppUser>>();
@@ -35,7 +36,8 @@ namespace FlowerShop
 
             await host.RunAsync();
         }
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -43,7 +45,7 @@ namespace FlowerShop
                 }).ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    logging.SetMinimumLevel(LogLevel.Trace);
                 })
                 .UseNLog();
     }

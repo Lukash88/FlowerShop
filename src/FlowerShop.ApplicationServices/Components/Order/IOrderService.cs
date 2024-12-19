@@ -6,7 +6,7 @@ namespace FlowerShop.ApplicationServices.Components.Order
 {
     public interface IOrderService
     {
-        Task<OrderEntity> ProcessOrder(AddOrderRequest request, OrderEntity order);
-        Task<OrderEntity> ProcessUpdateOrder(UpdateOrderRequest request, OrderEntity order);
+        Task<OrderEntity> ProcessOrderRequest(AddOrderRequest request);
+        Task<OrderEntity> ProcessUpdateOrderRequest(UpdateOrderRequest request);
     }
 }

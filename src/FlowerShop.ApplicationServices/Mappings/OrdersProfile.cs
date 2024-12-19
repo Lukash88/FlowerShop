@@ -13,11 +13,11 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.BuyerEmail, opt => opt.MapFrom(src => src.BuyerEmail))
                 .ForMember(dest => dest.ShipToAddress, opt => opt.MapFrom(src => src.ShipToAddress))
                 .ForPath(dest => dest.DeliveryMethod.Id, opt => opt.MapFrom(src => src.DeliveryMethodId))
-                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.Items))
+                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems))
                 .ForMember(dest => dest.Subtotal, opt => opt.MapFrom(src => src.Subtotal))
                 .ForMember(dest => dest.OrderState, opt => opt.MapFrom(src => src.Status))
-                .ForMember(dest => dest.Invoice, opt => opt.MapFrom(src => src.Invoice));
-            //.ForMember(dest => dest.PaymentIntentId, opt => opt.MapFrom(src => src.PaymentIntentId));
+                .ForMember(dest => dest.Invoice, opt => opt.MapFrom(src => src.Invoice))
+                .ForMember(dest => dest.PaymentIntentId, opt => opt.MapFrom(src => src.PaymentIntentId));
 
             CreateMap<Order, OrderDto>()
                 .ForMember(dest => dest.ShipToAddress, opt => opt.MapFrom(src => src.ShipToAddress))
@@ -62,6 +62,21 @@ namespace FlowerShop.ApplicationServices.Mappings
                 .ForMember(dest => dest.Reservations, opt => opt.MapFrom(src => src.Reservations))
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems))
                 .ReverseMap();
+
+            CreateMap<AddOrderRequest, UpdateOrderRequest>()
+                .ForMember(dest => dest.BasketId, opt => opt.MapFrom(src => src.BasketId))
+                .ForMember(dest => dest.BuyerEmail, opt => opt.MapFrom(src => src.BuyerEmail))
+                .ForPath(dest => dest.ShipToAddress.FirstName, opt => opt.MapFrom(src => src.ShipToAddress.FirstName))
+                .ForPath(dest => dest.ShipToAddress.LastName, opt => opt.MapFrom(src => src.ShipToAddress.LastName))
+                .ForPath(dest => dest.ShipToAddress.Street, opt => opt.MapFrom(src => src.ShipToAddress.Street))
+                .ForPath(dest => dest.ShipToAddress.PostalCode, opt => opt.MapFrom(src => src.ShipToAddress.PostalCode))
+                .ForPath(dest => dest.ShipToAddress.City, opt => opt.MapFrom(src => src.ShipToAddress.City))
+                .ForPath(dest => dest.DeliveryMethodId, opt => opt.MapFrom(src => src.DeliveryMethodId))
+                .ForMember(dest => dest.Subtotal, opt => opt.MapFrom(src => src.Subtotal))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.Invoice, opt => opt.MapFrom(src => src.Invoice))
+                .ForMember(dest => dest.Reservations, opt => opt.MapFrom(src => src.Reservations))
+                .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems));
         }
     }
 }

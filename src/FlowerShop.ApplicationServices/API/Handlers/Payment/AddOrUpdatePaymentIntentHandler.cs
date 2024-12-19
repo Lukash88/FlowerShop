@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using FlowerShop.ApplicationServices.API.Domain;
+﻿using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Payment;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.ApplicationServices.Components.Payment;
-using FlowerShop.DataAccess.Repositories.BasketRepository;
 using MediatR;
 using System;
 using System.Threading;
@@ -15,7 +13,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Payment
     {
         private readonly IPaymentService _paymentService;
 
-        public AddOrUpdatePaymentIntentHandler(IBasketRepository basketRepository, IPaymentService paymentService, IMapper mapper)
+        public AddOrUpdatePaymentIntentHandler(IPaymentService paymentService)
         {
             _paymentService = paymentService;
         }
@@ -26,7 +24,10 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Payment
             {
                 var basket = await _paymentService.CreateOrUpdatePaymentIntent(request.BasketId);
 
-                return new AddOrUpdatePaymentIntentResponse() { Data = basket };
+                return new AddOrUpdatePaymentIntentResponse()
+                {
+                    Data = basket
+                };
             }
             catch (Exception ex)
             {
