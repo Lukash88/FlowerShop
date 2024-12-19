@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
-using FlowerShop.ApplicationServices.API.Domain.Payment;
+﻿using FlowerShop.ApplicationServices.API.Domain.Payment;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace FlowerShop.Controllers
 {
@@ -23,6 +24,23 @@ namespace FlowerShop.Controllers
             request.BasketId = basketId;
 
             return await HandleRequest<AddOrUpdatePaymentIntentRequest, AddOrUpdatePaymentIntentResponse>(request);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("webhook")]
+        public async Task<IActionResult> StripeWebhook4()
+        {
+            var json = await new StreamReader(Request.Body).ReadToEndAsync();
+            var stripeSignature = Request.Headers["Stripe-Signature"];
+
+            var request = new StripeWebhookRequest
+            {
+                Json = json,
+                StripeSignature = stripeSignature
+            };
+
+            return await HandleRequest<StripeWebhookRequest, StripeWebhookResponse>(request);
         }
     }
 }
