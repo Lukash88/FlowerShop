@@ -4,23 +4,34 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FlowerShop.DataAccess.Data.Configurations
 {
-    public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
+    public sealed class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
             builder
-               .Property(x => x.Price)
+               .Property(oi => oi.Price)
                .HasColumnType("decimal(18,2)")
                .IsRequired();
 
             builder
-                .Property(x => x.Quantity)
+                .Property(oi => oi.Quantity)
                 .IsRequired();
 
             builder
-                .OwnsOne(i => i.ItemOrdered, io =>
+                .OwnsOne(oi => oi.ItemOrdered, pio =>
                 {
-                    io.WithOwner();
+                    pio.WithOwner();
+
+                    pio.Property(pio => pio.ProductItemId)
+                        .IsRequired();
+
+                    pio.Property(pio => pio.ProductName)
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    pio.Property(pio => pio.ImageUrl)
+                        .IsRequired()
+                        .HasMaxLength(80000);
                 });
         }
     }

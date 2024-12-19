@@ -19,6 +19,7 @@
     </PackageReference>
     <PackageReference Include="Sieve" Version="2.5.5" />
     <PackageReference Include="StackExchange.Redis" Version="2.6.90" />
+    <PackageReference Include="Stripe.net" Version="43.18.0" />
   </ItemGroup>
 
 </Project>

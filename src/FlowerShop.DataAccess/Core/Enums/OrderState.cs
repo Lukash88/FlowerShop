@@ -7,11 +7,14 @@ namespace FlowerShop.DataAccess.Core.Enums
         [EnumMember(Value = "Pending")]
         Pending = 1,
 
-        [EnumMember(Value = "PaymentReceived")]
+        [EnumMember(Value = "Payment Received")]
         PaymentReceived,
 
-        [EnumMember(Value = "PaymentFailed")]
+        [EnumMember(Value = "Payment Failed")]
         PaymentFailed,
+
+        [EnumMember(Value = "Payment Mismatch")]
+        PaymentMismatch,
 
         [EnumMember(Value = "Shipped")]
         Shipped,

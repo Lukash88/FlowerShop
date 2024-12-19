@@ -78,7 +78,8 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaymentIntentId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<decimal>("Subtotal")
                         .HasColumnType("decimal(18,2)");
@@ -113,7 +114,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Product", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -218,9 +219,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Bouquet", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Bouquet", b =>
                 {
-                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Product");
+                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
 
                     b.Property<string>("DecorationWay")
                         .IsRequired()
@@ -237,9 +238,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.HasDiscriminator().HasValue("Bouquet");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Decoration", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Decoration", b =>
                 {
-                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Product");
+                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -248,9 +249,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.HasDiscriminator().HasValue("Decoration");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Flower", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Flower", b =>
                 {
-                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Product");
+                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -333,13 +334,17 @@ namespace FlowerShop.DataAccess.Data.Migrations
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<string>("ImageUrl")
+                                .IsRequired()
+                                .HasMaxLength(80000)
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<int>("ProductItemId")
                                 .HasColumnType("int");
 
                             b1.Property<string>("ProductName")
-                                .HasColumnType("nvarchar(max)");
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
 
                             b1.HasKey("OrderItemId");
 

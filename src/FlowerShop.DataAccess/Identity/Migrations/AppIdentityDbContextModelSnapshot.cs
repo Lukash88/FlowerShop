@@ -19,7 +19,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Identity.Address", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Identity.ShipToAddress", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Address");
+                    b.ToTable("ShipToAddress");
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Identity.AppUser", b =>
@@ -270,11 +270,11 @@ namespace FlowerShop.DataAccess.Identity.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Identity.Address", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Identity.ShipToAddress", b =>
                 {
                     b.HasOne("FlowerShop.DataAccess.Core.Entities.Identity.AppUser", "AppUser")
-                        .WithOne("Address")
-                        .HasForeignKey("FlowerShop.DataAccess.Core.Entities.Identity.Address", "AppUserId")
+                        .WithOne("ShipToAddress")
+                        .HasForeignKey("FlowerShop.DataAccess.Core.Entities.Identity.ShipToAddress", "AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -334,7 +334,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Identity.AppUser", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("ShipToAddress");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,11 +6,10 @@ using System;
 
 namespace FlowerShop.DataAccess.Data.Configurations
 {
-    public class DecorationConfiguration : IEntityTypeConfiguration<Decoration>
+    public sealed class DecorationConfiguration : IEntityTypeConfiguration<Decoration>
     {
         public void Configure(EntityTypeBuilder<Decoration> builder)
-        {;
-
+        {
             builder
                 .Property(d => d.Role)
                 .HasConversion(

@@ -1,14 +1,16 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export interface Basket {
+export interface BasketType {
     id: string;
     items: BasketItem[];
+    deliveryMethodId?: number;
+    clientSecret?: string;
+    paymentIntentId?: string;
 }
 
 export interface BasketItem {
     id: number;
     name: string;
-    // description: string;
     shortDescription: string;
     price: number;
     quantity: number;
@@ -16,9 +18,12 @@ export interface BasketItem {
     category: string;
 }
 
-export class Basket implements Basket {
+export class Basket implements BasketType {
     id = uuidv4();
     items: BasketItem[] = [];
+    deliveryMethodId?: number;
+    clientSecret?: string;
+    paymentIntentId?: string;
 }
 
 export interface BasketTotals {

@@ -39,7 +39,6 @@ namespace FlowerShop.ApplicationServices.API.Handlers.Basket
                 var newBasket = new CustomerBasket(request.BasketId); 
                 var updatedBasket = await _basketRepository.UpdateBasketAsync(newBasket);
                 var mappedNewBasket = _mapper.Map<CustomerBasket, CustomerBasketDto>(updatedBasket);
-               
 
                 return new GetBasketByIdResponse()
                 {

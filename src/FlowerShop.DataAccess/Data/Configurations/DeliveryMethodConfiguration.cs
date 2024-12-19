@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FlowerShop.DataAccess.Data.Configurations
 {
-    public class DeliveryMethodConfiguration : IEntityTypeConfiguration<DeliveryMethod>
+    public sealed class DeliveryMethodConfiguration : IEntityTypeConfiguration<DeliveryMethod>
     {
         public void Configure(EntityTypeBuilder<DeliveryMethod> builder)
         {
