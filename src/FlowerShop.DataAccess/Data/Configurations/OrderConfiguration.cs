@@ -6,7 +6,7 @@ using System;
 
 namespace FlowerShop.DataAccess.Data.Configurations
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
@@ -17,16 +17,41 @@ namespace FlowerShop.DataAccess.Data.Configurations
 
             builder
                 .Property(o => o.CreatedAt)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("getdate()")
+                .HasConversion(
+                    od => od.ToUniversalTime(),
+                    od => DateTime.SpecifyKind(od, DateTimeKind.Utc)
+                );
 
-            builder.OwnsOne(o => o.ShipToAddress, a =>
-            {
-                a.WithOwner();
-                a.Property(a => a.FirstName).IsRequired().HasMaxLength(50);
-                a.Property(a => a.LastName).IsRequired().HasMaxLength(50);
-                a.Property(a => a.Street).IsRequired().HasMaxLength(50);
-                a.Property(a => a.City).IsRequired().HasMaxLength(50);
-                a.Property(a => a.PostalCode).IsRequired().HasMaxLength(20);
+            builder
+                .OwnsOne(o => o.ShipToAddress, a =>
+                {
+                    a.WithOwner();
+
+                    a
+                        .Property(a => a.FirstName)
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    a
+                        .Property(a => a.LastName)
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    a
+                        .Property(a => a.Street)
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    a
+                        .Property(a => a.City)
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    a
+                        .Property(a => a.PostalCode)
+                        .IsRequired()
+                        .HasMaxLength(20);
             });
 
             builder
@@ -48,6 +73,11 @@ namespace FlowerShop.DataAccess.Data.Configurations
             builder
                 .Property(o => o.Invoice)
                 .HasMaxLength(500)
+                .IsRequired(false);
+
+            builder
+                .Property(o => o.PaymentIntentId)
+                .HasMaxLength(255)
                 .IsRequired(false);
 
             builder

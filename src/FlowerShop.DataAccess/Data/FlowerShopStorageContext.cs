@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlowerShop.DataAccess.Data
 {
-    public class FlowerShopStorageContext : DbContext
+    public sealed class FlowerShopStorageContext : DbContext
     {
         public FlowerShopStorageContext(DbContextOptions<FlowerShopStorageContext> options) : base(options)
         {
@@ -24,8 +24,8 @@ namespace FlowerShop.DataAccess.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BouquetConfiguration());
-            modelBuilder.ApplyConfiguration(new DeliveryMethodConfiguration());
             modelBuilder.ApplyConfiguration(new DecorationConfiguration());
+            modelBuilder.ApplyConfiguration(new DeliveryMethodConfiguration());
             modelBuilder.ApplyConfiguration(new FlowerConfiguration());
             modelBuilder.ApplyConfiguration(new OrderConfiguration());
             modelBuilder.ApplyConfiguration(new OrderItemConfiguration());

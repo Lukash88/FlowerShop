@@ -6,7 +6,7 @@ using System;
 
 namespace FlowerShop.DataAccess.Data.Configurations
 {
-    public class BouquetConfiguration : IEntityTypeConfiguration<Bouquet>
+    public sealed class BouquetConfiguration : IEntityTypeConfiguration<Bouquet>
     {
         public void Configure(EntityTypeBuilder<Bouquet> builder)
         {
