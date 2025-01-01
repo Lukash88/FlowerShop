@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/FlowerShop/bin/Debug/net5.0/FlowerShop.dll",
+            "program": "${workspaceFolder}/src/FlowerShop/bin/Debug/net6.0/FlowerShop.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/FlowerShop",
             "stopAtEntry": false,
