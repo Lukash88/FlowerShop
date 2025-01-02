@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using FlowerShop.DataAccess.Core.Entities.Identity;
+﻿using FlowerShop.DataAccess.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace FlowerShop.DataAccess.Identity

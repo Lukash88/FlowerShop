@@ -4,8 +4,6 @@ using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using FlowerShop.DataAccess.Repositories.BasketRepository;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Order

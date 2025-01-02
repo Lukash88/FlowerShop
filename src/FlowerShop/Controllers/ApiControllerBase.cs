@@ -2,10 +2,7 @@
 using FlowerShop.ApplicationServices.API.ErrorHandling;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace FlowerShop.Controllers
 {

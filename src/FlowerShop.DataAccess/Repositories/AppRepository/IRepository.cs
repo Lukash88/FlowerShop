@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using FlowerShop.DataAccess.Core.Entities.Interfaces;
+﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
 
 namespace FlowerShop.DataAccess.Repositories.AppRepository
 {

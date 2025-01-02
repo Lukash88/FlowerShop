@@ -6,8 +6,6 @@ using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
 {

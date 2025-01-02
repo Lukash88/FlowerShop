@@ -2,9 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Sieve.Models;
-using System.Threading.Tasks;
 
 namespace FlowerShop.Controllers
 {

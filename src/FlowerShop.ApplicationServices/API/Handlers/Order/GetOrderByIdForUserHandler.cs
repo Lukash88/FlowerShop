@@ -6,8 +6,6 @@ using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Order;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Order

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using FlowerShop.DataAccess.Data;
+﻿using FlowerShop.DataAccess.Data;
 
 namespace FlowerShop.DataAccess.CQRS.Queries
 {

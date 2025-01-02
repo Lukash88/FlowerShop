@@ -1,8 +1,6 @@
-using System;
-using System.Text.Json;
-using System.Threading.Tasks;
 using FlowerShop.DataAccess.Core.Entities;
 using StackExchange.Redis;
+using System.Text.Json;
 
 namespace FlowerShop.DataAccess.Repositories.BasketRepository
 {

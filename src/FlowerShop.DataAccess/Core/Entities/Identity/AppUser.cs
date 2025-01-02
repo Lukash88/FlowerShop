@@ -1,6 +1,5 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
 using Microsoft.AspNetCore.Identity;
-using System;
 
 namespace FlowerShop.DataAccess.Core.Entities.Identity
 {

@@ -1,6 +1,5 @@
 ﻿using FlowerShop.DataAccess.CQRS.Commands;
 using FlowerShop.DataAccess.Data;
-using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.CQRS
 {

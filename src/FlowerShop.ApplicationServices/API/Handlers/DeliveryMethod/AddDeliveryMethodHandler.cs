@@ -4,8 +4,6 @@ using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Commands.DeliveryMethod;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
 {

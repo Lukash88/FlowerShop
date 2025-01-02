@@ -1,7 +1,6 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.DeliveryMethod;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {

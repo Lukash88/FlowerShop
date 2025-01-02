@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FlowerShop.DataAccess.Core.Entities.Interfaces;
+﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
 using FlowerShop.DataAccess.Core.Enums;
 
 namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate

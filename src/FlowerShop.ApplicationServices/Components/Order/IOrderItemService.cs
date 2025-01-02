@@ -1,7 +1,5 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {

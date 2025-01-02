@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FlowerShop.ApplicationServices.API.Domain.Models;
+﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 using MediatR;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Basket

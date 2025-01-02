@@ -1,6 +1,4 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
-using System;
-using System.Collections.Generic;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Models
 {

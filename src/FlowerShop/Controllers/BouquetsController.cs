@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-using FlowerShop.ApplicationServices.API.Domain.Bouquet;
+﻿using FlowerShop.ApplicationServices.API.Domain.Bouquet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Sieve.Models;
 
 namespace FlowerShop.Controllers

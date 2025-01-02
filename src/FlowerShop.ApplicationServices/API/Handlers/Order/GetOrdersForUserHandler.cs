@@ -7,8 +7,6 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Order;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {

@@ -1,5 +1,4 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
-using System;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Models
 {

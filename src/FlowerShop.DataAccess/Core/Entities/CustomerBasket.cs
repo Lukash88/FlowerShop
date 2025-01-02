@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace FlowerShop.DataAccess.Core.Entities
 {
     public sealed class CustomerBasket

@@ -7,8 +7,6 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.DeliveryMethod;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
 {

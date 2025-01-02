@@ -3,9 +3,6 @@ using FlowerShop.ApplicationServices.API.Domain.Payment;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.ApplicationServices.Components.Payment;
 using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Payment
 {

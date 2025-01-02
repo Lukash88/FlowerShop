@@ -5,9 +5,6 @@ using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.ApplicationServices.Components.Order;
 using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Order
 {

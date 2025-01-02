@@ -4,8 +4,6 @@ using FlowerShop.ApplicationServices.API.Domain.Basket;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.DataAccess.Repositories.BasketRepository;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Basket
 {

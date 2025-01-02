@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using FlowerShop.DataAccess.Data;
+﻿using FlowerShop.DataAccess.Data;
 using OrderItemEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.OrderItem;
 
 namespace FlowerShop.DataAccess.CQRS.Commands.OrderItem

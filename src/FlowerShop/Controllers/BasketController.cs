@@ -1,8 +1,6 @@
 using FlowerShop.ApplicationServices.API.Domain.Basket;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace FlowerShop.Controllers
 {

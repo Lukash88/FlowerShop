@@ -5,9 +5,6 @@ using FlowerShop.ApplicationServices.Components.Payment;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Stripe;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Payment
 {

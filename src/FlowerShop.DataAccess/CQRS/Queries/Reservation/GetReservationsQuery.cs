@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.CQRS.Queries.Reservation
 {

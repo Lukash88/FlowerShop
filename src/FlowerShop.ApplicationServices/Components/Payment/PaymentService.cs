@@ -8,10 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Stripe;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Payment
@@ -43,7 +39,7 @@ namespace FlowerShop.ApplicationServices.Components.Payment
             if (basket is null) return null;
 
             var shippingPrice = await GetShippingPrice(basket.DeliveryMethodId);
-            if (shippingPrice == null) return null;
+            if (shippingPrice is null) return null;
 
             if (!await UpdateBasketItemsPrices(basket.Items)) return null;
 

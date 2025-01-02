@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using FlowerShop.DataAccess.Core.Entities;
 using Microsoft.Extensions.Primitives;
 using Stripe;

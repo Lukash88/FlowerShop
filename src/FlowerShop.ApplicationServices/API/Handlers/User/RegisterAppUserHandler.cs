@@ -6,8 +6,6 @@ using FlowerShop.ApplicationServices.Components.Token;
 using FlowerShop.DataAccess.Core.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.User
 {

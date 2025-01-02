@@ -16,7 +16,7 @@ builder.Logging.ClearProviders();
 builder.Logging.SetMinimumLevel(LogLevel.Trace);
 builder.Host.UseNLog();
 
-// configure services
+// Add services to the container
 builder.Services.AddDbContext<FlowerShopStorageContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("FlowerShopDatabaseConnection")));
 
@@ -86,10 +86,6 @@ app.UseRouting();
 app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.MapControllers();
 
 app.Run();

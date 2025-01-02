@@ -1,5 +1,6 @@
 ﻿using FlowerShop.ApplicationServices.API.Validators.Bouquet;
 using FlowerShop.ApplicationServices.Components.Flowers;
+using FlowerShop.ApplicationServices.Components.FlowersRecords;
 using FlowerShop.ApplicationServices.Components.Order;
 using FlowerShop.ApplicationServices.Components.Payment;
 using FlowerShop.ApplicationServices.Components.Sieve;
@@ -10,7 +11,6 @@ using FlowerShop.DataAccess.Repositories.BasketRepository;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Sieve.Services;
 
 namespace FlowerShop.Extensions

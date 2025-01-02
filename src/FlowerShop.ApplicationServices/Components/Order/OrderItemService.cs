@@ -5,9 +5,6 @@ using FlowerShop.DataAccess.CQRS.Commands.OrderItem;
 using FlowerShop.DataAccess.CQRS.Queries.OrderItem;
 using FlowerShop.DataAccess.CQRS.Queries.Product;
 using FlowerShop.DataAccess.Repositories.BasketRepository;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FlowerShop.ApplicationServices.Components.Order
 {

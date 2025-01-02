@@ -1,6 +1,5 @@
 ﻿using FlowerShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace FlowerShop.DataAccess.CQRS.Queries.Flower
 {

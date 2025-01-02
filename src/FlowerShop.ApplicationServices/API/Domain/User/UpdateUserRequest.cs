@@ -1,6 +1,5 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
 using MediatR;
-using System;
 
 namespace FlowerShop.ApplicationServices.API.Domain.User
 {

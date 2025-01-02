@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FlowerShop.DataAccess.Core.Entities.Interfaces;
+﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
 using FlowerShop.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,12 +22,12 @@ namespace FlowerShop.DataAccess.Repositories.AppRepository
 
         public Task<T> GetById(int id)
         {
-            return _entities.SingleOrDefaultAsync(s => s.Id == id);
+            return _entities.SingleOrDefaultAsync(s => s.Id is id);
         }
 
         public Task Insert(T entity)
         {
-            if(entity == null)
+            if(entity is null)
             {
                 throw  new ArgumentNullException("entity");
             }
@@ -41,7 +38,7 @@ namespace FlowerShop.DataAccess.Repositories.AppRepository
 
         public Task Update(T entity)
         {
-            if (entity == null)
+            if (entity is null)
             {
                 throw new ArgumentNullException("entity");
             }
@@ -51,7 +48,7 @@ namespace FlowerShop.DataAccess.Repositories.AppRepository
 
         public async Task Delete(int id)
         {
-            T entity = await _entities.SingleOrDefaultAsync(x => x.Id == id);
+            T entity = await _entities.SingleOrDefaultAsync(x => x.Id is id);
             _entities.Remove(entity);
             await _context.SaveChangesAsync();
         }

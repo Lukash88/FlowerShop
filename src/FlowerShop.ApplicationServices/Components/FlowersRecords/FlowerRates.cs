@@ -1,10 +1,9 @@
-﻿namespace FlowerShop.ApplicationServices.Components.FlowersRecords
-{
-    using FlowerShop.ApplicationServices.Components.Flowers;
-    using System.Collections.Generic;
-    using System.Xml;
-    using System.Xml.Serialization;
+﻿using FlowerShop.ApplicationServices.Components.Flowers;
+using System.Xml;
+using System.Xml.Serialization;
 
+namespace FlowerShop.ApplicationServices.Components.FlowersRecords
+{
     [XmlRoot(ElementName = "notowania")]
     public class FlowerRates
     {
@@ -16,6 +15,6 @@
 
         [XmlArray("kategorie")]
         [XmlArrayItem("kategoria")]
-        public List<TypeOfFlower> FlowerTypes = new List<TypeOfFlower>();
+        public List<TypeOfFlower> FlowerTypes = new();
     }    
 }

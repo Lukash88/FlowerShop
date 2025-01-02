@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace FlowerShop.ApplicationServices.API.Domain
+﻿namespace FlowerShop.ApplicationServices.API.Domain
 {
     public class PagedResponse<TResponse>
     {

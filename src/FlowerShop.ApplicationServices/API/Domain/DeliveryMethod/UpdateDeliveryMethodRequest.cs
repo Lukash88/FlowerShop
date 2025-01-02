@@ -1,5 +1,4 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Models;
-using MediatR;
+﻿using MediatR;
 
 namespace FlowerShop.ApplicationServices.API.Domain.DeliveryMethod
 {
