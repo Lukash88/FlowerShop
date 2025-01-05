@@ -22,7 +22,7 @@ namespace FlowerShop.DataAccess.Repositories.AppRepository
 
         public Task<T> GetById(int id)
         {
-            return _entities.SingleOrDefaultAsync(s => s.Id is id);
+            return _entities.SingleOrDefaultAsync(s => s.Id == id);
         }
 
         public Task Insert(T entity)
@@ -48,7 +48,7 @@ namespace FlowerShop.DataAccess.Repositories.AppRepository
 
         public async Task Delete(int id)
         {
-            T entity = await _entities.SingleOrDefaultAsync(x => x.Id is id);
+            T entity = await _entities.SingleOrDefaultAsync(x => x.Id == id);
             _entities.Remove(entity);
             await _context.SaveChangesAsync();
         }

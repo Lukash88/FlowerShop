@@ -17,10 +17,10 @@ namespace FlowerShop.DataAccess.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.36")
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.DeliveryMethod", b =>
                 {
@@ -28,7 +28,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DeliveryTime")
                         .IsRequired()
@@ -59,7 +59,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BuyerEmail")
                         .IsRequired()
@@ -102,7 +102,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
@@ -126,7 +126,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -175,7 +175,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateOfEvent")
                         .HasColumnType("datetime2");
@@ -287,7 +287,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int");
 
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("OrderId"), 1L, 1);
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("OrderId"));
 
                             b1.Property<string>("City")
                                 .IsRequired()
@@ -341,7 +341,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int");
 
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("OrderItemId"), 1L, 1);
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("OrderItemId"));
 
                             b1.Property<string>("ImageUrl")
                                 .IsRequired()

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace FlowerShop.DataAccess.Data.AppDbContext.Migrations
+namespace FlowerShop.DataAccess.Data.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
     [Migration("20241208112909_AddedMaxLengthForPaymentIntentIdAndItemOrdered_ProductName")]

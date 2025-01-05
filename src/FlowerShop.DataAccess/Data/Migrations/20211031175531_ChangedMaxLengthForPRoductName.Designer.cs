@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FlowerShop.DataAccess.Data.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
-    [Migration("20211031175531_remove")]
-    partial class remove
+    [Migration("20211031175531_ChangedMaxLengthForPRoductName")]
+    partial class ChangedMaxLengthForPRoductName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

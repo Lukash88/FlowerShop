@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FlowerShop.DataAccess.Data.AppDbContext.Migrations
+namespace FlowerShop.DataAccess.Data.Migrations
 {
     public partial class AddedMaxLengthForPaymentIntentIdAndItemOrdered_ProductName : Migration
     {
