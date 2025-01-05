@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.User
 {
-    public class RegisterApUserHandler : IRequestHandler<RegisterAppUserRequest, RegisterAppUserResponse>
+    public class RegisterAppUserHandler : IRequestHandler<RegisterAppUserRequest, RegisterAppUserResponse>
     {
         private readonly IMapper _mapper;
         private readonly IPasswordHasher<AppUser> _passwordHasher;
@@ -17,7 +17,7 @@ namespace FlowerShop.ApplicationServices.API.Handlers.User
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
 
-        public RegisterApUserHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, 
+        public RegisterAppUserHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, 
             UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
         {
             _mapper = mapper;
