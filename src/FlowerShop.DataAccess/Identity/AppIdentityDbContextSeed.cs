@@ -1,5 +1,6 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using System.Text.Json;
 
 namespace FlowerShop.DataAccess.Identity
 {
@@ -9,40 +10,18 @@ namespace FlowerShop.DataAccess.Identity
         {
             if (!userManager.Users.Any())
             {
-                var user = new AppUser
-                {
-                    DisplayName = "Susan",
-                    Email = "susan@test.com",
-                    UserName = "susan@test.com",
-                    Address = new Address
-                    {
-                        FirstName = "Susan",
-                        LastName = "Henderson",
-                        Street = "10th Ave",
-                        City = "New York",
-                        PostalCode = "90210"
-                    }
-                };
-
-                var user2 = new AppUser
-                {
-                    DisplayName = "Tom",
-                    Email = "tom@test.com",
-                    UserName = "tom@test.com",
-                    Address = new Address
-                    {
-                        FirstName = "Tom",
-                        LastName = "Rider",
-                        Street = "Wall Street 991",
-                        City = "New York",
-                        PostalCode = "90210"
-                    }
-                };
-
+                var usersData = File.ReadAllText("..//FlowerShop.DataAccess/Identity/users.json");
+                var users = JsonSerializer.Deserialize<List<AppUser>>(usersData);
                 var password = "Pa$$w0rd";
 
-                await userManager.CreateAsync(user, password);
-                await userManager.CreateAsync(user2, password);
+                foreach (var user in users)
+                {
+                    var addUserResult = await userManager.CreateAsync(user, password);
+
+                    if (!addUserResult.Succeeded) {
+                        Console.WriteLine("Error");
+                    }
+                }
             }
         }
     }
