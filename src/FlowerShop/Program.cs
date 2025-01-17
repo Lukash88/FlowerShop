@@ -7,7 +7,7 @@ using NLog.Web;
 
 var builder = WebApplication.CreateBuilder();
 
-// NLog: Setup NLog for Dependency imjection
+// NLog: Setup NLog for Dependency injection
 builder.Logging.ClearProviders();
 builder.Logging.SetMinimumLevel(LogLevel.Trace);
 builder.Host.UseNLog();
