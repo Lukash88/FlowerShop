@@ -17,7 +17,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -50,7 +50,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryMethods");
+                    b.ToTable("DeliveryMethods", (string)null);
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order", b =>
@@ -94,7 +94,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.HasIndex("DeliveryMethodId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.OrderItem", b =>
@@ -118,7 +118,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Product", b =>
@@ -171,7 +171,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
 
                     b.HasDiscriminator().HasValue("Product");
 
@@ -232,7 +232,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Bouquet", b =>
@@ -323,7 +323,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Orders");
+                            b1.ToTable("Orders", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -362,7 +362,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                             b1.HasKey("OrderItemId");
 
-                            b1.ToTable("OrderItems");
+                            b1.ToTable("OrderItems", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemId");
