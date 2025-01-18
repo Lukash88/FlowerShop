@@ -2,7 +2,7 @@
 
 namespace FlowerShop.DataAccess.Core.Enums
 {
-    public enum ReservationStateEnum
+    public enum ReservationState
     {
         [EnumMember(Value = "Active")]
         Active = 1,

@@ -9,7 +9,7 @@ namespace FlowerShop.ApplicationServices.API.Domain.Order
     {
         public string BasketId { get; init; }
         public string BuyerEmail { get; set; }
-        public Address ShipToAddress { get; init; }
+        public ShippingAddress ShippingAddress { get; init; }
         public int DeliveryMethodId { get; init; }
         public decimal Subtotal { get; set; }
         public string Status { get; init; } = "Pending";

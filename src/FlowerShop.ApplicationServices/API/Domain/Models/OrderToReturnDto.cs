@@ -7,9 +7,9 @@ namespace FlowerShop.ApplicationServices.API.Domain.Models
         public int Id { get; init; }
         public string BuyerEmail { get; init; }
         public DateTime CreatedAt { get; init; }
-        public Address ShipToAddress { get; init; }
+        public ShippingAddress ShippingAddress { get; init; }
         public string DeliveryMethod { get; init; }
-        public List<OrderItemDto> OrderItems { get; set; } = new();
+        public List<OrderItemDto> OrderItems { get; set; } = [];
         public decimal Subtotal { get; init; }
         public decimal ShippingPrice { get; init; }
         public decimal Total { get; init; }

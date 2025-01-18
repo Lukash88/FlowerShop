@@ -9,7 +9,7 @@ namespace FlowerShop.DataAccess.Core.Entities
         public int Id { get; set; }
         public DateTime DateOfEvent { get; set; }
         public DateTime ReservedOn { get; set; }
-        public ReservationStateEnum ReservationStatus{ get; set; }
+        public ReservationState ReservationStatus{ get; set; }
         public EventType EventType { get; set; }
         public string EventDescription { get; set; }
         public string EventStreet { get; set; }

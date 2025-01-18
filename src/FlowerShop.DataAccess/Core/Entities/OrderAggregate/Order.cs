@@ -9,13 +9,13 @@ namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate
         {
         }
 
-        public Order(List<OrderItem> orderItems, string buyerEmail, Address shipToAddress,
+        public Order(List<OrderItem> orderItems, string buyerEmail, ShippingAddress shippingAddress,
             DeliveryMethod deliveryMethod, decimal subtotal,
             string invoice, string paymentIntentId)
         {
             OrderItems = orderItems;
             BuyerEmail = buyerEmail;
-            ShipToAddress = shipToAddress;
+            ShippingAddress = shippingAddress;
             DeliveryMethod = deliveryMethod;
             Subtotal = subtotal;
             PaymentIntentId = paymentIntentId;
@@ -24,7 +24,7 @@ namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate
         public int Id { get; init; }
         public string BuyerEmail { get; set; }
         public DateTime CreatedAt { get; init; }
-        public Address ShipToAddress { get; set; }
+        public ShippingAddress ShippingAddress { get; set; }
         public DeliveryMethod DeliveryMethod { get; set; }
         public decimal Subtotal { get; set; }
         public OrderState OrderState { get; set; }

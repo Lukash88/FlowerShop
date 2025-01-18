@@ -23,7 +23,7 @@ namespace FlowerShop.DataAccess.Data.Configurations
                 );
 
             builder
-                .OwnsOne(o => o.ShipToAddress, a =>
+                .OwnsOne(o => o.ShippingAddress, a =>
                 {
                     a.WithOwner();
 
@@ -54,7 +54,7 @@ namespace FlowerShop.DataAccess.Data.Configurations
             });
 
             builder
-                .Navigation(o => o.ShipToAddress)
+                .Navigation(o => o.ShippingAddress)
                 .IsRequired();
 
             builder
@@ -77,7 +77,7 @@ namespace FlowerShop.DataAccess.Data.Configurations
             builder
                 .Property(o => o.PaymentIntentId)
                 .HasMaxLength(255)
-                .IsRequired(false);
+                .IsRequired();
 
             builder
                 .HasMany(o => o.OrderItems)

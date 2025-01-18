@@ -13,7 +13,7 @@ namespace FlowerShop.DataAccess.Data.Configurations
                 .Property(r => r.ReservationStatus)
                 .HasConversion(
                     rs => rs.ToString(),
-                    rs => (ReservationStateEnum)Enum.Parse(typeof(ReservationStateEnum), rs))
+                    rs => (ReservationState)Enum.Parse(typeof(ReservationState), rs))
                 .IsRequired();
 
             builder
@@ -54,8 +54,7 @@ namespace FlowerShop.DataAccess.Data.Configurations
 
             builder
                .Property(r => r.ServicePrice)
-               //.HasColumnType("decimal(18,2)")
-               .HasPrecision(14, 2)
+               .HasColumnType("decimal(18,2)")
                .IsRequired(false);
         }
     }

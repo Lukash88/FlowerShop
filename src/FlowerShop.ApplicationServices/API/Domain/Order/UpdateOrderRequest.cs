@@ -11,7 +11,7 @@ namespace FlowerShop.ApplicationServices.API.Domain.Order
         public string BasketId { get; set; }
         public string BuyerEmail { get; init; }
         public DateTime? CreatedAt { get; init; }
-        public Address ShipToAddress { get; init; }
+        public ShippingAddress ShipToShippingAddress { get; init; }
         public int DeliveryMethodId { get; init; }
         public decimal Subtotal { get; set; }
         public string Status { get; init; }
