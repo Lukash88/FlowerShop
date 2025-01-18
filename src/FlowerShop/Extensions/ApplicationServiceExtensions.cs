@@ -18,54 +18,54 @@ using Microsoft.EntityFrameworkCore;
 using Sieve.Services;
 using StackExchange.Redis;
 
-namespace FlowerShop.Extensions
+namespace FlowerShop.Extensions;
+
+internal static class ApplicationServiceExtensions
 {
-    public static class ApplicationServiceExtensions
+    internal static IServiceCollection AddApplicationServices(this IServiceCollection services,
+        IConfiguration config)
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services,
-            IConfiguration config)
+        services.AddDbContext<FlowerShopStorageContext>(opt =>
+            opt.UseSqlServer(config.GetConnectionString("FlowerShopDatabaseConnection")));
+        services.AddSingleton<IConnectionMultiplexer>(c =>
         {
-            services.AddDbContext<FlowerShopStorageContext>(opt =>
-                opt.UseSqlServer(config.GetConnectionString("FlowerShopDatabaseConnection")));
-            services.AddSingleton<IConnectionMultiplexer>(c => {
-                var configuration = ConfigurationOptions.Parse(config.GetConnectionString("Redis"), true);
+            var configuration = ConfigurationOptions.Parse(config.GetConnectionString("Redis")!, true);
 
-                return ConnectionMultiplexer.Connect(configuration);
-            });
+            return ConnectionMultiplexer.Connect(configuration);
+        });
 
-            services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(ResponseBase<>)));
-            services.AddControllers();
-            services.AddFluentValidationAutoValidation();
-            services.AddValidatorsFromAssemblyContaining<AddBouquetRequestValidator>();
+        services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(ResponseBase<>)));
+        services.AddControllers();
+        services.AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssemblyContaining<AddBouquetRequestValidator>();
 
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IBasketRepository, BasketRepository>();
-            services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IOrderData, OrderData>();
-            services.AddScoped<IOrderItemService, OrderItemService>();
-            services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
-            services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IBasketRepository, BasketRepository>();
+        services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IOrderData, OrderData>();
+        services.AddScoped<IOrderItemService, OrderItemService>();
+        services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
+        services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
 
-            services.AddTransient<IQueryExecutor, QueryExecutor>();
-            services.AddTransient<ICommandExecutor, CommandExecutor>();
-            services.AddTransient<IFlowersConnector, FlowersConnector>();           
+        services.AddTransient<IQueryExecutor, QueryExecutor>();
+        services.AddTransient<ICommandExecutor, CommandExecutor>();
+        services.AddTransient<IFlowersConnector, FlowersConnector>();
 
-            services.AddCors(opt =>
+        services.AddCors(opt =>
+        {
+            opt.AddPolicy("CorsPolicy", policy =>
             {
-                opt.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
-                });
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
             });
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
+        });
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
 
-            return services;
-        }
+        return services;
     }
 }

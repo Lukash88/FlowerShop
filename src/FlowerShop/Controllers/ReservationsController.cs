@@ -4,64 +4,59 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 
-namespace FlowerShop.Controllers
+namespace FlowerShop.Controllers;
+
+[Authorize]
+public class ReservationsController : ApiControllerBase
 {
-    [Authorize]
-    public class ReservationsController : ApiControllerBase
+    public ReservationsController(IMediator mediator, ILogger<ReservationsController> logger) : base(mediator, logger)
     {
-        public ReservationsController(IMediator mediator, ILogger<ReservationsController> logger) : base(mediator, logger)
-        {
-            logger.LogInformation("We are in Reservations");
-        }
-       
-        [HttpGet]
-        [Route("")]
-        public async Task<IActionResult> GetAllReservations([FromQuery] SieveModel sieveModel)
-        {
-            var request = new GetReservationsRequest
-            {
-                SieveModel = sieveModel
-            };
+        logger.LogInformation("We are in Reservations");
+    }
 
-            return await HandleRequest<GetReservationsRequest, GetReservationsResponse>(request);
-        }
-
-        [HttpGet]
-        [Route("{reservationId}")]
-        public async Task<IActionResult> GetReservationById([FromRoute] int reservationId)
+    [HttpGet]
+    public async Task<IActionResult> GetAllReservations([FromQuery] SieveModel sieveModel)
+    {
+        var request = new GetReservationsRequest
         {
-            var request = new GetReservationByIdRequest()
-            {
-                ReservationId = reservationId
-            };
-            
-            return await HandleRequest<GetReservationByIdRequest, GetReservationByIdResponse>(request);
-        }
+            SieveModel = sieveModel
+        };
 
-        [HttpPost]
-        [Route("")]
-        public async Task<IActionResult> AddReservation([FromBody] AddReservationRequest request) =>
-            await HandleRequest<AddReservationRequest, AddReservationResponse>(request);
+        return await HandleRequest<GetReservationsRequest, GetReservationsResponse>(request);
+    }
 
-        [HttpDelete]
-        [Route("{reservationId}")]
-        public async Task<IActionResult> RemoveReservationById([FromRoute] int reservationId)
+    [HttpGet("{reservationId:int}")]
+    public async Task<IActionResult> GetReservationById([FromRoute] int reservationId)
+    {
+        var request = new GetReservationByIdRequest()
         {
-            var request = new RemoveReservationRequest()
-            {
-                ReservationId = reservationId
-            };
-           
-            return await HandleRequest<RemoveReservationRequest, RemoveReservationResponse>(request);
-        }
+            ReservationId = reservationId
+        };
 
-        [HttpPut]
-        [Route("{reservationId}")]
-        public async Task<IActionResult> UpdateReservationById([FromRoute] int reservationId, [FromBody] UpdateReservationRequest request)
+        return await HandleRequest<GetReservationByIdRequest, GetReservationByIdResponse>(request);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddReservation([FromBody] AddReservationRequest request) =>
+        await HandleRequest<AddReservationRequest, AddReservationResponse>(request);
+
+    [HttpDelete("{reservationId:int}")]
+    public async Task<IActionResult> RemoveReservationById([FromRoute] int reservationId)
+    {
+        var request = new RemoveReservationRequest()
         {
-            request.ReservationId = reservationId;
-            
-            return await HandleRequest<UpdateReservationRequest, UpdateReservationResponse>(request);
-        }
+            ReservationId = reservationId
+        };
+
+        return await HandleRequest<RemoveReservationRequest, RemoveReservationResponse>(request);
+    }
+
+    [HttpPut("{reservationId:int}")]
+    public async Task<IActionResult> UpdateReservationById([FromRoute] int reservationId,
+        [FromBody] UpdateReservationRequest request)
+    {
+        request.ReservationId = reservationId;
+
+        return await HandleRequest<UpdateReservationRequest, UpdateReservationResponse>(request);
     }
 }
