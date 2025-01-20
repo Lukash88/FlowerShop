@@ -1,8 +1,7 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Product
+namespace FlowerShop.ApplicationServices.API.Domain.Product;
+
+public class RemoveProductResponse : ResponseBase<ProductDto>
 {
-    public class RemoveProductResponse : ResponseBase<ProductDto>
-    {
-    }
 }

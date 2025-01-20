@@ -7,51 +7,39 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Product;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
+using ProductEntity = FlowerShop.DataAccess.Core.Entities.Product;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Product
+namespace FlowerShop.ApplicationServices.API.Handlers.Product;
+
+public class GetProductsHandler(IMapper mapper, IQueryExecutor queryExecutor, ISieveProcessor sieveProcessor,
+    ILogger<GetProductsHandler> logger) : PagedRequestHandler<GetProductsRequest, GetProductsResponse>
 {
-    public class GetProductsHandler : PagedRequestHandler<GetProductsRequest, GetProductsResponse>
+    public override async Task<GetProductsResponse> Handle(GetProductsRequest request, 
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ISieveProcessor _sieveProcessor;
-        private readonly ILogger<GetProductsHandler> _logger;
+        logger.LogInformation("Getting a list of Products");
 
-        public GetProductsHandler(IMapper mapper, IQueryExecutor queryExecutor, 
-            ISieveProcessor sieveProcessor, ILogger<GetProductsHandler> logger)
+        var query = new GetProductsQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _sieveProcessor = sieveProcessor;
-            _logger = logger;
-        }
+            SieveModel = request.SieveModel
+        };
 
-        public override async Task<GetProductsResponse> Handle(GetProductsRequest request, CancellationToken cancellationToken)
+        var products = await queryExecutor.ExecuteWithSieve(query);
+        if (products is null)
         {
-            _logger.LogInformation("Getting a list of Products");
-
-            var query = new GetProductsQuery()
+            return new GetProductsResponse
             {
-                SieveModel = request.SieveModel
+                Error = new ErrorModel(ErrorType.NotFound)
             };
+        }          
 
-            var products = await _queryExecutor.ExecuteWithSieve(query);
-            if (products is null)
-            {
-                return new GetProductsResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }          
+        var results = await products.ToPagedAsync<ProductEntity, ProductDto>(sieveProcessor, 
+            mapper, query.SieveModel, cancellationToken: cancellationToken);
+        var response = new GetProductsResponse
+        { 
+            Data = results 
+        };
 
-            var results = await products.ToPagedAsync<DataAccess.Core.Entities.Product, ProductDto>(_sieveProcessor, 
-                _mapper, query.SieveModel, cancellationToken: cancellationToken);
-            var response = new GetProductsResponse() 
-            { 
-                Data = results 
-            };
-
-            return response;
-        }
+        return response;
     }
 }

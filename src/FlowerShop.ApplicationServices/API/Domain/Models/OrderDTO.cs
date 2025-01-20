@@ -1,9 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Models
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Models;
+
+public class OrderDto
 {
-    public class OrderDto
-    {
-        public string BasketId { get; init; }
-        public int DeliveryMethodId { get; init; }
-        public AddressDto ShippingAddress { get; init; }
-    }
+    public required string BasketId { get; init; }
+    public required int DeliveryMethodId { get; init; }
+    public required AddressDto ShippingAddress { get; init; }
 }

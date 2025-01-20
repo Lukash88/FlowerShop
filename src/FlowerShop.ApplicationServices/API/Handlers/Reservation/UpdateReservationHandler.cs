@@ -8,61 +8,51 @@ using FlowerShop.DataAccess.CQRS.Queries.Order;
 using FlowerShop.DataAccess.CQRS.Queries.Reservation;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+namespace FlowerShop.ApplicationServices.API.Handlers.Reservation;
+
+public class UpdateReservationHandler(IMapper mapper, IQueryExecutor queryExecutor,
+    ICommandExecutor commandExecutor) : IRequestHandler<UpdateReservationRequest, UpdateReservationResponse>
 {
-    public class UpdateReservationHandler : IRequestHandler<UpdateReservationRequest, UpdateReservationResponse>
+    public async Task<UpdateReservationResponse> Handle(UpdateReservationRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ICommandExecutor _commandExecutor;
-
-        public UpdateReservationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+        var query = new GetReservationQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _commandExecutor = commandExecutor;
+            Id = request.ReservationId
+        };
+        var getReservation = await queryExecutor.Execute(query);
+        if (getReservation is null)
+        {
+            return new UpdateReservationResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<UpdateReservationResponse> Handle(UpdateReservationRequest request, CancellationToken cancellationToken)
+        var reservationsQuery = new GetReservationsQuery();
+        var getReservations = await queryExecutor.ExecuteWithSieve(reservationsQuery);
+        var ordersQuery = new GetOrdersQuery();
+        var getOrders = await queryExecutor.ExecuteWithSieve(ordersQuery);
+
+        if (!getOrders.Select(x => x.Id).Contains(request.OrderId)) 
         {
-            var query = new GetReservationQuery()
+            return new UpdateReservationResponse
             {
-                Id = request.ReservationId
+                Error = new ErrorModel(ErrorType.NotFound)
             };
-            var getReservation = await _queryExecutor.Execute(query);
-            if (getReservation is null)
-            {
-                return new UpdateReservationResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var reservationsQuery = new GetReservationsQuery();
-            var getReservations = await _queryExecutor.ExecuteWithSieve(reservationsQuery);
-            var ordersQuery = new GetOrdersQuery();
-            var getOrders = await _queryExecutor.ExecuteWithSieve(ordersQuery);
-
-            if (!getOrders.Select(x => x.Id).Contains(request.OrderId)) 
-            {
-                return new UpdateReservationResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var mappedReservation = _mapper.Map<DataAccess.Core.Entities.Reservation>(request);
-            var command = new UpdateReservationCommand()
-            {
-                Parameter = mappedReservation
-            };
-            var updatedReservation = await _commandExecutor.Execute(command);
-            var response =  new UpdateReservationResponse()
-            {
-                Data = _mapper.Map<Domain.Models.ReservationDto>(updatedReservation)
-            };
-
-            return response;
         }
+
+        var mappedReservation = mapper.Map<DataAccess.Core.Entities.Reservation>(request);
+        var command = new UpdateReservationCommand
+        {
+            Parameter = mappedReservation
+        };
+        var updatedReservation = await commandExecutor.Execute(command);
+        var response =  new UpdateReservationResponse
+        {
+            Data = mapper.Map<Domain.Models.ReservationDto>(updatedReservation)
+        };
+
+        return response;
     }
 }

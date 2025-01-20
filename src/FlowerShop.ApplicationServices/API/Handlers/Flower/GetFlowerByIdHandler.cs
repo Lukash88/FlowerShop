@@ -6,41 +6,32 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Flower;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Flower
+namespace FlowerShop.ApplicationServices.API.Handlers.Flower;
+
+public class GetFlowerByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+    : IRequestHandler<GetFlowerByIdRequest, GetFlowerByIdResponse>
 {
-    public class GetFlowerByIdHandler : IRequestHandler<GetFlowerByIdRequest, GetFlowerByIdResponse>
+    public async Task<GetFlowerByIdResponse> Handle(GetFlowerByIdRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public GetFlowerByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        var query = new GetFlowerQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
+            Id = request.FlowerId
+        };
+        var flower = await queryExecutor.Execute(query);
+        if (flower is null)
+        {
+            return new GetFlowerByIdResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<GetFlowerByIdResponse> Handle(GetFlowerByIdRequest request, CancellationToken cancellationToken)
+        var mappedFlower = mapper.Map<Domain.Models.FlowerDto>(flower);
+        var response = new GetFlowerByIdResponse
         {
-            var query = new GetFlowerQuery()
-            {
-                Id = request.FlowerId
-            };
-            var flower = await _queryExecutor.Execute(query);
-            if (flower is null)
-            {
-                return new GetFlowerByIdResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Data = mappedFlower
+        };
 
-            var mappedFlower = _mapper.Map<Domain.Models.FlowerDto>(flower);
-            var response = new GetFlowerByIdResponse()
-            {
-                Data = mappedFlower
-            };
-
-            return response;
-        }
+        return response;
     }
 }

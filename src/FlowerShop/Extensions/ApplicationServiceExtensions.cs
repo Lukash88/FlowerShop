@@ -1,6 +1,5 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Validators.Bouquet;
-using FlowerShop.ApplicationServices.Components.Flowers;
 using FlowerShop.ApplicationServices.Components.FlowersRecords;
 using FlowerShop.ApplicationServices.Components.Order;
 using FlowerShop.ApplicationServices.Components.Payment;

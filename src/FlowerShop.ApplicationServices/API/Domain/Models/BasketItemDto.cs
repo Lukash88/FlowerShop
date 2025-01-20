@@ -1,13 +1,12 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Models
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Models;
+
+public class BasketItemDto
 {
-    public class BasketItemDto
-    {
-        public int Id { get; init; }
-        public string Name { get; init; }
-        public string ShortDescription { get; init; }
-        public decimal Price { get; init; }
-        public int Quantity { get; init; }
-        public string ImageUrl { get; init; }
-        public string Category { get; init; }
-    }
+    public int Id { get; init; }
+    public required string Name { get; init; }
+    public required string ShortDescription { get; init; }
+    public required decimal Price { get; init; }
+    public required int Quantity { get; init; }
+    public required string ImageUrl { get; init; }
+    public required string Category { get; init; }
 }

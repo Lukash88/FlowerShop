@@ -55,7 +55,7 @@ public class AccountController : ApiControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAppUser([FromBody] RegisterAppUserRequest request)
     {
-        await CheckEmailExistsAsync(new CheckEmailExistsRequest(request.Email));
+        await CheckEmailExistsAsync(new CheckEmailExistsRequest { EmailToCheck = request.Email });
 
         return await HandleRequest<RegisterAppUserRequest, RegisterAppUserResponse>(request);
     }
@@ -78,7 +78,7 @@ public class AccountController : ApiControllerBase
         var email = User.FindFirstValue(ClaimTypes.Email);
         request.Email = email!;
 
-        await CheckEmailExistsAsync(new CheckEmailExistsRequest(request.NewEmail));
+        await CheckEmailExistsAsync(new CheckEmailExistsRequest { EmailToCheck = request.NewEmail! });
 
         return await HandleRequest<UpdateUserRequest, UpdateUserResponse>(request);
     }

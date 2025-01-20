@@ -5,33 +5,24 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
+namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet;
+
+public class AddBouquetHandler(ICommandExecutor commandExecutor, IMapper mapper)
+    : IRequestHandler<AddBouquetRequest, AddBouquetResponse>
 {
-    public class AddBouquetHandler : IRequestHandler<AddBouquetRequest, AddBouquetResponse>
+    public async Task<AddBouquetResponse> Handle(AddBouquetRequest request, CancellationToken cancellationToken)
     {
-        private readonly ICommandExecutor _commandExecutor;
-        private readonly IMapper _mapper;
-
-        public AddBouquetHandler(ICommandExecutor commandExecutor, IMapper mapper)
+        var bouquet = mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
+        var command = new AddBouquetCommand
         {
-            _commandExecutor = commandExecutor;
-            _mapper = mapper;
-        }
-
-        public async Task<AddBouquetResponse> Handle(AddBouquetRequest request, CancellationToken cancellationToken)
+            Parameter = bouquet
+        };
+        var addedBouquet = await commandExecutor.Execute(command);
+        var response = new AddBouquetResponse
         {
-            var bouquet = _mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
-            var command = new AddBouquetCommand()
-            {
-                Parameter = bouquet
-            };
-            var addedBouquet = await _commandExecutor.Execute(command);
-            var response = new AddBouquetResponse()
-            {
-                Data = _mapper.Map<BouquetDto>(addedBouquet)
-            };
+            Data = mapper.Map<BouquetDto>(addedBouquet)
+        };
 
-            return response;
-        }
+        return response;
     }
 }

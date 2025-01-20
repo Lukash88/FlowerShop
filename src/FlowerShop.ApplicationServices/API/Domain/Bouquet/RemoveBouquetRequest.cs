@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Bouquet
+namespace FlowerShop.ApplicationServices.API.Domain.Bouquet;
+
+public class RemoveBouquetRequest : IRequest<RemoveBouquetResponse>
 {
-    public class RemoveBouquetRequest : IRequest<RemoveBouquetResponse>
-    {
-        public int BouquetId { get; init; }
-    }
+    public required int BouquetId { get; init; }
 }

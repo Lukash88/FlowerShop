@@ -8,48 +8,38 @@ using FlowerShop.DataAccess.CQRS.Queries.Order;
 using FlowerShop.DataAccess.CQRS.Queries.Reservation;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+namespace FlowerShop.ApplicationServices.API.Handlers.Reservation;
+
+public class AddReservationHandler(ICommandExecutor commandExecutor, IMapper mapper,
+    IQueryExecutor queryExecutor) : IRequestHandler<AddReservationRequest, AddReservationResponse>
 {
-    public class AddReservationHandler : IRequestHandler<AddReservationRequest, AddReservationResponse>
+    public async Task<AddReservationResponse> Handle(AddReservationRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly ICommandExecutor _commandExecutor;
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
+        var reservationsQuery = new GetReservationsQuery();
+        var getReservations = await queryExecutor.ExecuteWithSieve(reservationsQuery);
+        var ordersQuery = new GetOrdersQuery();
+        var getOrders = await queryExecutor.ExecuteWithSieve(ordersQuery);
 
-        public AddReservationHandler(ICommandExecutor commandExecutor, IMapper mapper, IQueryExecutor queryExecutor)
+        if (!getOrders.Select(x => x.Id).Contains(request.OrderId))
         {
-            _commandExecutor = commandExecutor;
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
+            return new AddReservationResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<AddReservationResponse> Handle(AddReservationRequest request, CancellationToken cancellationToken)
+        var reservation = mapper.Map<DataAccess.Core.Entities.Reservation>(request);
+        var command = new AddReservationCommand
+        { 
+            Parameter = reservation 
+        };
+        var addedReservation = await commandExecutor.Execute(command);
+        var response = new AddReservationResponse
         {
-            var reservationsQuery = new GetReservationsQuery();
-            var getReservations = await _queryExecutor.ExecuteWithSieve(reservationsQuery);
-            var ordersQuery = new GetOrdersQuery();
-            var getOrders = await _queryExecutor.ExecuteWithSieve(ordersQuery);
+            Data = mapper.Map<Domain.Models.ReservationDto>(addedReservation)
+        };
 
-            if (!getOrders.Select(x => x.Id).Contains(request.OrderId))
-            {
-                return new AddReservationResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var reservation = _mapper.Map<DataAccess.Core.Entities.Reservation>(request);
-            var command = new AddReservationCommand() 
-            { 
-                Parameter = reservation 
-            };
-            var addedReservation = await _commandExecutor.Execute(command);
-            var response = new AddReservationResponse()
-            {
-                Data = _mapper.Map<Domain.Models.ReservationDto>(addedReservation)
-            };
-
-            return response;
-        }
+        return response;
     }
 }

@@ -4,36 +4,30 @@ using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.ApplicationServices.Components.Payment;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Payment
+namespace FlowerShop.ApplicationServices.API.Handlers.Payment;
+
+public sealed class AddOrUpdatePaymentIntentHandler(IPaymentService paymentService)
+    : IRequestHandler<AddOrUpdatePaymentIntentRequest, AddOrUpdatePaymentIntentResponse>
 {
-    public sealed class AddOrUpdatePaymentIntentHandler : IRequestHandler<AddOrUpdatePaymentIntentRequest, AddOrUpdatePaymentIntentResponse>
+    public async Task<AddOrUpdatePaymentIntentResponse> Handle(AddOrUpdatePaymentIntentRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IPaymentService _paymentService;
-
-        public AddOrUpdatePaymentIntentHandler(IPaymentService paymentService)
+        try
         {
-            _paymentService = paymentService;
+            var basket = await paymentService.CreateOrUpdatePaymentIntent(request.BasketId);
+
+            return new AddOrUpdatePaymentIntentResponse
+            {
+                Data = basket
+            };
         }
-
-        public async Task<AddOrUpdatePaymentIntentResponse> Handle(AddOrUpdatePaymentIntentRequest request, CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            try
+            // TODO: Log the exception
+            return new AddOrUpdatePaymentIntentResponse
             {
-                var basket = await _paymentService.CreateOrUpdatePaymentIntent(request.BasketId);
-
-                return new AddOrUpdatePaymentIntentResponse()
-                {
-                    Data = basket
-                };
-            }
-            catch (Exception ex)
-            {
-                // TODO: Log the exception
-                return new AddOrUpdatePaymentIntentResponse()
-                {
-                    Error = new ErrorModel(ErrorType.BadRequest + " - Problem with your basket. " + ex.Message)
-                };
-            }
+                Error = new ErrorModel(ErrorType.BadRequest + " - Problem with your basket. " + ex.Message)
+            };
         }
     }
 }

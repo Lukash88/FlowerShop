@@ -1,8 +1,7 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Product
+namespace FlowerShop.ApplicationServices.API.Domain.Product;
+
+public class GetProductsResponse : ResponseBase<PagedResponse<ProductDto>>
 {
-    public class GetProductsResponse : ResponseBase<PagedResponse<ProductDto>>
-    {
-    }
 }

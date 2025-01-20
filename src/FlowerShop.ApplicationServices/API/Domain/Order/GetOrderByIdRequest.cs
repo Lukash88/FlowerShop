@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Order
+namespace FlowerShop.ApplicationServices.API.Domain.Order;
+
+public class GetOrderByIdRequest : IRequest<GetOrderByIdResponse>
 {
-    public class GetOrderByIdRequest : IRequest<GetOrderByIdResponse>
-    {
-        public int OrderId;
-    }
+    public required int OrderId;
 }

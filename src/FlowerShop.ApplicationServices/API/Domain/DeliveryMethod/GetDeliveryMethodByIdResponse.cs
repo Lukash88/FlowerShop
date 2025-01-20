@@ -1,8 +1,7 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-namespace FlowerShop.ApplicationServices.API.Domain.DeliveryMethod
+namespace FlowerShop.ApplicationServices.API.Domain.DeliveryMethod;
+
+public class GetDeliveryMethodByIdResponse : ResponseBase<DeliveryMethodDto>
 {
-    public class GetDeliveryMethodByIdResponse : ResponseBase<DeliveryMethodDto>
-    {
-    }
 }

@@ -4,33 +4,24 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Commands.Flower;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Flower
+namespace FlowerShop.ApplicationServices.API.Handlers.Flower;
+
+public class AddFlowerHandler(ICommandExecutor commandExecutor, IMapper mapper)
+    : IRequestHandler<AddFlowerRequest, AddFlowerResponse>
 {
-    public class AddFlowerHandler : IRequestHandler<AddFlowerRequest, AddFlowerResponse>
+    public async Task<AddFlowerResponse> Handle(AddFlowerRequest request, CancellationToken cancellationToken)
     {
-        private readonly ICommandExecutor _commandExecutor;
-        private readonly IMapper _mapper;
-
-        public AddFlowerHandler(ICommandExecutor commandExecutor, IMapper mapper)
+        var flower = mapper.Map<DataAccess.Core.Entities.Flower>(request);
+        var command = new AddFlowerCommand
+        { 
+            Parameter = flower 
+        };
+        var addedFlower = await commandExecutor.Execute(command);
+        var response =  new AddFlowerResponse
         {
-            _commandExecutor = commandExecutor;
-            _mapper = mapper;
-        }
+            Data = mapper.Map<Domain.Models.FlowerDto>(addedFlower)
+        };
 
-        public async Task<AddFlowerResponse> Handle(AddFlowerRequest request, CancellationToken cancellationToken)
-        {
-            var flower = _mapper.Map<DataAccess.Core.Entities.Flower>(request);
-            var command = new AddFlowerCommand() 
-            { 
-                Parameter = flower 
-            };
-            var addedFlower = await _commandExecutor.Execute(command);
-            var response =  new AddFlowerResponse()
-            {
-                Data = _mapper.Map<Domain.Models.FlowerDto>(addedFlower)
-            };
-
-            return response;
-        }
+        return response;
     }
 }

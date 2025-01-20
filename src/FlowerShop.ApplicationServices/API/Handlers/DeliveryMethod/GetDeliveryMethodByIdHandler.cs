@@ -7,43 +7,34 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.DeliveryMethod;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
+namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod;
+
+public class
+    GetDeliveryMethodByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+    : IRequestHandler<GetDeliveryMethodByIdRequest, GetDeliveryMethodByIdResponse>
 {
-    public class
-        GetDeliveryMethodByIdHandler : IRequestHandler<GetDeliveryMethodByIdRequest, GetDeliveryMethodByIdResponse>
+    public async Task<GetDeliveryMethodByIdResponse> Handle(GetDeliveryMethodByIdRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public GetDeliveryMethodByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        var query = new GetDeliveryMethodQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
+            Id = request.MethodId
+        };
+        var deliveryMethod = await queryExecutor.Execute(query);
+        if (deliveryMethod is null)
+        {
+            return new GetDeliveryMethodByIdResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<GetDeliveryMethodByIdResponse> Handle(GetDeliveryMethodByIdRequest request,
-            CancellationToken cancellationToken)
+        var mappedDeliveryMethod = mapper.Map<DeliveryMethodDto>(deliveryMethod);
+        var response = new GetDeliveryMethodByIdResponse
         {
-            var query = new GetDeliveryMethodQuery()
-            {
-                Id = request.MethodId
-            };
-            var deliveryMethod = await _queryExecutor.Execute(query);
-            if (deliveryMethod is null)
-            {
-                return new GetDeliveryMethodByIdResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Data = mappedDeliveryMethod
+        };
 
-            var mappedDeliveryMethod = _mapper.Map<DeliveryMethodDto>(deliveryMethod);
-            var response = new GetDeliveryMethodByIdResponse()
-            {
-                Data = mappedDeliveryMethod
-            };
-
-            return response;
-        }
+        return response;
     }
 }

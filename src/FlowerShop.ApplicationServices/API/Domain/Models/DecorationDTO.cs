@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Models
+namespace FlowerShop.ApplicationServices.API.Domain.Models;
+
+public class DecorationDto : ProductDto
 {
-    public class DecorationDto : ProductDto
-    {
-        public DecorationRole Role { get; init; }
-    }
+    public required DecorationRole Role { get; init; }
 }

@@ -7,41 +7,32 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
+namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet;
+
+public class GetBouquetByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+    : IRequestHandler<GetBouquetByIdRequest, GetBouquetByIdResponse>
 {
-    public class GetBouquetByIdHandler : IRequestHandler<GetBouquetByIdRequest, GetBouquetByIdResponse>
+    public async Task<GetBouquetByIdResponse> Handle(GetBouquetByIdRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public GetBouquetByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        var query = new GetBouquetQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
+            Id = request.BouquetId
+        };
+        var bouquet = await queryExecutor.Execute(query);  
+        if (bouquet is null)
+        {
+            return new GetBouquetByIdResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<GetBouquetByIdResponse> Handle(GetBouquetByIdRequest request, CancellationToken cancellationToken)
+        var mappedBouquet = mapper.Map<BouquetDto>(bouquet);
+        var response = new GetBouquetByIdResponse
         {
-            var query = new GetBouquetQuery()
-            {
-                Id = request.BouquetId
-            };
-            var bouquet = await _queryExecutor.Execute(query);  
-            if (bouquet is null)
-            {
-                return new GetBouquetByIdResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Data = mappedBouquet
+        };
 
-            var mappedBouquet = _mapper.Map<BouquetDto>(bouquet);
-            var response = new GetBouquetByIdResponse()
-            {
-                Data = mappedBouquet
-            };
-
-            return response;
-        }
+        return response;
     }
 }

@@ -8,50 +8,36 @@ using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
+namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet;
+
+public class GetBouquetsHandler(IMapper mapper, IQueryExecutor queryExecutor, ISieveProcessor sieveProcessor,
+    ILogger<GetBouquetsHandler> logger) : PagedRequestHandler<GetBouquetsRequest, GetBouquetsResponse>
 {
-    public class GetBouquetsHandler : PagedRequestHandler<GetBouquetsRequest, GetBouquetsResponse>
+    public override async Task<GetBouquetsResponse> Handle(GetBouquetsRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ISieveProcessor _sieveProcessor;
-        private readonly ILogger<GetBouquetsHandler> _logger;
+        logger.LogInformation("Getting a list of Bouquets");
 
-        public GetBouquetsHandler(IMapper mapper, IQueryExecutor queryExecutor,
-            ISieveProcessor sieveProcessor, ILogger<GetBouquetsHandler> logger)
+        var query = new GetBouquetsQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _sieveProcessor = sieveProcessor;
-            _logger = logger;
-        }        
+            SieveModel = request.SieveModel
+        };
 
-        public override async Task<GetBouquetsResponse> Handle(GetBouquetsRequest request, CancellationToken cancellationToken)
+        var bouquets = await queryExecutor.ExecuteWithSieve(query);
+        if (bouquets is null)
         {
-            _logger.LogInformation("Getting a list of Bouquets");
-
-            var query = new GetBouquetsQuery()
+            return new GetBouquetsResponse
             {
-                SieveModel = request.SieveModel
+                Error = new ErrorModel(ErrorType.NotFound)
             };
-
-            var bouquets = await _queryExecutor.ExecuteWithSieve(query);
-            if (bouquets is null)
-            {
-                return new GetBouquetsResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var results = await bouquets.ToPagedAsync<DataAccess.Core.Entities.Bouquet, BouquetDto>(_sieveProcessor, 
-                _mapper, query.SieveModel, cancellationToken: cancellationToken);
-            var response = new GetBouquetsResponse()
-            {
-                Data = results
-            };
-
-            return response;
         }
+
+        var results = await bouquets.ToPagedAsync<DataAccess.Core.Entities.Bouquet, BouquetDto>(sieveProcessor,
+            mapper, query.SieveModel, cancellationToken: cancellationToken);
+        var response = new GetBouquetsResponse
+        {
+            Data = results
+        };
+
+        return response;
     }
 }

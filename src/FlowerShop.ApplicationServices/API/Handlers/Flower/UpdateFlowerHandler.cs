@@ -7,49 +7,38 @@ using FlowerShop.DataAccess.CQRS.Commands.Flower;
 using FlowerShop.DataAccess.CQRS.Queries.Flower;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Flower
+namespace FlowerShop.ApplicationServices.API.Handlers.Flower;
+
+public class UpdateFlowerHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+    : IRequestHandler<UpdateFlowerRequest, UpdateFlowerResponse>
 {
-    public class UpdateFlowerHandler : IRequestHandler<UpdateFlowerRequest, UpdateFlowerResponse>
+    public async Task<UpdateFlowerResponse> Handle(UpdateFlowerRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ICommandExecutor _commandExecutor;
-
-        public UpdateFlowerHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+        var query = new GetFlowerQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _commandExecutor = commandExecutor;
+            Id = request.FlowerId
+        };
+        var getFlower = await queryExecutor.Execute(query);
+        if (getFlower is null)
+        {
+            return new UpdateFlowerResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<UpdateFlowerResponse> Handle(UpdateFlowerRequest request, CancellationToken cancellationToken)
+        var mappedFlower = mapper.Map<DataAccess.Core.Entities.Flower>(request);
+        var command = new UpdateFlowerCommand
+        { 
+            Parameter = mappedFlower 
+        };
+        var updatedFlower = await commandExecutor.Execute(command);
+
+        var response =  new UpdateFlowerResponse
         {
-            var query = new GetFlowerQuery()
-            {
-                Id = request.FlowerId
-            };
-            var getFlower = await _queryExecutor.Execute(query);
-            if (getFlower is null)
-            {
-                return new UpdateFlowerResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Data = mapper.Map<Domain.Models.FlowerDto>(updatedFlower)
+        };
 
-            var mappedFlower = _mapper.Map<DataAccess.Core.Entities.Flower>(request);
-            var command = new UpdateFlowerCommand() 
-            { 
-                Parameter = mappedFlower 
-            };
-            var updatedFlower = await _commandExecutor.Execute(command);
-
-            var response =  new UpdateFlowerResponse()
-            {
-                Data = _mapper.Map<Domain.Models.FlowerDto>(updatedFlower)
-            };
-
-            return response;
-        }
+        return response;
     }
 }

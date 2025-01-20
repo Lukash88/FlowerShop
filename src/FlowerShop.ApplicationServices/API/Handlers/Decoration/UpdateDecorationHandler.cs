@@ -8,48 +8,37 @@ using FlowerShop.DataAccess.CQRS.Commands.Decoration;
 using FlowerShop.DataAccess.CQRS.Queries.Decoration;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
+namespace FlowerShop.ApplicationServices.API.Handlers.Decoration;
+
+public class UpdateDecorationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+    : IRequestHandler<UpdateDecorationRequest, UpdateDecorationResponse>
 {
-    public class UpdateDecorationHandler : IRequestHandler<UpdateDecorationRequest, UpdateDecorationResponse>
+    public async  Task<UpdateDecorationResponse> Handle(UpdateDecorationRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ICommandExecutor _commandExecutor;
-
-        public UpdateDecorationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+        var query = new GetDecorationQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _commandExecutor = commandExecutor;
+            Id = request.DecorationId
+        };
+        var getDecoration = await queryExecutor.Execute(query);
+        if (getDecoration is null)
+        {
+            return new UpdateDecorationResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async  Task<UpdateDecorationResponse> Handle(UpdateDecorationRequest request, CancellationToken cancellationToken)
+        var mappedDecoration = mapper.Map<DataAccess.Core.Entities.Decoration>(request);
+        var command = new UpdateDecorationCommand
         {
-            var query = new GetDecorationQuery()
-            {
-                Id = request.DecorationId
-            };
-            var getDecoration = await _queryExecutor.Execute(query);
-            if (getDecoration is null)
-            {
-                return new UpdateDecorationResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Parameter = mappedDecoration
+        };
+        var updatedDecoration = await commandExecutor.Execute(command);
+        var response = new UpdateDecorationResponse
+        {
+            Data = mapper.Map<DecorationDto>(updatedDecoration)
+        };
 
-            var mappedDecoration = _mapper.Map<DataAccess.Core.Entities.Decoration>(request);
-            var command = new UpdateDecorationCommand()
-            {
-                Parameter = mappedDecoration
-            };
-            var updatedDecoration = await _commandExecutor.Execute(command);
-            var response = new UpdateDecorationResponse()
-            {
-                Data = _mapper.Map<DecorationDto>(updatedDecoration)
-            };
-
-            return response;
-        }
+        return response;
     }
 }

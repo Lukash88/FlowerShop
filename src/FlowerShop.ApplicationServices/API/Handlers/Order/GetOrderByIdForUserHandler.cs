@@ -8,43 +8,34 @@ using FlowerShop.DataAccess.CQRS.Queries.Order;
 using MediatR;
 using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Order
+namespace FlowerShop.ApplicationServices.API.Handlers.Order;
+
+public sealed class GetOrderByIdForUserHandler(IMapper mapper, IQueryExecutor queryExecutor)
+    : IRequestHandler<GetOrderByIdForUserRequest, GetOrderByIdForUserResponse>
 {
-    public sealed class GetOrderByIdForUserHandler : IRequestHandler<GetOrderByIdForUserRequest, GetOrderByIdForUserResponse>
+    public async Task<GetOrderByIdForUserResponse> Handle(GetOrderByIdForUserRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public GetOrderByIdForUserHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        var query = new GetOrderForUserQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
+            Email = request.BuyerEmail,
+            Id = request.OrderId
+        };
+        var order = await queryExecutor.Execute(query);
+        if (order is null)
+        {
+            return new GetOrderByIdForUserResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<GetOrderByIdForUserResponse> Handle(GetOrderByIdForUserRequest request,
-            CancellationToken cancellationToken)
+        var mappedOrder = mapper.Map<OrderEntity, OrderToReturnDto>(order);
+        var response = new GetOrderByIdForUserResponse
         {
-            var query = new GetOrderForUserQuery()
-            {
-                Email = request.BuyerEmail,
-                Id = request.OrderId
-            };
-            var order = await _queryExecutor.Execute(query);
-            if (order is null)
-            {
-                return new GetOrderByIdForUserResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Data = mappedOrder
+        };
 
-            var mappedOrder = _mapper.Map<OrderEntity, OrderToReturnDto>(order);
-            var response = new GetOrderByIdForUserResponse()
-            {
-                Data = mappedOrder
-            };
-
-            return response;
-        }
+        return response;
     }
 }

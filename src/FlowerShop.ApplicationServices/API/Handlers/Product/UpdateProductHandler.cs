@@ -7,47 +7,38 @@ using FlowerShop.DataAccess.CQRS.Commands.Product;
 using FlowerShop.DataAccess.CQRS.Queries.Product;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Product
+namespace FlowerShop.ApplicationServices.API.Handlers.Product;
+
+public class UpdateProductHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+    : IRequestHandler<UpdateProductRequest, UpdateProductResponse>
 {
-    public class UpdateProductHandler : IRequestHandler<UpdateProductRequest, UpdateProductResponse>
+    public async Task<UpdateProductResponse> Handle(UpdateProductRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ICommandExecutor _commandExecutor;
-
-        public UpdateProductHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+        var query = new GetProductQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _commandExecutor = commandExecutor;
-        }
-        public async Task<UpdateProductResponse> Handle(UpdateProductRequest request, CancellationToken cancellationToken)
+            Id = request.ProductId
+        };
+        var getProduct = await queryExecutor.Execute(query);
+        if (getProduct is null)
         {
-            var query = new GetProductQuery()
+            return new UpdateProductResponse
             {
-                Id = request.ProductId
+                Error = new ErrorModel(ErrorType.NotFound)
             };
-            var getProduct = await _queryExecutor.Execute(query);
-            if (getProduct is null)
-            {
-                return new UpdateProductResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var mappedProduct = _mapper.Map<DataAccess.Core.Entities.Product>(request);
-            var command = new UpdateProductCommand()
-            {
-                Parameter = mappedProduct
-            };
-            var productFromDb = await _commandExecutor.Execute(command);
-            var response = new UpdateProductResponse()
-            {
-                Data = _mapper.Map<Domain.Models.ProductDto>(productFromDb)
-            };
-
-            return response;
         }
+
+        var mappedProduct = mapper.Map<DataAccess.Core.Entities.Product>(request);
+        var command = new UpdateProductCommand
+        {
+            Parameter = mappedProduct
+        };
+        var productFromDb = await commandExecutor.Execute(command);
+        var response = new UpdateProductResponse
+        {
+            Data = mapper.Map<Domain.Models.ProductDto>(productFromDb)
+        };
+
+        return response;
     }
 }

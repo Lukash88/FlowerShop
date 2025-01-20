@@ -8,46 +8,31 @@ using FlowerShop.DataAccess.Core.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.User
+namespace FlowerShop.ApplicationServices.API.Handlers.User;
+
+public class GetCurrentUserHandler(IMapper mapper, ITokenService tokenService, UserManager<AppUser> userManager)
+    : IRequestHandler<GetCurrentUserRequest, GetCurrentUserResponse>
 {
-    public class GetCurrentUserHandler : IRequestHandler<GetCurrentUserRequest, GetCurrentUserResponse>
+    public async Task<GetCurrentUserResponse> Handle(GetCurrentUserRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IPasswordHasher<AppUser> _passwordHasher;
-        private readonly ITokenService _tokenService;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-
-        public GetCurrentUserHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, ITokenService tokenService,
-            UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        var getUser = await userManager.FindByEmailAsync(request.CurrentUserEmail);
+        if (getUser is null)
         {
-            _mapper = mapper;
-            _passwordHasher = passwordHasher;
-            _tokenService = tokenService;
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
-
-        public async Task<GetCurrentUserResponse> Handle(GetCurrentUserRequest request, CancellationToken cancellationToken)
-        {
-            var getUser = await _userManager.FindByEmailAsync(request.CurrentUserEmail);
-            if (getUser is null)
+            return new GetCurrentUserResponse
             {
-                return new GetCurrentUserResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var user = _mapper.Map<UserDto>(getUser);
-            user.Token = _tokenService.CreateToken(getUser);
-
-            var response = new GetCurrentUserResponse()
-            {
-                Data = user
+                Error = new ErrorModel(ErrorType.NotFound)
             };
-
-            return response;
         }
+
+        var user = mapper.Map<UserDto>(getUser);
+        user.Token = tokenService.CreateToken(getUser);
+
+        var response = new GetCurrentUserResponse
+        {
+            Data = user
+        };
+
+        return response;
     }
 }

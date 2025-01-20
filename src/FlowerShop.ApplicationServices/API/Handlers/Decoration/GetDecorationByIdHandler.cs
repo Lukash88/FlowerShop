@@ -7,42 +7,33 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Decoration;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
+namespace FlowerShop.ApplicationServices.API.Handlers.Decoration;
+
+public class GetDecorationByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+    : IRequestHandler<GetDecorationByIdRequest, GetDecorationByIdResponse>
 {
-    public class GetDecorationByIdHandler : IRequestHandler<GetDecorationByIdRequest, GetDecorationByIdResponse>
+    public async Task<GetDecorationByIdResponse> Handle(GetDecorationByIdRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public GetDecorationByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        var query = new GetDecorationQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
+            Id = request.DecorationId
+        };
+        var decoration = await queryExecutor.Execute(query);
+        if (decoration is null)
+        {
+            return new GetDecorationByIdResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<GetDecorationByIdResponse> Handle(GetDecorationByIdRequest request,
-            CancellationToken cancellationToken)
+        var mappedDecoration = mapper.Map<DecorationDto>(decoration);
+        var response = new GetDecorationByIdResponse
         {
-            var query = new GetDecorationQuery()
-            {
-                Id = request.DecorationId
-            };
-            var decoration = await _queryExecutor.Execute(query);
-            if (decoration is null)
-            {
-                return new GetDecorationByIdResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Data = mappedDecoration
+        };
 
-            var mappedDecoration = _mapper.Map<DecorationDto>(decoration);
-            var response = new GetDecorationByIdResponse()
-            {
-                Data = mappedDecoration
-            };
-
-            return response;
-        }
+        return response;
     }
 }

@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.DeliveryMethod
+namespace FlowerShop.ApplicationServices.API.Domain.DeliveryMethod;
+
+public class GetDeliveryMethodByIdRequest : IRequest<GetDeliveryMethodByIdResponse>
 {
-    public class GetDeliveryMethodByIdRequest : IRequest<GetDeliveryMethodByIdResponse>
-    {
-        public int MethodId;
-    }
+    public required int MethodId;
 }

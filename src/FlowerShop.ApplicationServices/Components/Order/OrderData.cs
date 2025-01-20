@@ -3,47 +3,37 @@ using FlowerShop.DataAccess.CQRS.Commands.Order;
 using FlowerShop.DataAccess.CQRS.Queries.Order;
 using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
-namespace FlowerShop.ApplicationServices.Components.Order
+namespace FlowerShop.ApplicationServices.Components.Order;
+
+public sealed class OrderData(ICommandExecutor commandExecutor, IQueryExecutor queryExecutor) : IOrderData
 {
-    public sealed class OrderData : IOrderData
+    public async Task<OrderEntity> GetOrder(string paymentIntentId)
     {
-        private readonly ICommandExecutor _commandExecutor;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public OrderData(ICommandExecutor commandExecutor, IQueryExecutor queryExecutor)
+        var getOrderQuery = new GetOrderByPaymentIntentIdQuery
         {
-            _commandExecutor = commandExecutor;
-            _queryExecutor = queryExecutor;
-        }
+            Id = paymentIntentId
+        };
 
-        public async Task<OrderEntity> GetOrder(string paymentIntentId)
+        return await queryExecutor.Execute(getOrderQuery);
+    }
+
+    public async Task<OrderEntity> CreateOrder(OrderEntity order)
+    {
+        var addOrderCommand = new AddOrderCommand
         {
-            var getOrderQuery = new GetOrderByPaymentIntentIdQuery
-            {
-                Id = paymentIntentId
-            };
+            Parameter = order
+        };
 
-            return await _queryExecutor.Execute(getOrderQuery);
-        }
+        return await commandExecutor.Execute(addOrderCommand);
+    }
 
-        public async Task<OrderEntity> CreateOrder(OrderEntity order)
+    public async Task<OrderEntity> UpdateOrder(OrderEntity order)
+    {
+        var updateOrderCommand = new UpdateOrderCommand
         {
-            var addOrderCommand = new AddOrderCommand
-            {
-                Parameter = order
-            };
+            Parameter = order
+        };
 
-            return await _commandExecutor.Execute(addOrderCommand);
-        }
-
-        public async Task<OrderEntity> UpdateOrder(OrderEntity order)
-        {
-            var updateOrderCommand = new UpdateOrderCommand
-            {
-                Parameter = order
-            };
-
-            return await _commandExecutor.Execute(updateOrderCommand);
-        }
+        return await commandExecutor.Execute(updateOrderCommand);
     }
 }

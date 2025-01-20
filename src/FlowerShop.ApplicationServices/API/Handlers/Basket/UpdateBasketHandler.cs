@@ -7,42 +7,29 @@ using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Repositories.BasketRepository;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Basket
+namespace FlowerShop.ApplicationServices.API.Handlers.Basket;
+
+public class UpdateBasketHandler(IBasketRepository basketRepository, IMapper mapper)
+    : IRequestHandler<UpdateBasketRequest, UpdateBasketResponse>
 {
-    public class UpdateBasketHandler : IRequestHandler<UpdateBasketRequest, UpdateBasketResponse>
+    public async Task<UpdateBasketResponse> Handle(UpdateBasketRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IBasketRepository _basketRepository;
-        private readonly IMapper _mapper;
+        request.BasketId ??= Guid.NewGuid().ToString();
 
-        public UpdateBasketHandler(IBasketRepository basketRepository, IMapper mapper)
-        {
-            _basketRepository = basketRepository;
-            _mapper = mapper;
-        }
-
-        public async Task<UpdateBasketResponse> Handle(UpdateBasketRequest request,
-            CancellationToken cancellationToken)
-        {
-            if (request.BasketId is null)
+        var newBasketItems = mapper.Map<UpdateBasketRequest, CustomerBasket>(request);
+        var updatedBasket = await basketRepository.UpdateBasketAsync(newBasketItems);
+        if (updatedBasket is null)
+            return new UpdateBasketResponse
             {
-                var newBasket = new CustomerBasket();
-                request.BasketId = newBasket.Id;
-            }
-
-            var newBasketItems = _mapper.Map<UpdateBasketRequest, CustomerBasket>(request);
-            var updatedBasket = await _basketRepository.UpdateBasketAsync(newBasketItems);
-            if (updatedBasket is null)
-                return new UpdateBasketResponse
-                {
-                    Error = new ErrorModel(ErrorType.BadRequest)
-                };
-
-            var response = new UpdateBasketResponse
-            {
-                Data = _mapper.Map<CustomerBasket, CustomerBasketDto>(updatedBasket)
+                Error = new ErrorModel(ErrorType.BadRequest)
             };
 
-            return response;
-        }
+        var response = new UpdateBasketResponse
+        {
+            Data = mapper.Map<CustomerBasket, CustomerBasketDto>(updatedBasket)
+        };
+
+        return response;
     }
 }
