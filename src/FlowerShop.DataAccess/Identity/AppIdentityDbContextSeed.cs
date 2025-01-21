@@ -2,27 +2,28 @@
 using Microsoft.AspNetCore.Identity;
 using System.Text.Json;
 
-namespace FlowerShop.DataAccess.Identity
-{
-    public class AppIdentityDbContextSeed
-    {
-        public static async Task SeedUsersAsync(UserManager<AppUser> userManager)
-        {
-            if (!userManager.Users.Any())
-            {
-                var usersData = File.ReadAllText("..//FlowerShop.DataAccess/Identity/users.json");
-                var users = JsonSerializer.Deserialize<List<AppUser>>(usersData);
-                var password = "Pa$$w0rd";
+namespace FlowerShop.DataAccess.Identity;
 
+public static class AppIdentityDbContextSeed
+{
+    public static async Task SeedUsersAsync(UserManager<AppUser> userManager)
+    {
+        if (!userManager.Users.Any())
+        {
+            var usersData = await File.ReadAllTextAsync("..//FlowerShop.DataAccess/Identity/users.json");
+            var users = JsonSerializer.Deserialize<List<AppUser>>(usersData);
+            const string password = "Pa$$w0rd";
+
+            if (users is not null)
                 foreach (var user in users)
                 {
                     var addUserResult = await userManager.CreateAsync(user, password);
 
-                    if (!addUserResult.Succeeded) {
+                    if (!addUserResult.Succeeded)
+                    {
                         Console.WriteLine("Error");
                     }
                 }
-            }
         }
     }
 }

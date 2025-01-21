@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FlowerShop.DataAccess.Core.Entities.Interfaces
+namespace FlowerShop.DataAccess.Core.Entities.Interfaces;
+
+public interface IEntityBase
 {
-    public interface IEntityBase
-    {
-        [Key]
-        public int Id { get; }
-    }
+    [Key]
+    public int Id { get; }
 }

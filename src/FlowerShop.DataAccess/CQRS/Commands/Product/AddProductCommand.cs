@@ -1,14 +1,14 @@
 ﻿using FlowerShop.DataAccess.Data;
 
-namespace FlowerShop.DataAccess.CQRS.Commands.Product
+namespace FlowerShop.DataAccess.CQRS.Commands.Product;
+
+public class AddProductCommand : CommandBase<Core.Entities.Product, Core.Entities.Product>
 {
-    public class AddProductCommand : CommandBase<Core.Entities.Product, Core.Entities.Product>
+    public override async Task<Core.Entities.Product> Execute(FlowerShopStorageContext context)
     {
-        public override async Task<Core.Entities.Product> Execute(FlowerShopStorageContext context)
-        {
-            await context.Products.AddAsync(Parameter);
-            await context.SaveChangesAsync();
-            return Parameter;
-        }
+        await context.Products.AddAsync(Parameter);
+        await context.SaveChangesAsync();
+
+        return Parameter;
     }
 }

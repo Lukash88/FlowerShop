@@ -3,19 +3,17 @@ using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
 
-namespace FlowerShop.DataAccess.CQRS.Queries.Bouquet
+namespace FlowerShop.DataAccess.CQRS.Queries.Bouquet;
+
+public class GetBouquetsQuery : QueryBaseWithSieve<IQueryable<Core.Entities.Bouquet>>
 {
-    public class GetBouquetsQuery : QueryBaseWithSieve<IQueryable<Core.Entities.Bouquet>>
+    public required SieveModel SieveModel { get; init; }
+
+    public override async Task<IQueryable<Core.Entities.Bouquet>> Execute(FlowerShopStorageContext context,
+        ISieveProcessor sieveProcessor)
     {
-        public SieveModel SieveModel { get; init; }
+        var query = context.Bouquets.AsNoTracking();
 
-        public override async Task<IQueryable<Core.Entities.Bouquet>> Execute(FlowerShopStorageContext context,
-            ISieveProcessor sieveProcessor)
-        {
-            var query = context.Bouquets
-                .AsNoTracking();
-
-            return await Task.FromResult(query);
-        }
+        return await Task.FromResult(query);
     }
 }

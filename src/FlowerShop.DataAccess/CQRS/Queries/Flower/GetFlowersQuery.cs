@@ -3,20 +3,17 @@ using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
 
-namespace FlowerShop.DataAccess.CQRS.Queries.Flower
+namespace FlowerShop.DataAccess.CQRS.Queries.Flower;
+
+public class GetFlowersQuery : QueryBaseWithSieve<IQueryable<Core.Entities.Flower>>
 {
-    public class GetFlowersQuery : QueryBaseWithSieve<IQueryable<Core.Entities.Flower>>
+    public required SieveModel SieveModel { get; init; }
+
+    public override async Task<IQueryable<Core.Entities.Flower>> Execute(FlowerShopStorageContext context,
+        ISieveProcessor sieveProcessor)
     {
-        public SieveModel SieveModel { get; init; }
+        var query = context.Flowers.AsNoTracking();
 
-        public override async Task<IQueryable<Core.Entities.Flower>> Execute(FlowerShopStorageContext context,
-            ISieveProcessor sieveProcessor)
-        {
-            var query = context.Flowers.AsNoTracking();
-
-            var avgPrice = Math.Round(query.Average(x => x.Price), 2);
-
-            return await Task.FromResult(query);
-        }
+        return await Task.FromResult(query);
     }
 }

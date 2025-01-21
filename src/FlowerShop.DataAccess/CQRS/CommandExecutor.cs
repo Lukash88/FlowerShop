@@ -1,20 +1,12 @@
 ﻿using FlowerShop.DataAccess.CQRS.Commands;
 using FlowerShop.DataAccess.Data;
 
-namespace FlowerShop.DataAccess.CQRS
+namespace FlowerShop.DataAccess.CQRS;
+
+public class CommandExecutor(FlowerShopStorageContext context) : ICommandExecutor
 {
-    public class CommandExecutor : ICommandExecutor
+    public Task<TResult> Execute<TParameters, TResult>(CommandBase<TParameters, TResult> command)
     {
-        private readonly FlowerShopStorageContext _context;
-
-        public CommandExecutor(FlowerShopStorageContext context)
-        {
-            _context = context;
-        }
-
-        public Task<TResult> Execute<TParameters, TResult>(CommandBase<TParameters, TResult> command)
-        {
-            return command.Execute(_context);
-        }
+        return command.Execute(context);
     }
 }
