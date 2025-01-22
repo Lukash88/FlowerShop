@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 
-namespace FlowerShop.Controllers;
+namespace FlowerShop.API.Controllers;
 
 [Authorize]
 public class DeliveryMethodsController : ApiControllerBase

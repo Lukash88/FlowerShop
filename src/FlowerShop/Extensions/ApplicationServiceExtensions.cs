@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Sieve.Services;
 using StackExchange.Redis;
 
-namespace FlowerShop.Extensions;
+namespace FlowerShop.API.Extensions;
 
 internal static class ApplicationServiceExtensions
 {

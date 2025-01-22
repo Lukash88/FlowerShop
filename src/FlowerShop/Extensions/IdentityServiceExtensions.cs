@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace FlowerShop.Extensions;
+namespace FlowerShop.API.Extensions;
 
 internal static class IdentityServiceExtensions
 {

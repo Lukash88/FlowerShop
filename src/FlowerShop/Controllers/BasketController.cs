@@ -2,7 +2,7 @@ using FlowerShop.ApplicationServices.API.Domain.Basket;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlowerShop.Controllers;
+namespace FlowerShop.API.Controllers;
 
 public class BasketController : ApiControllerBase
 {

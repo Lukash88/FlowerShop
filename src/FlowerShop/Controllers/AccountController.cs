@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 using System.Security.Claims;
 
-namespace FlowerShop.Controllers;
+namespace FlowerShop.API.Controllers;
 
 [Authorize]
 public class AccountController : ApiControllerBase

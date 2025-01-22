@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace FlowerShop.Extensions;
+namespace FlowerShop.API.Extensions;
 
 internal static class UserManagerExtensions
 {

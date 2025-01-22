@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace FlowerShop.Extensions;
+namespace FlowerShop.API.Extensions;
 
 internal static class SwaggerServiceExtensions
 {

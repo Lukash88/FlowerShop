@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace FlowerShop.Controllers;
+namespace FlowerShop.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

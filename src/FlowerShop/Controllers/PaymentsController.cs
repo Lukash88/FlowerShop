@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlowerShop.Controllers;
+namespace FlowerShop.API.Controllers;
 
 [Authorize]
 public sealed class PaymentsController : ApiControllerBase

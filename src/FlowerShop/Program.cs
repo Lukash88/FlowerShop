@@ -1,6 +1,6 @@
+using FlowerShop.API.Extensions;
 using FlowerShop.DataAccess.Core.Entities.Identity;
 using FlowerShop.DataAccess.Identity;
-using FlowerShop.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
