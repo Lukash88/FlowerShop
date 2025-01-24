@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, 
   FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AccountService } from '../account.service';
@@ -8,12 +8,15 @@ import { catchError, debounceTime, finalize,
   map, switchMap, take, of } from 'rxjs';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+    standalone: false
 })
 export class RegisterComponent implements OnInit {
-  //@Output() cancelRegister = new EventEmitter();
+  private fb = inject(FormBuilder);
+  private accountService = inject(AccountService);
+  private router = inject(Router);
   registerForm: FormGroup = new FormGroup({});
   complexPassword =
     "(?=^.{8,20}$)(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*s).*$";
@@ -27,8 +30,6 @@ export class RegisterComponent implements OnInit {
     { value: GenderEnum.Other, text: 'Others' },
   ];
 
-  constructor(private fb: FormBuilder, private accountService: AccountService,
-    private router: Router) {}
 
   ngOnInit(): void {
     this.initializeForm();
