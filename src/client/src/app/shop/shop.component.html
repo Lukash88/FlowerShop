@@ -1,16 +1,16 @@
 <div class="container mt-5">
-    <div class="row">   
+    <div class="row">
 
         <section class="col-3">
-            <h5 class="text-warning ml-3 mt-4 mb-4">Sort</h5>
-            <select class="custom-select mb-3" (change)="onSortSelected($event.target.value)">
+            <h5 class="text-warning ms-3 mt-4 mb-4">Sort</h5>
+            <select class="form-select mb-3" (change)="onSortSelected($event.target.value)">
               <option *ngFor="let sort of sortOptions"
                   [value]="sort.value
               ">
                   {{sort.name}}
               </option>          
             </select>
-             <h5 class="text-warning ml-3 mt-4 mb-4">Categories</h5>
+             <h5 class="text-warning ms-3 mt-4 mb-4">Categories</h5>
 
             <ul class="list-group my-3">
                 <li class="list-group-item" 
@@ -34,7 +34,7 @@
                 </app-paging-header>
             
               <div class="d-flex flex-row align-items-center flex-wrap mt-2" *ngIf="products">
-                <input (keyup.enter)="onSearch()" class="form-control mr-2" #search style="width: 300px" placeholder="Search" type="text">
+                <input (keyup.enter)="onSearch()" class="form-control me-2" #search style="width: 300px" placeholder="Search" type="text">
                 <button (click)="onSearch()" class="btn btn-outline-primary my-2 mx-2">Search</button>
                 <button (click)="onReset()" class="btn btn-outline-success my-2">Reset</button>
               </div>
