@@ -24,20 +24,20 @@
                             <tr *ngFor="let item of order.orderItems">
                                 <th scope="row">
                                     <div class="p-2">
-                                        <img src="{{item.imageUrl}}" alt="{{item.productName}}" class="img-fluid"
+                                        <img src="{{ item.imageUrl }}" alt="{{ item.productName }}" class="img-fluid"
                                             style="max-height: 50px">
                                         <div class="ms-3 d-inline-block align-middle">
                                             <h5 class="mb-0">
-                                                {{item.productName}}
+                                                {{ item.productName }}
                                             </h5>
                                         </div>
                                     </div>
                                 </th>
-                                <td class="align-middle"><strong>{{item.price | currency}}</strong></td>
+                                <td class="align-middle"><strong>{{ item.price | currency }}</strong></td>
                                 <td class="align-middle">
-                                    <span class="fw-bold px-2">{{item.quantity}}</span>
+                                    <span class="fw-bold px-2">{{ item.quantity }}</span>
                                 </td>
-                                <td class="align-middle"><strong>{{item.price * item.quantity | currency}}</strong></td>
+                                <td class="align-middle"><strong>{{ item.price * item.quantity | currency }}</strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -50,15 +50,15 @@
                 <ul class="list-unstyled mb-1">
                     <li class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Order subtotal</strong>
-                        <strong>{{order.subtotal | currency}}</strong>
+                        <strong>{{ order.subtotal | currency }}</strong>
                     </li>
                     <li class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Shipping and handling</strong>
-                        <strong>{{order.shippingPrice | currency}}</strong>
+                        <strong>{{ order.shippingPrice | currency }}</strong>
                     </li>
                     <li class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Total</strong>
-                        <strong>{{order.total | currency}}</strong>
+                        <strong>{{ order.total | currency }}</strong>
                     </li>
                 </ul>
             </div>

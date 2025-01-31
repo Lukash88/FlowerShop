@@ -17,11 +17,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let order of orders" routerLink="/orders/userOrders/{{order.id}}">
-                        <th># {{order.id}}</th>
-                        <td>{{order.createdAt | date: 'medium'}}</td>
-                        <td>{{order.total | currency}}</td>
-                        <td>{{order.status}}</td>
+                    <tr *ngFor="let order of orders" routerLink="/orders/userOrders/{{ order.id }}">
+                        <th># {{ order.id }}</th>
+                        <td>{{ order.createdAt | date: 'medium' }}</td>
+                        <td>{{ order.total | currency }}</td>
+                        <td>{{ order.status }}</td>
                     </tr>
                 </tbody>
             </table>

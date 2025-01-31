@@ -17,10 +17,10 @@ export class ShopComponent implements OnInit {
   shopParams = new ShopParams();
   totalCount = 0;
   sortOptions = [
-    {name: 'Alphabetical', value: 'name'},
-    {name: 'Unalphabetical', value: '-name'},
-    {name: 'Price: Low to High', value: 'price'},
-    {name: 'Price: High to Low', value: '-price'}    
+    { name: 'Alphabetical', value: 'name' },
+    { name: 'Unalphabetical', value: '-name' },
+    { name: 'Price: Low to High', value: 'price' },
+    { name: 'Price: High to Low', value: '-price' }    
   ];
 
   constructor(private shopService: ShopService) { }

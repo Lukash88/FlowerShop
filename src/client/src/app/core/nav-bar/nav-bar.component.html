@@ -6,7 +6,7 @@
       <a class="menu-items p-2" 
       routerLink="/" 
       routerLinkActive="active" 
-      [routerLinkActiveOptions]="{exact: true}"
+      [routerLinkActiveOptions]="{ exact: true }"
   >Home</a>
       <a class="menu-items p-2"routerLink="/about-us" routerLinkActive="active">About us</a>
       <a class="menu-items p-2" routerLink="/offer" routerLinkActive="active">Offer</a>
@@ -17,11 +17,10 @@
     <div class="d-flex align-items-center">
         <a 
           *ngIf="(basketService.basketSource$ | async) as basket" 
-          routerLink="/basket/{{basket.id}}" class="position-relative">
+          routerLink="/basket/{{ basket.id }}" class="position-relative">
           <i class="fa fa-shopping-cart fa-2x me-3 text-dark"></i>
           <div  class="cart-no">
-            <!-- <div *ngIf="(basketService.basketSource$ | async) as basket" class="cart-no"> -->
-            {{getCount(basket.items)}}
+            {{ getCount(basket.items) }}
           </div>
         </a>
         <ng-container *ngIf="(accountService.currentUser$ | async) === null">
@@ -31,13 +30,13 @@
         <ng-container *ngIf="accountService.currentUser$ | async as user">
           <div class="dropdown ms-3 me-5" style="cursor: pointer;" dropdown>
             <a dropdownToggle class="dropdown-toggle">
-              <strong>Welcome {{user.displayName}}</strong>
+              <strong>Welcome {{ user.displayName }}</strong>
             </a>
             <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
               <li class="py-1">
                 <a 
                   *ngIf="(basketService.basketSource$ | async) as basket" 
-                  routerLink="/basket/{{basket.id}}" 
+                  routerLink="/basket/{{ basket.id }}" 
                   class="dropdown-item">
                   <i class="fa fa-shopping-cart me-3"></i> Your basket
                 </a>

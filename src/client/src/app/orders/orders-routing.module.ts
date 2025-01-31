@@ -7,8 +7,8 @@ import { OrderDetailedComponent } from '../order-detailed/order-detailed.compone
 const routes: Routes = [
   { path: 'all', component: OrdersComponent, data: { breadcrumb: 'All Orders' }},
   { path: '/:id', component: OrderDetailedComponent, data: { breadcrumb: 'All Orders' }},
-  { path: 'userOrders', component: OrdersComponent, data: { breadcrumb: 'User Orders' } },
-  { path: 'userOrders/:id', component: OrderDetailedComponent, data: { breadcrumb: { alias: 'OrderDetailed' } } }
+  { path: 'userOrders', component: OrdersComponent, data: { breadcrumb: 'User Orders' }},
+  { path: 'userOrders/:id', component: OrderDetailedComponent, data: { breadcrumb: { alias: 'OrderDetailed' }}}
   ]  
 
 @NgModule({

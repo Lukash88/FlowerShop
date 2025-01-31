@@ -17,7 +17,7 @@ export class AuthGuard  {
       map(auth => {
         if (auth) return true;
         else {
-          this.router.navigate(['/account/login'], {queryParams: {returnUrl: state.url}});
+          this.router.navigate(['/account/login'], { queryParams: { returnUrl: state.url }});
           return false;
         }
       })

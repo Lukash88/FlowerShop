@@ -7,7 +7,7 @@
               <option *ngFor="let sort of sortOptions"
                   [value]="sort.value
               ">
-                  {{sort.name}}
+                  {{ sort.name }}
               </option>          
             </select>
              <h5 class="text-warning ms-3 mt-4 mb-4">Categories</h5>
@@ -19,7 +19,7 @@
                     [value]="category.value"
                     (click)="onCategorySelected(category.value)
                 ">
-                    {{category.key}}
+                    {{ category.key }}
                 </li>
             </ul>         
         </section>
