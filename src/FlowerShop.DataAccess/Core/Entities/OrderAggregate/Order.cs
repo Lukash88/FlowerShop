@@ -1,43 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using FlowerShop.DataAccess.Core.Entities.Interfaces;
+﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
 using FlowerShop.DataAccess.Core.Enums;
 
-namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate
+namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate;
+
+public class Order : IEntityBase
 {
-    public class Order : IEntityBase
+    public int Id { get; init; }
+    public required string BuyerEmail { get; init; }
+    public DateTime CreatedAt { get; init; }
+    public ShippingAddress ShippingAddress { get; init; } = null!;
+    public DeliveryMethod DeliveryMethod { get; set; } = null!;
+    public decimal Subtotal { get; init; }
+    public OrderState OrderState { get; set; }
+    public string Invoice { get; set; } = String.Empty;
+    public required string PaymentIntentId { get; init; }
+
+    public List<OrderItem> OrderItems { get; init; } = [];
+    public List<Reservation> Reservations { get; init; } = [];
+
+
+    public decimal GetTotal()
     {
-        public Order()
-        {
-        }
-
-        public Order(List<OrderItem> orderItems, string buyerEmail, Address shipToAddress, 
-            DeliveryMethod deliveryMethod, decimal subtotal, string invoice)
-        {
-            OrderItems = orderItems;
-            BuyerEmail = buyerEmail;
-            ShipToAddress = shipToAddress;
-            DeliveryMethod = deliveryMethod;
-            Subtotal = subtotal;
-        }
-
-        public int Id { get; set; }
-        public string BuyerEmail { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public Address ShipToAddress { get; set; }
-        public DeliveryMethod DeliveryMethod { get; set; }
-        public decimal Subtotal { get; set; }
-        public OrderState OrderState { get; set; } = OrderState.Pending;
-        public string Invoice { get; set; }
-        public string PaymentIntentId { get; set; }
-
-        public List<OrderItem> OrderItems { get; set; } = new();
-        public List<Reservation> Reservations { get; set; } = new();      
-        
-
-        public decimal GetTotal()
-        {
-            return Subtotal + DeliveryMethod.Price;
-        }
+        return Subtotal + DeliveryMethod.Price;
     }
 }

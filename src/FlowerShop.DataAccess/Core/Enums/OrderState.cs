@@ -1,28 +1,30 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FlowerShop.DataAccess.Core.Enums
+namespace FlowerShop.DataAccess.Core.Enums;
+
+public enum OrderState
 {
-    public enum OrderState
-    {
-        [EnumMember(Value = "Pending")]
-        Pending = 1,
+    [EnumMember(Value = "Pending")]
+    Pending = 1,
 
-        [EnumMember(Value = "PaymentReceived")]
-        PaymentReceived,
+    [EnumMember(Value = "Payment Received")]
+    PaymentReceived,
 
-        [EnumMember(Value = "PaymentFailed")]
-        PaymentFailed,
+    [EnumMember(Value = "Payment Failed")]
+    PaymentFailed,
 
-        [EnumMember(Value = "Shipped")]
-        Shipped,
+    [EnumMember(Value = "Payment Mismatch")]
+    PaymentMismatch,
 
-        [EnumMember(Value = "Completed")]
-        Completed,
+    [EnumMember(Value = "Shipped")]
+    Shipped,
 
-        [EnumMember(Value = "Cancelled")]
-        Cancelled,
+    [EnumMember(Value = "Completed")]
+    Completed,
 
-        [EnumMember(Value = "Expired")]
-        Expired
-    }
+    [EnumMember(Value = "Cancelled")]
+    Cancelled,
+
+    [EnumMember(Value = "Expired")]
+    Expired
 }

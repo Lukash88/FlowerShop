@@ -3,9 +3,10 @@ import { BasketService } from 'src/app/basket/basket.service';
 import { Product } from 'src/app/shared/models/product';
 
 @Component({
-  selector: 'app-product-item',
-  templateUrl: './product-item.component.html',
-  styleUrls: ['./product-item.component.scss']
+    selector: 'app-product-item',
+    templateUrl: './product-item.component.html',
+    styleUrls: ['./product-item.component.scss'],
+    standalone: false
 })
 export class ProductItemComponent implements OnInit {
   @Input() product: Product;

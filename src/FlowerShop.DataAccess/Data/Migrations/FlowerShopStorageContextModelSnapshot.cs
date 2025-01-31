@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace FlowerShop.DataAccess.Data.Migrations
 {
     [DbContext(typeof(FlowerShopStorageContext))]
@@ -15,16 +17,18 @@ namespace FlowerShop.DataAccess.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.17")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.OrderAggregate.DeliveryMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DeliveryTime")
                         .IsRequired()
@@ -53,8 +57,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BuyerEmail")
                         .IsRequired()
@@ -66,7 +71,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
 
-                    b.Property<int?>("DeliveryMethodId")
+                    b.Property<int>("DeliveryMethodId")
                         .HasColumnType("int");
 
                     b.Property<string>("Invoice")
@@ -78,7 +83,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaymentIntentId")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<decimal>("Subtotal")
                         .HasColumnType("decimal(18,2)");
@@ -94,8 +101,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
@@ -113,12 +121,13 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Product", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -126,15 +135,21 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("ImageThumbnailUrl")
+                        .IsRequired()
+                        .HasMaxLength(80000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(80000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LongDescription")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -158,15 +173,18 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.ToTable("Products");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Product");
+                    b.HasDiscriminator().HasValue("Product");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Reservation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateOfEvent")
                         .HasColumnType("datetime2");
@@ -208,8 +226,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .HasDefaultValueSql("getdate()");
 
                     b.Property<decimal?>("ServicePrice")
-                        .HasPrecision(14, 2)
-                        .HasColumnType("decimal(14,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -218,9 +235,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Bouquet", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Bouquet", b =>
                 {
-                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Product");
+                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
 
                     b.Property<string>("DecorationWay")
                         .IsRequired()
@@ -237,9 +254,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.HasDiscriminator().HasValue("Bouquet");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Decoration", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Decoration", b =>
                 {
-                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Product");
+                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -248,9 +265,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.HasDiscriminator().HasValue("Decoration");
                 });
 
-            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Flower", b =>
+            modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Flower", b =>
                 {
-                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.ProductAggregate.Product");
+                    b.HasBaseType("FlowerShop.DataAccess.Core.Entities.Product");
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -270,14 +287,14 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 {
                     b.HasOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
                         .WithMany()
-                        .HasForeignKey("DeliveryMethodId");
+                        .HasForeignKey("DeliveryMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.OwnsOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Address", "ShipToAddress", b1 =>
+                    b.OwnsOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.ShippingAddress", "ShippingAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("City")
                                 .IsRequired()
@@ -314,7 +331,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.Navigation("DeliveryMethod");
 
-                    b.Navigation("ShipToAddress")
+                    b.Navigation("ShippingAddress")
                         .IsRequired();
                 });
 
@@ -328,18 +345,20 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.OwnsOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.ProductItemOrdered", "ItemOrdered", b1 =>
                         {
                             b1.Property<int>("OrderItemId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("ImageUrl")
+                                .IsRequired()
+                                .HasMaxLength(80000)
                                 .HasColumnType("nvarchar(max)");
 
                             b1.Property<int>("ProductItemId")
                                 .HasColumnType("int");
 
                             b1.Property<string>("ProductName")
-                                .HasColumnType("nvarchar(max)");
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
 
                             b1.HasKey("OrderItemId");
 
@@ -349,7 +368,8 @@ namespace FlowerShop.DataAccess.Data.Migrations
                                 .HasForeignKey("OrderItemId");
                         });
 
-                    b.Navigation("ItemOrdered");
+                    b.Navigation("ItemOrdered")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FlowerShop.DataAccess.Core.Entities.Reservation", b =>

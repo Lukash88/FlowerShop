@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Decoration;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
@@ -9,48 +7,37 @@ using FlowerShop.DataAccess.CQRS.Commands.Decoration;
 using FlowerShop.DataAccess.CQRS.Queries.Decoration;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
+namespace FlowerShop.ApplicationServices.API.Handlers.Decoration;
+
+public class RemoveDecorationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+    : IRequestHandler<RemoveDecorationRequest, RemoveDecorationResponse>
 {
-    public class RemoveDecorationHandler : IRequestHandler<RemoveDecorationRequest, RemoveDecorationResponse>
+    public async Task<RemoveDecorationResponse> Handle(RemoveDecorationRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ICommandExecutor _commandExecutor;
-
-        public RemoveDecorationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+        var query = new GetDecorationQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _commandExecutor = commandExecutor;
+            Id = request.DecorationId
+        };
+        var getDecoration = await queryExecutor.Execute(query);
+        if (getDecoration is null)
+        {
+            return new RemoveDecorationResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<RemoveDecorationResponse> Handle(RemoveDecorationRequest request, CancellationToken cancellationToken)
+        var mappedDecoration = mapper.Map<DataAccess.Core.Entities.Decoration>(request);
+        var command = new RemoveDecorationCommand
         {
-            var query = new GetDecorationQuery()
-            {
-                Id = request.DecorationId
-            };
-            var getDecoration = await _queryExecutor.Execute(query);
-            if (getDecoration is null)
-            {
-                return new RemoveDecorationResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Parameter = mappedDecoration
+        };
+        var removedBouquet = await commandExecutor.Execute(command);            
+        var response = new RemoveDecorationResponse
+        {
+            Data = mapper.Map<Domain.Models.DecorationDto>(removedBouquet)
+        };
 
-            var mappedDecoration = _mapper.Map<DataAccess.Core.Entities.Decoration>(request);
-            var command = new RemoveDecorationCommand()
-            {
-                Parameter = mappedDecoration
-            };
-            var removedBouquet = await _commandExecutor.Execute(command);            
-            var response = new RemoveDecorationResponse()
-            {
-                Data = _mapper.Map<Domain.Models.DecorationDto>(removedBouquet)
-            };
-
-            return response;
-        }
+        return response;
     }
 }

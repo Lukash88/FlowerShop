@@ -1,17 +1,16 @@
 ﻿using FlowerShop.DataAccess.Data;
-using System.Threading.Tasks;
+using DeliveryMethodEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.DeliveryMethod;
 
-namespace FlowerShop.DataAccess.CQRS.Commands.DeliveryMethod
+namespace FlowerShop.DataAccess.CQRS.Commands.DeliveryMethod;
+
+public class RemoveDeliveryMethodCommand : CommandBase<DeliveryMethodEntity, DeliveryMethodEntity>
 {
-    public class RemoveDeliveryMethodCommand : CommandBase<Core.Entities.OrderAggregate.DeliveryMethod,
-        Core.Entities.OrderAggregate.DeliveryMethod>
+    public override async Task<DeliveryMethodEntity> Execute(FlowerShopStorageContext context)
     {
-        public override async Task<Core.Entities.OrderAggregate.DeliveryMethod> Execute(FlowerShopStorageContext context)
-        {
-            context.ChangeTracker.Clear();
-            context.DeliveryMethods.Remove(Parameter);
-            await context.SaveChangesAsync();
-            return Parameter;
-        }
+        context.ChangeTracker.Clear();
+        context.DeliveryMethods.Remove(Parameter);
+        await context.SaveChangesAsync();
+
+        return Parameter;
     }
 }

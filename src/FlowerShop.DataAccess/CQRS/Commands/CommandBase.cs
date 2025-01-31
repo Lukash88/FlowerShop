@@ -1,13 +1,10 @@
 ﻿using FlowerShop.DataAccess.Data;
 
-namespace FlowerShop.DataAccess.CQRS.Commands
+namespace FlowerShop.DataAccess.CQRS.Commands;
+
+public abstract class CommandBase<TParameter, TResult>
 {
-using System.Threading.Tasks;
+    public required TParameter Parameter { get; init; }
 
-    public abstract class CommandBase<TParameter, TResult>
-    {
-        public TParameter Parameter { get; init; }
-
-        public abstract Task<TResult> Execute(FlowerShopStorageContext context);
-    }
+    public abstract Task<TResult> Execute(FlowerShopStorageContext context);
 }

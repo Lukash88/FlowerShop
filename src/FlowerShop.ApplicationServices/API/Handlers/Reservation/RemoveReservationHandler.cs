@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Reservation;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
@@ -9,48 +7,38 @@ using FlowerShop.DataAccess.CQRS.Commands.Reservation;
 using FlowerShop.DataAccess.CQRS.Queries.Reservation;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+namespace FlowerShop.ApplicationServices.API.Handlers.Reservation;
+
+public class RemoveReservationHandler(IMapper mapper, IQueryExecutor queryExecutor,
+    ICommandExecutor commandExecutor) : IRequestHandler<RemoveReservationRequest, RemoveReservationResponse>
 {
-    public class RemoveReservationHandler : IRequestHandler<RemoveReservationRequest, RemoveReservationResponse>
+    public async Task<RemoveReservationResponse> Handle(RemoveReservationRequest request, 
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ICommandExecutor _commandExecutor;
-
-        public RemoveReservationHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+        var query = new GetReservationQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _commandExecutor = commandExecutor;
+            Id = request.ReservationId
+        };
+        var getReservation = await queryExecutor.Execute(query);
+        if (getReservation is null)
+        {
+            return new RemoveReservationResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<RemoveReservationResponse> Handle(RemoveReservationRequest request, CancellationToken cancellationToken)
+        var mappedReservation = mapper.Map<DataAccess.Core.Entities.Reservation>(request);
+        var command = new RemoveReservationCommand
         {
-            var query = new GetReservationQuery()
-            {
-                Id = request.ReservationId
-            };
-            var getReservation = await _queryExecutor.Execute(query);
-            if (getReservation is null)
-            {
-                return new RemoveReservationResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Parameter = mappedReservation
+        };
+        var removedReservation = await commandExecutor.Execute(command);
+        var response = new RemoveReservationResponse
+        {
+            Data = mapper.Map<Domain.Models.ReservationDto>(removedReservation)
+        };
 
-            var mappedReservation = _mapper.Map<DataAccess.Core.Entities.Reservation>(request);
-            var command = new RemoveReservationCommand()
-            {
-                Parameter = mappedReservation
-            };
-            var removedReservation = await _commandExecutor.Execute(command);
-            var response = new RemoveReservationResponse()
-            {
-                Data = _mapper.Map<Domain.Models.ReservationDto>(removedReservation)
-            };
-
-            return response;
-        }
+        return response;
     }
 }

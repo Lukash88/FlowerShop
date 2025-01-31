@@ -1,14 +1,13 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain.Basket;
 using FluentValidation;
 
-namespace FlowerShop.ApplicationServices.API.Validators.Basket
+namespace FlowerShop.ApplicationServices.API.Validators.Basket;
+
+public class RemoveBasketValidator : AbstractValidator<RemoveBasketRequest>
 {
-    public class RemoveBasketValidator : AbstractValidator<RemoveBasketRequest>
+    public RemoveBasketValidator()
     {
-        public RemoveBasketValidator()
-        {
-            RuleFor(x => x.BasketId).NotNull().NotEmpty()
-                .WithMessage("BasketId cannot be empty or null");
-        }
+        RuleFor(x => x.BasketId).NotNull().NotEmpty()
+            .WithMessage("BasketId cannot be empty or null");
     }
 }

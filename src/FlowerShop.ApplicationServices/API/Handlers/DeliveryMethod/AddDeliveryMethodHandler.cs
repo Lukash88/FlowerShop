@@ -4,37 +4,26 @@ using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Commands.DeliveryMethod;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
+namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod;
+
+public class AddDeliveryMethodHandler(ICommandExecutor commandExecutor, IMapper mapper)
+    : IRequestHandler<AddDeliveryMethodRequest, AddDeliveryMethodResponse>
 {
-    public class AddDeliveryMethodHandler : IRequestHandler<AddDeliveryMethodRequest, AddDeliveryMethodResponse>
+    public async Task<AddDeliveryMethodResponse> Handle(AddDeliveryMethodRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly ICommandExecutor _commandExecutor;
-        private readonly IMapper _mapper;
-
-        public AddDeliveryMethodHandler(ICommandExecutor commandExecutor, IMapper mapper)
+        var deliveryMethod = mapper.Map<DataAccess.Core.Entities.OrderAggregate.DeliveryMethod>(request);
+        var command = new AddDeliveryMethodCommand
         {
-            _commandExecutor = commandExecutor;
-            _mapper = mapper;
-        }
-
-        public async Task<AddDeliveryMethodResponse> Handle(AddDeliveryMethodRequest request,
-            CancellationToken cancellationToken)
+            Parameter = deliveryMethod
+        };
+        var addedDeliveryMethod = await commandExecutor.Execute(command);
+        var response = new AddDeliveryMethodResponse
         {
-            var deliveryMethod = _mapper.Map<DataAccess.Core.Entities.OrderAggregate.DeliveryMethod>(request);
-            var command = new AddDeliveryMethodCommand()
-            {
-                Parameter = deliveryMethod
-            };
-            var addedDeliveryMethod = await _commandExecutor.Execute(command);
-            var response = new AddDeliveryMethodResponse()
-            {
-                Data = _mapper.Map<DeliveryMethodDto>(addedDeliveryMethod)
-            };
+            Data = mapper.Map<DeliveryMethodDto>(addedDeliveryMethod)
+        };
 
-            return response;
-        }
+        return response;
     }
 }

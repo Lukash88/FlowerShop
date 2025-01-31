@@ -1,20 +1,8 @@
-﻿namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate
+﻿namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate;
+
+public class ProductItemOrdered
 {
-    public class ProductItemOrdered
-    {
-        public ProductItemOrdered()
-        {
-        }
-
-        public ProductItemOrdered(int productItemId, string productName, string imageUrl)
-        {
-            ProductItemId = productItemId;
-            ProductName = productName;
-            ImageUrl = imageUrl;
-        }
-
-        public int ProductItemId { get; set; }
-        public string ProductName { get; set; }
-        public string ImageUrl { get; set; }
-    }
+    public int ProductItemId { get; init; }
+    public required string ProductName { get; init; }
+    public required string ImageUrl { get; init; }
 }

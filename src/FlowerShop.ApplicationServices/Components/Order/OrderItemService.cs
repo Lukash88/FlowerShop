@@ -1,60 +1,77 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.CQRS.Commands.OrderItem;
+using FlowerShop.DataAccess.CQRS.Queries.OrderItem;
 using FlowerShop.DataAccess.CQRS.Queries.Product;
 using FlowerShop.DataAccess.Repositories.BasketRepository;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
-namespace FlowerShop.ApplicationServices.Components.Order
+namespace FlowerShop.ApplicationServices.Components.Order;
+
+public sealed class OrderItemService(IBasketRepository basketRepository, IQueryExecutor queryExecutor,
+    ICommandExecutor commandExecutor) : IOrderItemService
 {
-    public sealed class OrderItemService : IOrderItemService
+    public async Task<List<OrderItem>> UpdateOrderItems(UpdateOrderRequest request)
     {
-        private readonly IBasketRepository _basketRepository;
-        private readonly IQueryExecutor _queryExecutor;
+        var itemsToRemove = await GetOrderItems(request.OrderId);
+        await RemoveOrderItems(itemsToRemove);
 
-        public OrderItemService(IBasketRepository basketRepository, IQueryExecutor queryExecutor)
-        {
-            _basketRepository = basketRepository;
-            _queryExecutor = queryExecutor;
-        }
+        var newOrderItems = await GenerateOrderItems(request.BasketId!);
 
-        public async Task<List<OrderItem>> GetOrderItems(string basketId)
-        {
-            var basket = await _basketRepository.GetBasketAsync(basketId);
-            var items = await CreateOrderItems(basket.Items.Select(i => (i.Id, i.Quantity)));
-            await _basketRepository.DeleteBasketAsync(basketId);
-            return items;
-        }
+        return newOrderItems;
+    }
 
-        public async Task<List<OrderItem>> GetOrderItemsForUpdate(UpdateOrderRequest request, OrderEntity order)
+    public async Task<List<OrderItem>> GenerateOrderItems(string basketId)
+    {
+        var basket = await basketRepository.GetBasketAsync(basketId);
+        var orderItems = new List<OrderItem>();
+        foreach (var item in basket.Items)
         {
-            var items = await CreateOrderItems(request.OrderItems.Select(i => (i.ProductId, i.Quantity)));
-            return items;
-        }
-
-        private async Task<List<OrderItem>> CreateOrderItems(IEnumerable<(int ProductId, int Quantity)> items)
-        {
-            var orderItems = new List<OrderItem>();
-            foreach (var item in items)
+            var product = await queryExecutor.Execute(new GetProductQuery
             {
-                var productItem = await _queryExecutor.Execute(new GetProductQuery { Id = item.ProductId });
-                var orderItem = new OrderItem(
-                    new ProductItemOrdered(productItem.Id, productItem.Name, productItem.ImageUrl),
-                    productItem.Price,
-                    item.Quantity
-                );
-                orderItems.Add(orderItem);
-            }
+                Id = item.Id
+            });
 
-            return orderItems;
+            var orderItem = new OrderItem
+            {
+                ItemOrdered = new ProductItemOrdered
+                {
+                    ProductItemId = product.Id,
+                    ProductName = product.Name,
+                    ImageUrl = product.ImageUrl
+                },
+                Price = product.Price,
+                Quantity = item.Quantity
+            };
+
+            orderItems.Add(orderItem);
         }
 
-        public decimal GetSubtotal(IEnumerable<OrderItem> items)
+        return orderItems;
+    }
+
+    public async Task<List<OrderItem>> GetOrderItems(int orderId)
+    {
+        var getItemsQuery = new GetOrderItemsQuery
         {
-            return items.Sum(item => item.Price * item.Quantity);
-        }
+            OrderId = orderId
+        };
+
+        return await queryExecutor.Execute(getItemsQuery);
+    }
+
+    public async Task<List<OrderItem>> RemoveOrderItems(List<OrderItem> items)
+    {
+        var removeItemsCommand = new RemoveOrderItemsCommand
+        {
+            Parameter = items
+        };
+
+        return await commandExecutor.Execute(removeItemsCommand);
+    }
+
+    public decimal GetSubtotal(IEnumerable<OrderItem> items)
+    {
+        return items.Sum(item => item.Price * item.Quantity);
     }
 }

@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using Sieve.Models;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Decoration
+namespace FlowerShop.ApplicationServices.API.Domain.Decoration;
+
+public class GetDecorationsRequest : IRequest<GetDecorationsResponse>
 {
-    public class GetDecorationsRequest : IRequest<GetDecorationsResponse>
-    {
-        public SieveModel SieveModel { get; init; }
-    }
+    public required SieveModel SieveModel { get; init; }
 }

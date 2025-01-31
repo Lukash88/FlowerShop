@@ -5,8 +5,10 @@ import { OrdersComponent } from './orders.component';
 import { OrderDetailedComponent } from '../order-detailed/order-detailed.component';
 
 const routes: Routes = [
-  { path: '', component: OrdersComponent },
-  { path: ':id', component: OrderDetailedComponent, data: {breadcrumb: {alias: 'OrderDetailed'}} }
+  { path: 'all', component: OrdersComponent, data: { breadcrumb: 'All Orders' }},
+  { path: '/:id', component: OrderDetailedComponent, data: { breadcrumb: 'All Orders' }},
+  { path: 'userOrders', component: OrdersComponent, data: { breadcrumb: 'User Orders' }},
+  { path: 'userOrders/:id', component: OrderDetailedComponent, data: { breadcrumb: { alias: 'OrderDetailed' }}}
   ]  
 
 @NgModule({

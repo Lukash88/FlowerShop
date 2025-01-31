@@ -5,9 +5,10 @@ import { ShopParams } from '../shared/models/shopParams';
 import { ShopService } from './shop.service';
 
 @Component({
-  selector: 'app-shop',
-  templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss']
+    selector: 'app-shop',
+    templateUrl: './shop.component.html',
+    styleUrls: ['./shop.component.scss'],
+    standalone: false
 })
 export class ShopComponent implements OnInit {
   @ViewChild('search', { static: false }) searchTerm: ElementRef;  
@@ -16,10 +17,10 @@ export class ShopComponent implements OnInit {
   shopParams = new ShopParams();
   totalCount = 0;
   sortOptions = [
-    {name: 'Alphabetical', value: 'name'},
-    {name: 'Unalphabetical', value: '-name'},
-    {name: 'Price: Low to High', value: 'price'},
-    {name: 'Price: High to Low', value: '-price'}    
+    { name: 'Alphabetical', value: 'name' },
+    { name: 'Unalphabetical', value: '-name' },
+    { name: 'Price: Low to High', value: 'price' },
+    { name: 'Price: High to Low', value: '-price' }    
   ];
 
   constructor(private shopService: ShopService) { }

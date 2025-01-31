@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Decoration
+namespace FlowerShop.ApplicationServices.API.Domain.Decoration;
+
+public class GetDecorationByIdRequest : IRequest<GetDecorationByIdResponse>
 {
-    public class GetDecorationByIdRequest : IRequest<GetDecorationByIdResponse>
-    {
-        public int DecorationId { get; init; }
-    }
+    public required int DecorationId { get; init; }
 }

@@ -24,13 +24,14 @@ export class AccountService {
     }
 
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', `Bearer ${token}`);
+    headers = headers.set('Authorization', `Bearer ${ token }`);
 
     return this.http.get<User>(this.baseUrl + 'account', { headers }).pipe(
       map((user: any) => {
-        if (user) {
-          localStorage.setItem('token', user.data.token);
-          this.currentUserSource.next(user.data);
+        user = user.data;
+        if (user) {          
+          localStorage.setItem('token', user.token);
+          this.currentUserSource.next(user);
           return user;
         } else {
           return null;

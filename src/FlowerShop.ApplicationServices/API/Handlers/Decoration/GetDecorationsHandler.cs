@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Decoration;
 using FlowerShop.ApplicationServices.API.Domain.Models;
@@ -10,50 +8,36 @@ using FlowerShop.DataAccess.CQRS.Queries.Decoration;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Decoration
+namespace FlowerShop.ApplicationServices.API.Handlers.Decoration;
+
+public class GetDecorationsHandler(IMapper mapper, IQueryExecutor queryExecutor, ISieveProcessor sieveProcessor,
+    ILogger<GetDecorationsHandler> logger) : PagedRequestHandler<GetDecorationsRequest, GetDecorationsResponse>
 {
-    public class GetDecorationsHandler : PagedRequestHandler<GetDecorationsRequest, GetDecorationsResponse>
+    public override async Task<GetDecorationsResponse> Handle(GetDecorationsRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ISieveProcessor _sieveProcessor;
-        private readonly ILogger<GetDecorationsHandler> _logger;
+        logger.LogInformation("Getting a list of Decorations");
 
-        public GetDecorationsHandler(IMapper mapper, IQueryExecutor queryExecutor,
-            ISieveProcessor sieveProcessor, ILogger<GetDecorationsHandler> logger)
+        var query = new GetDecorationsQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _sieveProcessor = sieveProcessor;
-            _logger = logger;   
+            SieveModel = request.SieveModel
+        };
+
+        var decorations = await queryExecutor.ExecuteWithSieve(query);
+        if (decorations is null)
+        {
+            return new GetDecorationsResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public override async Task<GetDecorationsResponse> Handle(GetDecorationsRequest request, CancellationToken cancellationToken)
+        var results = await decorations.ToPagedAsync<DataAccess.Core.Entities.Decoration, DecorationDto>(sieveProcessor, 
+            mapper, query.SieveModel, cancellationToken: cancellationToken);
+        var response = new GetDecorationsResponse
         {
-            _logger.LogInformation("Getting a list of Decorations");
+            Data = results
+        };
 
-            var query = new GetDecorationsQuery()
-            {
-                SieveModel = request.SieveModel
-            };
-
-            var decorations = await _queryExecutor.ExecuteWithSieve(query);
-            if (decorations is null)
-            {
-                return new GetDecorationsResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var results = await decorations.ToPagedAsync<DataAccess.Core.Entities.Decoration, DecorationDto>(_sieveProcessor, 
-                _mapper, query.SieveModel, cancellationToken: cancellationToken);
-            var response = new GetDecorationsResponse()
-            {
-                Data = results
-            };
-
-            return response;
-        }
+        return response;
     }
 }

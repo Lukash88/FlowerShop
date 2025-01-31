@@ -3,20 +3,15 @@ using FlowerShop.DataAccess.Identity.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlowerShop.DataAccess.Identity
+namespace FlowerShop.DataAccess.Identity;
+
+public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : IdentityDbContext<AppUser>(options)
 {
-    public class AppIdentityDbContext : IdentityDbContext<AppUser>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : base(options)
-        {
-        }
+        base.OnModelCreating(modelBuilder);
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new AddressConfiguration());
-            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
-        }
+        modelBuilder.ApplyConfiguration(new AddressConfiguration());
+        modelBuilder.ApplyConfiguration(new AppUserConfiguration());
     }
 }

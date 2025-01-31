@@ -2,10 +2,9 @@
 using FlowerShop.DataAccess.Core.Enums;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Decoration
+namespace FlowerShop.ApplicationServices.API.Domain.Decoration;
+
+public class AddDecorationRequest : AddProductRequest, IRequest<AddDecorationResponse>
 {
-    public class AddDecorationRequest : AddProductRequest, IRequest<AddDecorationResponse>
-    {
-        public DecorationRole Role { get; init; }
-    }
+    public DecorationRole Role { get; init; }
 }

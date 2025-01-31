@@ -1,22 +1,13 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.DeliveryMethod;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.Components.Order
+namespace FlowerShop.ApplicationServices.Components.Order;
+
+public sealed class DeliveryMethodService(IQueryExecutor queryExecutor) : IDeliveryMethodService
 {
-    public sealed class DeliveryMethodService : IDeliveryMethodService
+    public async Task<DeliveryMethod> GetDeliveryMethod(int id)
     {
-        private readonly IQueryExecutor _queryExecutor;
-
-        public DeliveryMethodService(IQueryExecutor queryExecutor)
-        {
-            _queryExecutor = queryExecutor;
-        }
-
-        public async Task<DeliveryMethod> GetDeliveryMethod(int id)
-        {
-            return await _queryExecutor.Execute(new GetDeliveryMethodQuery { Id = id });
-        }
+        return await queryExecutor.Execute(new GetDeliveryMethodQuery { Id = id });
     }
 }

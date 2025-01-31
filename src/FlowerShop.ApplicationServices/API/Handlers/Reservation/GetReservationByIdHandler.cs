@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Reservation;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
@@ -8,41 +6,33 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Reservation;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+namespace FlowerShop.ApplicationServices.API.Handlers.Reservation;
+
+public class GetReservationByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+    : IRequestHandler<GetReservationByIdRequest, GetReservationByIdResponse>
 {
-    public class GetReservationByIdHandler : IRequestHandler<GetReservationByIdRequest, GetReservationByIdResponse>
+    public async Task<GetReservationByIdResponse> Handle(GetReservationByIdRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public GetReservationByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        var query = new GetReservationQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
+            Id = request.ReservationId
+        };
+        var reservation = await queryExecutor.Execute(query);
+        if (reservation is null)
+        {
+            return new GetReservationByIdResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<GetReservationByIdResponse> Handle(GetReservationByIdRequest request, CancellationToken cancellationToken)
+        var mappedReservation = mapper.Map<Domain.Models.ReservationDto>(reservation);
+        var response = new GetReservationByIdResponse
         {
-            var query = new GetReservationQuery()
-            {
-                Id = request.ReservationId
-            };
-            var reservation = await _queryExecutor.Execute(query);
-            if (reservation is null)
-            {
-                return new GetReservationByIdResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Data = mappedReservation
+        };
 
-            var mappedReservation = _mapper.Map<Domain.Models.ReservationDto>(reservation);
-            var response = new GetReservationByIdResponse()
-            {
-                Data = mappedReservation
-            };
-
-            return response;
-        }
+        return response;
     }
 }

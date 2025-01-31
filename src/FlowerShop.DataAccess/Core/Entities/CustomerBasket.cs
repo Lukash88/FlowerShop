@@ -1,19 +1,10 @@
-using System.Collections.Generic;
+namespace FlowerShop.DataAccess.Core.Entities;
 
-namespace FlowerShop.DataAccess.Core.Entities
+public sealed class CustomerBasket
 {
-    public class CustomerBasket
-    {
-        public CustomerBasket()
-        {
-        }
-
-        public CustomerBasket(string id)
-        {
-            Id = id;
-        }
-        
-        public string Id { get; set; }
-        public List<BasketItem> Items { get; set; } = new();
-    }
+    public required string Id { get; init; }
+    public List<BasketItem> Items { get; init; } = [];
+    public int? DeliveryMethodId { get; init; }
+    public string? ClientSecret { get; set; }
+    public string? PaymentIntentId { get; set; }
 }

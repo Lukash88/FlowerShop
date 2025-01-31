@@ -6,54 +6,45 @@ using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Repositories.BasketRepository;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Basket
+namespace FlowerShop.ApplicationServices.API.Handlers.Basket;
+
+public class GetBasketByIdHandler(IBasketRepository basketRepository, IMapper mapper)
+    : IRequestHandler<GetBasketByIdRequest, GetBasketByIdResponse>
 {
-    public class GetBasketByIdHandler : IRequestHandler<GetBasketByIdRequest, GetBasketByIdResponse>
+    public async Task<GetBasketByIdResponse> Handle(GetBasketByIdRequest request, 
+        CancellationToken cancellationToken)
     {
-        private readonly IBasketRepository _basketRepository;
-        private readonly IMapper _mapper;
-
-        public GetBasketByIdHandler(IBasketRepository basketRepository, IMapper mapper)
+        if (request.BasketId is null)
         {
-            _basketRepository = basketRepository;
-            _mapper = mapper;
-        }
-
-        public async Task<GetBasketByIdResponse> Handle(GetBasketByIdRequest request, 
-            CancellationToken cancellationToken)
-        {
-            if (request.BasketId is null)
+            return new GetBasketByIdResponse
             {
-                return new GetBasketByIdResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var getBasket = await _basketRepository.GetBasketAsync(request.BasketId);
-            if (getBasket is null)
-            {
-                var newBasket = new CustomerBasket(request.BasketId); 
-                var updatedBasket = await _basketRepository.UpdateBasketAsync(newBasket);
-                var mappedNewBasket = _mapper.Map<CustomerBasket, CustomerBasketDto>(updatedBasket);
-               
-
-                return new GetBasketByIdResponse()
-                {
-                    Data = mappedNewBasket
-                };
-            }
-
-            var customerBasket = _mapper.Map<CustomerBasket, CustomerBasketDto>(getBasket);
-            var response = new GetBasketByIdResponse()
-            {
-                Data = customerBasket
+                Error = new ErrorModel(ErrorType.NotFound)
             };
-
-            return response;
         }
+
+        var getBasket = await basketRepository.GetBasketAsync(request.BasketId);
+        if (getBasket is null)
+        {
+            var newBasket = new CustomerBasket
+            {
+                Id = request.BasketId
+            }; 
+            var updatedBasket = await basketRepository.UpdateBasketAsync(newBasket);
+            var mappedNewBasket = mapper.Map<CustomerBasket, CustomerBasketDto>(updatedBasket);
+
+            return new GetBasketByIdResponse
+            {
+                Data = mappedNewBasket
+            };
+        }
+
+        var customerBasket = mapper.Map<CustomerBasket, CustomerBasketDto>(getBasket);
+        var response = new GetBasketByIdResponse
+        {
+            Data = customerBasket
+        };
+
+        return response;
     }
 }

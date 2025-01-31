@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Bouquet;
 using FlowerShop.ApplicationServices.API.Domain.Models;
@@ -10,48 +8,37 @@ using FlowerShop.DataAccess.CQRS.Commands.Bouquet;
 using FlowerShop.DataAccess.CQRS.Queries.Bouquet;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet
+namespace FlowerShop.ApplicationServices.API.Handlers.Bouquet;
+
+public class UpdateBouquetHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+    : IRequestHandler<UpdateBouquetRequest, UpdateBouquetResponse>
 {
-    public class UpdateBouquetHandler : IRequestHandler<UpdateBouquetRequest, UpdateBouquetResponse>
+    public async Task<UpdateBouquetResponse> Handle(UpdateBouquetRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ICommandExecutor _commandExecutor;
-
-        public UpdateBouquetHandler(IMapper mapper, IQueryExecutor queryExecutor, ICommandExecutor commandExecutor)
+        var query = new GetBouquetQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _commandExecutor = commandExecutor;
+            Id = request.BouquetId
+        };
+        var getBouquet = await queryExecutor.Execute(query);
+        if (getBouquet is null)
+        {
+            return new UpdateBouquetResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<UpdateBouquetResponse> Handle(UpdateBouquetRequest request, CancellationToken cancellationToken)
+        var mappedBouquet = mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
+        var command = new UpdateBouquetCommand
         {
-            var query = new GetBouquetQuery()
-            {
-                Id = request.BouquetId
-            };
-            var getBouquet = await _queryExecutor.Execute(query);
-            if (getBouquet is null)
-            {
-                return new UpdateBouquetResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Parameter = mappedBouquet
+        };
+        var updatedBouquet = await commandExecutor.Execute(command);
+        var response = new UpdateBouquetResponse
+        {
+            Data = mapper.Map<BouquetDto>(updatedBouquet)
+        };
 
-            var mappedBouquet = _mapper.Map<DataAccess.Core.Entities.Bouquet>(request);
-            var command = new UpdateBouquetCommand()
-            {
-                Parameter = mappedBouquet
-            };
-            var updatedBouquet = await _commandExecutor.Execute(command);
-            var response = new UpdateBouquetResponse()
-            {
-                Data = _mapper.Map<BouquetDto>(updatedBouquet)
-            };
-
-            return response;
-        }
+        return response;
     }
 }

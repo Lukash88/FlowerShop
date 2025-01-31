@@ -4,9 +4,10 @@ import { AccountService } from 'src/app/account/account.service';
 import { BasketService } from 'src/app/basket/basket.service';
 
 @Component({
-  selector: 'app-checkout-address',
-  templateUrl: './checkout-address.component.html',
-  styleUrls: ['./checkout-address.component.scss']
+    selector: 'app-checkout-address',
+    templateUrl: './checkout-address.component.html',
+    styleUrls: ['./checkout-address.component.scss'],
+    standalone: false
 })
 export class CheckoutAddressComponent {
   @Input() checkoutForm?: FormGroup;

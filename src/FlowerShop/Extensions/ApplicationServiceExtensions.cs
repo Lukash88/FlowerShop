@@ -1,49 +1,70 @@
-﻿using FlowerShop.ApplicationServices.API.Validators.Bouquet;
-using FlowerShop.ApplicationServices.Components.Flowers;
+﻿using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Validators.Bouquet;
+using FlowerShop.ApplicationServices.Components.FlowersRecords;
 using FlowerShop.ApplicationServices.Components.Order;
+using FlowerShop.ApplicationServices.Components.Payment;
 using FlowerShop.ApplicationServices.Components.Sieve;
 using FlowerShop.ApplicationServices.Components.Token;
+using FlowerShop.ApplicationServices.Mappings;
 using FlowerShop.DataAccess.CQRS;
+using FlowerShop.DataAccess.Data;
 using FlowerShop.DataAccess.Repositories.AppRepository;
 using FlowerShop.DataAccess.Repositories.BasketRepository;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Sieve.Services;
+using StackExchange.Redis;
 
-namespace FlowerShop.Extensions
+namespace FlowerShop.API.Extensions;
+
+internal static class ApplicationServiceExtensions
 {
-    public static class ApplicationServiceExtensions
+    internal static IServiceCollection AddApplicationServices(this IServiceCollection services,
+        IConfiguration config)
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        services.AddDbContext<FlowerShopStorageContext>(opt =>
+            opt.UseSqlServer(config.GetConnectionString("FlowerShopDatabaseConnection")));
+        services.AddSingleton<IConnectionMultiplexer>(c =>
         {
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IBasketRepository, BasketRepository>();
+            var configuration = ConfigurationOptions.Parse(config.GetConnectionString("Redis")!, true);
 
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IOrderData, OrderData>();
-            services.AddScoped<IOrderItemService, OrderItemService>();
-            services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
+            return ConnectionMultiplexer.Connect(configuration);
+        });
 
-            services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
-            // services.AddScoped<ISieveProcessor, SieveProcessor>();
+        services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(ResponseBase<>)));
+        services.AddControllers();
+        services.AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssemblyContaining<AddBouquetRequestValidator>();
 
-            services.AddTransient<IQueryExecutor, QueryExecutor>();
-            services.AddTransient<ICommandExecutor, CommandExecutor>();
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IBasketRepository, BasketRepository>();
+        services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IOrderData, OrderData>();
+        services.AddScoped<IOrderItemService, OrderItemService>();
+        services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
+        services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
 
-            services.AddTransient<IFlowersConnector, FlowersConnector>();
+        services.AddTransient<IQueryExecutor, QueryExecutor>();
+        services.AddTransient<ICommandExecutor, CommandExecutor>();
+        services.AddTransient<IFlowersConnector, FlowersConnector>();
 
-            services.AddFluentValidationAutoValidation();
-            services.AddValidatorsFromAssemblyContaining<AddBouquetRequestValidator>();
-
-            services.Configure<ApiBehaviorOptions>(options =>
+        services.AddCors(opt =>
+        {
+            opt.AddPolicy("CorsPolicy", policy =>
             {
-                options.SuppressModelStateInvalidFilter = true;
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
             });
+        });
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
 
-            return services;
-        }
+        return services;
     }
 }

@@ -1,63 +1,82 @@
-﻿using FlowerShop.ApplicationServices.API.Domain.Order;
+﻿using AutoMapper;
+using FlowerShop.ApplicationServices.API.Domain.Models;
+using FlowerShop.ApplicationServices.API.Domain.Order;
+using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using FlowerShop.DataAccess.Repositories.BasketRepository;
 using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
-namespace FlowerShop.ApplicationServices.Components.Order
+namespace FlowerShop.ApplicationServices.Components.Order;
+
+public sealed class OrderService(IMapper mapper, IOrderData orderData, IDeliveryMethodService deliveryMethodService,
+    IOrderItemService orderItemService, IBasketRepository basketRepository) : IOrderService
 {
-    public sealed class OrderService : IOrderService
+    public async Task<OrderEntity> ProcessOrderRequest(AddOrderRequest request)
     {
-        private readonly IOrderData _orderData;
-        private readonly IDeliveryMethodService _deliveryMethodService;
-        private readonly IOrderItemService _orderItemService;
+        var basket = await basketRepository.GetBasketAsync(request.BasketId);
+        var getOrder = await orderData.GetOrder(basket.PaymentIntentId);
 
-        public OrderService(IOrderData orderData, IDeliveryMethodService deliveryMethodService,
-            IOrderItemService orderItemService)
+        if (getOrder is not null)
         {
-            _orderData = orderData;
-            _deliveryMethodService = deliveryMethodService;
-            _orderItemService = orderItemService;
+            var updateOrderRequest = mapper.Map<UpdateOrderRequest>(getOrder);
+            updateOrderRequest.BasketId = request.BasketId;
+            return await ProcessUpdateOrder(updateOrderRequest);
         }
 
-        public async Task<OrderEntity> ProcessOrder(AddOrderRequest request, OrderEntity order)
-        {
-            var items = await _orderItemService.GetOrderItems(request.BasketId);
-            var deliveryMethod = await _deliveryMethodService.GetDeliveryMethod(request.DeliveryMethodId);
-            var subtotal = _orderItemService.GetSubtotal(items);
+        return await ProcessNewOrderRequest(request, basket);
+    }
 
-            SetOrderProperties(order, items, deliveryMethod, subtotal, request.BuyerEmail, request.ShipToAddress);
+    private async Task<OrderEntity> ProcessNewOrderRequest(AddOrderRequest request, CustomerBasket basket)
+    {
+        var items = await orderItemService.GenerateOrderItems(request.BasketId);
+        var deliveryMethod = await deliveryMethodService.GetDeliveryMethod(request.DeliveryMethodId);
+        var subtotal = orderItemService.GetSubtotal(items);
 
-            return await _orderData.CreateOrder(order);
-        }
+        request.OrderItems = mapper.Map<List<OrderItem>, List<OrderItemDto>>(items);
+        request.Subtotal = subtotal;
+        request.PaymentIntentId = basket.PaymentIntentId;
 
-        public async Task<OrderEntity> ProcessUpdateOrder(UpdateOrderRequest request, OrderEntity order)
-        {
-            var items = await _orderItemService.GetOrderItemsForUpdate(request, order);
-            var deliveryMethod = await _deliveryMethodService.GetDeliveryMethod(request.DeliveryMethodId);
-            var subtotal = _orderItemService.GetSubtotal(items);
+        var order = mapper.Map<OrderEntity>(request);
+        order.DeliveryMethod = deliveryMethod;
+        order.Invoice = MakeInvoice(order);
 
-            SetOrderProperties(order, items, deliveryMethod, subtotal, request.BuyerEmail, request.ShipToAddress);
+        return await orderData.CreateOrder(order);
+    }
 
-            return await _orderData.UpdateOrder(order);
-        }
+    private async Task<OrderEntity> ProcessUpdateOrder(UpdateOrderRequest request)
+    {
+        var items = await orderItemService.UpdateOrderItems(request);
+        var deliveryMethod = await deliveryMethodService.GetDeliveryMethod(request.DeliveryMethodId);
+        var subtotal = orderItemService.GetSubtotal(items);
 
-        private void SetOrderProperties(OrderEntity order, List<OrderItem> items, DeliveryMethod deliveryMethod,
-            decimal subtotal, string buyerEmail, Address shipToAddress)
-        {
-            order.DeliveryMethod = deliveryMethod;
-            order.OrderItems = items;
-            order.Subtotal = subtotal;
-            order.BuyerEmail = buyerEmail;
-            order.ShipToAddress = shipToAddress;
-            order.Invoice = MakeInvoice(order);
-        }
+        request.OrderItems = mapper.Map<List<OrderItem>, List<OrderItemDto>>(items);
+        request.Subtotal = subtotal;
 
-        private static string MakeInvoice(OrderEntity order)
-        {
-            var date = order.CreatedAt.ToString("MM/dd/yyyy");
+        var order = mapper.Map<OrderEntity>(request);
+        order.DeliveryMethod = deliveryMethod;
 
-            return $"{date} {order.BuyerEmail} {order.GetTotal()}";
-        }
+        return await orderData.UpdateOrder(order);
+    }
+
+    public async Task<OrderEntity> ProcessUpdateOrderRequest(UpdateOrderRequest request)
+    {
+        var items = await orderItemService.UpdateOrderItems(request);
+        var deliveryMethod = await deliveryMethodService.GetDeliveryMethod(request.DeliveryMethodId);
+        var subtotal = orderItemService.GetSubtotal(items);
+
+        request.OrderItems = mapper.Map<List<OrderItem>, List<OrderItemDto>>(items); ;
+        request.Subtotal = subtotal;
+
+        var order = mapper.Map<OrderEntity>(request);
+        order.DeliveryMethod = deliveryMethod;
+
+        return await orderData.UpdateOrder(order);
+    }
+
+    private static string MakeInvoice(OrderEntity order)
+    {
+        var date = order.CreatedAt.ToString("MM/dd/yyyy");
+
+        return $"{date} {order.BuyerEmail} {order.GetTotal()}";
     }
 }

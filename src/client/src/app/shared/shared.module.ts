@@ -12,7 +12,7 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
-import { BasketSummaryComponent } from './basket-summary/basket-summary.component';
+import { BasketSummaryComponent } from './components/basket-summary/basket-summary.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({

@@ -1,13 +1,12 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
 
-namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate
+namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate;
+
+public class DeliveryMethod : IEntityBase
 {
-    public class DeliveryMethod : IEntityBase
-    {
-        public int Id { get; set; }
-        public string ShortName { get; set; }
-        public string DeliveryTime { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-    }
+    public int Id { get; init; }
+    public required string ShortName { get; init; }
+    public required string DeliveryTime { get; init; }
+    public required string Description { get; init; }
+    public required decimal Price { get; init; }
 }

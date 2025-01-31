@@ -5,9 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
-  selector: 'app-order-detailed',
-  templateUrl: './order-detailed.component.html',
-  styleUrls: ['./order-detailed.component.scss']
+    selector: 'app-order-detailed',
+    templateUrl: './order-detailed.component.html',
+    styleUrls: ['./order-detailed.component.scss'],
+    standalone: false
 })
 export class OrderDetailedComponent implements OnInit {
    order?: Order;
@@ -21,7 +22,7 @@ export class OrderDetailedComponent implements OnInit {
       next: (order: any) => {
         order = order.data;
         this.order = order;
-        this.bcService.set('@OrderDetailed', `Order# ${order.id} - ${order.status}`);
+        this.bcService.set('@OrderDetailed', `Order# ${ order.id } - ${ order.status }`);
       }
     })
   }

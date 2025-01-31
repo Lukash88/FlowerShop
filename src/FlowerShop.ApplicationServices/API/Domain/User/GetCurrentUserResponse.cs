@@ -1,8 +1,7 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-namespace FlowerShop.ApplicationServices.API.Domain.User
+namespace FlowerShop.ApplicationServices.API.Domain.User;
+
+public class GetCurrentUserResponse : ResponseBase<UserDto>
 {
-    public class GetCurrentUserResponse : ResponseBase<UserDto>
-    {
-    }
 }

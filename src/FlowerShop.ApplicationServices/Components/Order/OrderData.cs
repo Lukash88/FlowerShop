@@ -1,29 +1,39 @@
-﻿using System.Threading.Tasks;
-using FlowerShop.DataAccess.CQRS;
+﻿using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Commands.Order;
+using FlowerShop.DataAccess.CQRS.Queries.Order;
 using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
-namespace FlowerShop.ApplicationServices.Components.Order
+namespace FlowerShop.ApplicationServices.Components.Order;
+
+public sealed class OrderData(ICommandExecutor commandExecutor, IQueryExecutor queryExecutor) : IOrderData
 {
-    public sealed class OrderData : IOrderData
+    public async Task<OrderEntity> GetOrder(string paymentIntentId)
     {
-        private readonly ICommandExecutor _commandExecutor;
-
-        public OrderData(ICommandExecutor commandExecutor)
+        var getOrderQuery = new GetOrderByPaymentIntentIdQuery
         {
-            _commandExecutor = commandExecutor;
-        }
+            Id = paymentIntentId
+        };
 
-        public async Task<OrderEntity> CreateOrder(OrderEntity order)
-        {
-            var addOrderCommand = new AddOrderCommand { Parameter = order };
-            return await _commandExecutor.Execute(addOrderCommand);
-        }
+        return await queryExecutor.Execute(getOrderQuery);
+    }
 
-        public async Task<OrderEntity> UpdateOrder(OrderEntity order)
+    public async Task<OrderEntity> CreateOrder(OrderEntity order)
+    {
+        var addOrderCommand = new AddOrderCommand
         {
-            var updateOrderCommand = new UpdateOrderCommand { Parameter = order };
-            return await _commandExecutor.Execute(updateOrderCommand);
-        }
+            Parameter = order
+        };
+
+        return await commandExecutor.Execute(addOrderCommand);
+    }
+
+    public async Task<OrderEntity> UpdateOrder(OrderEntity order)
+    {
+        var updateOrderCommand = new UpdateOrderCommand
+        {
+            Parameter = order
+        };
+
+        return await commandExecutor.Execute(updateOrderCommand);
     }
 }

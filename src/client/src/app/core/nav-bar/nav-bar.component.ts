@@ -4,9 +4,10 @@ import { BasketService } from 'src/app/basket/basket.service';
 import { BasketItem } from 'src/app/shared/models/basket';
 
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss']
+    selector: 'app-nav-bar',
+    templateUrl: './nav-bar.component.html',
+    styleUrls: ['./nav-bar.component.scss'],
+    standalone: false
 })
 export class NavBarComponent {
   

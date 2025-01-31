@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
 
-namespace FlowerShop.DataAccess.Core.Entities
+namespace FlowerShop.DataAccess.Core.Entities;
+
+public class Decoration : Product
 {
-    public class Decoration : Product
-    {
-        public DecorationRole Role { get; set; }
-    }
+    public required DecorationRole Role { get; init; }
 }

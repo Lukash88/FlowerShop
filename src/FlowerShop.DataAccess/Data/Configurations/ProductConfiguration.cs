@@ -2,43 +2,51 @@
 using FlowerShop.DataAccess.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
-namespace FlowerShop.DataAccess.Data.Configurations
+namespace FlowerShop.DataAccess.Data.Configurations;
+
+public sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
-    public class ProductConfiguration : IEntityTypeConfiguration<Product>
+    public void Configure(EntityTypeBuilder<Product> builder)
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
-        {
-            builder
-               .Property(p => p.Name)
-               .IsRequired()
-               .HasMaxLength(100);
+        builder
+            .Property(p => p.Name)
+            .IsRequired()
+            .HasMaxLength(100);
 
-            builder
-                .Property(p => p.ShortDescription)
-                .IsRequired()
-                .HasMaxLength(200);
+        builder
+            .Property(p => p.ShortDescription)
+            .IsRequired()
+            .HasMaxLength(200);
 
-            builder
-                .Property(p => p.LongDescription)
-                .HasMaxLength(500);
+        builder
+            .Property(p => p.LongDescription)
+            .HasMaxLength(500);
 
-            builder
-               .Property(p => p.Category)
-               .HasConversion(
-                   c => c.ToString(),
-                   c => (Category)Enum.Parse(typeof(Category), c))
-               .IsRequired();
+        builder
+            .Property(p => p.Category)
+            .HasConversion(
+                c => c.ToString(),
+                c => Enum.Parse<Category>(c))
+            .IsRequired();
 
-            builder
-               .Property(p => p.Price)
-               .HasColumnType("decimal(18,2)")
-               .IsRequired();
+        builder
+            .Property(p => p.Price)
+            .HasColumnType("decimal(18,2)")
+            .IsRequired();
 
-            builder
-                .Property(p => p.StockLevel)
-                .IsRequired();
-        }
+        builder
+            .Property(p => p.ImageUrl)
+            .IsRequired()
+            .HasMaxLength(80000);
+
+        builder
+            .Property(p => p.ImageThumbnailUrl)
+            .IsRequired()
+            .HasMaxLength(80000);
+
+        builder
+            .Property(p => p.StockLevel)
+            .IsRequired();
     }
 }

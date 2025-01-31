@@ -1,9 +1,8 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Models
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Models;
+
+public class UserDto
 {
-    public class UserDto
-    {
-        public string Email { get; init; } 
-        public string DisplayName { get; init; }
-        public string Token { get; set; }
-    }
+    public required string Email { get; init; } 
+    public required string DisplayName { get; init; }
+    public required string Token { get; set; }
 }

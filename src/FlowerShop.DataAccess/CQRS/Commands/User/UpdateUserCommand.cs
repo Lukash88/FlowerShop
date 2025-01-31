@@ -1,10 +1,9 @@
 ﻿using FlowerShop.DataAccess.Data;
 
-namespace FlowerShop.DataAccess.CQRS.Commands.User
+namespace FlowerShop.DataAccess.CQRS.Commands.User;
+
+public class UpdateUserCommand //: CommandBase<Core.Entities.User, Core.Entities.User>
 {
-    using System.Threading.Tasks;
-    public class UpdateUserCommand //: CommandBase<Core.Entities.User, Core.Entities.User>
-    {
     //    public override async Task<Core.Entities.User> Execute(FlowerShopStorageContext context)
     //    {
     //        context.ChangeTracker.Clear();
@@ -12,5 +11,4 @@ namespace FlowerShop.DataAccess.CQRS.Commands.User
     //        await context.SaveChangesAsync();
     //        return Parameter;
     //    }
-    }
 }

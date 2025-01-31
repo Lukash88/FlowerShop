@@ -1,16 +1,15 @@
 ﻿using FlowerShop.DataAccess.Data;
-using System.Threading.Tasks;
 
-namespace FlowerShop.DataAccess.CQRS.Commands.Decoration
+namespace FlowerShop.DataAccess.CQRS.Commands.Decoration;
+
+public class UpdateDecorationCommand : CommandBase<Core.Entities.Decoration, Core.Entities.Decoration>
 {
-    public class UpdateDecorationCommand : CommandBase<Core.Entities.Decoration, Core.Entities.Decoration>
+    public override async Task<Core.Entities.Decoration> Execute(FlowerShopStorageContext context)
     {
-        public override async Task<Core.Entities.Decoration> Execute(FlowerShopStorageContext context)
-        {
-            context.ChangeTracker.Clear();
-            context.Decorations.Update(Parameter);
-            await context.SaveChangesAsync();
-            return Parameter;
-        }
+        context.ChangeTracker.Clear();
+        context.Decorations.Update(Parameter);
+        await context.SaveChangesAsync();
+
+        return Parameter;
     }
 }

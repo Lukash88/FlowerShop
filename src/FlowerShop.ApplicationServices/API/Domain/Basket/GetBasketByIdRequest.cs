@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Basket
+namespace FlowerShop.ApplicationServices.API.Domain.Basket;
+
+public class GetBasketByIdRequest : IRequest<GetBasketByIdResponse>
 {
-    public class GetBasketByIdRequest : IRequest<GetBasketByIdResponse>
-    {
-        public string BasketId { get; init; }
-    }
+    public required string BasketId { get; init; }
 }

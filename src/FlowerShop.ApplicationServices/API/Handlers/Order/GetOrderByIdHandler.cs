@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.Order;
@@ -10,42 +8,33 @@ using FlowerShop.DataAccess.CQRS.Queries.Order;
 using MediatR;
 using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Order
+namespace FlowerShop.ApplicationServices.API.Handlers.Order;
+
+public class GetOrderByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+    : IRequestHandler<GetOrderByIdRequest, GetOrderByIdResponse>
 {
-    public class GetOrderByIdHandler : IRequestHandler<GetOrderByIdRequest, GetOrderByIdResponse>
+    public async Task<GetOrderByIdResponse> Handle(GetOrderByIdRequest request, 
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public GetOrderByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        var query = new GetOrderQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
+            Id = request.OrderId
+        };
+        var order = await queryExecutor.Execute(query);
+        if (order is null)
+        {
+            return new GetOrderByIdResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<GetOrderByIdResponse> Handle(GetOrderByIdRequest request, 
-            CancellationToken cancellationToken)
+        var mappedOrder = mapper.Map<OrderEntity, OrderToReturnDto>(order);
+        var response = new GetOrderByIdResponse
         {
-            var query = new GetOrderQuery()
-            {
-                Id = request.OrderId
-            };
-            var order = await _queryExecutor.Execute(query);
-            if (order is null)
-            {
-                return new GetOrderByIdResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Data = mappedOrder
+        };
 
-            var mappedOrder = _mapper.Map<OrderEntity, OrderToReturnDto>(order);
-            var response = new GetOrderByIdResponse()
-            {
-                Data = mappedOrder
-            };
-
-            return response;
-        }
+        return response;
     }
 }
