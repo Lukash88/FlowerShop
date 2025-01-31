@@ -1,11 +1,10 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain.Models
+﻿namespace FlowerShop.ApplicationServices.API.Domain.Models;
+
+public class DeliveryMethodDto
 {
-    public class DeliveryMethodDto
-    {
-        public int Id { get; init; }
-        public string ShortName { get; init; }
-        public string DeliveryTime { get; init; }
-        public string Description { get; init; }
-        public decimal Price { get; init; }
-    }
+    public int Id { get; init; }
+    public required string ShortName { get; init; }
+    public required string DeliveryTime { get; init; }
+    public required string Description { get; init; }
+    public required decimal Price { get; init; }
 }

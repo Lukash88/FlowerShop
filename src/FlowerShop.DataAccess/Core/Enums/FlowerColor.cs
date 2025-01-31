@@ -1,37 +1,36 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FlowerShop.DataAccess.Core.Enums
+namespace FlowerShop.DataAccess.Core.Enums;
+
+public enum FlowerColor
 {
-    public enum FlowerColor
-    {
-        [EnumMember(Value = "Red")]
-        Red = 1,
+    [EnumMember(Value = "Red")]
+    Red = 1,
 
-        [EnumMember(Value = "Pink")]
-        Pink,
+    [EnumMember(Value = "Pink")]
+    Pink,
 
-        [EnumMember(Value = "Purple")]
-        Purple,
+    [EnumMember(Value = "Purple")]
+    Purple,
 
-        [EnumMember(Value = "Orange")]
-        Orange,
+    [EnumMember(Value = "Orange")]
+    Orange,
 
-        [EnumMember(Value = "Yellow")]
-        Yellow,
+    [EnumMember(Value = "Yellow")]
+    Yellow,
 
-        [EnumMember(Value = "White")]
-        White,
+    [EnumMember(Value = "White")]
+    White,
 
-        [EnumMember(Value = "Blue")]
-        Blue,
+    [EnumMember(Value = "Blue")]
+    Blue,
 
-        [EnumMember(Value = "Lavender")]
-        Lavender,
+    [EnumMember(Value = "Lavender")]
+    Lavender,
 
-        [EnumMember(Value = "Green")]
-        Green,
+    [EnumMember(Value = "Green")]
+    Green,
 
-        [EnumMember(Value = "Black")]
-        Black
-    }
+    [EnumMember(Value = "Black")]
+    Black
 }

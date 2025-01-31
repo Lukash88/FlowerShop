@@ -2,12 +2,11 @@
 using FlowerShop.DataAccess.Core.Enums;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Flower
+namespace FlowerShop.ApplicationServices.API.Domain.Flower;
+
+public class AddFlowerRequest : AddProductRequest, IRequest<AddFlowerResponse>
 {
-    public class AddFlowerRequest : AddProductRequest, IRequest<AddFlowerResponse>
-    {
-        public FlowerType FlowerType { get; init; }
-        public int? LengthInCm { get; init; }
-        public FlowerColor Color { get; init; }
-    }
-} 
+    public required FlowerType FlowerType { get; init; }
+    public int? LengthInCm { get; init; }
+    public required FlowerColor Color { get; init; }
+}

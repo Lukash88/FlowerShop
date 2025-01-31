@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using FlowerShop.DataAccess.Core.Entities.Interfaces;
+﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
 
-namespace FlowerShop.DataAccess.Repositories.AppRepository
+namespace FlowerShop.DataAccess.Repositories.AppRepository;
+
+public interface IRepository<T> where T : IEntityBase
 {
-    public interface IRepository<T> where T : IEntityBase
-    {
-        Task<List<T>> GetAll();
+    Task<List<T>> GetAll();
 
-        Task<T> GetById(int id);
+    Task<T> GetById(int id);
 
-        Task Insert(T entity);
+    Task Insert(T entity);
 
-        Task Update(T entity);
+    Task Update(T entity);
 
-        Task Delete(int id);
-    }
+    Task Delete(int id);
 }

@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.Identity;
 
-namespace FlowerShop.ApplicationServices.Components.Token
+namespace FlowerShop.ApplicationServices.Components.Token;
+
+public interface ITokenService
 {
-    public interface ITokenService
-    {
-        string CreateToken(AppUser user);
-    }
+    string CreateToken(AppUser user);
 }

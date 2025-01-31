@@ -5,63 +5,51 @@ using FlowerShop.ApplicationServices.Components.Payment;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Stripe;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Payment
+namespace FlowerShop.ApplicationServices.API.Handlers.Payment;
+
+public sealed class WebHookHandler(IPaymentService paymentService, ILogger<WebHookHandler> logger)
+    : IRequestHandler<StripeWebhookRequest, StripeWebhookResponse>
 {
-    public sealed class WebHookHandler : IRequestHandler<StripeWebhookRequest, StripeWebhookResponse>
+    public async Task<StripeWebhookResponse> Handle(StripeWebhookRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IPaymentService _paymentService;
-        private readonly ILogger<WebHookHandler> _logger;
-
-        public WebHookHandler(IPaymentService paymentService, ILogger<WebHookHandler> logger)
+        try
         {
-            _paymentService = paymentService;
-            _logger = logger;
+            var stripeEvent = paymentService.ConstructStripeEvent(request.Json, request.StripeSignature);
+            if (stripeEvent.Data.Object is not PaymentIntent intent)
+            {
+                return new StripeWebhookResponse
+                {
+                    Error = new ErrorModel(ErrorType.BadRequest + " - Invalid payment data.")
+                };
+            }
+
+            var orderWithPaymentIntentSucceeded = await paymentService.HandlePaymentIntentSucceeded(intent);
+            var response = new StripeWebhookResponse
+            {
+                Data = orderWithPaymentIntentSucceeded
+            };
+
+            return response;
         }
-
-        public async Task<StripeWebhookResponse> Handle(StripeWebhookRequest request,
-            CancellationToken cancellationToken)
+        catch (StripeException e)
         {
-            try
+            logger.LogError(e, "Stripe webhook error occured");
+
+            return new StripeWebhookResponse
             {
-                var stripeEvent = _paymentService.ConstructStripeEvent(request.Json, request.StripeSignature);
-                if (stripeEvent.Data.Object is not PaymentIntent intent)
-                {
-                    return new StripeWebhookResponse()
-                    {
-                        Error = new ErrorModel(ErrorType.BadRequest + " - Invalid payment data.")
-                    };
-                }
+                Error = new ErrorModel(ErrorType.BadRequest + " - Webhook error.")
+            };
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "An unexpected error occured");
 
-                var orderWithPaymentIntentSucceeded = await _paymentService.HandlePaymentIntentSucceeded(intent);
-                var response = new StripeWebhookResponse
-                {
-                    Data = orderWithPaymentIntentSucceeded
-                };
-
-                return response;
-            }
-            catch (StripeException e)
+            return new StripeWebhookResponse
             {
-                _logger.LogError(e, "Stripe webhook error occured");
-
-                return new StripeWebhookResponse()
-                {
-                    Error = new ErrorModel(ErrorType.BadRequest + " - Webhook error.")
-                };
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "An unexpected error occured");
-
-                return new StripeWebhookResponse()
-                {
-                    Error = new ErrorModel(ErrorType.BadRequest + " - An unexpected error occured")
-                };
-            }
+                Error = new ErrorModel(ErrorType.BadRequest + " - An unexpected error occured")
+            };
         }
     }
 }

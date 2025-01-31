@@ -1,7 +1,6 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain
+﻿namespace FlowerShop.ApplicationServices.API.Domain;
+
+public class ErrorResponseBase
 {
-    public class ErrorResponseBase
-    {
-        public ErrorModel Error { get; init; }
-    }
+    public ErrorModel? Error { get; init; }
 }

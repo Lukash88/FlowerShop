@@ -1,18 +1,17 @@
 ﻿using FlowerShop.DataAccess.Core.Enums;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Product
+namespace FlowerShop.ApplicationServices.API.Domain.Product;
+
+public class UpdateProductRequest : IRequest<UpdateProductResponse>
 {
-    public class UpdateProductRequest : IRequest<UpdateProductResponse>
-    {
-        public int ProductId;
-        public string Name { get; init; }
-        public string ShortDescription { get; init; }
-        public string LongDescription { get; init; }
-        public Category Category { get; init; }
-        public decimal? Price { get; init; }
-        public string ImageUrl { get; init; }
-        public string ImageThumbnailUrl { get; init; }
-        public int StockLevel { get; init; }
-    }
+    public int ProductId;
+    public required string Name { get; init; }
+    public required string ShortDescription { get; init; }
+    public required string LongDescription { get; init; }
+    public Category Category { get; init; }
+    public required decimal Price { get; init; }
+    public required string ImageUrl { get; init; }
+    public required string ImageThumbnailUrl { get; init; }
+    public int StockLevel { get; init; }
 }

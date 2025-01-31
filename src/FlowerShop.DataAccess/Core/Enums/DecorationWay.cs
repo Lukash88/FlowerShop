@@ -1,16 +1,15 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FlowerShop.DataAccess.Core.Enums
+namespace FlowerShop.DataAccess.Core.Enums;
+
+public enum DecorationWay
 {
-    public enum DecorationWay
-    {
-        [EnumMember(Value = "None")]
-        None,
+    [EnumMember(Value = "None")]
+    None,
 
-        [EnumMember(Value = "LightlyDecorated")]
-        LightlyDecorated,
+    [EnumMember(Value = "LightlyDecorated")]
+    LightlyDecorated,
 
-        [EnumMember(Value = "ToRent")]
-        RichlyDecorated
-    }
+    [EnumMember(Value = "ToRent")]
+    RichlyDecorated
 }

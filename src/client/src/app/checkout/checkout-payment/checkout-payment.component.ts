@@ -10,9 +10,10 @@ import { firstValueFrom } from 'rxjs';
 import { OrderToCreate } from 'src/app/shared/models/order';
 
 @Component({
-  selector: 'app-checkout-payment',
-  templateUrl: './checkout-payment.component.html',
-  styleUrls: ['./checkout-payment.component.scss']
+    selector: 'app-checkout-payment',
+    templateUrl: './checkout-payment.component.html',
+    styleUrls: ['./checkout-payment.component.scss'],
+    standalone: false
 })
 export class CheckoutPaymentComponent implements OnInit {
   @Input() checkoutForm?: FormGroup;
@@ -33,7 +34,7 @@ export class CheckoutPaymentComponent implements OnInit {
     private router: Router) {}
 
   ngOnInit(): void {
-    loadStripe('Your Publishable Key From Stripe')
+    loadStripe('pk_test_51Nj9M5I7hJ2kV0EoXpYz3sGVRPvZNE6uRpz19zHJZQY5SGwoT11Tful2F8Cbb3qemUIP0PbvVh3SnFjjeeeU21NS00ZGATX4cA')
       .then(stripe => {
         this.stripe = stripe;
         const elements = stripe?.elements();

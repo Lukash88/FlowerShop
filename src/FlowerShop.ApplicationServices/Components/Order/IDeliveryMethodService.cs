@@ -1,10 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.Components.Order
+namespace FlowerShop.ApplicationServices.Components.Order;
+
+public interface IDeliveryMethodService
 {
-    public interface IDeliveryMethodService
-    {
-        Task<DeliveryMethod> GetDeliveryMethod(int id);
-    }
+    Task<DeliveryMethod> GetDeliveryMethod(int id);
 }

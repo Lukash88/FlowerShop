@@ -2,23 +2,15 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace FlowerShop.DataAccess.Data
+namespace FlowerShop.DataAccess.Data;
+
+public sealed class FlowerShopStorageContextFactory(IConfiguration config)
+    : IDesignTimeDbContextFactory<FlowerShopStorageContext>
 {
-    public sealed class FlowerShopStorageContextFactory : IDesignTimeDbContextFactory<FlowerShopStorageContext>
+    public FlowerShopStorageContext CreateDbContext(string[] args)
     {
-        private readonly IConfiguration _config;
-
-        public FlowerShopStorageContextFactory(IConfiguration config)
-        {
-            _config = config;
-        }
-
-        public FlowerShopStorageContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<FlowerShopStorageContext>();
-            optionsBuilder.UseSqlServer(_config.GetConnectionString("FlowerShopDatabaseConnection"));
-                                           
-            return new FlowerShopStorageContext(optionsBuilder.Options);
-        }
+        var optionsBuilder = new DbContextOptionsBuilder<FlowerShopStorageContext>();
+        optionsBuilder.UseSqlServer(config.GetConnectionString("FlowerShopDatabaseConnection"));
+        return new FlowerShopStorageContext(optionsBuilder.Options);
     }
 }

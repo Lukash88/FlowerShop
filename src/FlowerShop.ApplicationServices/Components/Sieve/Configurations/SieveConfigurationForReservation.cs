@@ -1,23 +1,22 @@
 ﻿using FlowerShop.DataAccess.Core.Entities;
 using Sieve.Services;
 
-namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations
+namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations;
+
+public class SieveConfigurationForReservation : ISieveConfiguration
 {
-    public class SieveConfigurationForReservation : ISieveConfiguration
+    public void Configure(SievePropertyMapper mapper)
     {
-        public void Configure(SievePropertyMapper mapper)
-        {
-            mapper.Property<Reservation>(r => r.DateOfEvent)
-               .CanSort()
-               .CanFilter(); ;
+        mapper.Property<Reservation>(r => r.DateOfEvent)
+            .CanSort()
+            .CanFilter(); ;
 
-            mapper.Property<Reservation>(r => r.EventType)
-                .CanSort()
-                .CanFilter();
+        mapper.Property<Reservation>(r => r.EventType)
+            .CanSort()
+            .CanFilter();
 
-            mapper.Property<Reservation>(r => r.ReservationStatus)
-                .CanSort()
-                .CanFilter();
-        }
+        mapper.Property<Reservation>(r => r.ReservationStatus)
+            .CanSort()
+            .CanFilter();
     }
 }

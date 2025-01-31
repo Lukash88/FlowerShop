@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.Reservation;
@@ -9,51 +7,39 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Reservation;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
+using ReservationEntity = FlowerShop.DataAccess.Core.Entities.Reservation;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Reservation
+namespace FlowerShop.ApplicationServices.API.Handlers.Reservation;
+
+public class GetReservationsHandler(IMapper mapper, IQueryExecutor queryExecutor, ISieveProcessor sieveProcessor,
+    ILogger<GetReservationsHandler> logger) : PagedRequestHandler<GetReservationsRequest, GetReservationsResponse>
 {
-    public class GetReservationsHandler : PagedRequestHandler<GetReservationsRequest, GetReservationsResponse>
+    public override async Task<GetReservationsResponse> Handle(GetReservationsRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ISieveProcessor _sieveProcessor;
-        private readonly ILogger<GetReservationsHandler> _logger;
+        logger.LogInformation("Getting a list of Reservations");
 
-        public GetReservationsHandler(IMapper mapper, IQueryExecutor queryExecutor, 
-            ISieveProcessor sieveProcessor, ILogger<GetReservationsHandler> logger)
-        {                                                                         
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _sieveProcessor = sieveProcessor;
-            _logger = logger;
-        }
-
-        public override async Task<GetReservationsResponse> Handle(GetReservationsRequest request, CancellationToken cancellationToken)
+        var query = new GetReservationsQuery
         {
-            _logger.LogInformation("Getting a list of Reservations");
+            SieveModel = request.SieveModel
+        };
 
-            var query = new GetReservationsQuery()
+        var reservations = await queryExecutor.ExecuteWithSieve(query);
+        if (reservations is null)
+        {
+            return new GetReservationsResponse
             {
-                SieveModel = request.SieveModel
+                Error = new ErrorModel(ErrorType.NotFound)
             };
-
-            var reservations = await _queryExecutor.ExecuteWithSieve(query);
-            if (reservations is null)
-            {
-                return new GetReservationsResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var results = await reservations.ToPagedAsync<DataAccess.Core.Entities.Reservation, ReservationDto>(_sieveProcessor, 
-                _mapper, query.SieveModel, cancellationToken: cancellationToken);
-            var response = new GetReservationsResponse()
-            {
-                Data = results
-            };
-
-            return response;
         }
+
+        var results = await reservations.ToPagedAsync<ReservationEntity, ReservationDto>(sieveProcessor, 
+            mapper, query.SieveModel, cancellationToken: cancellationToken);
+        var response = new GetReservationsResponse
+        {
+            Data = results
+        };
+
+        return response;
     }
 }

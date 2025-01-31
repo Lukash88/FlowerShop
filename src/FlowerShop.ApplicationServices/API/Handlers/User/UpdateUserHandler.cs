@@ -7,56 +7,46 @@ using FlowerShop.DataAccess.Core.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.User
+namespace FlowerShop.ApplicationServices.API.Handlers.User;
+
+public class UpdateUserHandler(IMapper mapper, UserManager<AppUser> userManager)
+    : IRequestHandler<UpdateUserRequest, UpdateUserResponse>
 {
-    public class UpdateUserHandler : IRequestHandler<UpdateUserRequest, UpdateUserResponse>
+    public async Task<UpdateUserResponse> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly UserManager<AppUser> _userManager;
-
-        public UpdateUserHandler(IMapper mapper, UserManager<AppUser> userManager)
+        var getUser = await userManager.Users
+            .SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
+        if (getUser is null)
         {
-            _mapper = mapper;
-            _userManager = userManager;
-        }
-
-        public async Task<UpdateUserResponse> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
-        {
-            var getUser = await _userManager.Users.SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
-            if (getUser is null)
+            return new UpdateUserResponse
             {
-                return new UpdateUserResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            getUser.DisplayName = request.DisplayName;
-            getUser.UserName = request.NewEmail;
-            getUser.DateOfBirth = request.DateOfBirth;
-            getUser.Gender = request.Gender;
-            getUser.Email = request.NewEmail;
-            getUser.PasswordHash = _userManager.PasswordHasher.HashPassword(default, request.NewPassword);
-            
-            var updatedUser = await _userManager.UpdateAsync(getUser);
-            if (!updatedUser.Succeeded)
-            {
-                return new UpdateUserResponse()
-                {
-                    Error = new ErrorModel(ErrorType.BadRequest + " - Problem updating the user")
-                };
-            }
-
-            var mappedUser = _mapper.Map<AppUser, AppUserDto>(getUser);
-            var response = new UpdateUserResponse()
-            {
-                Data = mappedUser
+                Error = new ErrorModel(ErrorType.NotFound)
             };
-
-            return response; 
         }
+
+        getUser.DisplayName = request.DisplayName;
+        getUser.UserName = request.NewEmail;
+        getUser.DateOfBirth = request.DateOfBirth;
+        getUser.Gender = request.Gender;
+        getUser.Email = request.NewEmail;
+        getUser.PasswordHash = userManager.PasswordHasher.HashPassword(default, request.NewPassword);
+            
+        var updatedUser = await userManager.UpdateAsync(getUser);
+        if (!updatedUser.Succeeded)
+        {
+            return new UpdateUserResponse
+            {
+                Error = new ErrorModel(ErrorType.BadRequest + " - Problem updating the user")
+            };
+        }
+
+        var mappedUser = mapper.Map<AppUser, AppUserDto>(getUser);
+        var response = new UpdateUserResponse
+        {
+            Data = mappedUser
+        };
+
+        return response; 
     }
 }

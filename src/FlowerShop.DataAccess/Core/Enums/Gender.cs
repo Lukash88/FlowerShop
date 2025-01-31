@@ -1,16 +1,15 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FlowerShop.DataAccess.Core.Enums
+namespace FlowerShop.DataAccess.Core.Enums;
+
+public enum Gender
 {
-    public enum Gender
-    {
-        [EnumMember(Value = "Male")]
-        Male = 1,
+    [EnumMember(Value = "Male")]
+    Male = 1,
 
-        [EnumMember(Value = "Female")]
-        Female,
+    [EnumMember(Value = "Female")]
+    Female,
 
-        [EnumMember(Value = "Other")]
-        Other       
-    }
+    [EnumMember(Value = "Other")]
+    Other       
 }

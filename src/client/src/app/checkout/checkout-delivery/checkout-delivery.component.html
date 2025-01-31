@@ -3,15 +3,15 @@
         <div class="col-6 form-group" *ngFor="let method of deliveryMethods">
             <input type="radio" 
                 class="form-check-input"
-                value="{{method.id}}"
-                id="{{method.id}}"
+                value="{{ method.id }}"
+                id="{{ method.id }}"
                 formControlName="deliveryMethod"
                 (click)="setShippingPrice(method)"
             >
-            <label for="{{method.id}}" class="form-check-label ms-2 mb-3">
-                <strong>{{method.shortName}} - {{method.price | currency}}</strong>
+            <label for="{{ method.id}}" class="form-check-label ms-2 mb-3">
+                <strong>{{ method.shortName }} - {{ method.price | currency }}</strong>
                 <br>
-                <span class="label-description">{{method.description}}</span>
+                <span class="label-description">{{ method.description }}</span>
             </label>
         </div>
     </div>

@@ -1,17 +1,14 @@
-﻿namespace FlowerShop.ApplicationServices.Components.Flowers
+﻿using System.Xml.Serialization;
+
+namespace FlowerShop.ApplicationServices.Components.FlowersRecords;
+
+[XmlRoot(ElementName = "kategoria")]
+public class TypeOfFlower
 {
-    using System.Collections.Generic;
-    using System.Xml;
-    using System.Xml.Serialization;
+    [XmlElement(ElementName = "nazwa")]
+    public required string Category { get; set; }
 
-    [XmlRoot(ElementName = "kategoria")]
-    public class TypeOfFlower
-    {
-        [XmlElement(ElementName = "nazwa")]
-        public string Category { get; set; }
-
-        [XmlArray("pozycje")]
-        [XmlArrayItem("pozycja")]
-        public List<Flower> Flowers = new List<Flower>();
-    }
+    [XmlArray("pozycje")]
+    [XmlArrayItem("pozycja")]
+    public List<Flower> Flowers = [];
 }

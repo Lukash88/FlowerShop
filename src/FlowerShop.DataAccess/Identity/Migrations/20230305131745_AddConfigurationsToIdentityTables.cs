@@ -8,11 +8,11 @@ namespace FlowerShop.DataAccess.Identity.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Address_AspNetUsers_AppUserId",
-                table: "ShipToAddress");
+                table: "ShippingAddress");
 
             migrationBuilder.DropIndex(
                 name: "IX_Address_AppUserId",
-                table: "ShipToAddress");
+                table: "ShippingAddress");
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserName",
@@ -38,7 +38,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Street",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(50)",
                 maxLength: 50,
                 nullable: false,
@@ -49,7 +49,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "PostalCode",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(20)",
                 maxLength: 20,
                 nullable: false,
@@ -60,7 +60,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "LastName",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(50)",
                 maxLength: 50,
                 nullable: false,
@@ -71,7 +71,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "FirstName",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(50)",
                 maxLength: 50,
                 nullable: false,
@@ -82,7 +82,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "City",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(50)",
                 maxLength: 50,
                 nullable: false,
@@ -93,7 +93,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "AppUserId",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(450)",
                 nullable: false,
                 defaultValue: "",
@@ -103,13 +103,13 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_AppUserId",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 column: "AppUserId",
                 unique: true);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Address_AspNetUsers_AppUserId",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 column: "AppUserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
@@ -120,11 +120,11 @@ namespace FlowerShop.DataAccess.Identity.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Address_AspNetUsers_AppUserId",
-                table: "ShipToAddress");
+                table: "ShippingAddress");
 
             migrationBuilder.DropIndex(
                 name: "IX_Address_AppUserId",
-                table: "ShipToAddress");
+                table: "ShippingAddress");
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserName",
@@ -148,7 +148,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Street",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -157,7 +157,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "PostalCode",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -166,7 +166,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "LastName",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -175,7 +175,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "FirstName",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -184,7 +184,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "City",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -193,7 +193,7 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "AppUserId",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 type: "nvarchar(450)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -201,14 +201,14 @@ namespace FlowerShop.DataAccess.Identity.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_AppUserId",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 column: "AppUserId",
                 unique: true,
                 filter: "[AppUserId] IS NOT NULL");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Address_AspNetUsers_AppUserId",
-                table: "ShipToAddress",
+                table: "ShippingAddress",
                 column: "AppUserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",

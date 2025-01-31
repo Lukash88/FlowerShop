@@ -5,43 +5,31 @@ using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.ApplicationServices.Components.Order;
 using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Order
+namespace FlowerShop.ApplicationServices.API.Handlers.Order;
+
+public class AddOrderHandler(IOrderService orderService, IMapper mapper)
+    : IRequestHandler<AddOrderRequest, AddOrderResponse>
 {
-    public class AddOrderHandler : IRequestHandler<AddOrderRequest, AddOrderResponse>
+    public async Task<AddOrderResponse> Handle(AddOrderRequest request, CancellationToken cancellationToken)
     {
-        private readonly IOrderService _orderService;
-        private readonly IMapper _mapper;
-
-        public AddOrderHandler(IOrderService orderService, IMapper mapper)
+        try
         {
-            _orderService = orderService;
-            _mapper = mapper;
+            var newOrder = await orderService.ProcessOrderRequest(request);
+            var orderDto = mapper.Map<OrderToReturnDto>(newOrder);
+
+            return new AddOrderResponse
+            {
+                Data = orderDto
+            };
         }
-
-        public async Task<AddOrderResponse> Handle(AddOrderRequest request, CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            try
+            // TODO: Log the exception
+            return new AddOrderResponse
             {
-                var newOrder = await _orderService.ProcessOrderRequest(request);
-                var orderDto = _mapper.Map<OrderToReturnDto>(newOrder);
-
-                return new AddOrderResponse
-                {
-                    Data = orderDto
-                };
-            }
-            catch (Exception ex)
-            {
-                // TODO: Log the exception
-                return new AddOrderResponse
-                {
-                    Error = new ErrorModel(ErrorType.BadRequest + " - Problem creating order. " + ex.Message)
-                };
-            }
+                Error = new ErrorModel(ErrorType.BadRequest + " - Problem creating order. " + ex.Message)
+            };
         }
     }
 }

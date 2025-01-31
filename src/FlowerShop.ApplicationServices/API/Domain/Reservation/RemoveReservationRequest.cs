@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Reservation
+namespace FlowerShop.ApplicationServices.API.Domain.Reservation;
+
+public class RemoveReservationRequest : IRequest<RemoveReservationResponse>
 {
-    public class RemoveReservationRequest : IRequest<RemoveReservationResponse>
-    {
-        public int ReservationId { get; init; }
-    }
+    public required int ReservationId { get; init; }
 }

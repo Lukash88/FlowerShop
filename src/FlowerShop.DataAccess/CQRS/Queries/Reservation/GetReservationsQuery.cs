@@ -2,21 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using Sieve.Models;
 using Sieve.Services;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace FlowerShop.DataAccess.CQRS.Queries.Reservation
+namespace FlowerShop.DataAccess.CQRS.Queries.Reservation;
+
+public class GetReservationsQuery : QueryBaseWithSieve<IQueryable<Core.Entities.Reservation>>
 {
-    public class GetReservationsQuery : QueryBaseWithSieve<IQueryable<Core.Entities.Reservation>>
+    public SieveModel SieveModel { get; init; }
+
+    public override async Task<IQueryable<Core.Entities.Reservation>> Execute(FlowerShopStorageContext context,
+        ISieveProcessor sieveProcessor)
     {
-        public SieveModel SieveModel { get; set; }
+        var query = context.Reservations.AsNoTracking();
 
-        public override async Task<IQueryable<Core.Entities.Reservation>> Execute(FlowerShopStorageContext context,
-            ISieveProcessor sieveProcessor)
-        {
-            var query = context.Reservations.AsNoTracking();
-
-            return await Task.FromResult(query);
-        }
+        return await Task.FromResult(query);
     }
 }

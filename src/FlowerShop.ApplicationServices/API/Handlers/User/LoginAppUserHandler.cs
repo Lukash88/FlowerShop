@@ -7,60 +7,43 @@ using FlowerShop.ApplicationServices.Components.Token;
 using FlowerShop.DataAccess.Core.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.User
+namespace FlowerShop.ApplicationServices.API.Handlers.User;
+
+public class LoginAppUserHandler(IMapper mapper, ITokenService tokenService, UserManager<AppUser> userManager,
+    SignInManager<AppUser> signInManager) : IRequestHandler<LoginAppUserRequest, LoginAppUserResponse>
 {
-    public class LoginAppUserHandler : IRequestHandler<LoginAppUserRequest, LoginAppUserResponse>
+    public async Task<LoginAppUserResponse> Handle(LoginAppUserRequest request, 
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IPasswordHasher<AppUser> _passwordHasher;
-        private readonly ITokenService _tokenService;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        var getUser = await userManager.FindByEmailAsync(request.Email);
 
-        public LoginAppUserHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, ITokenService tokenService,
-            UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        if (getUser is null)
         {
-            _mapper = mapper;
-            _passwordHasher = passwordHasher;
-            _tokenService = tokenService;
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
-
-        public async Task<LoginAppUserResponse> Handle(LoginAppUserRequest request, CancellationToken cancellationToken)
-        {
-            var getUser = await _userManager.FindByEmailAsync(request.Email);
-
-            if (getUser is null)
+            return new LoginAppUserResponse
             {
-                return new LoginAppUserResponse()
-                {
-                    Error = new ErrorModel(ErrorType.Unauthorized)
-                };
-            }
-
-            var signInResult = await _signInManager.CheckPasswordSignInAsync(getUser, request.Password, false);
-
-            if (!signInResult.Succeeded)
-            {
-                return new LoginAppUserResponse()
-                {
-                    Error = new ErrorModel(ErrorType.Unauthorized)
-                };
-            }
-
-            var loggedUser = _mapper.Map<UserDto>(getUser);
-            loggedUser.Token = _tokenService.CreateToken(getUser);
-
-            var response = new LoginAppUserResponse()
-            {
-                Data = loggedUser
+                Error = new ErrorModel(ErrorType.Unauthorized)
             };
-
-            return response;
         }
+
+        var signInResult = await signInManager.CheckPasswordSignInAsync(getUser, request.Password, false);
+
+        if (!signInResult.Succeeded)
+        {
+            return new LoginAppUserResponse
+            {
+                Error = new ErrorModel(ErrorType.Unauthorized)
+            };
+        }
+
+        var loggedUser = mapper.Map<UserDto>(getUser);
+        loggedUser.Token = tokenService.CreateToken(getUser);
+
+        var response = new LoginAppUserResponse
+        {
+            Data = loggedUser
+        };
+
+        return response;
     }
 }

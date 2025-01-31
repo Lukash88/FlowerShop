@@ -2,72 +2,64 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Sieve.Models;
-using System.Threading.Tasks;
 
-namespace FlowerShop.Controllers
+namespace FlowerShop.API.Controllers;
+
+[Authorize]
+public class DeliveryMethodsController : ApiControllerBase
 {
-    [Authorize]
-    public class DeliveryMethodsController : ApiControllerBase
+    public DeliveryMethodsController(IMediator mediator, ILogger<DeliveryMethodsController> logger)
+        : base(mediator, logger)
     {
-        public DeliveryMethodsController(IMediator mediator, ILogger<DeliveryMethodsController> logger) 
-            : base(mediator, logger)
+        logger.LogInformation("We are in Delivery Methods");
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> GetAllDeliveryMethods([FromQuery] SieveModel sieveModel)
+    {
+        var request = new GetDeliveryMethodsRequest
         {
-            logger.LogInformation("We are in Delivery Methods");
-        }
+            SieveModel = sieveModel
+        };
 
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("")]
-        public async Task<IActionResult> GetAllDeliveryMethods([FromQuery] SieveModel sieveModel)
+        return await HandleRequest<GetDeliveryMethodsRequest, GetDeliveryMethodsResponse>(request);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("{methodId:int}")]
+    public async Task<IActionResult> GetDeliveryMethodById([FromRoute] int methodId)
+    {
+        var request = new GetDeliveryMethodByIdRequest
         {
-            var request = new GetDeliveryMethodsRequest
-            {
-                SieveModel = sieveModel
-            };
+            MethodId = methodId
+        };
 
-            return await HandleRequest<GetDeliveryMethodsRequest, GetDeliveryMethodsResponse>(request);
-        }
+        return await HandleRequest<GetDeliveryMethodByIdRequest, GetDeliveryMethodByIdResponse>(request);
+    }
 
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("{methodId}")]
-        public async Task<IActionResult> GetDeliveryMethodById([FromRoute] int methodId)
+    [HttpPost]
+    public async Task<IActionResult> AddDeliveryMethod([FromBody] AddDeliveryMethodRequest request) =>
+        await HandleRequest<AddDeliveryMethodRequest, AddDeliveryMethodResponse>(request);
+
+    [HttpDelete("{methodId:int}")]
+    public async Task<IActionResult> RemoveDeliveryMethodById([FromRoute] int methodId)
+    {
+        var request = new RemoveDeliveryMethodRequest
         {
-            var request = new GetDeliveryMethodByIdRequest
-            {
-                MethodId = methodId
-            };
+            MethodId = methodId
+        };
 
-            return await HandleRequest<GetDeliveryMethodByIdRequest, GetDeliveryMethodByIdResponse>(request);
-        }
+        return await HandleRequest<RemoveDeliveryMethodRequest, RemoveDeliveryMethodResponse>(request);
+    }
 
-        [HttpPost]
-        [Route("")]
-        public async Task<IActionResult> AddDeliveryMethod([FromBody] AddDeliveryMethodRequest request) =>
-            await HandleRequest<AddDeliveryMethodRequest, AddDeliveryMethodResponse>(request);
+    [HttpPut("{methodId:int}")]
+    public async Task<IActionResult> UpdateDeliveryMethodById([FromRoute] int methodId,
+        [FromBody] UpdateDeliveryMethodRequest request)
+    {
+        request.MethodId = methodId;
 
-        [HttpDelete]
-        [Route("{methodId}")]
-        public async Task<IActionResult> RemoveDeliveryMethodById([FromRoute] int methodId)
-        {
-            var request = new RemoveDeliveryMethodRequest
-            {
-                MethodId = methodId
-            };
-
-            return await HandleRequest<RemoveDeliveryMethodRequest, RemoveDeliveryMethodResponse>(request);
-        }
-
-        [HttpPut]
-        [Route("{methodId}")]
-        public async Task<IActionResult> UpdateDeliveryMethodById([FromRoute] int methodId,
-            [FromBody] UpdateDeliveryMethodRequest request)
-        {
-            request.MethodId = methodId;
-
-            return await HandleRequest<UpdateDeliveryMethodRequest, UpdateDeliveryMethodResponse>(request);
-        }
+        return await HandleRequest<UpdateDeliveryMethodRequest, UpdateDeliveryMethodResponse>(request);
     }
 }

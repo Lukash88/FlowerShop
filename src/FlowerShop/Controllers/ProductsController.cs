@@ -1,71 +1,64 @@
-﻿using System.Threading.Tasks;
-using FlowerShop.ApplicationServices.API.Domain.Product;
+﻿using FlowerShop.ApplicationServices.API.Domain.Product;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Sieve.Models;
 
-namespace FlowerShop.Controllers
+namespace FlowerShop.API.Controllers;
+
+[Authorize]
+public class ProductsController : ApiControllerBase
 {
-    [Authorize]
-    public class ProductsController : ApiControllerBase
+    public ProductsController(IMediator mediator, ILogger<ProductsController> logger) : base(mediator, logger)
     {
-        public ProductsController(IMediator mediator, ILogger<ProductsController> logger) : base(mediator, logger)
+        logger.LogInformation("We are in Products");
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> GetAllProducts([FromQuery] SieveModel sieveModel)
+    {
+        var request = new GetProductsRequest
         {
-            logger.LogInformation("We are in Products");
-        }
+            SieveModel = sieveModel
+        };
 
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("")]
-        public async Task<IActionResult> GetAllProducts([FromQuery] SieveModel sieveModel)
-        {            
-            var request = new GetProductsRequest
-            {
-                SieveModel = sieveModel
-            };
+        return await HandleRequest<GetProductsRequest, GetProductsResponse>(request);
+    }
 
-            return await HandleRequest<GetProductsRequest, GetProductsResponse>(request);
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("{productId}")]
-        public async Task<IActionResult> GetProductById([FromRoute] int productId)
+    [AllowAnonymous]
+    [HttpGet("{productId:int}")]
+    public async Task<IActionResult> GetProductById([FromRoute] int productId)
+    {
+        var request = new GetProductByIdRequest()
         {
-            var request = new GetProductByIdRequest()
-            {
-                ProductId = productId
-            };
+            ProductId = productId
+        };
 
-            return await HandleRequest<GetProductByIdRequest, GetProductByIdResponse>(request);
-        }
+        return await HandleRequest<GetProductByIdRequest, GetProductByIdResponse>(request);
+    }
 
-        [HttpPost]
-        [Route("")]
-        public async Task<IActionResult> AddProduct([FromBody] AddProductRequest request) =>
-            await HandleRequest<AddProductRequest, AddProductResponse>(request);
+    [HttpPost]
+    public async Task<IActionResult> AddProduct([FromBody] AddProductRequest request) =>
+        await HandleRequest<AddProductRequest, AddProductResponse>(request);
 
-        [HttpDelete]
-        [Route("{productId}")]
-        public async Task<IActionResult> RemoveProductById([FromRoute] int productId)
+    [HttpDelete("{productId:int}")]
+    public async Task<IActionResult> RemoveProductById([FromRoute] int productId)
+    {
+        var request = new RemoveProductRequest()
         {
-            var request = new RemoveProductRequest()
-            {
-                ProductId = productId
-            };
+            ProductId = productId
+        };
 
-            return await HandleRequest<RemoveProductRequest, RemoveProductResponse>(request);
-        }
+        return await HandleRequest<RemoveProductRequest, RemoveProductResponse>(request);
+    }
 
-        [HttpPut]
-        [Route("{productId}")]
-        public async Task<IActionResult> UpdateProductById([FromRoute] int productId, [FromBody] UpdateProductRequest request)
-        {
-            request.ProductId = productId;
+    [HttpPut("{productId:int}")]
+    public async Task<IActionResult> UpdateProductById([FromRoute] int productId,
+        [FromBody] UpdateProductRequest request)
+    {
+        request.ProductId = productId;
 
-            return await HandleRequest<UpdateProductRequest, UpdateProductResponse>(request);
-        }
+        return await HandleRequest<UpdateProductRequest, UpdateProductResponse>(request);
     }
 }

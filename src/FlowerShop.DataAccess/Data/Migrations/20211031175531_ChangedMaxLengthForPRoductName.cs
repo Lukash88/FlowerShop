@@ -2,7 +2,7 @@
 
 namespace FlowerShop.DataAccess.Data.Migrations
 {
-    public partial class remove : Migration
+    public partial class ChangedMaxLengthForPRoductName : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -3,64 +3,46 @@ using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.User;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
-using FlowerShop.ApplicationServices.Components.Token;
 using FlowerShop.DataAccess.Core.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.User
+namespace FlowerShop.ApplicationServices.API.Handlers.User;
+
+public class UpdateUserAddressHandler(IMapper mapper, UserManager<AppUser> userManager)
+    : IRequestHandler<UpdateUserAddressRequest, UpdateUserAddressResponse>
 {
-    public class UpdateUserAddressHandler : IRequestHandler<UpdateUserAddressRequest, UpdateUserAddressResponse>
+    public async Task<UpdateUserAddressResponse> Handle(UpdateUserAddressRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IPasswordHasher<AppUser> _passwordHasher;
-        private readonly ITokenService _tokenService;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-
-        public UpdateUserAddressHandler(IMapper mapper, IPasswordHasher<AppUser> passwordHasher, ITokenService tokenService,
-            UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        var getUser = await userManager.Users.Include(x => x.Address)
+            .SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
+        if (getUser is null)
         {
-            _mapper = mapper;
-            _passwordHasher = passwordHasher;
-            _tokenService = tokenService;
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
-
-        public async Task<UpdateUserAddressResponse> Handle(UpdateUserAddressRequest request, CancellationToken cancellationToken)
-        {
-            var getUser = await _userManager.Users.Include(x => x.Address)
-                .SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
-            if (getUser is null)
+            return new UpdateUserAddressResponse
             {
-                return new UpdateUserAddressResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            getUser.Address = _mapper.Map<UpdateUserAddressRequest, Address>(request);
-            var updatedUser = await _userManager.UpdateAsync(getUser);
-
-            if (!updatedUser.Succeeded)
-            {
-                return new UpdateUserAddressResponse()
-                {
-                    Error = new ErrorModel(ErrorType.BadRequest + " - Problem updating the user")
-                };
-            }
-            var addressDto = _mapper.Map<Address, AddressDto>(getUser.Address);
-
-            var response = new UpdateUserAddressResponse()
-            {
-                Data = addressDto
+                Error = new ErrorModel(ErrorType.NotFound)
             };
-
-            return response;
         }
+
+        getUser.Address = mapper.Map<UpdateUserAddressRequest, Address>(request);
+        var updatedUser = await userManager.UpdateAsync(getUser);
+
+        if (!updatedUser.Succeeded)
+        {
+            return new UpdateUserAddressResponse
+            {
+                Error = new ErrorModel(ErrorType.BadRequest + " - Problem updating the user")
+            };
+        }
+        var addressDto = mapper.Map<Address, AddressDto>(getUser.Address);
+
+        var response = new UpdateUserAddressResponse
+        {
+            Data = addressDto
+        };
+
+        return response;
     }
 }

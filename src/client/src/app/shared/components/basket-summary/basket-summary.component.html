@@ -13,38 +13,38 @@
             <tr *ngFor="let item of basket.items">
                 <th>
                     <div class="p-2 d-inline-block">
-                        <img src="{{item.imageUrl}}" 
-                            alt="picture of {{item.name}}" 
+                        <img src="{{ item.imageUrl }}" 
+                            alt="picture of {{ item.name }}" 
                             class="img-fluid"
                             style="max-height: 50px"
                         >
                         <div class="mx-3 d-inline-block align-middle">
                             <h5 class="mb-0">
-                                <a routerLink="/shop/{{item.id}}" class="text-decoration-none text-dark">
-                                    {{item.name}}
+                                <a routerLink="/shop/{{ item.id }}" class="text-decoration-none text-dark">
+                                    {{ item.name }}
                                 </a>
                             </h5>
                             <span class="text-muted fw-normal fst-italic d-block">
-                                Category: {{item.category}}
+                                Category: {{ item.category }}
                             </span>
                         </div>
                     </div>
                 </th>
-                <td class="align-middle text-center"><strong>{{item.price | currency}}</strong></td>
+                <td class="align-middle text-center"><strong>{{ item.price | currency }}</strong></td>
                 <td class="align-middle">
                     <div class="d-flex align-items-center justify-content-center">
                         <i *ngIf="isBasket" class="fa fa-minus-circle text-warning m-2"
                             style="cursor: pointer; font-size: 2em;"
                             (click)="removeBasketItem(item.id, 1)"
                         ></i>
-                        <strong style="font-size: 1.2em;">{{item.quantity}}</strong>
+                        <strong style="font-size: 1.2em;">{{ item.quantity }}</strong>
                         <i *ngIf="isBasket" class="fa fa-plus-circle text-info mx-2"
                             style="cursor: pointer; font-size: 2em;"
                             (click)="addBasketItem(item)"
                         ></i>
                     </div>
                 </td>
-                <td class="align-middle text-center"><strong>{{item.price * item.quantity | currency}}</strong></td>
+                <td class="align-middle text-center"><strong>{{ item.price * item.quantity | currency }}</strong></td>
                 <td class="align-middle text-center" *ngIf="isBasket">
                     <a class="text-danger">
                         <i class="fa fa-trash "

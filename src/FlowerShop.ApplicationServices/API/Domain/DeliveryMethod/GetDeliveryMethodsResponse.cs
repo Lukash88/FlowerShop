@@ -1,8 +1,7 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 
-namespace FlowerShop.ApplicationServices.API.Domain.DeliveryMethod
+namespace FlowerShop.ApplicationServices.API.Domain.DeliveryMethod;
+
+public class GetDeliveryMethodsResponse : ResponseBase<PagedResponse<DeliveryMethodDto>>
 {
-    public class GetDeliveryMethodsResponse : ResponseBase<PagedResponse<DeliveryMethodDto>>
-    {
-    }
 }

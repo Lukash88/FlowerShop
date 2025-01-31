@@ -2,21 +2,20 @@
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
 
-namespace FlowerShop.DataAccess.Core.Enums
+namespace FlowerShop.DataAccess.Core.Enums;
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum Category
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum Category
-    {
-        [EnumMember(Value = "Pot")]
-        Pot = 1,
+    [EnumMember(Value = "Pot")]
+    Pot = 1,
 
-        [EnumMember(Value = "Ribbon")]
-        Ribbon,
+    [EnumMember(Value = "Ribbon")]
+    Ribbon,
 
-        [EnumMember(Value = "Foam")]
-        Foam,
+    [EnumMember(Value = "Foam")]
+    Foam,
 
-        [EnumMember(Value = "Basket")]
-        Basket
-    }
+    [EnumMember(Value = "Basket")]
+    Basket
 }

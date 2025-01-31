@@ -7,54 +7,38 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.DeliveryMethod;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod
+namespace FlowerShop.ApplicationServices.API.Handlers.DeliveryMethod;
+
+public class GetDeliveryMethodsHandler(IMapper mapper, IQueryExecutor queryExecutor, ISieveProcessor sieveProcessor,
+    ILogger<GetDeliveryMethodsHandler> logger) : PagedRequestHandler<GetDeliveryMethodsRequest, GetDeliveryMethodsResponse>
 {
-    public class GetDeliveryMethodsHandler : PagedRequestHandler<GetDeliveryMethodsRequest, GetDeliveryMethodsResponse>
+    public override async Task<GetDeliveryMethodsResponse> Handle(GetDeliveryMethodsRequest request,
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-        private readonly ISieveProcessor _sieveProcessor;
-        private readonly ILogger<GetDeliveryMethodsHandler> _logger;
+        logger.LogInformation("Getting a list of Delivery Methods");
 
-        public GetDeliveryMethodsHandler(IMapper mapper, IQueryExecutor queryExecutor,
-            ISieveProcessor sieveProcessor, ILogger<GetDeliveryMethodsHandler> logger)
+        var query = new GetDeliveryMethodsQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
-            _sieveProcessor = sieveProcessor;
-            _logger = logger;
+            SieveModel = request.SieveModel
+        };
+
+        var deliveryMethods = await queryExecutor.ExecuteWithSieve(query);
+        if (deliveryMethods is null)
+        {
+            return new GetDeliveryMethodsResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public override async Task<GetDeliveryMethodsResponse> Handle(GetDeliveryMethodsRequest request,
-            CancellationToken cancellationToken)
+        var results = await deliveryMethods.ToPagedAsync<DataAccess.Core.Entities.OrderAggregate.DeliveryMethod,
+            DeliveryMethodDto>(sieveProcessor, mapper, query.SieveModel, cancellationToken: cancellationToken);
+        var response = new GetDeliveryMethodsResponse
         {
-            _logger.LogInformation("Getting a list of Delivery Methods");
+            Data = results
+        };
 
-            var query = new GetDeliveryMethodsQuery()
-            {
-                SieveModel = request.SieveModel
-            };
-
-            var deliveryMethods = await _queryExecutor.ExecuteWithSieve(query);
-            if (deliveryMethods is null)
-            {
-                return new GetDeliveryMethodsResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var results = await deliveryMethods.ToPagedAsync<DataAccess.Core.Entities.OrderAggregate.DeliveryMethod,
-                DeliveryMethodDto>(_sieveProcessor, _mapper, query.SieveModel, cancellationToken: cancellationToken);
-            var response = new GetDeliveryMethodsResponse()
-            {
-                Data = results
-            };
-
-            return response;
-        }
+        return response;
     }
 }

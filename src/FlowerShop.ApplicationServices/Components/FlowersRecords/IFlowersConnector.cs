@@ -1,12 +1,7 @@
-﻿namespace FlowerShop.ApplicationServices.Components.Flowers
-{
-    using FlowerShop.ApplicationServices.Components.FlowersRecords;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿namespace FlowerShop.ApplicationServices.Components.FlowersRecords;
 
-    public interface IFlowersConnector
-    {
-        Task<string> DownloadPageAsync(string url);
-        Task<List<string>> GetFlowersByType(string flowerType);
-    }
+public interface IFlowersConnector
+{
+    Task<string> DownloadPageAsync(string url);
+    Task<List<string>> GetFlowersByType(string flowerType);
 }

@@ -1,7 +1,6 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain
+﻿namespace FlowerShop.ApplicationServices.API.Domain;
+
+public class ResponseBase<T> : ErrorResponseBase
 {
-    public class ResponseBase<T> : ErrorResponseBase
-    {
-        public T Data { get; set; }
-    }
+    public T? Data { get; set; }
 }

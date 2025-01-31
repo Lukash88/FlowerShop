@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
@@ -9,50 +7,38 @@ using FlowerShop.DataAccess.CQRS.Commands.Order;
 using FlowerShop.DataAccess.CQRS.Queries.Order;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Order
+namespace FlowerShop.ApplicationServices.API.Handlers.Order;
+
+public class RemoveOrderHandler(IMapper mapper, ICommandExecutor commandExecutor, IQueryExecutor queryExecutor)
+    : IRequestHandler<RemoveOrderRequest, RemoveOrderResponse>
 {
-    public class RemoveOrderHandler : IRequestHandler<RemoveOrderRequest, RemoveOrderResponse>
+    public async Task<RemoveOrderResponse> Handle(RemoveOrderRequest request, CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly ICommandExecutor _commandExecutor;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public RemoveOrderHandler(IMapper mapper, ICommandExecutor commandExecutor, IQueryExecutor queryExecutor)
+        var query = new GetOrderQuery
         {
-            _mapper = mapper;
-            _commandExecutor = commandExecutor;
-            _queryExecutor = queryExecutor;
+            Id = request.OrderId
+        };
+        var getOrder = await queryExecutor.Execute(query);
+        if (getOrder is null)
+        {
+            return new RemoveOrderResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<RemoveOrderResponse> Handle(RemoveOrderRequest request, CancellationToken cancellationToken)
+        var mappedOrder = mapper.Map<DataAccess.Core.Entities.OrderAggregate.Order>(request);
+        var command = new RemoveOrderCommand
         {
-            var query = new GetOrderQuery()
-            {
-                Id = request.OrderId
-            };
-            var getOrder = await _queryExecutor.Execute(query);
-            if (getOrder is null)
-            {
-                return new RemoveOrderResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
-
-            var mappedOrder = _mapper.Map<DataAccess.Core.Entities.OrderAggregate.Order>(request);
-            var command = new RemoveOrderCommand()
-            {
-                Parameter = mappedOrder
-            };
-            var removedOrder = await _commandExecutor.Execute(command);
-            removedOrder.DeliveryMethod = new();
+            Parameter = mappedOrder
+        };
+        var removedOrder = await commandExecutor.Execute(command);
             
-            var response = new RemoveOrderResponse()
-            {
-                Data = _mapper.Map<Domain.Models.OrderToReturnDto>(removedOrder)
-            };
+        var response = new RemoveOrderResponse
+        {
+            Data = mapper.Map<Domain.Models.OrderToReturnDto>(removedOrder)
+        };
 
-            return response;
-        }
+        return response;
     }
 }

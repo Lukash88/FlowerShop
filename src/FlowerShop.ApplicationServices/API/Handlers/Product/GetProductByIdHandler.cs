@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
 using FlowerShop.ApplicationServices.API.Domain.Product;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
@@ -8,41 +6,33 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Product;
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Handlers.Product
+namespace FlowerShop.ApplicationServices.API.Handlers.Product;
+
+public class GetProductByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+    : IRequestHandler<GetProductByIdRequest, GetProductByIdResponse>
 {
-    public class GetProductByIdHandler : IRequestHandler<GetProductByIdRequest, GetProductByIdResponse>
+    public async Task<GetProductByIdResponse> Handle(GetProductByIdRequest request, 
+        CancellationToken cancellationToken)
     {
-        private readonly IMapper _mapper;
-        private readonly IQueryExecutor _queryExecutor;
-
-        public GetProductByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
+        var query = new GetProductQuery
         {
-            _mapper = mapper;
-            _queryExecutor = queryExecutor;
+            Id = request.ProductId
+        };
+        var product = await queryExecutor.Execute(query);
+        if (product is null)
+        {
+            return new GetProductByIdResponse
+            {
+                Error = new ErrorModel(ErrorType.NotFound)
+            };
         }
 
-        public async Task<GetProductByIdResponse> Handle(GetProductByIdRequest request, CancellationToken cancellationToken)
+        var mappedProduct = mapper.Map<Domain.Models.ProductDto>(product);
+        var response = new GetProductByIdResponse
         {
-            var query = new GetProductQuery()
-            {
-                Id = request.ProductId
-            };
-            var product = await _queryExecutor.Execute(query);
-            if (product is null)
-            {
-                return new GetProductByIdResponse()
-                {
-                    Error = new ErrorModel(ErrorType.NotFound)
-                };
-            }
+            Data = mappedProduct
+        };
 
-            var mappedProduct = _mapper.Map<Domain.Models.ProductDto>(product);
-            var response = new GetProductByIdResponse()
-            {
-                Data = mappedProduct
-            };
-
-            return response;
-        }
+        return response;
     }
 }

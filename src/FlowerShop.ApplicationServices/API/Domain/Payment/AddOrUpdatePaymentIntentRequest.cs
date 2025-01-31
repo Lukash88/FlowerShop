@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Payment
+namespace FlowerShop.ApplicationServices.API.Domain.Payment;
+
+public sealed class AddOrUpdatePaymentIntentRequest : IRequest<AddOrUpdatePaymentIntentResponse>
 {
-    public sealed class AddOrUpdatePaymentIntentRequest : IRequest<AddOrUpdatePaymentIntentResponse>
-    {
-        public string BasketId { get; set; }
-    }
+    public string BasketId { get; set; } = string.Empty;
 }

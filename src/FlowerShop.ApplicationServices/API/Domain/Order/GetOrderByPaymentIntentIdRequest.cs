@@ -1,9 +1,8 @@
 using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.Order
+namespace FlowerShop.ApplicationServices.API.Domain.Order;
+
+public sealed class GetOrderByPaymentIntentIdRequest : IRequest<GetOrderByPaymentIntentIdResponse>
 {
-    public sealed class GetOrderByPaymentIntentIdRequest : IRequest<GetOrderByPaymentIntentIdResponse>
-    {
-        public string Id { get; init; }
-    }
+    public required string Id { get; init; }
 }

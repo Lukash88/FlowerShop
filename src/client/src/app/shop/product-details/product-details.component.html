@@ -1,14 +1,14 @@
 <div class="container mt-5">
     <div class="row" *ngIf="product">
         <div class="col-6">
-            <img src="{{product.imageUrl}}" alt="picture of product: {{product.name}}" class="img-fluid w-100">
+            <img src="{{ product.imageUrl }}" alt="picture of product: {{ product.name }}" class="img-fluid w-100">
         </div>
         <div class="col-6">
-            <h3>{{product.name}}</h3>
-            <p style="font-size: 2em;">{{product.price | currency}}</p>
+            <h3>{{ product.name }}</h3>
+            <p style="font-size: 2em;">{{ product.price | currency }}</p>
 
             <h5 class="text-primary mb-3" *ngIf="quantityInBasket > 0">
-                You have {{quantityInBasket}} of this item in your basket
+                You have {{ quantityInBasket }} of this item in your basket
             </h5>
 
             <div class="d-flex justify-content-start align-items-center">
@@ -16,8 +16,8 @@
                     (click)="decrementQuantity()"
                     class="fa fa-minus-circle text-warning m-2" 
                     style="cursor: pointer; font-size: 2em;"></i>
-                <span class="font-weight-bold" style="font-size: 1.5em;">
-                    {{quantity}}
+                <span class="fw-bold" style="font-size: 1.5em;">
+                    {{ quantity }}
                 </span>
                 <i 
                     (click)="incrementQuantity()"
@@ -27,13 +27,13 @@
                     class="btn btn-outline-primary btn-lg ms-4"
                     (click)="updateBasket()"
                     [disabled]="quantity === quantityInBasket"
-                >{{buttonText}}</button>
+                >{{ buttonText }}</button>
             </div>
         </div>
         <div class="row mt-5">
-            <div class="col-12 ml-3">
+            <div class="col-12 ms-3">
                 <h4>Description</h4>
-                <p>{{product.longDescription}}</p>
+                <p>{{ product.longDescription }}</p>
             </div>
         </div>
     </div>    

@@ -2,19 +2,12 @@
 using Sieve.Models;
 using Sieve.Services;
 
-namespace FlowerShop.ApplicationServices.Components.Sieve
-{
-    public class ApplicationSieveProcessor : SieveProcessor
-    {
-        public ApplicationSieveProcessor(
-            IOptions<SieveOptions> options)
-            : base(options)
-        {
-        }
+namespace FlowerShop.ApplicationServices.Components.Sieve;
 
-        protected override SievePropertyMapper MapProperties(SievePropertyMapper mapper)
-        {
-            return mapper.ApplyConfigurationsFromAssembly(typeof(ApplicationSieveProcessor).Assembly);
-        }
+public class ApplicationSieveProcessor(IOptions<SieveOptions> options) : SieveProcessor(options)
+{
+    protected override SievePropertyMapper MapProperties(SievePropertyMapper mapper)
+    {
+        return mapper.ApplyConfigurationsFromAssembly(typeof(ApplicationSieveProcessor).Assembly);
     }
 }

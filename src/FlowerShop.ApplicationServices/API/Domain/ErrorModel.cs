@@ -1,12 +1,6 @@
-﻿namespace FlowerShop.ApplicationServices.API.Domain
-{
-    public class ErrorModel
-    {
-        public ErrorModel(string error)
-        {
-            Error = error;
-        }
+﻿namespace FlowerShop.ApplicationServices.API.Domain;
 
-        public string Error { get; }
-    }
+public class ErrorModel(string error)
+{
+    public string Error { get; } = error;
 }

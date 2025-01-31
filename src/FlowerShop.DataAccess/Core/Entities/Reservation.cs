@@ -1,24 +1,22 @@
-﻿using System;
-using FlowerShop.DataAccess.Core.Entities.Interfaces;
+﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
 using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using FlowerShop.DataAccess.Core.Enums;
 
-namespace FlowerShop.DataAccess.Core.Entities
-{
-    public class Reservation : IEntityBase
-    {
-        public int Id { get; set; }
-        public DateTime DateOfEvent { get; set; }
-        public DateTime ReservedOn { get; set; }
-        public ReservationStateEnum ReservationStatus{ get; set; }
-        public EventType EventType { get; set; }
-        public string EventDescription { get; set; }
-        public string EventStreet { get; set; }
-        public string EventCity { get; set; }
-        public string EventPostalCode { get; set; }
-        public decimal? ServicePrice { get; set; }
+namespace FlowerShop.DataAccess.Core.Entities;
 
-        public Order Order { get; set; }
-        public int OrderId { get; set; }
-    }
+public class Reservation : IEntityBase
+{
+    public int Id { get; init; }
+    public required DateTime DateOfEvent { get; init; }
+    public DateTime ReservedOn { get; init; }
+    public required ReservationState ReservationStatus { get; init; }
+    public required EventType EventType { get; init; }
+    public required string EventDescription { get; init; }
+    public required string EventStreet { get; init; }
+    public required string EventCity { get; init; }
+    public required string EventPostalCode { get; init; }
+    public decimal? ServicePrice { get; init; }
+
+    public Order? Order { get; init; }
+    public int OrderId { get; init; }
 }

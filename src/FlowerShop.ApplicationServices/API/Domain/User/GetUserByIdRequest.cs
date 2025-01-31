@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace FlowerShop.ApplicationServices.API.Domain.User
+namespace FlowerShop.ApplicationServices.API.Domain.User;
+
+public class GetUserByIdRequest : IRequest<GetUserByIdResponse>
 {
-    public class GetUserByIdRequest : IRequest<GetUserByIdResponse>
-    {
-        public int UserId { get; init; }
-    }
+    public required int UserId { get; init; }
 }
