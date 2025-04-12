@@ -9,7 +9,7 @@ using FlowerShop.ApplicationServices.Mappings;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.Data;
 using FlowerShop.DataAccess.Repositories.AppRepository;
-using FlowerShop.DataAccess.Repositories.BasketRepository;
+using FlowerShop.DataAccess.Repositories.CartRepository;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +28,8 @@ internal static class ApplicationServiceExtensions
             opt.UseSqlServer(config.GetConnectionString("FlowerShopDatabaseConnection")));
         services.AddSingleton<IConnectionMultiplexer>(c =>
         {
-            var configuration = ConfigurationOptions.Parse(config.GetConnectionString("Redis")!, true);
+            var connString = config.GetConnectionString("Redis") ?? throw new Exception("Cannot get Redis connection string");
+            var configuration = ConfigurationOptions.Parse(connString, true);
 
             return ConnectionMultiplexer.Connect(configuration);
         });
@@ -40,7 +41,7 @@ internal static class ApplicationServiceExtensions
         services.AddValidatorsFromAssemblyContaining<AddBouquetRequestValidator>();
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IBasketRepository, BasketRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IOrderService, OrderService>();
