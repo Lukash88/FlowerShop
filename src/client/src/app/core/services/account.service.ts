@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, of, tap, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Address, User } from '../shared/models/user';
 import { Router } from '@angular/router';
-import { IValidationResponse } from '../shared/models/validationResponse';
+import { Address, User } from 'src/app/shared/models/user';
+import { IValidationResponse } from 'src/app/shared/models/validationResponse';
 
 @Injectable({
   providedIn: 'root'

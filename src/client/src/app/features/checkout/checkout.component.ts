@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AccountService } from '../account/account.service';
-import { BasketService } from '../basket/basket.service';
+import { BasketService } from 'src/app/basket/basket.service';
+import { AccountService } from 'src/app/core/services/account.service';
 
 @Component({
     selector: 'app-checkout',
@@ -44,10 +44,10 @@ export class CheckoutComponent implements OnInit {
   }
 
   getDeliveryMethodValue() {
-    const basket = this.basketService.getCurrentBasketValue();
-    if (basket && basket.deliveryMethodId) {
+    const cart = this.basketService.getCurrentBasketValue();
+    if (cart && cart.deliveryMethodId) {
       this.checkoutForm.get('deliveryForm')?.get('deliveryMethod')
-        ?.patchValue(basket.deliveryMethodId.toString());
+        ?.patchValue(cart.deliveryMethodId.toString());
     }
   }
  }

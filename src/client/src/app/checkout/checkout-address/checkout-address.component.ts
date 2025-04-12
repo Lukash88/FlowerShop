@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AccountService } from 'src/app/account/account.service';
 import { BasketService } from 'src/app/basket/basket.service';
+import { AccountService } from 'src/app/core/services/account.service';
 
 @Component({
     selector: 'app-checkout-address',

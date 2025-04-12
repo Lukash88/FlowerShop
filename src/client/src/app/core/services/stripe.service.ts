@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { loadStripe, Stripe, StripeAddressElement, StripeAddressElementOptions, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements } from '@stripe/stripe-js';
 import { BehaviorSubject, firstValueFrom, map } from 'rxjs';
-import { AccountService } from 'src/app/account/account.service';
 import { BasketService } from 'src/app/basket/basket.service';
-import { Basket } from 'src/app/shared/models/basket';
+import { Cart } from 'src/app/shared/models/cart';
 import { environment } from 'src/environments/environment';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 export class StripeService {
   baseUrl = environment.apiUrl;
   private stripePromise?: Promise<Stripe | null>;  
-  private basketSource = new BehaviorSubject<Basket | null>(null);
+  private basketSource = new BehaviorSubject<Cart | null>(null);
 
   private elements?: StripeElements;
   private addressElement?: StripeAddressElement;
@@ -41,9 +41,9 @@ export class StripeService {
     if (!this.elements) {
       const stripe = await this.getStripeInstance();
       if (stripe) {
-        const basket = await firstValueFrom(this.createOrUpdatePaymentIntent());
+        const cart = await firstValueFrom(this.createOrUpdatePaymentIntent());
         this.elements = stripe.elements(
-          { clientSecret: basket.clientSecret, appearance: { labels: 'floating' }});
+          { clientSecret: cart.clientSecret, appearance: { labels: 'floating' }});
       } else {
         throw new Error('Stripe has not been loaded');
       }
@@ -67,16 +67,16 @@ export class StripeService {
   }
 
   createOrUpdatePaymentIntent() {
-    const basket = this.basketService.getCurrentBasketValue();
-    if (!basket) throw new Error('Problem with basket');
-    return this.http.post<Basket>(this.baseUrl + 'payments/' + basket.id, { })
+    const cart = this.basketService.getCurrentBasketValue();
+    if (!cart) throw new Error('Problem with cart');
+    return this.http.post<Cart>(this.baseUrl + 'payments/' + cart.id, { })
     .pipe(
-      map((basket: any) => {        
-        basket = basket.data;
-        this.basketService.setBasket(basket);
-        console.log(basket);
-        this.basketSource.next(basket);
-        return basket;
+      map((cart: any) => {        
+        cart = cart.data;
+        this.basketService.setBasket(cart);
+        console.log(cart);
+        this.basketSource.next(cart);
+        return cart;
       })
     );
   }

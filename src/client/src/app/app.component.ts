@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BasketService } from './basket/basket.service';
-import { AccountService } from './account/account.service';
+import { CartService } from './core/services/cart.service';
+import { AccountService } from './core/services/account.service';
 
 @Component({
     selector: 'app-root',
@@ -11,16 +11,16 @@ import { AccountService } from './account/account.service';
 export class AppComponent implements OnInit {
   title = 'FlowerShop';
   
-  constructor(private basketService: BasketService, private accountService: AccountService) {}
+  constructor(private cartService: CartService, private accountService: AccountService) {}
 
   ngOnInit(): void {
-    this.loadBasket();
+    this.loadCart();
     this.loadCurrentUser();
   }  
 
-  loadBasket() {
-    const basketId = localStorage.getItem('basket_id');
-    if (basketId) this.basketService.getBasket(basketId);
+  loadCart() {
+    const cartId = localStorage.getItem('cart_id');
+    if (cartId) this.cartService.getCart(cartId);
   }
 
   loadCurrentUser() {

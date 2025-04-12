@@ -1,8 +1,7 @@
 export class ShopParams {
     sort = 'name';
-    sortSelected = 'name';
-    categorySelected: string;
+    categories: string[];
     pageNumber = 1;
-    pageSize = 3;
+    pageSize = 10;
     search = '';
-} 
+}

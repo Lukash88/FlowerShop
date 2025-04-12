@@ -1,11 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, 
   FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { AccountService } from '../account.service';
 import { Router } from '@angular/router';
 import { GenderEnum } from 'src/app/shared/models/gender';
 import { catchError, debounceTime, finalize, 
   map, switchMap, take, of } from 'rxjs';
+import { AccountService } from 'src/app/core/services/account.service';
 
 @Component({
     selector: 'app-register',

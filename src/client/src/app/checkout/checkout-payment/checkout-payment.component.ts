@@ -1,13 +1,13 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BasketService } from 'src/app/basket/basket.service';
-import { CheckoutService } from '../checkout.service';
 import { Basket } from 'src/app/shared/models/basket';
 import { Address } from 'src/app/shared/models/user';
 import { NavigationExtras, Router } from '@angular/router';
 import { Stripe, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, loadStripe } from '@stripe/stripe-js';
 import { firstValueFrom } from 'rxjs';
 import { OrderToCreate } from 'src/app/shared/models/order';
+import { CheckoutService } from 'src/app/core/services/checkout.service';
 
 @Component({
     selector: 'app-checkout-payment',

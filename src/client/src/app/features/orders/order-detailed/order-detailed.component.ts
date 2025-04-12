@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OrdersService } from '../orders/orders.service';
-import { Order } from '../shared/models/order';
 import { ActivatedRoute } from '@angular/router';
+import { OrdersService } from 'src/app/core/services/order.service';
+import { Order } from 'src/app/shared/models/order';
 import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { DeliveryMethod } from '../shared/models/deliveryMethod';
 import { map } from 'rxjs';
-import { Order, OrderToCreate } from '../shared/models/order';
+import { Order, OrderToCreate } from 'src/app/shared/models/order';
+import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
 
 @Injectable({
   providedIn: 'root'

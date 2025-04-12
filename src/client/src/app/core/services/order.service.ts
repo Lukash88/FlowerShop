@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Order, PaginationParams } from 'src/app/shared/models/order';
+import { Pagination } from 'src/app/shared/models/pagination';
 import { environment } from 'src/environments/environment';
-import { Order, PaginationParams } from '../shared/models/order';
-import { Pagination } from '../shared/models/pagination';
 
 @Injectable({
   providedIn: 'root'

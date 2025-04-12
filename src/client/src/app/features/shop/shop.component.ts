@@ -1,9 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CategoryEnum } from '../shared/models/category';
-import { Product } from '../shared/models/product';
-import { ShopParams } from '../shared/models/shopParams';
-import { ShopService } from './shop.service';
-
+import { ShopService } from 'src/app/core/services/shop.service';
+import { CategoryEnum } from 'src/app/shared/models/category';
+import { Product } from 'src/app/shared/models/product';
+import { ShopParams } from 'src/app/shared/models/shopParams';
 @Component({
     selector: 'app-shop',
     templateUrl: './shop.component.html',
@@ -42,13 +41,13 @@ export class ShopComponent implements OnInit {
   }  
   
   onCategorySelected(categoryName: CategoryEnum): void {
-    this.shopParams.categorySelected = categoryName;
+    this.shopParams.categories = categoryName;
     this.shopParams.pageNumber = 1;
     this.getProducts();
   }
 
   onSortSelected(sort: string) {
-    this.shopParams.sortSelected = sort;
+    this.shopParams.sort = sort;
     this.getProducts();
   }
 

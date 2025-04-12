@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Order } from '../shared/models/order';
-import { OrdersService } from './orders.service';
-import { PaginationParams } from '../shared/models/order';
+import { OrdersService } from 'src/app/core/services/order.service';
+import { Order, PaginationParams } from 'src/app/shared/models/order';
 
 @Component({
     selector: 'app-orders',
