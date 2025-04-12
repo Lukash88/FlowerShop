@@ -14,11 +14,11 @@ public sealed class AddOrUpdatePaymentIntentHandler(IPaymentService paymentServi
     {
         try
         {
-            var basket = await paymentService.CreateOrUpdatePaymentIntent(request.BasketId);
+            var cart = await paymentService.CreateOrUpdatePaymentIntent(request.CartId);
 
             return new AddOrUpdatePaymentIntentResponse
             {
-                Data = basket
+                Data = cart
             };
         }
         catch (Exception ex)
@@ -26,7 +26,7 @@ public sealed class AddOrUpdatePaymentIntentHandler(IPaymentService paymentServi
             // TODO: Log the exception
             return new AddOrUpdatePaymentIntentResponse
             {
-                Error = new ErrorModel(ErrorType.BadRequest + " - Problem with your basket. " + ex.Message)
+                Error = new ErrorModel(ErrorType.BadRequest + " - Problem with your cart. " + ex.Message)
             };
         }
     }

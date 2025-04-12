@@ -10,7 +10,7 @@ const routes: Routes = [
     loadChildren: () => import('./checkout/checkout.module').then(m => m.CheckoutModule) 
   },
   { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) },
-  { path: 'basket', loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule) },
+  { path: 'cart', loadChildren: () => import('./cart/cart.module').then(m => m.CartModule) },
   { 
     path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule), 
     data: { breadcrumb: { skip: true }} 
