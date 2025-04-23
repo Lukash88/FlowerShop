@@ -8,9 +8,15 @@
                 <div class="col-3">
                     <xng-breadcrumb>
                         <ng-container *xngBreadcrumbItem="let breadcrumb">
-                            {{breadcrumb | titlecase}}
+                            {{ breadcrumb | titlecase }}
                         </ng-container>
                     </xng-breadcrumb>
+
+                    <xng-breadcrumb>
+                        <ng-container *xngBreadcrumbItem="let breadcrumb">
+                          {{ breadcrumb | titlecase }}
+                        </ng-container>
+                      </xng-breadcrumb>
                 </div>
             </div>
         </div>

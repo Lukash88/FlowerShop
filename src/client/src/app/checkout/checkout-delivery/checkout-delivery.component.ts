@@ -1,15 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BasketService } from 'src/app/basket/basket.service';
 import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
 import { take } from 'rxjs';
 import { CheckoutService } from 'src/app/core/services/checkout.service';
+import { CartService } from 'src/app/core/services/cart.service';
 
 @Component({
     selector: 'app-checkout-delivery',
+    standalone: true,
     templateUrl: './checkout-delivery.component.html',
-    styleUrls: ['./checkout-delivery.component.scss'],
-    standalone: false
+    styleUrls: ['./checkout-delivery.component.scss']
 })
 export class CheckoutDeliveryComponent implements OnInit {
   @Input() checkoutForm?: FormGroup;
@@ -17,20 +17,20 @@ export class CheckoutDeliveryComponent implements OnInit {
 
   constructor(
     private checkoutService: CheckoutService,
-    private basketService: BasketService
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.checkoutService.getDeliveryMethods().subscribe({
       next: (dm) => {
         if (
-          this.basketService.basketSource$.pipe(take(1)).subscribe({
-            next: (basket) => {
-              if (basket) {
+          this.cartService.cartSource$.pipe(take(1)).subscribe({
+            next: (cart) => {
+              if (cart) {
                 const method = this.deliveryMethods?.find(
-                  (x) => x.id === basket.deliveryMethodId
+                  (x) => x.id === cart.deliveryMethodId
                 );
-                this.basketService.setShippingPrice(method);
+                this.cartService.setShippingPrice(method);
               }
             },
           })
@@ -41,6 +41,6 @@ export class CheckoutDeliveryComponent implements OnInit {
   }
 
   setShippingPrice(deliveryMethod: DeliveryMethod) {
-    this.basketService.setShippingPrice(deliveryMethod);
+    this.cartService.setShippingPrice(deliveryMethod);
   }
 }

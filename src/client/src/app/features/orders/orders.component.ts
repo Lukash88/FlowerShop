@@ -4,9 +4,9 @@ import { Order, PaginationParams } from 'src/app/shared/models/order';
 
 @Component({
     selector: 'app-orders',
+    standalone: true,
     templateUrl: './orders.component.html',
-    styleUrls: ['./orders.component.scss'],
-    standalone: false
+    styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
   orders: Order[] = [];

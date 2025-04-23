@@ -4,9 +4,9 @@ import { AccountService } from './core/services/account.service';
 
 @Component({
     selector: 'app-root',
+    standalone: true,
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+    styleUrls: ['./app.component.scss']    
 })
 export class AppComponent implements OnInit {
   title = 'FlowerShop';

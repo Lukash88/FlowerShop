@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { BasketService } from 'src/app/basket/basket.service';
 import { AccountService } from 'src/app/core/services/account.service';
+import { CartService } from 'src/app/core/services/cart.service';
 
 @Component({
     selector: 'app-checkout',
+    standalone: true,
     templateUrl: './checkout.component.html',
-    styleUrls: ['./checkout.component.scss'],
-    standalone: false
+    styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private accountService: AccountService,
-    private basketService: BasketService) {}
+    private cartService: CartService) {}
 
   ngOnInit(): void {
     this.getAddressFormValues();
@@ -44,7 +44,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   getDeliveryMethodValue() {
-    const cart = this.basketService.getCurrentBasketValue();
+    const cart = this.cartService.getCurrentCartValue();
     if (cart && cart.deliveryMethodId) {
       this.checkoutForm.get('deliveryForm')?.get('deliveryMethod')
         ?.patchValue(cart.deliveryMethodId.toString());

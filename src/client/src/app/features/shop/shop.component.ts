@@ -5,9 +5,9 @@ import { Product } from 'src/app/shared/models/product';
 import { ShopParams } from 'src/app/shared/models/shopParams';
 @Component({
     selector: 'app-shop',
+    standalone: true,
     templateUrl: './shop.component.html',
-    styleUrls: ['./shop.component.scss'],
-    standalone: false
+    styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
   @ViewChild('search', { static: false }) searchTerm: ElementRef;  

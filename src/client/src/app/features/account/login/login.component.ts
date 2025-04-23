@@ -5,9 +5,9 @@ import { AccountService } from 'src/app/core/services/account.service';
 
 @Component({
     selector: 'app-login',
+    standalone: true,
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    standalone: false
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);

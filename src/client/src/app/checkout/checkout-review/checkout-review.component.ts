@@ -1,20 +1,20 @@
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, Input } from '@angular/core';
-import { BasketService } from 'src/app/basket/basket.service';
+import { CartService } from 'src/app/core/services/cart.service';
 
 @Component({
     selector: 'app-checkout-review',
+    standalone: true,
     templateUrl: './checkout-review.component.html',
-    styleUrls: ['./checkout-review.component.scss'],
-    standalone: false
+    styleUrls: ['./checkout-review.component.scss']
 })
 export class CheckoutReviewComponent {
   @Input() appStepper?: CdkStepper;
 
-  constructor(private basketService: BasketService) { }
+  constructor(private cartService: CartService) { }
 
   createPaymentIntent(){
-    this.basketService.createPaymentIntent().subscribe({
+    this.cartService.createPaymentIntent().subscribe({
       next: () => {
         console.log('Payment intent created');
         this.appStepper?.next();

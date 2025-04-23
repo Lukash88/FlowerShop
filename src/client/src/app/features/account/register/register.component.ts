@@ -9,9 +9,9 @@ import { AccountService } from 'src/app/core/services/account.service';
 
 @Component({
     selector: 'app-register',
+    standalone: true,
     templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss'],
-    standalone: false
+    styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
   private fb = inject(FormBuilder);

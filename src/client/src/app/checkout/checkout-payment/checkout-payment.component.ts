@@ -1,19 +1,19 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BasketService } from 'src/app/basket/basket.service';
-import { Basket } from 'src/app/shared/models/basket';
+import { Cart } from 'src/app/shared/models/cart';
 import { Address } from 'src/app/shared/models/user';
 import { NavigationExtras, Router } from '@angular/router';
 import { Stripe, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, loadStripe } from '@stripe/stripe-js';
 import { firstValueFrom } from 'rxjs';
 import { OrderToCreate } from 'src/app/shared/models/order';
 import { CheckoutService } from 'src/app/core/services/checkout.service';
+import { CartService } from 'src/app/core/services/cart.service';
 
 @Component({
     selector: 'app-checkout-payment',
+    standalone: true,
     templateUrl: './checkout-payment.component.html',
-    styleUrls: ['./checkout-payment.component.scss'],
-    standalone: false
+    styleUrls: ['./checkout-payment.component.scss']
 })
 export class CheckoutPaymentComponent implements OnInit {
   @Input() checkoutForm?: FormGroup;
@@ -30,11 +30,11 @@ export class CheckoutPaymentComponent implements OnInit {
   cardErrors: any;
   loading = false;
 
-  constructor(private basketService: BasketService, private checkoutService: CheckoutService,
+  constructor(private cartService: CartService, private checkoutService: CheckoutService,
     private router: Router) {}
 
   ngOnInit(): void {
-    loadStripe('pk_test_51Nj9M5I7hJ2kV0EoXpYz3sGVRPvZNE6uRpz19zHJZQY5SGwoT11Tful2F8Cbb3qemUIP0PbvVh3SnFjjeeeU21NS00ZGATX4cA')
+    loadStripe('publishable_test_key')
       .then(stripe => {
         this.stripe = stripe;
         const elements = stripe?.elements();
@@ -73,13 +73,13 @@ export class CheckoutPaymentComponent implements OnInit {
 
   async submitOrder() {
     this.loading = true;
-    const basket = this.basketService.getCurrentBasketValue();
-    if (!basket) throw new Error('Cannot get basket');
+    const cart = this.cartService.getCurrentCartValue();
+    if (!cart) throw new Error('Cannot get cart');
     try {
-      const createdOrder = await this.createOrder(basket);
-      const paymentResult = await this.confirmPaymentWithStripe(basket);
+      const createdOrder = await this.createOrder(cart);
+      const paymentResult = await this.confirmPaymentWithStripe(cart);
       if (paymentResult.paymentIntent) {
-        this.basketService.deleteBasket(basket);        
+        this.cartService.deleteCart(cart);        
         const navigationExtras: NavigationExtras = { state: createdOrder };
         this.router.navigate(['checkout/success'], navigationExtras);
       } else {
@@ -92,9 +92,9 @@ export class CheckoutPaymentComponent implements OnInit {
     }
   }
 
-  private async confirmPaymentWithStripe(basket: Basket | null) {
-    if (!basket) throw new Error('Basket is null');
-    const result = this.stripe?.confirmCardPayment(basket.clientSecret!, {
+  private async confirmPaymentWithStripe(cart: Cart | null) {
+    if (!cart) throw new Error('Cart is null');
+    const result = this.stripe?.confirmCardPayment(cart.clientSecret!, {
       payment_method: {
         card: this.cardNumber!,
         billing_details: {
@@ -106,18 +106,18 @@ export class CheckoutPaymentComponent implements OnInit {
     return result;
   }  
   
-  private async createOrder(basket: Basket | null) {
-    if (!basket) throw new Error('Basket is null');
-    const orderToCreate = this.getOrderToCreate(basket);    
+  private async createOrder(cart: Cart | null) {
+    if (!cart) throw new Error('Cart is null');
+    const orderToCreate = this.getOrderToCreate(cart);    
     return firstValueFrom(this.checkoutService.createOrder(orderToCreate));
   }
 
-  private getOrderToCreate(basket: Basket): OrderToCreate {
+  private getOrderToCreate(cart: Cart): OrderToCreate {
     const deliveryMethodId = this.checkoutForm?.get('deliveryForm')?.get('deliveryMethod')?.value;
     const shipToAddress = this.checkoutForm?.get('addressForm')?.value as Address;    
-    if (!deliveryMethodId || !shipToAddress) throw new Error('Problem with basket');
+    if (!deliveryMethodId || !shipToAddress) throw new Error('Problem with cart');
     return {
-      basketId: basket.id,
+      basketId: cart.id,
       deliveryMethodId: deliveryMethodId,
       shipToAddress: shipToAddress
     }

@@ -1,15 +1,15 @@
 <div class="container mt-5">
-    <div *ngIf="(basketService.basketSource$ | async) === null">
-        <p>There are no items in your basket</p>
+    <div *ngIf="(cartService.cartSource$ | async) === null">
+        <p>There are no items in your cart</p>
     </div>
 
-    <ng-container *ngIf="(basketService.basketSource$ | async) as basket">
+    <ng-container *ngIf="(cartService.cartSource$ | async) as cart">
         <div class="container">
             <div class="row">
-                <app-basket-summary
+                <app-cart-summary
                     (addItem)="incrementQuantity($event)"
                     (removeItem)="removeItem($event)">
-                </app-basket-summary>
+                </app-cart-summary>
             </div>
 
             <div class="row">

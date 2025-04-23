@@ -1,27 +1,27 @@
-<div class="table-responsive" *ngIf="(basketService.basketSource$ | async) as basket">
+<div class="table-responsive" *ngIf="(cartService.cartSource$ | async) as cart">
     <table class="table">
-        <thead class="text-uppercase" [class.bg-light]="isBasket">
+        <thead class="text-uppercase" [class.bg-light]="isCart">
             <tr>
                 <th><div class="py-2">Product</div></th>
                 <th><div class="py-2 text-center">Price</div></th>
                 <th><div class="py-2 text-center">Quantity</div></th>
                 <th><div class="py-2 text-center">Total</div></th>
-                <th *ngIf="isBasket" class="align-middle text-center"><div class="py-2">Remove</div></th>
+                <th *ngIf="isCart" class="align-middle text-center"><div class="py-2">Remove</div></th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of basket.items">
+            <tr *ngFor="let item of cart.items">
                 <th>
                     <div class="p-2 d-inline-block">
                         <img src="{{ item.imageUrl }}" 
-                            alt="picture of {{ item.name }}" 
+                            alt="picture of {{ item.productName }}" 
                             class="img-fluid"
                             style="max-height: 50px"
                         >
                         <div class="mx-3 d-inline-block align-middle">
                             <h5 class="mb-0">
-                                <a routerLink="/shop/{{ item.id }}" class="text-decoration-none text-dark">
-                                    {{ item.name }}
+                                <a routerLink="/shop/{{ item.productId }}" class="text-decoration-none text-dark">
+                                    {{ item.productName }}
                                 </a>
                             </h5>
                             <span class="text-muted fw-normal fst-italic d-block">
@@ -33,23 +33,23 @@
                 <td class="align-middle text-center"><strong>{{ item.price | currency }}</strong></td>
                 <td class="align-middle">
                     <div class="d-flex align-items-center justify-content-center">
-                        <i *ngIf="isBasket" class="fa fa-minus-circle text-warning m-2"
+                        <i *ngIf="isCart" class="fa fa-minus-circle text-warning m-2"
                             style="cursor: pointer; font-size: 2em;"
-                            (click)="removeBasketItem(item.id, 1)"
+                            (click)="removeCartItem(item.productId)"
                         ></i>
                         <strong style="font-size: 1.2em;">{{ item.quantity }}</strong>
-                        <i *ngIf="isBasket" class="fa fa-plus-circle text-info mx-2"
+                        <i *ngIf="isCart" class="fa fa-plus-circle text-info mx-2"
                             style="cursor: pointer; font-size: 2em;"
-                            (click)="addBasketItem(item)"
+                            (click)="addCartItem(item)"
                         ></i>
                     </div>
                 </td>
                 <td class="align-middle text-center"><strong>{{ item.price * item.quantity | currency }}</strong></td>
-                <td class="align-middle text-center" *ngIf="isBasket">
+                <td class="align-middle text-center" *ngIf="isCart">
                     <a class="text-danger">
                         <i class="fa fa-trash "
                             style="cursor: pointer; font-size: 2em;"
-                            (click)="removeBasketItem(item.id, item.quantity)"
+                            (click)="removeCartItem(item.productId, item.quantity)"
                         ></i>
                     </a>
                 </td>
