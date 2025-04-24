@@ -64,7 +64,7 @@ public class OrdersProfile : Profile
             .ReverseMap();
 
         CreateMap<AddOrderRequest, UpdateOrderRequest>()
-            .ForMember(dest => dest.BasketId, opt => opt.MapFrom(src => src.BasketId))
+            .ForMember(dest => dest.CartId, opt => opt.MapFrom(src => src.CartId))
             .ForMember(dest => dest.BuyerEmail, opt => opt.MapFrom(src => src.BuyerEmail))
             .ForPath(dest => dest.ShipToShippingAddress.FirstName, opt => opt.MapFrom(src => src.ShippingAddress.FirstName))
             .ForPath(dest => dest.ShipToShippingAddress.LastName, opt => opt.MapFrom(src => src.ShippingAddress.LastName))

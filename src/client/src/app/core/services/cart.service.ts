@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Cart, CartItem, CartTotals } from 'src/app/shared/models/cart';
 import { Product } from 'src/app/shared/models/product';
 import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
+
 @Injectable({
   providedIn: 'root',
 })

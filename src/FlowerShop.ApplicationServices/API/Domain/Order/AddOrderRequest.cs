@@ -7,7 +7,7 @@ namespace FlowerShop.ApplicationServices.API.Domain.Order;
 
 public class AddOrderRequest : IRequest<AddOrderResponse>
 {
-    public string? BasketId { get; init; }
+    public string? CartId { get; init; }
     public string? BuyerEmail { get; set; }
     public ShippingAddress? ShippingAddress { get; init; }
     public int DeliveryMethodId { get; init; }

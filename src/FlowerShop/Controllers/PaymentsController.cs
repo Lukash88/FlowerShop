@@ -13,11 +13,11 @@ public sealed class PaymentsController : ApiControllerBase
         logger.LogInformation("We are in Payments");
     }
 
-    [HttpPost("{basketId}")]
-    public async Task<IActionResult> AddOrUpdatePaymentIntent([FromRoute] string basketId,
+    [HttpPost("{cartId}")]
+    public async Task<IActionResult> AddOrUpdatePaymentIntent([FromRoute] string cartId,
         [FromBody] AddOrUpdatePaymentIntentRequest request)
     {
-        request.BasketId = basketId;
+        request.CartId = cartId;
 
         return await HandleRequest<AddOrUpdatePaymentIntentRequest, AddOrUpdatePaymentIntentResponse>(request);
     }

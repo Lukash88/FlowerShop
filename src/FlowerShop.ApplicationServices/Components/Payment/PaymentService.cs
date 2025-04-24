@@ -3,7 +3,7 @@ using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Core.Enums;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Product;
-using FlowerShop.DataAccess.Repositories.BasketRepository;
+using FlowerShop.DataAccess.Repositories.CartRepository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -12,25 +12,25 @@ using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Payment;
 
-public sealed class PaymentService(IConfiguration config, IBasketRepository basketRepository,
+public sealed class PaymentService(IConfiguration config, ICartRepository cartRepository,
     IQueryExecutor queryExecutor, IDeliveryMethodService deliveryMethodService,
     IOrderData orderData, ILogger<PaymentService> logger) : IPaymentService
 {
-    public async Task<CustomerBasket?> CreateOrUpdatePaymentIntent(string basketId)
+    public async Task<ShoppingCart?> CreateOrUpdatePaymentIntent(string cartId)
     {
         StripeConfiguration.ApiKey = config["StripeSettings:SecretKey"];
-        var basket = await basketRepository.GetBasketAsync(basketId);
-        if (basket is null) return null;
+        var cart = await cartRepository.GetCartAsync(cartId);
+        if (cart is null) return null;
 
-        var shippingPrice = await GetShippingPrice(basket.DeliveryMethodId);
+        var shippingPrice = await GetShippingPrice(cart.DeliveryMethodId);
         if (shippingPrice is null) return null;
 
-        if (!await UpdateBasketItemsPrices(basket.Items)) return null;
+        if (!await UpdateCartItemsPrices(cart.Items)) return null;
 
-        await CreateOrUpdateIntent(basket, shippingPrice.Value);
-        await basketRepository.UpdateBasketAsync(basket);
+        await CreateOrUpdateIntent(cart, shippingPrice.Value);
+        await cartRepository.UpdateCartAsync(cart);
 
-        return basket;
+        return cart;
     }
 
     private async Task<decimal?> GetShippingPrice(int? deliveryMethodId)
@@ -41,11 +41,11 @@ public sealed class PaymentService(IConfiguration config, IBasketRepository bask
         return deliveryMethod?.Price;
     }
 
-    private async Task<bool> UpdateBasketItemsPrices(List<BasketItem> items)
+    private async Task<bool> UpdateCartItemsPrices(List<CartItem> items)
     {
         foreach (var item in items)
         {
-            var productItem = await queryExecutor.Execute(new GetProductQuery { Id = item.Id });
+            var productItem = await queryExecutor.Execute(new GetProductQuery { Id = item.ProductId });
             if (productItem is null) return false;
 
             if (item.Price != productItem.Price)
@@ -56,12 +56,12 @@ public sealed class PaymentService(IConfiguration config, IBasketRepository bask
         return true;
     }
 
-    private async Task CreateOrUpdateIntent(CustomerBasket basket, decimal shippingPrice)
+    private async Task CreateOrUpdateIntent(ShoppingCart cart, decimal shippingPrice)
     {
         var service = new PaymentIntentService();
-        var amount = CalculateTotalAmount(basket.Items, shippingPrice);
+        var amount = CalculateTotalAmount(cart.Items, shippingPrice);
 
-        if (string.IsNullOrEmpty(basket.PaymentIntentId))
+        if (string.IsNullOrEmpty(cart.PaymentIntentId))
         {
             var options = new PaymentIntentCreateOptions
             {
@@ -71,17 +71,17 @@ public sealed class PaymentService(IConfiguration config, IBasketRepository bask
             };
 
             var intent = await service.CreateAsync(options);
-            basket.PaymentIntentId = intent.Id;
-            basket.ClientSecret = intent.ClientSecret;
+            cart.PaymentIntentId = intent.Id;
+            cart.ClientSecret = intent.ClientSecret;
         }
         else
         {
             var options = new PaymentIntentUpdateOptions { Amount = amount };
-            await service.UpdateAsync(basket.PaymentIntentId, options);
+            await service.UpdateAsync(cart.PaymentIntentId, options);
         }
     }
 
-    private static long CalculateTotalAmount(IEnumerable<BasketItem> items, decimal shippingPrice)
+    private static long CalculateTotalAmount(IEnumerable<CartItem> items, decimal shippingPrice)
     {
         var itemsTotal = items.Sum(i => i.Quantity * i.Price);
         return (long)((itemsTotal + shippingPrice) * 100);
