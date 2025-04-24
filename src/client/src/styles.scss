@@ -1,28 +1,61 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 
-/* Importing Bootstrap SCSS file. */
-@import "bootstrap/scss/bootstrap";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Importing Bootswatch United Theme files. */
-@import "node_modules/bootswatch/dist/spacelab/_variables";
-@import "node_modules/bootswatch/dist/spacelab/bootstrap";
-@import "node_modules/bootswatch/dist/spacelab/_bootswatch";
+$customTheme: mat.define-theme();
 
-/* Importing Datepicker SCSS file. */
-@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+@include mat.core();
 
-/* Importing Ngx Spinner Ball-fussion Theme files. */
-@import "node_modules/ngx-spinner/animations/ball-fussion.css";
+.custom-theme {
+    @include mat.all-component-themes($customTheme);
+
+    // override the button styles
+    .mdc-button, .mdc-raised-button, .mdc-stroked-button, .mdc-flat-button {
+        @apply rounded-md
+    }
+}
+
+.container {
+    @apply mx-auto max-w-screen-2xl
+}
+
+.text-primary {
+    color: #7d00fa;
+}
+
+button.match-input-height {
+    height: var(--mat-form-field-container-height) !important;
+}
+
+.mdc-notched-outline__notch {
+    border-right-style: none !important
+}
+
+.mat-mdc-snack-bar-container.snack-error {
+    --mdc-snackbar-container-color: red;
+    --mat-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+}
+
+.mat-mdc-snack-bar-container.snack-success {
+    --mdc-snackbar-container-color: green;
+    --mat-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 
 .xng-breadcrumb-root {
-    padding: 8px 16x;   
+    padding: 8px 16px;
     display: inline;
     border-radius: 0;
 }
 
 label.xng-breadcrumb-trail {
     margin-bottom: 0;
-    font-weight: bold;;
+    font-weight: bold;
     color: royalblue;
 }
 
