@@ -3,5 +3,5 @@ export interface Pagination<T> {
     pageSize: number;
     pageCount: number;
     rowCount: number;
-    results: T;
+    results: T[];
 }
