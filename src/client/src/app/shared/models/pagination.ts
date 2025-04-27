@@ -5,3 +5,11 @@ export interface Pagination<T> {
     rowCount: number;
     results: T[];
 }
+
+export const PageSizeOptions: number[] =
+[
+    5, 
+    10, 
+    15, 
+    20
+];
