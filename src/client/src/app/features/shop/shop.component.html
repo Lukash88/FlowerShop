@@ -1,41 +1,31 @@
 @if (products) {
     <div class="container mt-5">
-        <div class="row">
-
-            <section class="col-3">
-                <h5 class="text-warning ms-3 mt-4 mb-4">Sort</h5>
-                <select class="form-select mb-3" (change)="onSortSelected($event.target.value)">
-                    <option *ngFor="let sort of sortOptions" [value]="sort.value
-                ">
-                        {{ sort.name }}
-                    </option>
-                </select>
-                <h5 class="text-warning ms-3 mt-4 mb-4">Categories</h5>
-
-                <ul class="list-group my-3">
-                    <li class="list-group-item" *ngFor="let category of categories | keyvalue"
-                        [class.active]="category.value === this.shopParams.categorySelected" [value]="category.value"
-                        (click)="onCategorySelected(category.value)
-                    ">
-                        {{ category.key }}
-                    </li>
-                </ul>
-            </section>
-
+        <div class="row">            
             <section class="col-9">
                 <div class="d-flex justify-content-between align-items-center pb-2">
                     <mat-paginator 
-                        class="bg-white"
-                        (page)="handlePageEvent($event)"
-                        [length]="products.rowCount"
-                        [pageSize]="products.pageSize"
-                        [showFirstLastButtons]="true"
-                        [pageSizeOptions]="pageSizeOptions"
-                        [pageIndex]="shopParams.pageNumber - 1"
-                        aria-label="Select page"
+                    class="bg-white"
+                    (page)="handlePageEvent($event)"
+                    [length]="products.rowCount"
+                    [pageSize]="products.pageSize"
+                    [showFirstLastButtons]="true"
+                    [pageSizeOptions]="pageSizeOptions"
+                    [pageIndex]="shopParams.pageNumber - 1"
+                    aria-label="Select page"
                     >
-                    </mat-paginator>
-
+                </mat-paginator>
+                
+                <div class="flex gap-3">
+                    <button 
+                        class="match-input-height"
+                        mat-stroked-button
+                        (click)="openFiltersDialog()"
+                    >
+                        <mat-icon>filter_list</mat-icon>
+                        Filters
+                    </button>
+                </div>
+                
                     <div class="d-flex flex-row align-items-center flex-wrap mt-2" *ngIf="products">
                         <input (keyup.enter)="onSearch()" class="form-control me-2" #search style="width: 300px"
                             placeholder="Search" type="text">
