@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { ShopService } from 'src/app/core/services/shop.service';
 import { Product } from 'src/app/shared/models/product';
 import { PageSizeOptions, ShopParams, SortOptions } from 'src/app/shared/models/shopParams';
 import { ProductItemComponent } from './product-item/product-item.component';
 import { Pagination } from 'src/app/shared/models/pagination';
-import { MatSelectionListChange } from '@angular/material/list';
+import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { MatIcon } from '@angular/material/icon-module.d-BeibE7j0';
 import { MatDialog } from '@angular/material/dialog.d-Dvsbu-0E';
 import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component';
@@ -21,9 +21,11 @@ import { FiltersDialogComponent } from './filters-dialog/filters-dialog.componen
       FormsModule,
       MatPaginator,
       MatIcon,
+      MatMenu,
       MatMenuTrigger,
-      ProductItemComponent,
-      FiltersDialogComponent
+      MatSelectionList,
+      MatListOption,
+      ProductItemComponent
     ],
     templateUrl: './shop.component.html',
     styleUrls: ['./shop.component.scss']
@@ -83,9 +85,14 @@ export class ShopComponent implements OnInit {
     }
   }
 
-  onSortSelected(sort: string) {
-    this.shopParams.sort = sort;
-    this.getProducts();
+  onSortChanged(event: MatSelectionListChange) {
+    const selectedOption = event.options[0];
+    if (selectedOption) {
+      this.shopParams.sort = selectedOption.value;
+      this.shopParams.pageNumber = 1;
+      this.getProducts();
+      console.log(this.shopParams.sort);
+    }
   }
 
   onSearch() {

@@ -24,6 +24,14 @@
                         <mat-icon>filter_list</mat-icon>
                         Filters
                     </button>
+                    <button
+                    class="match-input-height"
+                    mat-stroked-button
+                    [mat-menu-trigger-for]="sortMenu"
+                >
+                    <mat-icon>swap_vert</mat-icon>
+                    Sort
+                </button>
                 </div>
                 
                     <div class="d-flex flex-row align-items-center flex-wrap mt-2" *ngIf="products">
@@ -42,4 +50,14 @@
             </section>
         </div>
     </div>
+
+    <mat-menu #sortMenu="matMenu">
+        <mat-selection-list [multiple]="false" (selectionChange)="onSortChanged($event)">
+            @for (sort of sortOptions; track $index) {
+            <mat-list-option [value]="sort.value" [selected]="shopParams.sort === sort.value">
+                {{ sort.name }}
+            </mat-list-option>
+            }
+        </mat-selection-list>
+    </mat-menu>
 }
