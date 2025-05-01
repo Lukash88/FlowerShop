@@ -34,8 +34,8 @@
                 [label]="'Postal Code'"></app-text-input>
             <app-text-input [formControl]="$any(registerForm.controls['city'])" [label]="'City'"></app-text-input>
 
-            <ul class="text-danger list-unstyled" *ngIf="errors">
-                <li *ngFor="let error of errors">
+            <ul class="text-danger list-unstyled" *ngIf="validationErrors">
+                <li *ngFor="let error of validationErrors">
                     {{ error | json }}
                 </li>
             </ul>
