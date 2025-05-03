@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { MatBadge } from '@angular/material/badge';
+import { MatProgressBar } from '@angular/material/progress-bar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CartService } from 'src/app/core/services/cart.service';
 import { BusyService } from 'src/app/core/services/busy.service';
@@ -14,7 +15,8 @@ import { BusyService } from 'src/app/core/services/busy.service';
     RouterLinkActive,
     MatIcon,
     MatButton,
-    MatBadge
+    MatBadge,
+    MatProgressBar
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
@@ -22,7 +24,5 @@ import { BusyService } from 'src/app/core/services/busy.service';
 export class HeaderComponent {
   busyService = inject(BusyService);
   cartService = inject(CartService);
-
-  // cartId = this.cartService.cart().id;
-  // cartId = this.cartService.cart.id;
+  
 }
