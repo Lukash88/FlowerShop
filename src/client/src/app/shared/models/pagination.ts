@@ -3,5 +3,13 @@ export interface Pagination<T> {
     pageSize: number;
     pageCount: number;
     rowCount: number;
-    results: T;
+    results: T[];
 }
+
+export const PageSizeOptions: number[] =
+[
+    5, 
+    10, 
+    15, 
+    20
+];

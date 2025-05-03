@@ -1,15 +1,25 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, 
-  FormGroup, ValidatorFn, Validators } from '@angular/forms';
+  FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GenderEnum } from 'src/app/shared/models/gender';
 import { catchError, debounceTime, finalize, 
   map, switchMap, take, of } from 'rxjs';
 import { AccountService } from 'src/app/core/services/account.service';
+import { TextInputComponent } from 'src/app/shared/components/text-input/text-input.component';
+import { CommonModule, JsonPipe } from '@angular/common';
+import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
 
 @Component({
     selector: 'app-register',
     standalone: true,
+    imports: [
+      CommonModule,
+      TextInputComponent,
+      DatePickerComponent,
+      ReactiveFormsModule,
+      JsonPipe
+    ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })
@@ -20,9 +30,9 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup = new FormGroup({});
   complexPassword =
     "(?=^.{8,20}$)(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*s).*$";
-  errors: string[] | null = [];
+  validationErrors: string[] | undefined;
   email: string;
-
+  maxDate = new Date();
   genders = [
     { value: GenderEnum.None, text: 'Prefer not to say' },
     { value: GenderEnum.Male, text: 'Male' },
@@ -33,6 +43,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 13)
   }
 
   initializeForm() {
@@ -71,14 +82,12 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.registerForm.valid) return;
-
-    this.accountService
-      .register(this.registerForm.value)
-      .pipe(catchError((response: any) => (this.errors = response.error)))
-      .subscribe(() =>
-        this.router.navigateByUrl('/shop')
-      );
+    const dob = this.getDateOnly(this.registerForm.get('dateOfBirth')?.value);
+    this.registerForm.patchValue({ dateOfBirth: dob });
+    this.accountService.register(this.registerForm.value).subscribe({
+      next: _ => this.router.navigateByUrl('/shop'),
+      error: error => this.validationErrors = error
+    })
   }
 
   validateEmailNotTaken(): AsyncValidatorFn {
@@ -91,7 +100,7 @@ export class RegisterComponent implements OnInit {
           return this.accountService.checkEmailExists(this.email).pipe(
             catchError((response: any) => {
               {
-                this.errors.push(response.error);
+                this.validationErrors.push(response.error);
                 return of([]);
               }
             }),
@@ -112,11 +121,6 @@ export class RegisterComponent implements OnInit {
 
   private getDateOnly(dob: string | undefined) {
     if (!dob) return;
-    let theDob = new Date(dob);
-    return new Date(
-      theDob.setMinutes(theDob.getMinutes() - theDob.getTimezoneOffset())
-    )
-      .toISOString()
-      .slice(0, 10);
-  }
+    return new Date(dob).toISOString().slice(0, 10);
+  } 
 }

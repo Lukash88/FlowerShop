@@ -1,28 +1,44 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { ShopService } from 'src/app/core/services/shop.service';
-import { CategoryEnum } from 'src/app/shared/models/category';
 import { Product } from 'src/app/shared/models/product';
-import { ShopParams } from 'src/app/shared/models/shopParams';
+import { PageSizeOptions, ShopParams, SortOptions } from 'src/app/shared/models/shopParams';
+import { ProductItemComponent } from './product-item/product-item.component';
+import { Pagination } from 'src/app/shared/models/pagination';
+import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
+import { MatIcon } from '@angular/material/icon-module.d-BeibE7j0';
+import { MatDialog } from '@angular/material/dialog.d-Dvsbu-0E';
+import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component';
+
 @Component({
     selector: 'app-shop',
     standalone: true,
+    imports: [
+      CommonModule,
+      FormsModule,
+      MatPaginator,
+      MatIcon,
+      MatMenu,
+      MatMenuTrigger,
+      MatSelectionList,
+      MatListOption,
+      ProductItemComponent
+    ],
     templateUrl: './shop.component.html',
     styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
   @ViewChild('search', { static: false }) searchTerm: ElementRef;  
-  products: Product[] = [];  
-  categories = CategoryEnum;  
+  products?: Pagination<Product>;
   shopParams = new ShopParams();
   totalCount = 0;
-  sortOptions = [
-    { name: 'Alphabetical', value: 'name' },
-    { name: 'Unalphabetical', value: '-name' },
-    { name: 'Price: Low to High', value: 'price' },
-    { name: 'Price: High to Low', value: '-price' }    
-  ];
+  sortOptions = SortOptions;
+  pageSizeOptions = PageSizeOptions;
 
-  constructor(private shopService: ShopService) { }
+  constructor(private shopService: ShopService, private dialogService: MatDialog) { }
 
   ngOnInit(): void {
     this.getProducts();
@@ -38,17 +54,45 @@ export class ShopComponent implements OnInit {
       },
       error: error => console.log(error)
     })
-  }  
-  
-  onCategorySelected(categoryName: CategoryEnum): void {
-    this.shopParams.categories = categoryName;
-    this.shopParams.pageNumber = 1;
-    this.getProducts();
   }
 
-  onSortSelected(sort: string) {
-    this.shopParams.sort = sort;
-    this.getProducts();
+  openFiltersDialog() {
+    const dialogRef = this.dialogService.open(FiltersDialogComponent, {
+      minWidth: '400px',
+      data: {
+        selectedCategories: this.shopParams.categories
+      }
+    });
+    dialogRef.afterClosed().subscribe({
+      next: result => {
+        if (result) {
+          this.shopParams.categories = result.selectedCategories;
+          this.shopParams.pageNumber = 1;
+          console.log('Shop params: =>');
+          console.log(this.shopParams.categories);
+          this.getProducts();          
+        }
+      }
+    })
+  }
+  
+  onCategorySelected(event: MatSelectionListChange) {
+    const selectedOptions = event.options;
+    if (selectedOptions && selectedOptions.length > 0) {
+      this.shopParams.categories = Array.from(selectedOptions.values())
+        .map(option => option.value);
+      this.getProducts();
+    }
+  }
+
+  onSortChanged(event: MatSelectionListChange) {
+    const selectedOption = event.options[0];
+    if (selectedOption) {
+      this.shopParams.sort = selectedOption.value;
+      this.shopParams.pageNumber = 1;
+      this.getProducts();
+      console.log(this.shopParams.sort);
+    }
   }
 
   onSearch() {
@@ -63,10 +107,9 @@ export class ShopComponent implements OnInit {
     this.getProducts();
   }
 
-  onPageChanged(event: any) {
-    if (this.shopParams.pageNumber !== event) {
-      this.shopParams.pageNumber = event;
-      this.getProducts();
-    }
+  handlePageEvent(event: PageEvent) {
+    this.shopParams.pageNumber = event.pageIndex + 1;
+    this.shopParams.pageSize = event.pageSize;
+    this.getProducts();
   }
 }

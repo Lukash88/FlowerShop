@@ -1,28 +1,28 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartService } from 'src/app/core/services/cart.service';
 import { Product } from 'src/app/shared/models/product';
+import { MatCard, MatCardActions, MatCardContent } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-product-item',
     standalone: true,
     imports: [
-      RouterLink,
-      CurrencyPipe
+      MatCard,
+      MatCardContent,
+      MatCardActions,
+      MatIcon,
+      CurrencyPipe,
+      MatButton,
+      RouterLink
     ],
     templateUrl: './product-item.component.html',
     styleUrls: ['./product-item.component.scss']    
 })
-export class ProductItemComponent implements OnInit {
-  @Input() product: Product;
-  
-  constructor(private cartService: CartService) { }
-
-  ngOnInit(): void {
-  }
-
-  addItemToCart() {
-    this.cartService.addItemToCart(this.product);
-  }
+export class ProductItemComponent {
+  @Input() product?: Product;
+  cartService = inject(CartService);
 }

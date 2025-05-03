@@ -1,0 +1,17 @@
+<div>
+    <h3 class="text-3xl text-center pt-6 mb-3">Filters</h3>
+    <mat-divider></mat-divider>
+    <div class="flex p-4 w-full justify-evenly">
+        <h4 class="font-semibold text-xl text-primary">Categories</h4>
+        <mat-selection-list [(ngModel)]="selectedCategories" [multiple]="true">
+            @for (category of shopService.categories; track $index) {
+                <mat-list-option class="pt-8"  [value]="category" (selectionChange)="onSelectionChange($event)">
+                    {{ category }}
+                </mat-list-option>
+            }
+        </mat-selection-list>
+    </div>
+    <div class="flex justify-end p-4">
+        <button mat-flat-button (click)="applyFilters()">Apply filter</button>
+    </div>
+</div>
