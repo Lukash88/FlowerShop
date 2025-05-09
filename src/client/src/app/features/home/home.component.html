@@ -1,32 +1,49 @@
-<div class="relative overflow-hidden w-full">
-    <div class="flex transition-transform duration-500 ease-in-out" [style.transform]="'translateX(-' + currentSlide * 100 + '%)'">
-      <mat-card
-        *ngFor="let slide of slides; let i = index"
-        class="min-w-full flex-shrink-0 relative"
+<div class="relative overflow-hidden w-full"> 
+  <div
+    class="flex transition-transform duration-500 ease-in-out"
+    [style.transform]="'translateX(-' + currentSlide * 100 + '%)'"
+  >
+    <mat-card
+      *ngFor="let slide of slides"
+      class="min-w-full flex-shrink-0 relative"
+    >
+      <img
+        mat-card-image
+        [src]="slide.image"
+        [alt]="slide.title"
+        class="object-cover w-full h-[900px]"
+      />
+      <mat-card-title
+        class="absolute bottom-4 left-4 text-white text-xl bg-black/50 px-4 py-2 rounded"
       >
-        <img mat-card-image [src]="slide.image" [alt]="slide.title" class="object-cover w-full h-[900px]" />
-        <mat-card-title class="absolute bottom-4 left-4 text-white text-xl bg-black/50 px-4 py-2 rounded">
-          {{ slide.title }}
-        </mat-card-title>
-      </mat-card>
-    </div>
-  
-    <button
-      mat-icon-button
-      (click)="prevSlide()"
-      class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black text-white hover:bg-black/80 p-2 rounded-full z-10"
-    >
-      <mat-icon>chevron_left</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      (click)="nextSlide()"
-      class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black text-white hover:bg-black/80 p-2 rounded-full z-10"
-    >
-      <mat-icon>chevron_right</mat-icon>
-    </button>
+        {{ slide.title }}
+      </mat-card-title>
+    </mat-card>
   </div>
-  
-  <section class="h-[250px] flex items-center justify-center bg-gray-100">
-    <h1 class="text-4xl font-bold text-center">Welcome to the FlowerShop!</h1>
-  </section>
+
+  <button
+    mat-icon-button
+    (click)="prevSlide()"
+    class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black text-white hover:bg-black/80 p-2 rounded-full z-10"
+  >
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    (click)="nextSlide()"
+    class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black text-white hover:bg-black/80 p-2 rounded-full z-10"
+  >
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>
+
+<div class="h-[250px] flex flex-col items-center justify-center bg-gray-100 mb-16">
+  <h1 class="text-4xl font-bold text-center">Welcome to the FlowerShop!</h1>
+  <button
+    class="bg-gradient-to-r from-blue-600 to-cyan-500 font-semibold text-2xl 
+           text-white rounded-2xl px-8 py-4 border-2 border-transparent mt-8"
+    routerLink="/shop"
+  >
+    Go to shop
+  </button>
+</div>

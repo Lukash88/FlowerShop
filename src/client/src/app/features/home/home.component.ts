@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCard, MatCardTitle } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -10,16 +11,17 @@ import { MatIcon } from '@angular/material/icon';
       CommonModule,
       MatCard,
       MatCardTitle,
-      MatIcon
+      MatIcon,
+      RouterLink
     ],
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
   slides = [
-    { image: 'assets/images/hero/hero1.jpg', title: 'Beautiful Bouquets' },
-    { image: 'assets/images/hero/hero2.jpg', title: 'Fresh Arrivals' },
-    { image: 'assets/images/hero/hero3.jpg', title: 'Seasonal Specials' }
+    { image: '../images/hero/hero1.jpg', title: 'Beautiful Bouquets' },
+    { image: '../images/hero/hero2.jpg', title: 'Fresh Arrivals' },
+    { image: '../images/hero/hero3.jpg', title: 'Seasonal Specials' }
   ];
   
   currentSlide = 0;
