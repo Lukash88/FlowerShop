@@ -1,9 +1,8 @@
 <div class="container mt-5">
-    <div *ngIf="(cartService.cartSource$ | async) === null">
-        <p>There are no items in your cart</p>
-    </div>
-
-    <ng-container *ngIf="(cartService.cartSource$ | async) as cart">
+    @if (cartService.cart()?.items?.length! > 0) {
+        <p>There are no items in your cart</p>    
+    }
+    @else {
         <div class="container">
             <div class="row">
                 <app-cart-summary
@@ -24,6 +23,5 @@
             </div>
 
         </div>
-    </ng-container>
-
+    }
 </div>

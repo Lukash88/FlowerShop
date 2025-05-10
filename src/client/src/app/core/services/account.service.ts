@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { ReplaySubject, of, tap, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
@@ -11,15 +11,14 @@ import { IValidationResponse } from 'src/app/shared/models/validationResponse';
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
-  private currentUserSource = new ReplaySubject<User | null>(1);
-  currentUser$ = this.currentUserSource.asObservable();
+  currentUser = signal<User | null>(null);
   errorsAccount: string[] | null = null;
 
   constructor(private http: HttpClient, private router: Router) { }
 
   loadCurrentUser(token: string | null) {
     if (token === null) {
-      this.currentUserSource.next(null);
+      this.currentUser.set(null);
       return of(null);
     }
 
@@ -31,7 +30,7 @@ export class AccountService {
         user = user.data;
         if (user) {          
           localStorage.setItem('token', user.token);
-          this.currentUserSource.next(user);
+          this.currentUser.set(user);
           return user;
         } else {
           return null;
@@ -44,7 +43,7 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'account/login', values).pipe(
       map((user: any) => {
         localStorage.setItem('token', user.data.token);
-        this.currentUserSource.next(user.data);
+        this.currentUser.set(user.data);
       })
     );
   }
@@ -54,7 +53,7 @@ export class AccountService {
       tap((res: any) => {
         if (!res.error) {
           localStorage.setItem('token', res.data.token);
-          this.currentUserSource.next(res.data);
+          this.currentUser.set(res.data);
         }
       })
     );
@@ -62,7 +61,7 @@ export class AccountService {
 
   logout() {
     localStorage.removeItem('token');
-    this.currentUserSource.next(null);
+    this.currentUser.set(null);
     this.router.navigateByUrl('/');
   }
 

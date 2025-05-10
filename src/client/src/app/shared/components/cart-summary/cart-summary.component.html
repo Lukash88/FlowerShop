@@ -1,4 +1,4 @@
-<div class="table-responsive" *ngIf="(cartService.cartSource$ | async) as cart">
+<div class="table-responsive" *ngIf="cartService.cart() as cart">
     <table class="table">
         <thead class="text-uppercase" [class.bg-light]="isCart">
             <tr>

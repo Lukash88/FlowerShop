@@ -2,20 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { loadStripe, Stripe, StripeAddressElement, StripeAddressElementOptions, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements } from '@stripe/stripe-js';
-import { BehaviorSubject, firstValueFrom, map } from 'rxjs';
-import { BasketService } from 'src/app/basket/basket.service';
+import { firstValueFrom, map } from 'rxjs';
 import { Cart } from 'src/app/shared/models/cart';
 import { environment } from 'src/environments/environment';
 import { AccountService } from './account.service';
+import { CartService } from './cart.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StripeService {
   baseUrl = environment.apiUrl;
-  private stripePromise?: Promise<Stripe | null>;  
-  private basketSource = new BehaviorSubject<Cart | null>(null);
-
+  private stripePromise?: Promise<Stripe | null>;
   private elements?: StripeElements;
   private addressElement?: StripeAddressElement;
 
@@ -28,7 +26,7 @@ export class StripeService {
   cardErrors: any;
   loading = false;
 
-  constructor(private basketService: BasketService, private accountService: AccountService,
+  constructor(private cartService: CartService, private accountService: AccountService,
     private http: HttpClient, private router: Router) {
     this.stripePromise = loadStripe(environment.stripePublicKey);
   }
@@ -67,15 +65,14 @@ export class StripeService {
   }
 
   createOrUpdatePaymentIntent() {
-    const cart = this.basketService.getCurrentBasketValue();
+    const cart = this.cartService.cart();
     if (!cart) throw new Error('Problem with cart');
     return this.http.post<Cart>(this.baseUrl + 'payments/' + cart.id, { })
     .pipe(
       map((cart: any) => {        
         cart = cart.data;
-        this.basketService.setBasket(cart);
+        this.cartService.setCart(cart);
         console.log(cart);
-        this.basketSource.next(cart);
         return cart;
       })
     );
