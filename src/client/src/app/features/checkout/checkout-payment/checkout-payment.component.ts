@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Cart } from 'src/app/shared/models/cart';
 import { Address } from 'src/app/shared/models/user';
 import { NavigationExtras, Router } from '@angular/router';
@@ -8,10 +8,17 @@ import { firstValueFrom } from 'rxjs';
 import { OrderToCreate } from 'src/app/shared/models/order';
 import { CheckoutService } from 'src/app/core/services/checkout.service';
 import { CartService } from 'src/app/core/services/cart.service';
+import { TextInputComponent } from 'src/app/shared/components/text-input/text-input.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-checkout-payment',
     standalone: true,
+    imports: [
+      CommonModule,
+      TextInputComponent,
+      ReactiveFormsModule
+    ],
     templateUrl: './checkout-payment.component.html',
     styleUrls: ['./checkout-payment.component.scss']
 })
@@ -73,13 +80,13 @@ export class CheckoutPaymentComponent implements OnInit {
 
   async submitOrder() {
     this.loading = true;
-    const cart = this.cartService.getCurrentCartValue();
+    const cart = this.cartService.cart();
     if (!cart) throw new Error('Cannot get cart');
     try {
       const createdOrder = await this.createOrder(cart);
       const paymentResult = await this.confirmPaymentWithStripe(cart);
       if (paymentResult.paymentIntent) {
-        this.cartService.deleteCart(cart);        
+        this.cartService.deleteCart();        
         const navigationExtras: NavigationExtras = { state: createdOrder };
         this.router.navigate(['checkout/success'], navigationExtras);
       } else {

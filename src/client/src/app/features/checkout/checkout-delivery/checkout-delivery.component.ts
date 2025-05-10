@@ -1,46 +1,39 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
-import { take } from 'rxjs';
+import { Component, Input, OnInit, output } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutService } from 'src/app/core/services/checkout.service';
 import { CartService } from 'src/app/core/services/cart.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-checkout-delivery',
     standalone: true,
+    imports: [
+      ReactiveFormsModule,
+      CommonModule
+    ],
     templateUrl: './checkout-delivery.component.html',
     styleUrls: ['./checkout-delivery.component.scss']
 })
 export class CheckoutDeliveryComponent implements OnInit {
   @Input() checkoutForm?: FormGroup;
-  deliveryMethods: DeliveryMethod[] = [];
+  deliveryComplete = output<boolean>();
 
   constructor(
-    private checkoutService: CheckoutService,
-    private cartService: CartService
+    public checkoutService: CheckoutService,
+    public cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.checkoutService.getDeliveryMethods().subscribe({
-      next: (dm) => {
-        if (
-          this.cartService.cartSource$.pipe(take(1)).subscribe({
-            next: (cart) => {
-              if (cart) {
-                const method = this.deliveryMethods?.find(
-                  (x) => x.id === cart.deliveryMethodId
-                );
-                this.cartService.setShippingPrice(method);
-              }
-            },
-          })
-        )
-          this.deliveryMethods = dm;
-      },
+      next: (methods) => {
+        if (this.cartService.cart()?.deliveryMethodId) {            
+          const method = methods?.find(x => x.id === this.cartService.cart()?.deliveryMethodId);
+          if (method) {            
+            this.cartService.selectedDelivery.set(method);
+            this.deliveryComplete.emit(true);
+          }
+        }
+      }
     });
-  }
-
-  setShippingPrice(deliveryMethod: DeliveryMethod) {
-    this.cartService.setShippingPrice(deliveryMethod);
   }
 }

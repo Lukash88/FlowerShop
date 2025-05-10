@@ -1,20 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { BasketService } from 'src/app/basket/basket.service';
-import { BasketTotals } from '../../models/basket';
+import { CartService } from 'src/app/core/services/cart.service';
+import { CartTotals } from '../../models/cart';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: 'app-order-totals',
+    standalone: true,
+    imports: [
+      CommonModule,
+      CurrencyPipe
+    ],
     templateUrl: './order-totals.component.html',
     styleUrls: ['./order-totals.component.scss'],
-    standalone: false
+    
 })
 export class OrderTotalsComponent implements OnInit{
-  basketTotal$: Observable<BasketTotals>;
+  cartTotals: CartTotals;
 
-  constructor(private basketService: BasketService) { }
+  constructor(private cartService: CartService) { }
 
   ngOnInit(){
-    this.basketTotal$ = this.basketService.basketTotalSource$
+    this.cartTotals = this.cartService.totals();
   }
 }

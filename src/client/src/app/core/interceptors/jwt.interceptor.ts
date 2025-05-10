@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable, take } from 'rxjs';
+import { Observable, switchMap, take } from 'rxjs';
 import { AccountService } from '../services/account.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -9,18 +10,18 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private accountService: AccountService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
-      next: user  => this.token = user?.token
-    })
-
-    if (this.token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${ this.token }`
+    return toObservable(this.accountService.currentUser).pipe(
+      take(1),
+      switchMap(user => {
+        if (user?.token) {
+          request = request.clone({
+            setHeaders: {
+              Authorization: `Bearer ${user.token}`
+            }
+          });
         }
+        return next.handle(request);
       })
-    }
-
-    return next.handle(request);
+    );
   }
 }
