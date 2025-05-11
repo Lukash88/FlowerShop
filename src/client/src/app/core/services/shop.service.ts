@@ -18,9 +18,9 @@ export class ShopService {
     let params = new HttpParams();
 
     if (shopParams.categories?.length && shopParams.search) {
-      params = params.append('Filters=category==', shopParams.categories.join('|') + ',Name@' + shopParams.search);
+      params = params.append('Filters=category=', shopParams.categories.join('|') + ',Name@' + shopParams.search);
     } else if (shopParams.categories?.length) {
-      params = params.append('Filters=category==', shopParams.categories.join('|'));
+      params = params.append('Filters=category=', shopParams.categories.join('|'));
     } else if (shopParams.search) {
       params = params.append('Filters=Name@', shopParams.search);
     }
