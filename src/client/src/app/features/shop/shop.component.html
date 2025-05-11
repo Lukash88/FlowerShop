@@ -32,12 +32,28 @@
                     <mat-icon>swap_vert</mat-icon>
                     Sort
                 </button>
-                </div>
-                
-                    <div class="d-flex flex-row align-items-center flex-wrap mt-2" *ngIf="products">
-                        <input (keyup.enter)="onSearch()" class="form-control me-2" #search style="width: 300px"
-                            placeholder="Search" type="text">
-                        <button (click)="onSearch()" class="btn btn-outline-primary my-2 mx-2">Search</button>
+                </div>      
+
+                <div class="d-flex flex-row align-items-center flex-wrap mt-2" *ngIf="products">
+                    <form
+                        #searchForm="ngForm"
+                        (ngSubmit)="onSearchChange()"
+                        class="relative flex items-center w-full max-w-md mx-4"
+                    >
+                        <input 
+                            type="search"
+                            class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg"
+                            placeholder="Search"
+                            name="search"
+                            [(ngModel)]="shopParams.search"
+                        />
+                        <button 
+                            mat-icon-button type="submit" 
+                            class="absolute inset-y-0 right-8 top-2 flex items-center pl-3"
+                        >
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </form>
                         <button (click)="onReset()" class="btn btn-outline-success my-2">Reset</button>
                     </div>
                 </div>
@@ -52,7 +68,7 @@
     </div>
 
     <mat-menu #sortMenu="matMenu">
-        <mat-selection-list [multiple]="false" (selectionChange)="onSortChanged($event)">
+        <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
             @for (sort of sortOptions; track $index) {
             <mat-list-option [value]="sort.value" [selected]="shopParams.sort === sort.value">
                 {{ sort.name }}

@@ -9,8 +9,8 @@ import { PageSizeOptions, ShopParams, SortOptions } from 'src/app/shared/models/
 import { ProductItemComponent } from './product-item/product-item.component';
 import { Pagination } from 'src/app/shared/models/pagination';
 import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
-import { MatIcon } from '@angular/material/icon-module.d-BeibE7j0';
-import { MatDialog } from '@angular/material/dialog.d-Dvsbu-0E';
+import { MatIcon } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component';
 
 @Component({
@@ -31,7 +31,6 @@ import { FiltersDialogComponent } from './filters-dialog/filters-dialog.componen
     styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-  @ViewChild('search', { static: false }) searchTerm: ElementRef;  
   products?: Pagination<Product>;
   shopParams = new ShopParams();
   totalCount = 0;
@@ -47,7 +46,7 @@ export class ShopComponent implements OnInit {
   getProducts() {
     this.shopService.getProducts(this.shopParams).subscribe({
       next: (response: any) => {
-        this.products = response.data.results;
+        this.products = response.data;
         this.shopParams.pageNumber = response.data.currentPage;
         this.shopParams.pageSize = response.data.pageSize;
         this.totalCount = response.data.rowCount;
@@ -85,7 +84,7 @@ export class ShopComponent implements OnInit {
     }
   }
 
-  onSortChanged(event: MatSelectionListChange) {
+  onSortChange(event: MatSelectionListChange) {
     const selectedOption = event.options[0];
     if (selectedOption) {
       this.shopParams.sort = selectedOption.value;
@@ -95,14 +94,12 @@ export class ShopComponent implements OnInit {
     }
   }
 
-  onSearch() {
-    this.shopParams.search = this.searchTerm.nativeElement.value;
+  onSearchChange() {
     this.shopParams.pageNumber = 1;
     this.getProducts();
   }
 
   onReset() {
-    this.searchTerm.nativeElement.value = '';
     this.shopParams = new ShopParams();
     this.getProducts();
   }
