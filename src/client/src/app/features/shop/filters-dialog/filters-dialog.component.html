@@ -5,7 +5,7 @@
         <h4 class="font-semibold text-xl text-primary">Categories</h4>
         <mat-selection-list [(ngModel)]="selectedCategories" [multiple]="true">
             @for (category of shopService.categories; track $index) {
-                <mat-list-option class="pt-8"  [value]="category" (selectionChange)="onSelectionChange($event)">
+                <mat-list-option class="py-4"  [value]="category" (selectionChange)="onSelectionChange($event)">
                     {{ category }}
                 </mat-list-option>
             }
