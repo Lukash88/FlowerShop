@@ -9,29 +9,33 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
     public void Configure(EntityTypeBuilder<Address> builder)
     {
         builder
-            .Property(x => x.FirstName)
-            .IsRequired()
-            .HasMaxLength(50);
+            .Property(x => x.Line1)
+            .HasMaxLength(100)
+            .IsRequired();
 
         builder
-            .Property(x => x.LastName)
-            .IsRequired()
-            .HasMaxLength(50);
-
-        builder
-            .Property(x => x.Street)
-            .IsRequired()
-            .HasMaxLength(50);
-
-        builder
-            .Property(x => x.PostalCode)
-            .IsRequired()
-            .HasMaxLength(20);
+            .Property(x => x.Line2)
+            .HasMaxLength(100);
 
         builder
             .Property(x => x.City)
-            .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(50)
+            .IsRequired();
+
+        builder
+            .Property(x => x.State)
+            .HasMaxLength(50)
+            .IsRequired();
+
+        builder
+            .Property(x => x.PostalCode)
+            .HasMaxLength(20)
+            .IsRequired();
+
+        builder
+            .Property(x => x.Country)
+            .HasMaxLength(70)
+            .IsRequired();
 
         builder
             .Property(x => x.AppUserId)
