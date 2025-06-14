@@ -1,13 +1,16 @@
-export interface User {
+export type User = {
+    firstName: string;
+    lastName: string;
     email: string;
-    displayName: string;
+    address: Address;
     token: string;
 }
 
-export interface Address {
-    firstName: string;
-    lastName: string;
-    street: string;
-    postalCode: string;
+export type Address = {
+    line1: string;
+    line2?: string;
     city: string;
+    state: string;
+    postalCode: string;
+    country: string;
 }

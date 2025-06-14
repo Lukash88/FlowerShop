@@ -16,23 +16,30 @@
                  </label>  
             </div>
 
-            <app-text-input [formControl]="$any(registerForm.controls['displayName'])"
-                [label]="'Display Name'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['email'])" [label]="'Email'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['password'])" [label]="'Password'"
-                [type]="'password'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" [label]="'Confirm Password'"
-                [type]="'password'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['email'])"
+                [label]="'Email'"></app-text-input>
             <app-text-input [formControl]="$any(registerForm.controls['firstName'])"
                 [label]="'First Name'"></app-text-input>
             <app-text-input [formControl]="$any(registerForm.controls['lastName'])"
                 [label]="'Last Name'"></app-text-input>
             <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])"
                 [label]="'Date of Birth'"></app-date-picker>
-            <app-text-input [formControl]="$any(registerForm.controls['street'])" [label]="'Street'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['password'])"
+                [label]="'Password'" [type]="'password'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])"
+                [label]="'Confirm Password'" [type]="'password'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['line1'])"
+                [label]="'Address Line1'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['line2'])"
+                [label]="'Address Line1'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['city'])"
+                [label]="'City'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['state'])"
+                [label]="'State'"></app-text-input>
             <app-text-input [formControl]="$any(registerForm.controls['postalCode'])"
                 [label]="'Postal Code'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['city'])" [label]="'City'"></app-text-input>
+            <app-text-input [formControl]="$any(registerForm.controls['country'])"
+                [label]="'Country'"></app-text-input>
 
             <ul class="text-danger list-unstyled" *ngIf="validationErrors">
                 <li *ngFor="let error of validationErrors">

@@ -4,7 +4,7 @@ export interface Order {
     id: number;
     buyerEmail: string;
     createdAt: string;
-    shipToAddress: Address;
+    shippingAddress: ShippingAddress
     deliveryMethod: string;
     orderItems: OrderItem[];
     subtotal: number;
@@ -12,6 +12,16 @@ export interface Order {
     total: number;
     invoice: string;
     status: string;
+  }
+
+  export interface ShippingAddress {
+    name: string
+    line1: string
+    line2?: string
+    city: string
+    state: string
+    postalCode: string
+    country: string
   }
   
 export interface OrderItem {
@@ -25,7 +35,7 @@ export interface OrderItem {
 export interface OrderToCreate {
     cartId: string;
     deliveryMethodId: number;
-    shipToAddress: Address;
+    shippingAddress: ShippingAddress;
 }
 
 export class PaginationParams {

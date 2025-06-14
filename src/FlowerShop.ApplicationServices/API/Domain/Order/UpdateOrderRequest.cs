@@ -11,7 +11,7 @@ public class UpdateOrderRequest : IRequest<UpdateOrderResponse>
     public string? CartId { get; set; }
     public string? BuyerEmail { get; init; }
     public DateTime? CreatedAt { get; init; }
-    public ShippingAddress? ShipToShippingAddress { get; init; }
+    public ShippingAddress? ShippingAddress { get; init; }
     public int DeliveryMethodId { get; init; }
     public decimal Subtotal { get; set; }
     public string? Status { get; init; }

@@ -25,7 +25,8 @@ public class UpdateUserHandler(IMapper mapper, UserManager<AppUser> userManager)
             };
         }
 
-        getUser.DisplayName = request.DisplayName;
+        getUser.FirstName = request.FirstName;
+        getUser.LastName = request.LastName;
         getUser.UserName = request.NewEmail;
         getUser.DateOfBirth = request.DateOfBirth;
         getUser.Gender = request.Gender;

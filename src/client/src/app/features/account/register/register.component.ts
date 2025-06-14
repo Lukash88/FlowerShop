@@ -48,19 +48,21 @@ export class RegisterComponent implements OnInit {
 
   initializeForm() {
     this.registerForm = this.fb.group({
-      displayName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.email],
         [this.validateEmailNotTaken()]],
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       lastName: ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      password: [ '', [ Validators.required, Validators.minLength(8), Validators.maxLength(20),
-          Validators.pattern(this.complexPassword)]],
       dateOfBirth: [null],
       gender: [null],
-      street: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      postalCode: ['', [ Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
-      city: [ '', [ Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      confirmPassword: ['',  [Validators.required, this.matchValues('password')]]
+      password: [ '', [ Validators.required, Validators.minLength(8), Validators.maxLength(20),
+          Validators.pattern(this.complexPassword)]],
+      confirmPassword: ['',  [Validators.required, this.matchValues('password')]],
+      line1: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      line2: ['', [Validators.nullValidator, Validators.minLength(0), Validators.maxLength(100)]],
+      city: [ '', [ Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      state: [ '', [ Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      postalCode: ['', [ Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
+      country: ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
     });
 
     this.registerForm.controls['password'].valueChanges.subscribe({
