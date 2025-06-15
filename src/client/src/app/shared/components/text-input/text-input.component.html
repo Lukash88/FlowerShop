@@ -1,32 +1,25 @@
-<div class="form-floating mb-3">
-    <input       
-        type={{type}} 
-        [formControl]="control" 
-        placeholder="{{ label }}"
-        class="form-control"
-        [ngClass]="(control.touched) ? control.invalid ?  'is-invalid' : 'is-valid' : null"
-    >
-    <div *ngIf="control.status === 'PENDING'" class="fa fa-spinner fa-spin loader"></div>
-    <label for="floatingInput">{{ label }}</label>
-    <div *ngIf="control.errors?.['required']" class="invalid-feedback">
-        Please enter your {{ label }}
-    </div>
-    <div *ngIf="control.errors?.['email']" class="invalid-feedback">
-        Invalid email address
-    </div>
-    <div *ngIf="control.errors?.['emailExists']" class="invalid-feedback">
-        Email address is taken
-    </div>
-    <div *ngIf="control.errors?.['minlength']" class="invalid-feedback">
-        {{ label }} must be at least {{ control.errors?.['minlength'].requiredLength }} characters
-    </div>
-    <div *ngIf="control.errors?.['maxlength']" class="invalid-feedback">
-        {{ label }} must be at most {{ control.errors?.['maxlength'].requiredLength }} characters
-    </div>
-    <div *ngIf="control.errors?.['pattern']" class="invalid-feedback">
-        Password must contain 1 Uppercase, 1 Lowercase, 1 number and 1 non alphanumeric
-    </div>
-    <div *ngIf="control.errors?.['notMatching']" class="invalid-feedback">
-        Passwords do not match
-    </div>
-</div>
+<mat-form-field appearance="outline" class="w-full mb-4">
+    <mat-label>{{ label }}</mat-label>
+    <input [formControl]="control" type={{type}} placeholder={{label}} matInput />
+    @if (control.hasError('required')) {
+        <mat-error>{{ label }} is required</mat-error>
+    }
+    @if (control.hasError('email')) {
+        <mat-error>Email is invalid</mat-error>
+    }
+    @if (control.hasError('emailExists')) {
+        <mat-error>Email address is takend</mat-error>
+    }    
+    @if (control.hasError('minlength')) {
+        <mat-error> {{ label }} must be at least {{ control.errors?.['minlength'].requiredLength }} characters</mat-error>
+    }
+    @if (control.hasError('maxlength')) {
+        <mat-error>{{ label }} must be at most {{ control.errors?.['maxlength'].requiredLength }} characters</mat-error>
+    }
+    @if (control.hasError('pattern')) {
+        <mat-error>Password must contain 1 Uppercase, 1 Lowercase, 1 number and 1 non alphanumeric</mat-error>
+    }
+    @if (control.hasError('notMatching')) {
+        <mat-error>Passwords do not match</mat-error>
+    }
+</mat-form-field>
