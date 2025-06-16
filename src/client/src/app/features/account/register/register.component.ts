@@ -9,6 +9,8 @@ import { AccountService } from 'src/app/core/services/account.service';
 import { TextInputComponent } from 'src/app/shared/components/text-input/text-input.component';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
+import { MatCard } from '@angular/material/card';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-register',
@@ -18,7 +20,8 @@ import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-
       TextInputComponent,
       DatePickerComponent,
       ReactiveFormsModule,
-      JsonPipe
+      MatCard,
+      MatButton
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
@@ -51,18 +54,18 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50), Validators.email],
         [this.validateEmailNotTaken()]],
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      lastName: ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       dateOfBirth: [null],
       gender: [null],
-      password: [ '', [ Validators.required, Validators.minLength(8), Validators.maxLength(20),
+      password: [ '', [Validators.required, Validators.minLength(8), Validators.maxLength(20),
           Validators.pattern(this.complexPassword)]],
       confirmPassword: ['',  [Validators.required, this.matchValues('password')]],
-      line1: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      line1: ['', [Validators.minLength(5), Validators.maxLength(100)]],
       line2: ['', [Validators.nullValidator, Validators.minLength(0), Validators.maxLength(100)]],
-      city: [ '', [ Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      state: [ '', [ Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      postalCode: ['', [ Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      country: ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
+      city: [ '', [Validators.minLength(2), Validators.maxLength(50)]],
+      state: [ '', [Validators.minLength(2), Validators.maxLength(50)]],
+      postalCode: ['', [Validators.minLength(3), Validators.maxLength(20)]],
+      country: ['', [Validators.minLength(2), Validators.maxLength(100)]]
     });
 
     this.registerForm.controls['password'].valueChanges.subscribe({

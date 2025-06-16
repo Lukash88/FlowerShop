@@ -1,4 +1,4 @@
-import { Component, Input, effect, inject, signal } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -37,13 +37,16 @@ export class DatePickerComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    this.control.setValue(obj);
+    const control = this.control;
+    if (control && obj !== control.value) {
+      control.setValue(obj, { emitEvent: false });
+    }
   }
 
   registerOnChange(fn: any): void {
-    this.onChange = fn;
-    effect(() => {
-      this.onChange(this.control.value);
+    this.onChange = fn;    
+    this.ngControl.control?.valueChanges?.subscribe(value => {
+      this.onChange(value);
     });
   }
 

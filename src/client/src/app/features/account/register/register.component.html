@@ -1,57 +1,50 @@
-<div class="d-flex justify-content-center mt-5">
-    <div class="col-3">
+<div class="px-4">
+    <mat-card class="w-full max-w-5xl mx-auto mt-32 p-8 bg-white shadow-lg rounded-xl">
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="text-center mb-4">
-                <h1 class="mb-3">Sign up</h1>
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-semibold text-primary">Register</h1>
             </div>
-
-            <div class="mb-3">
-                 <label style="margin-right: 10px; margin-bottom: 10px;">Gender (optional): 
-                </label><br>
-                 <label *ngFor="let gender of genders" >
-                    <ul>
-                       <input type="radio" [value]="gender.value" formControlName="gender"> 
-                            {{ gender.text }}
-                   </ul>
-                 </label>  
+    
+            <div class="mb-6">
+                <label class="block text-md font-medium text-gray-700 mb-2">Gender (optional):</label>
+                <div class="flex flex-col space-y-2">
+                    <label *ngFor="let gender of genders" class="inline-flex items-center space-x-2">
+                        <input type="radio" [value]="gender.value" formControlName="gender" class="form-radio text-blue-600"
+                            name="gender" />
+                        <span>{{ gender.text }}</span>
+                    </label>
+                </div>
             </div>
-
-            <app-text-input [formControl]="$any(registerForm.controls['email'])"
-                [label]="'Email'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['firstName'])"
-                [label]="'First Name'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['lastName'])"
-                [label]="'Last Name'"></app-text-input>
-            <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])"
-                [label]="'Date of Birth'"></app-date-picker>
-            <app-text-input [formControl]="$any(registerForm.controls['password'])"
-                [label]="'Password'" [type]="'password'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])"
-                [label]="'Confirm Password'" [type]="'password'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['line1'])"
-                [label]="'Address Line1'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['line2'])"
-                [label]="'Address Line1'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['city'])"
-                [label]="'City'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['state'])"
-                [label]="'State'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['postalCode'])"
-                [label]="'Postal Code'"></app-text-input>
-            <app-text-input [formControl]="$any(registerForm.controls['country'])"
-                [label]="'Country'"></app-text-input>
-
-            <ul class="text-danger list-unstyled" *ngIf="validationErrors">
-                <li *ngFor="let error of validationErrors">
-                    {{ error | json }}
-                </li>
-            </ul>
-
-            <div class="text-center">
-                <button [disabled]="registerForm.invalid" class="btn btn-lg btn-primary my-3 me-4 col-5"
-                    type="submit">Sign up</button>
-                <button class="btn btn-lg btn-light my-3 col-5" type="button" (click)="cancel()">Cancel</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <app-text-input formControlName="firstName" label="First name" />
+                <app-text-input formControlName="lastName" label="Last name" />
+                <app-text-input formControlName="email" label="Email address" />
+                <app-date-picker formControlName="dateOfBirth" label="Date of Birth" />
+                <app-text-input formControlName="password" label="Password" type="password" />
+                <app-text-input formControlName="confirmPassword" label="Confirm Password" type="password" />
+                <app-text-input formControlName="line1" label="Address Line1" />
+                <app-text-input formControlName="line2" label="Address Line2" />
+                <app-text-input formControlName="city" label="City" />
+                <app-text-input formControlName="state" label="State" />
+                <app-text-input formControlName="postalCode" label="Postal Code" />
+                <app-text-input formControlName="country" label="Country" />
             </div>
+    
+            @if (validationErrors) {
+            <div class="mb-3 p-4 bg-red-100 text-red-600">
+                <ul class="list-disc px-3">
+                    @for (error of validationErrors; track $index) {
+                    <li>{{ error }}</li>
+                    }
+                </ul>
+            </div>
+            }
+    
+            <button
+                [disabled]="registerForm.invalid"
+                mat-flat-button
+                type="submit"
+                class="w-full py-2 mt-6 bg-blue-500 text-white rounded">Register</button>
         </form>
-    </div>
+    </mat-card>
 </div>
