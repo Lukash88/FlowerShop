@@ -1,11 +1,10 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Cart } from 'src/app/shared/models/cart';
-import { Address } from 'src/app/shared/models/user';
 import { NavigationExtras, Router } from '@angular/router';
 import { Stripe, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, loadStripe } from '@stripe/stripe-js';
 import { firstValueFrom } from 'rxjs';
-import { OrderToCreate } from 'src/app/shared/models/order';
+import { OrderToCreate, ShippingAddress } from 'src/app/shared/models/order';
 import { CheckoutService } from 'src/app/core/services/checkout.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { TextInputComponent } from 'src/app/shared/components/text-input/text-input.component';
@@ -119,14 +118,14 @@ export class CheckoutPaymentComponent implements OnInit {
     return firstValueFrom(this.checkoutService.createOrder(orderToCreate));
   }
 
-  private getOrderToCreate(cart: Cart): OrderToCreate {
-    const deliveryMethodId = this.checkoutForm?.get('deliveryForm')?.get('deliveryMethod')?.value;
-    const shipToAddress = this.checkoutForm?.get('addressForm')?.value as Address;    
-    if (!deliveryMethodId || !shipToAddress) throw new Error('Problem with cart');
-    return {
-      cartId: cart.id,
-      deliveryMethodId: deliveryMethodId,
-      shipToAddress: shipToAddress
+   private getOrderToCreate(cart: Cart): OrderToCreate {
+      const deliveryMethodId = this.checkoutForm?.get('deliveryForm')?.get('deliveryMethod')?.value;
+      const shippingAddress = this.checkoutForm?.get('addressForm')?.value as ShippingAddress;    
+      if (!deliveryMethodId || !shippingAddress) throw new Error('Problem with cart');
+      return {
+        cartId: cart.id,
+        deliveryMethodId: deliveryMethodId,
+        shippingAddress: shippingAddress
+      }
     }
   }
-}
