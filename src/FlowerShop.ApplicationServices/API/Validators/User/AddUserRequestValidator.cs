@@ -24,22 +24,28 @@ public class AddUserRequestValidator : AbstractValidator<RegisterAppUserRequest>
             .Matches(@"(?=^.{8,20}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$")
             .WithMessage("Password must have 1 Uppercase, 1 Lowercase, 1 number and 1 non alphanumeric");
 
-        RuleFor(x => x.Line1).NotNull().NotEmpty().Length(5, 100)
-            .WithMessage("Line1 of address must contain 5-100 characters");
+        RuleFor(x => x.Line1).Length(5, 100)
+            .WithMessage("Line1 of address must contain 5-100 characters")
+            .When(x => !string.IsNullOrWhiteSpace(x.Line1));
         
         RuleFor(x => x.Line2).Length(0, 100)
-            .WithMessage("Line2 of address  can contain up to 100 characters");
+            .WithMessage("Line2 of address  can contain up to 100 characters")
+            .When(x => !string.IsNullOrWhiteSpace(x.Line2));
 
-        RuleFor(x => x.City).NotNull().NotEmpty().Length(2, 50)
-            .WithMessage("City must contain 2-50 characters");
+        RuleFor(x => x.City).Length(2, 50)
+            .WithMessage("City must contain 2-50 characters")
+            .When(x => !string.IsNullOrWhiteSpace(x.City));
         
-        RuleFor(x => x.State).NotNull().NotEmpty().Length(2, 50)
-            .WithMessage("State must contain 2-50 characters");
+        RuleFor(x => x.State).Length(2, 50)
+            .WithMessage("State must contain 2-50 characters")
+            .When(x => !string.IsNullOrWhiteSpace(x.State));
 
-        RuleFor(x => x.PostalCode).NotNull().NotEmpty().Length(3, 20)
-            .WithMessage("Postal code must contain 3-20 characters");
+        RuleFor(x => x.PostalCode).Length(3, 20)
+            .WithMessage("Postal code must contain 3-20 characters")
+            .When(x => !string.IsNullOrWhiteSpace(x.PostalCode));
         
-        RuleFor(x => x.Country).NotNull().NotEmpty().Length(2, 100)
-            .WithMessage("Postal code must contain 2-20 characters");
+        RuleFor(x => x.Country).Length(2, 100)
+            .WithMessage("Postal code must contain 2-20 characters")
+            .When(x => !string.IsNullOrWhiteSpace(x.Country));
     }
 }
