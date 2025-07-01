@@ -24,7 +24,7 @@ export class LoginComponent {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   returnUrl = '/shop';
-  validationErrors?: string[];
+  validationErrors?: string[] | null = null;
 
   constructor() {
     const url = this.activatedRoute.snapshot.queryParams['returnUrl'];
@@ -39,9 +39,16 @@ export class LoginComponent {
   onSubmit() {
     this.accountService.login(this.loginForm.value).subscribe({
       next: () => {
+        this.accountService.getUserInfo().subscribe();
         this.router.navigateByUrl(this.returnUrl);
       },
-      error: errors => this.validationErrors = errors
-    })
+      error: errors =>{ 
+        if (errors.status === 401) {
+          this.validationErrors = ['Invalid email or password.'];
+        } else if (Array.isArray(errors.error)) {
+          this.validationErrors = errors.error;        
+        } 
+      }
+    });
   }
 }

@@ -8,7 +8,10 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'shop', component: ShopComponent },
   { path: 'shop/:id', component: ProductDetailsComponent },
-  { path: 'cart', component: CartComponent },
+  { path: 'cart', component: CartComponent,
+    loadChildren: () =>
+      import('./features/cart/routes').then((r) => r.shopRoutes),
+  },
   {
     path: 'checkout',
     loadChildren: () =>

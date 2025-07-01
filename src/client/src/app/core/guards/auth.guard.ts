@@ -1,27 +1,21 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { AccountService } from '../services/account.service';
 
-import { toObservable } from '@angular/core/rxjs-interop';
+export const authGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const accountService = inject(AccountService);
+  const router = inject(Router);
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard  {
-
-  constructor(private accountService: AccountService, private router: Router) {}
-
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
-    return toObservable(this.accountService.currentUser).pipe(
-      map(user => {
-        if (user) return true;
-        this.router.navigate(['/account/login'], { queryParams: { returnUrl: state.url } });
-        return false;
-      })
-    );
-  } 
-}
+  return toObservable(accountService.currentUser).pipe(
+    map(user => {
+      if (user) return true;
+      router.navigate(['/account/login'], { queryParams: { returnUrl: state.url } });
+      return false;
+    })
+  );
+};
