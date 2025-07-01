@@ -24,14 +24,14 @@ public class AppUsersProfile : Profile
             .ForPath(dest => dest.Address.State, opt => opt.MapFrom(src => src.State))
             .ForPath(dest => dest.Address.PostalCode, opt => opt.MapFrom(src => src.PostalCode))
             .ForPath(dest => dest.Address.Country, opt => opt.MapFrom(src => src.Country))
-            
             .ReverseMap();
 
         CreateMap<AppUser, AppUserDto>()
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
-            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
             .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
             .ReverseMap();
 

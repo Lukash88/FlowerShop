@@ -9,11 +9,6 @@ export const orderRoutes: Route[] = [
     data: { breadcrumb: 'All Orders' },
   },
   {
-    path: '/:id',
-    component: OrderDetailedComponent,
-    data: { breadcrumb: 'All Orders' },
-  },
-  {
     path: 'userOrders',
     component: OrdersComponent,
     data: { breadcrumb: 'User Orders' },
