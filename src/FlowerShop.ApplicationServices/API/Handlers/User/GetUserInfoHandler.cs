@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Identity;
 using FlowerShop.ApplicationServices.API.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using FlowerShop.ApplicationServices.Components.Token;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.User;
 
-public class GetUserInfoHandler(IMapper mapper, UserManager<AppUser> userManager)
+public class GetUserInfoHandler(IMapper mapper, ITokenService tokenService, UserManager<AppUser> userManager)
     : IRequestHandler<GetUserInfoRequest, GetUserInfoResponse>
 {
     public async Task<GetUserInfoResponse> Handle(GetUserInfoRequest request, CancellationToken cancellationToken)
@@ -25,16 +26,12 @@ public class GetUserInfoHandler(IMapper mapper, UserManager<AppUser> userManager
             {
                 return new GetUserInfoResponse
                 {
-                    Error = new ErrorModel(ErrorType.NotFound)
+                    Data = null
                 };
-
-                //return new GetUserInfoResponse
-                //{
-                //   Data = null
-                //};
             }
 
             var userInfoDto = mapper.Map<UserInfoDto>(user);
+            userInfoDto.Token = tokenService.CreateToken(user);
 
             return new GetUserInfoResponse
             {

@@ -2,6 +2,6 @@
 
  namespace FlowerShop.ApplicationServices.API.Domain.User;
 
- public class GetUserInfoResponse : ResponseBase<UserInfoDto>
- {
- }
+public class GetUserInfoResponse : ResponseBase<UserInfoDto>
+{
+}

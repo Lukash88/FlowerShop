@@ -2,6 +2,6 @@
 
 namespace FlowerShop.ApplicationServices.API.Domain.User;
 
-public class GetCurrentUserResponse : ResponseBase<UserDto>
+public class GetCurrentUserResponse : ResponseBase<AppUserDto>
 {
 }

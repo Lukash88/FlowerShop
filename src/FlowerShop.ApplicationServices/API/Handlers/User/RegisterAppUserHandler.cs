@@ -27,7 +27,6 @@ public class RegisterAppUserHandler(IMapper mapper, UserManager<AppUser> userMan
         }
 
         var addedUser = mapper.Map<AppUserDto>(userToAdd);
-        addedUser.Token = tokenService.CreateToken(userToAdd);
 
         var response = new RegisterAppUserResponse
         {
