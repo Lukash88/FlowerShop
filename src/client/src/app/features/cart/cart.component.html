@@ -1,27 +1,32 @@
-<div class="container mt-5">
+<section>
     @if (cartService.cart()?.items?.length! > 0) {
-        <p>There are no items in your cart</p>    
-    }
-    @else {
-        <div class="container">
-            <div class="row">
-                <app-cart-summary
+
+    <div class="flex w-full items-start gap-6 mt-32">
+        <div class="w-3/4">
+            <app-cart-summary
                     (addItem)="incrementQuantity($event)"
                     (removeItem)="removeItem($event)">
                 </app-cart-summary>
-            </div>
-
-            <div class="row">
-                <div class="col-6 offset-6">
-                    <app-order-totals></app-order-totals>
-                    <div class="d-grid mb-3">
-                        <a routerLink="/checkout" class="btn btn-outline-primary py-2">
-                            Proceed to checkout
-                        </a>
-                    </div>
+        </div>
+        <div class="w-1/4">
+            <div class="col-6 offset-6">
+                <app-order-totals></app-order-totals>
+                <div class="d-grid mb-3">
+                    <a routerLink="/checkout" class="btn btn-outline-primary py-2">
+                        Proceed to checkout
+                    </a>
                 </div>
             </div>
-
         </div>
+    </div>
+
+    } @else {
+    <app-empty-state 
+        message="Your shopping cart is empty"
+        icon="remove_shopping_cart"
+        actionText="Go to shop"
+        (action)="onAction()"
+    />
     }
-</div>
+ 
+</section>
