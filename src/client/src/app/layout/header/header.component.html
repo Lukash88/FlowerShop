@@ -3,15 +3,22 @@
         <img routerLink="/" src="./images/logo.png" alt="app logo" class="max-h-16">
         <nav class="flex gap-3 my-2 uppercase text-2xl">
             <a class="menu-items p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-            <a class="menu-items p-2" routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Shop</a>
-            <a>Contact</a>
+            <a class="menu-items p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
+            <a class="menu-items p-2" routerLink="/" routerLinkActive="active">Contact</a>
         </nav>
         <div class="flex gap-3 align-middle">
-            <a routerLink="/cart" routerLinkActive="active" matBadge="{{ cartService.totals() }}" matBadgeSize="large" class="custom-badge mt-2 mr-2" routerLink="/cart" routerLinkActive="active">
+            <a routerLink="/cart/id" routerLinkActive="active" matBadge="{{ cartService.itemCount() }}" matBadgeSize="large" class="custom-badge mt-2 mr-2" routerLinkActive="active">
                 <mat-icon>shopping_cart</mat-icon>
             </a>
-            <button mat-stroked-button routerLink="/account/login" routerLinkActive="active">Login</button>
-            <button mat-stroked-button routerLink="/account/register" routerLinkActive="active">Register</button>
+            @if (accountService.currentUser()) {
+                <button mat-button [matMenuTriggerFor]="menu">
+                    <mat-icon>arrow_drop_down</mat-icon>
+                    <span>{{ accountService.currentUser()?.email }}</span>
+                </button>
+            } @else {
+                <button routerLink="/account/login" mat-stroked-button>Login</button>
+                <button routerLink="/account/register" mat-stroked-button>Register</button>
+            }
         </div>
     </div>
 </header>
@@ -19,3 +26,19 @@
 @if (busyService.loading) {
     <mat-progress-bar mode="indeterminate" class="fixed top-20 z-50"></mat-progress-bar>
 }
+
+<mat-menu #menu="matMenu" class="px-5">
+    <button mat-menu-item class="px-3" routerLink="/cart">
+        <mat-icon>shopping_cart</mat-icon>
+        My cart
+    </button>
+    <button mat-menu-item class="px-3" routerLink="/orders/userOrders">
+        <mat-icon>history</mat-icon>
+        My orders
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="px-3" (click)="accountService.logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+    </button>
+</mat-menu>

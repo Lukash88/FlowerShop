@@ -6,6 +6,9 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CartService } from 'src/app/core/services/cart.service';
 import { BusyService } from 'src/app/core/services/busy.service';
+import { AccountService } from 'src/app/core/services/account.service';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +19,11 @@ import { BusyService } from 'src/app/core/services/busy.service';
     MatIcon,
     MatButton,
     MatBadge,
-    MatProgressBar
+    MatProgressBar,
+    MatMenuTrigger,
+    MatMenu,
+    MatDivider,
+    MatMenuItem
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
@@ -24,5 +31,10 @@ import { BusyService } from 'src/app/core/services/busy.service';
 export class HeaderComponent {
   busyService = inject(BusyService);
   cartService = inject(CartService);
-  
+  accountService = inject(AccountService);
+  id = this.cartService.cart()?.id;
+
+  logout() {
+    this.accountService.logout();
+  }  
 }
