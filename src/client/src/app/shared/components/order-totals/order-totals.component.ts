@@ -1,25 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CartService } from 'src/app/core/services/cart.service';
 import { CartTotals } from '../../models/cart';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, Location } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-order-totals',
     standalone: true,
     imports: [
-      CommonModule,
-      CurrencyPipe
+      MatButton,
+      RouterLink,
+      CurrencyPipe,
+      FormsModule
     ],
     templateUrl: './order-totals.component.html',
     styleUrls: ['./order-totals.component.scss'],
     
 })
-export class OrderTotalsComponent implements OnInit{
+export class OrderTotalsComponent {
   cartTotals: CartTotals;
+  cartService = inject(CartService);
+  location = inject(Location);
 
-  constructor(private cartService: CartService) { }
-
-  ngOnInit(){
-    this.cartTotals = this.cartService.totals();
-  }
 }
