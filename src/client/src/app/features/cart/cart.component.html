@@ -3,20 +3,12 @@
 
     <div class="flex w-full items-start gap-6 mt-32">
         <div class="w-3/4">
-            <app-cart-summary
-                    (addItem)="incrementQuantity($event)"
-                    (removeItem)="removeItem($event)">
-                </app-cart-summary>
+            @for (item of cartService.cart()?.items; track item.productId) {
+            <app-cart-item [item]="item"></app-cart-item>
+            }
         </div>
         <div class="w-1/4">
-            <div class="col-6 offset-6">
-                <app-order-totals></app-order-totals>
-                <div class="d-grid mb-3">
-                    <a routerLink="/checkout" class="btn btn-outline-primary py-2">
-                        Proceed to checkout
-                    </a>
-                </div>
-            </div>
+            <app-order-totals></app-order-totals>
         </div>
     </div>
 
