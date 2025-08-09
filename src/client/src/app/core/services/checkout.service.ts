@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs';
+import { map, of } from 'rxjs';
 import { Order, OrderToCreate } from 'src/app/shared/models/order';
 import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
 
@@ -10,6 +10,7 @@ import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
 })
 export class CheckoutService {
   baseUrl = environment.apiUrl;
+  deliveryMethods: DeliveryMethod[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -18,10 +19,14 @@ export class CheckoutService {
   }
 
   getDeliveryMethods() {
+    if (this.deliveryMethods.length > 0) {
+      return of(this.deliveryMethods);
+    }
     return this.http.get<DeliveryMethod[]>(this.baseUrl + 'deliveryMethods').pipe(
       map((dm: any) => {
         dm = dm.data.results;
-        return dm.sort((a, b) => b.price - a.price);
+        this.deliveryMethods = dm.sort((a, b) => b.price - a.price);
+        return dm;
       })
     )
   }

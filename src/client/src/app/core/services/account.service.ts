@@ -51,7 +51,16 @@ export class AccountService {
   }
 
   updateUserAddress(address: Address) {
-    return this.http.put(this.baseUrl + 'account/address', address);
+    return this.http.put(this.baseUrl + 'account/address', address).pipe(
+      tap(() => {
+        this.currentUser.update(user => {
+          if (user) {
+            user.address = address;
+          }
+          return user;
+        });
+      })
+    );
   }
 
   getUserInfo() {

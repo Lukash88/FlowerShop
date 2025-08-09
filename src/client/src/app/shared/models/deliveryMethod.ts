@@ -1,4 +1,4 @@
-export interface DeliveryMethod {
+export type DeliveryMethod = {
     shortName: string;
     deliveryTime: string;
     description: string;

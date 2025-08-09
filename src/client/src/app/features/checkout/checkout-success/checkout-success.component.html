@@ -1,11 +1,34 @@
-<div class="container mt-5">
-    <div><i class="fa fa-check-circle fa-5x" style="color: green;"></i></div>
-    <h2>Thank you. Your order is confirmed</h2>
-    <p class="mb-4">Your order has not shipped yet, but this is to be expected as we are not a real store!</p>
-    <button *ngIf="order" routerLink="/orders/userOrders/{{ order.id }}" class="btn btn-outline-success">
-        View your order
-    </button>
-    <button *ngIf="!order" routerLink="/orders/userOrders" class="btn btn-outline-success">
-        View your orders
-    </button>
-</div>
+<section class="bg-white py-16">
+    <div class="mx-auto max-w-2xl px-4">
+        <h2 class="font-semibold text-2xl mb-2">Thank you. Your fake order is confirmed.</h2>
+        <p class="text-gray-500 mb-8">Your order <span class="font-medium">
+            #{{ order?.id }}
+        </span>
+         Will never be processed as this is a fake shop.  We will not notify you once your order has not shipped.
+        </p>
+        <div class="space-y-2 rounded-lg border border-gray-100 bg-gray-50 p-6 mb-8">
+            <dl class="flex items-center justify-between gap-4">
+                <dt class="font-normal text-gray-500">Date</dt>
+                <dd class="font-medium text-gray-900 text-end">
+                    {{ order?.createdAt | date: 'medium'}}
+                </dd>
+            </dl>
+            <dl class="flex items-center justify-between gap-4">
+                <dt class="font-normal text-gray-500">Address</dt>
+                <dd class="font-medium text-gray-900 text-end">
+                    {{ order.shippingAddress | address }}
+                </dd>
+            </dl>
+            <dl class="flex items-center justify-between gap-4">
+                <dt class="font-normal text-gray-500">Amount</dt>
+                <dd class="font-medium text-gray-900 text-end">
+                    {{ order.total | currency }}
+                </dd>
+            </dl>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button routerLink="/orders/userOrders/{{ order.id }}" mat-flat-button>View your order</button>
+            <button routerLink="/shop" mat-stroked-button>Continue shopping</button>
+        </div>
+    </div>
+</section>
