@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { Address, User } from 'src/app/shared/models/user';
 import { IValidationResponse } from 'src/app/shared/models/validationResponse';
+import { SignalrService } from './signalr.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,17 @@ import { IValidationResponse } from 'src/app/shared/models/validationResponse';
 export class AccountService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private signalrService = inject(SignalrService);
   baseUrl = environment.apiUrl;
   currentUser = signal<User | null>(null);
 
   login(values: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', values).pipe(
       map((user: any) => {
-        localStorage.setItem('token', user.data.token);
+        const token = user.data.token;
+        localStorage.setItem('token', token);
         this.currentUser.set(user.data);
+        this.signalrService.createHubConnection(token);
       })
     );
   }
@@ -38,6 +42,7 @@ export class AccountService {
     localStorage.removeItem('token');
     this.currentUser.set(null);
     this.router.navigateByUrl('/');
+    this.signalrService.stopHubConnection();
   }
 
   checkEmailExists(email: string) {
