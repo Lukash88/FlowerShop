@@ -1,5 +1,3 @@
-import { Address } from "./user";
-
 export interface Order {
     id: number;
     buyerEmail: string;
@@ -22,8 +20,8 @@ export interface Order {
     state: string
     postalCode: string
     country: string
-  }
-  
+}
+
 export interface OrderItem {
     productId: number;
     productName: string;
@@ -41,4 +39,5 @@ export interface OrderToCreate {
 export class PaginationParams {
   pageNumber = 1;
   pageSize = 5;
+  sort = '-createdAt';
 } 
