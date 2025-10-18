@@ -3,6 +3,7 @@ export interface Order {
     buyerEmail: string;
     createdAt: string;
     shippingAddress: ShippingAddress
+    paymentSummary: PaymentSummary;
     deliveryMethod: string;
     orderItems: OrderItem[];
     subtotal: number;
@@ -20,8 +21,15 @@ export interface Order {
     state: string
     postalCode: string
     country: string
-}
+  }
 
+  export interface PaymentSummary {
+    last4: number
+    brand: string
+    expMonth: number
+    expYear: number
+  }
+  
 export interface OrderItem {
     productId: number;
     productName: string;
@@ -34,6 +42,7 @@ export interface OrderToCreate {
     cartId: string;
     deliveryMethodId: number;
     shippingAddress: ShippingAddress;
+    paymentSummary: PaymentSummary;
 }
 
 export class PaginationParams {
