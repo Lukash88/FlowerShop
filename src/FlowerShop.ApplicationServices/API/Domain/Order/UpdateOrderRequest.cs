@@ -13,6 +13,7 @@ public class UpdateOrderRequest : IRequest<UpdateOrderResponse>
     public DateTime? CreatedAt { get; init; }
     public ShippingAddress? ShippingAddress { get; init; }
     public int DeliveryMethodId { get; init; }
+    public required PaymentSummary PaymentSummary { get; init; }
     public decimal Subtotal { get; set; }
     public string? Status { get; init; }
     public string? Invoice { get; init; }

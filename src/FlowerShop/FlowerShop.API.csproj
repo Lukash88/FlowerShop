@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
-    <PackageReference Include="Azure.Identity" Version="1.14.0" />
+    <PackageReference Include="Azure.Identity" Version="1.16.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
@@ -42,7 +42,7 @@
     <PackageReference Include="RestSharp" Version="112.1.0" />
     <PackageReference Include="sieve" Version="2.5.5" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.37" />
-    <PackageReference Include="Stripe.net" Version="48.2.0" />
+    <PackageReference Include="Stripe.net" Version="48.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="9.0.5" />
     <PackageReference Include="System.Formats.Asn1" Version="9.0.5" />
