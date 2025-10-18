@@ -1,4 +1,5 @@
 using FlowerShop.API.Extensions;
+using FlowerShop.ApplicationServices.Components.SignalR;
 using FlowerShop.DataAccess.Core.Entities.Identity;
 using FlowerShop.DataAccess.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -34,6 +35,8 @@ app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<NotificationHub>("/hubs/notifications");
+app.MapIdentityApi<AppUser>();
 
 using (var scope = app.Services.CreateScope())
 {

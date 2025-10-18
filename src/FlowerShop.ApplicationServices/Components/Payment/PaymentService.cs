@@ -1,9 +1,11 @@
 using FlowerShop.ApplicationServices.Components.Order;
+using FlowerShop.ApplicationServices.Components.SignalR;
 using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Core.Enums;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Product;
 using FlowerShop.DataAccess.Repositories.CartRepository;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -14,7 +16,7 @@ namespace FlowerShop.ApplicationServices.Components.Payment;
 
 public sealed class PaymentService(IConfiguration config, ICartRepository cartRepository,
     IQueryExecutor queryExecutor, IDeliveryMethodService deliveryMethodService,
-    IOrderData orderData, ILogger<PaymentService> logger) : IPaymentService
+    IOrderData orderData, IHubContext<NotificationHub> hubContext, ILogger<PaymentService> logger) : IPaymentService
 {
     public async Task<ShoppingCart?> CreateOrUpdatePaymentIntent(string cartId)
     {
@@ -114,6 +116,12 @@ public sealed class PaymentService(IConfiguration config, ICartRepository cartRe
         };
 
         order.GetTotal();
+
+        var connectionId = NotificationHub.GetConnectionIdByEmail(order.BuyerEmail);
+        if (!string.IsNullOrEmpty(connectionId))
+        {
+            await hubContext.Clients.Client(connectionId).SendAsync("OrderCompleteNotification", order);
+        }
 
         return await orderData.UpdateOrder(order);
     }

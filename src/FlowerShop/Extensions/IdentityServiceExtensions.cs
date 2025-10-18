@@ -17,14 +17,18 @@ internal static class IdentityServiceExtensions
             opt.UseSqlServer(config.GetConnectionString("IdentityDatabaseConnection"));
         });
 
-        services.AddIdentityCore<AppUser>(opt =>
+        services
+            .AddIdentityCore<AppUser>(opt =>
             {
                 // TODO : add identity options here
             })
             .AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddSignInManager<SignInManager<AppUser>>();
 
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        services.AddIdentityApiEndpoints<AppUser>();
+
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -34,6 +38,22 @@ internal static class IdentityServiceExtensions
                     ValidIssuer = config["Token:Issuer"],
                     ValidateIssuer = true,
                     ValidateAudience = false
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            path.StartsWithSegments("/hubs/notifications"))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    }
                 };
             });
 

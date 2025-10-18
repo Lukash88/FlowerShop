@@ -49,6 +49,7 @@ internal static class ApplicationServiceExtensions
         services.AddScoped<IOrderItemService, OrderItemService>();
         services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
         services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
+        services.AddSignalR();
 
         services.AddTransient<IQueryExecutor, QueryExecutor>();
         services.AddTransient<ICommandExecutor, CommandExecutor>();
@@ -58,7 +59,10 @@ internal static class ApplicationServiceExtensions
         {
             opt.AddPolicy("CorsPolicy", policy =>
             {
-                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                policy.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("https://localhost:4200")
+                    .AllowCredentials();
             });
         });
         services.Configure<ApiBehaviorOptions>(options =>
