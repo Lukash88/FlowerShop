@@ -1,32 +1,34 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { Router, RouterModule } from '@angular/router';
-import { Order } from 'src/app/shared/models/order';
-import { AddressPipe } from "../../../shared/pipes/address.pipe";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { RouterLink } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { AddressPipe } from 'src/app/shared/pipes/address.pipe';
+import { PaymentCardPipe } from 'src/app/shared/pipes/payment-card.pipe';
+import { SignalrService } from 'src/app/core/services/signalr.service';
+import { OrderService } from 'src/app/core/services/order.service';
 
 @Component({
-  selector: 'app-checkout-success',
-  standalone: true,
-  imports: [
-    RouterModule,
-    MatButton,
-    DatePipe,
-    AddressPipe,
-    CurrencyPipe,
-    MatProgressSpinnerModule
-  ],
-  templateUrl: './checkout-success.component.html',
-  styleUrls: ['./checkout-success.component.scss']
+    selector: 'app-checkout-success',
+    standalone: true,
+    imports: [
+      MatButton,
+      RouterLink,
+      MatProgressSpinnerModule,
+      DatePipe,
+      AddressPipe,
+      CurrencyPipe,
+      PaymentCardPipe
+    ],
+    templateUrl: './checkout-success.component.html',
+    styleUrls: ['./checkout-success.component.scss']
 })
-export class CheckoutSuccessComponent {
-  order?: Order;
+export class CheckoutSuccessComponent implements OnDestroy {
+  signalrService = inject(SignalrService);
+  private orderService = inject(OrderService);
 
-  constructor(private router: Router) {
-    const navigation = this.router.getCurrentNavigation();
-    this.order =
-      (navigation?.extras?.state as { order?: Order })?.order
-      ?? (history.state as { order?: Order })?.order;
+  ngOnDestroy(): void {
+    this.orderService.orderComplete = false;
+    this.signalrService.orderSignal.set(null);
   }
 }
