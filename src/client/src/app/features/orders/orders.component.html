@@ -1,38 +1,27 @@
-<div class="container mt-5">
-    <div class="row">
-        <app-paging-header class="d-flex justify-content-center mb-2"
-            [totalCount]="totalCount"
-            [pageSize]="this.paginationParams.pageSize"
-            (pageChanged)="onPageChanged($event)"
-            [pageNumber]="this.paginationParams.pageNumber">
-        </app-paging-header>
-        <div class="col-12">
-            <table class="table table-hover" style="cursor: pointer;">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Order</th>
-                        <th>Date</th>
-                        <th>Total</th>
-                        <th>Status</th>
+<div class="mx-auto mt-32">
+    <h2 class="font-semibold text-2xl mb-6 text-center">My orders</h2>
+    <div class="flex flex-col">
+        <div class="w-full">
+            <table class="min-w-full divide-y divide-gray-200 cursor-pointer">
+                <thead class="bg-gray-50">
+                    <tr class="uppercase text-gray-600 text-sm">
+                        <th class="text-center px-6 py-3">Order</th>
+                        <th class="text-left">Date</th>
+                        <th class="text-left">Total</th>
+                        <th class="text-left">Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr *ngFor="let order of orders" routerLink="/orders/userOrders/{{ order.id }}">
-                        <th># {{ order.id }}</th>
-                        <td>{{ order.createdAt | date: 'medium' }}</td>
-                        <td>{{ order.total | currency }}</td>
-                        <td>{{ order.status }}</td>
-                    </tr>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @for (order of orders; track order.id) {
+                        <tr routerLink="/orders/userOrders/{{ order.id }}" class="hover:bg-gray-100">
+                            <th class="px-6 py-3"># {{ order.id }}</th>
+                            <td>{{ order.createdAt| date: 'medium'}}</td>
+                            <td>{{ order.total | currency}}</td>
+                            <td>{{ order.status }}</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="d-flex justify-content-center mt-2" *ngIf="totalCount > 0">
-        <app-pager
-            [pageSize]="paginationParams.pageSize"
-            [totalCount]="totalCount"
-            (pageChanged)="onPageChanged($event)">
-        </app-pager>
-    </div>
 </div>
-
