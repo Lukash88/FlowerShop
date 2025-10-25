@@ -10,9 +10,10 @@ public class Order : IEntityBase
     public DateTime CreatedAt { get; init; }
     public ShippingAddress ShippingAddress { get; init; } = null!;
     public DeliveryMethod DeliveryMethod { get; set; } = null!;
+    public PaymentSummary PaymentSummary { get; init; } = null!;
     public decimal Subtotal { get; init; }
     public OrderState OrderState { get; set; }
-    public string Invoice { get; set; } = String.Empty;
+    public string Invoice { get; set; } = string.Empty;
     public required string PaymentIntentId { get; init; }
 
     public List<OrderItem> OrderItems { get; init; } = [];

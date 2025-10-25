@@ -10,6 +10,7 @@ public class AddOrderRequest : IRequest<AddOrderResponse>
     public string? CartId { get; init; }
     public string? BuyerEmail { get; set; }
     public ShippingAddress? ShippingAddress { get; init; }
+    public PaymentSummary? PaymentSummary { get; init; }
     public int DeliveryMethodId { get; init; }
     public decimal Subtotal { get; set; }
     public string Status { get; init; } = "Pending";

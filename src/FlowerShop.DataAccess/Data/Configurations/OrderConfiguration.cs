@@ -60,12 +60,37 @@ public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
                     .Property(a => a.Country)
                     .IsRequired()
                     .HasMaxLength(70);
+            });
+        
+        builder
+            .Navigation(o => o.ShippingAddress)
+            .IsRequired();
 
-               
+        builder
+            .OwnsOne(o => o.PaymentSummary, ps =>
+            {
+                ps.WithOwner();
+
+                ps
+                    .Property(a => a.Last4)
+                    .IsRequired();
+
+                ps
+                    .Property(a => a.Brand)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                ps
+                    .Property(a => a.ExpMonth)
+                    .IsRequired();
+
+                ps
+                    .Property(ps => ps.ExpYear)
+                    .IsRequired();
             });
 
         builder
-            .Navigation(o => o.ShippingAddress)
+            .Navigation(o => o.PaymentSummary)
             .IsRequired();
 
         builder
