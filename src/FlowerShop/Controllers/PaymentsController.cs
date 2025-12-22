@@ -24,7 +24,7 @@ public sealed class PaymentsController : ApiControllerBase
 
     [AllowAnonymous]
     [HttpPost("webhook")]
-    public async Task<IActionResult> StripeWebhook4()
+    public async Task<IActionResult> StripeWebhook()
     {
         var json = await new StreamReader(Request.Body).ReadToEndAsync();
         var stripeSignature = Request.Headers["Stripe-Signature"];

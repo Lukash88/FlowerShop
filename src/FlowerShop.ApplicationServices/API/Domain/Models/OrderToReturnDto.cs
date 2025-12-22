@@ -12,6 +12,7 @@ public class OrderToReturnDto
     public required PaymentSummary PaymentSummary { get; init; }
     public required List<OrderItemDto> OrderItems { get; init; } = [];
     public required decimal Subtotal { get; init; }
+    public decimal Discount { get; init; }
     public required decimal ShippingPrice { get; init; }
     public required decimal Total { get; init; }
     public string? Invoice { get; init; }

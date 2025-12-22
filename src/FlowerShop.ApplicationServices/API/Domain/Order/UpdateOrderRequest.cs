@@ -15,6 +15,7 @@ public class UpdateOrderRequest : IRequest<UpdateOrderResponse>
     public int DeliveryMethodId { get; init; }
     public required PaymentSummary PaymentSummary { get; init; }
     public decimal Subtotal { get; set; }
+    public decimal Discount { get; init; }
     public string? Status { get; init; }
     public string? Invoice { get; init; }
     public string? PaymentIntentId { get; init; }

@@ -2,6 +2,7 @@
 
 public class AddressDto
 {
+    public required string Name { get; init; }
     public required string Line1 { get; init; }
     public string? Line2 { get; init; }
     public required string City { get; init; }
