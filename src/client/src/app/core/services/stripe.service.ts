@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   ConfirmationToken, loadStripe, Stripe, StripeAddressElement,
-  StripeAddressElementOptions, StripeCardCvcElement, StripeCardExpiryElement,
-  StripeCardNumberElement, StripeElements, StripePaymentElement
+  StripeAddressElementOptions, 
+  StripeElements, StripePaymentElement
 } from '@stripe/stripe-js';
-import { firstValueFrom, map } from 'rxjs';
+import { firstValueFrom, map, switchMap } from 'rxjs';
 import { Cart } from 'src/app/shared/models/cart';
 import { environment } from 'src/environments/environment';
 import { AccountService } from './account.service';
@@ -16,23 +15,14 @@ import { CartService } from './cart.service';
   providedIn: 'root'
 })
 export class StripeService {
-  baseUrl = environment.apiUrl;
+  private readonly baseUrl = environment.apiUrl;
   private stripePromise: Promise<Stripe | null>;
   private elements?: StripeElements;
   private addressElement?: StripeAddressElement;
   private paymentElement?: StripePaymentElement;
 
-  cardNumber?: StripeCardNumberElement;
-  cardExpiry?: StripeCardExpiryElement;
-  cardCvc?: StripeCardCvcElement;
-  cardNumberComplete = false;
-  cardExpiryComplete = false;
-  cardCvcComplete = false;
-  cardErrors: any;
-  loading = false;
-
   constructor(private cartService: CartService, private accountService: AccountService,
-    private http: HttpClient, private router: Router) {
+    private http: HttpClient) {
     this.stripePromise = loadStripe(environment.stripePublicKey);
   }
 
@@ -44,9 +34,12 @@ export class StripeService {
     if (!this.elements) {
       const stripe = await this.getStripeInstance();
       if (stripe) {
-        const cart = await firstValueFrom(this.createOrUpdatePaymentIntent());
-        this.elements = stripe.elements(
-          { clientSecret: cart.clientSecret, appearance: { labels: 'floating' }});
+
+        const updatedCart = await firstValueFrom(this.createOrUpdatePaymentIntent());
+        this.elements = stripe.elements({
+          clientSecret: updatedCart.clientSecret,
+          appearance: { labels: 'floating' }
+        });
       } else {
         throw new Error('Stripe has not been loaded');
       }
@@ -60,7 +53,7 @@ export class StripeService {
       if (elements) {
         const user = this.accountService.currentUser();
         let defaultValues: StripeAddressElementOptions['defaultValues'] = {};
-        
+
         if (user) {
           defaultValues.name = user.firstName + ' ' + user.lastName;
         }
@@ -71,8 +64,8 @@ export class StripeService {
             line2: user.address.line2,
             city: user.address.city,
             state: user.address.state,
-            postal_code: user.address.postalCode,
-            country: user.address.country
+            country: user.address.country,
+            postal_code: user.address.postalCode
           }
         }
 
@@ -82,7 +75,7 @@ export class StripeService {
         };
         this.addressElement = elements.create('address', options);
       } else {
-        throw new Error('Elements instance has not been loaded')
+        throw new Error('Elements instance has not been loaded');
       }
     }
     return this.addressElement;
@@ -101,22 +94,22 @@ export class StripeService {
   }
 
   createOrUpdatePaymentIntent() {
-    const cart = this.cartService.cart();
-    if (!cart) throw new Error('Problem with cart');
-    return this.http.post<Cart>(this.baseUrl + 'payments/' + cart.id, { })
-    .pipe(
-      map((cartReceived: any) => {        
-        cartReceived = cartReceived.data;
-        this.cartService.setCart(cartReceived);
-        return cartReceived;
-      })
-    );
-  }
+  const cart = this.cartService.cart();
+  if (!cart) throw new Error('Problem with cart');
+  
+  return this.http.post<Cart>(this.baseUrl + 'payments/' + cart.id, {}).pipe(
+    switchMap((response: any) => {
+      const cartReceived = response.data;
+      return this.cartService.setCart(cartReceived).pipe(map(() => cartReceived));
+    })
+  );
+}
 
   async createConfirmationToken() {
     const stripe = await this.getStripeInstance();
     const elements = await this.initializeElements();
     const result = await elements.submit();
+    
     if (result.error) {
       console.error(result.error.message);
       throw new Error(result.error.message);

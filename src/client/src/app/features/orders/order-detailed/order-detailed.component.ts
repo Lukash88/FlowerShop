@@ -18,7 +18,7 @@ import { BreadcrumbService } from 'xng-breadcrumb';
     MatCardModule,
     MatButton,
     AddressPipe,
-    PaymentCardPipe
+    PaymentCardPipe,
   ],
   templateUrl: './order-detailed.component.html',
   styleUrls: ['./order-detailed.component.scss'],
@@ -34,8 +34,9 @@ export class OrderDetailedComponent implements OnInit {
     private orderService: OrderService,
     private activatedRoute: ActivatedRoute,
     private bcService: BreadcrumbService,
-    private router: Router
+    private router: Router,
   ) {}
+
   loadOrder() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (!id) return;
@@ -47,7 +48,7 @@ export class OrderDetailedComponent implements OnInit {
     });
   }
 
-  onReturnClick() { :
+  onReturnClick() {
     this.router.navigateByUrl('/orders/userOrders');
   }
 }

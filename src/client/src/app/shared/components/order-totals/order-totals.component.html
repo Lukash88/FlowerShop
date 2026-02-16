@@ -10,6 +10,12 @@
                     </dd>
                 </dl>
                 <dl class="flex items-center justify-between gap-4">
+                    <dt class="font-medium text-gray-500">Discount</dt>
+                    <dd class="font-medium text-green-500">
+                        -{{ cartService.totals()?.discount | currency }}
+                    </dd>
+                </dl>
+                <dl class="flex items-center justify-between gap-4">
                     <dt class="font-medium text-gray-500">Tax</dt>
                     <dd class="font-medium text-gray-900">
                         {{ cartService.totals()?.tax | currency }}
@@ -32,10 +38,41 @@
         </div>
 
         @if (location.path() !== '/checkout') {
-            <div class="flex flex-col gap-2">
-                <button routerLink="/checkout" mat-flat-button>Checkout</button>
-                <button routerLink="/shop" mat-button>Continue Shopping</button>
-            </div>   
+        <div class="flex flex-col gap-2">
+            <button routerLink="/checkout" mat-flat-button>Checkout</button>
+            <button routerLink="/shop" mat-button>Continue Shopping</button>
+        </div>
         }
+    </div>
+
+    <div class="space-y-4 rounded-lg border border-gray-200 bg-white shadow-sm">
+        <form #form="ngForm" (ngSubmit)="applyCouponCode()" class="flex flex-col p-2">
+            <label class="mb-2 block text-sm font-medium">Do you have a voucher code?</label>
+            @if (cartService.cart()?.coupon; as coupon) {
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-bold">{{ coupon.name }} applied</span>
+                <button (click)="removeCouponCode()" mat-icon-button>
+                    <mat-icon color="warn">delete</mat-icon>
+                </button>
+            </div>
+            }
+
+            <mat-form-field appearance="outline" class="mt-2">
+                <mat-label>Voucher code</mat-label>
+                <input [disabled]="!!cartService.cart()?.coupon" [(ngModel)]="code" name="code" type="text" matInput
+                    (input)="clearError()">
+            </mat-form-field>
+
+            <div class="h-6 -mt-4 mb-4">
+                @if (couponError) {
+                <div class="flex items-center gap-2 text-red-500 text-sm">
+                    <mat-icon class="text-base">error_outline</mat-icon>
+                    <span>{{ couponError }}</span>
+                </div>
+                }
+            </div>
+
+            <button [disabled]="!!cartService.cart()?.coupon" type="submit" mat-flat-button>Apply code</button>
+        </form>
     </div>
 </div>
