@@ -7,5 +7,4 @@ public sealed class AppCoupon
     public decimal? PercentOff { get; init; }
     public required string PromotionCode { get; init; }
     public required string CouponId { get; init; }
-
 }

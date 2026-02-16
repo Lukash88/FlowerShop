@@ -50,7 +50,7 @@ public sealed class OrderItemService(ICartRepository cartRepository, IQueryExecu
         return orderItems;
     }
 
-    public async Task<List<OrderItem>> GetOrderItems(int orderId)
+    private async Task<List<OrderItem>> GetOrderItems(int orderId)
     {
         var getItemsQuery = new GetOrderItemsQuery
         {
@@ -60,7 +60,7 @@ public sealed class OrderItemService(ICartRepository cartRepository, IQueryExecu
         return await queryExecutor.Execute(getItemsQuery);
     }
 
-    public async Task<List<OrderItem>> RemoveOrderItems(List<OrderItem> items)
+    private async Task<List<OrderItem>> RemoveOrderItems(List<OrderItem> items)
     {
         var removeItemsCommand = new RemoveOrderItemsCommand
         {

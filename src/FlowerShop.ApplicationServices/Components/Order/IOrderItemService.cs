@@ -7,7 +7,5 @@ public interface IOrderItemService
 {
     Task<List<OrderItem>> GenerateOrderItems(string cartId);
     Task<List<OrderItem>> UpdateOrderItems(UpdateOrderRequest request);
-    Task<List<OrderItem>> GetOrderItems(int orderId);
-    Task<List<OrderItem>> RemoveOrderItems(List<OrderItem> items);
     decimal GetSubtotal(IEnumerable<OrderItem> items);
 }

@@ -8,8 +8,12 @@ using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Order;
 
-public sealed class OrderService(IMapper mapper, IOrderData orderData, IDeliveryMethodService deliveryMethodService,
-    IOrderItemService orderItemService, ICartRepository cartRepository) : IOrderService
+public sealed class OrderService(
+    IMapper mapper,
+    IOrderData orderData,
+    IDeliveryMethodService deliveryMethodService,
+    IOrderItemService orderItemService,
+    ICartRepository cartRepository) : IOrderService
 {
     public async Task<OrderEntity> ProcessOrderRequest(AddOrderRequest request)
     {
@@ -20,7 +24,8 @@ public sealed class OrderService(IMapper mapper, IOrderData orderData, IDelivery
         {
             var updateOrderRequest = mapper.Map<UpdateOrderRequest>(getOrder);
             updateOrderRequest.CartId = request.CartId;
-            return await ProcessUpdateOrder(updateOrderRequest);
+
+            return await ProcessUpdateOrderRequest(updateOrderRequest);
         }
 
         return await ProcessNewOrderRequest(request, cart);
@@ -43,32 +48,14 @@ public sealed class OrderService(IMapper mapper, IOrderData orderData, IDelivery
         return await orderData.CreateOrder(order);
     }
 
-    private async Task<OrderEntity> ProcessUpdateOrder(UpdateOrderRequest request)
-    {
-        var items = await orderItemService.UpdateOrderItems(request);
-        var deliveryMethod = await deliveryMethodService.GetDeliveryMethod(request.DeliveryMethodId);
-        var subtotal = orderItemService.GetSubtotal(items);
-
-        request.OrderItems = mapper.Map<List<OrderItem>, List<OrderItemDto>>(items);
-        request.Subtotal = subtotal;
-
-        var order = mapper.Map<OrderEntity>(request);
-        order.DeliveryMethod = deliveryMethod;
-
-        return await orderData.UpdateOrder(order);
-    }
-
     public async Task<OrderEntity> ProcessUpdateOrderRequest(UpdateOrderRequest request)
     {
         var items = await orderItemService.UpdateOrderItems(request);
-        var deliveryMethod = await deliveryMethodService.GetDeliveryMethod(request.DeliveryMethodId);
-        var subtotal = orderItemService.GetSubtotal(items);
-
-        request.OrderItems = mapper.Map<List<OrderItem>, List<OrderItemDto>>(items); ;
-        request.Subtotal = subtotal;
+        request.OrderItems = mapper.Map<List<OrderItem>, List<OrderItemDto>>(items);
+        request.Subtotal = orderItemService.GetSubtotal(items);
 
         var order = mapper.Map<OrderEntity>(request);
-        order.DeliveryMethod = deliveryMethod;
+        order.DeliveryMethod = await deliveryMethodService.GetDeliveryMethod(request.DeliveryMethodId);
 
         return await orderData.UpdateOrder(order);
     }
