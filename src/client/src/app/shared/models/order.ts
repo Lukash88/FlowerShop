@@ -2,11 +2,12 @@ export interface Order {
     id: number;
     buyerEmail: string;
     createdAt: string;
-    shippingAddress: ShippingAddress
+    shippingAddress: ShippingAddress;
     paymentSummary: PaymentSummary;
     deliveryMethod: string;
     orderItems: OrderItem[];
     subtotal: number;
+    discount?: number;
     shippingPrice: number;
     total: number;
     invoice: string;
@@ -14,20 +15,20 @@ export interface Order {
   }
 
   export interface ShippingAddress {
-    name: string
-    line1: string
-    line2?: string
-    city: string
-    state: string
-    postalCode: string
-    country: string
+    name: string;
+    line1: string;
+    line2?: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
   }
 
   export interface PaymentSummary {
-    last4: number
-    brand: string
-    expMonth: number
-    expYear: number
+    last4: number;
+    brand: string;
+    expMonth: number;
+    expYear: number;
   }
   
 export interface OrderItem {
@@ -43,6 +44,7 @@ export interface OrderToCreate {
     deliveryMethodId: number;
     shippingAddress: ShippingAddress;
     paymentSummary: PaymentSummary;
+    discount?: number;
 }
 
 export class PaginationParams {

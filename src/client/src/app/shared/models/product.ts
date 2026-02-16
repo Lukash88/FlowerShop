@@ -7,7 +7,6 @@ export interface Product {
     category:         string;
     price:            number;
     stockLevel:       number;
-    //orderDetails:     OrderDetails;
 }
 
 export class Product implements Product {}
