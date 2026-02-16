@@ -9,6 +9,7 @@ internal class AddressProfile : Profile
     public AddressProfile()
     {
         CreateMap<AppUser, AddressDto>()
+            .ForPath(dest => dest.Name, opt => opt.MapFrom(src => src.FirstName + src.LastName))
             .ForPath(dest => dest.Line1, opt => opt.MapFrom(src => src.Address.Line1))
             .ForPath(dest => dest.Line2, opt => opt.MapFrom(src => src.Address.Line2))
             .ForPath(dest => dest.City, opt => opt.MapFrom(src => src.Address.City))

@@ -19,36 +19,37 @@ public sealed class WebHookHandler(IPaymentService paymentService, ILogger<WebHo
             var stripeEvent = paymentService.ConstructStripeEvent(request.Json, request.StripeSignature);
             if (stripeEvent.Data.Object is not PaymentIntent intent)
             {
+                logger.LogError("Invalid payment data in Stripe event");
+
                 return new StripeWebhookResponse
                 {
                     Error = new ErrorModel(ErrorType.BadRequest + " - Invalid payment data.")
                 };
             }
 
-            var orderWithPaymentIntentSucceeded = await paymentService.HandlePaymentIntentSucceeded(intent);
-            var response = new StripeWebhookResponse
-            {
-                Data = orderWithPaymentIntentSucceeded
-            };
-
-            return response;
-        }
-        catch (StripeException e)
-        {
-            logger.LogError(e, "Stripe webhook error occured");
+            var order = await paymentService.HandlePaymentIntentSucceeded(intent);
 
             return new StripeWebhookResponse
             {
-                Error = new ErrorModel(ErrorType.BadRequest + " - Webhook error.")
+                Data = order
+            };
+        }
+        catch (StripeException e)
+        {
+            logger.LogError(e, "Stripe webhook error: {Message}", e.Message);
+
+            return new StripeWebhookResponse
+            {
+                Error = new ErrorModel(ErrorType.BadRequest + " - Webhook error: " + e.Message)
             };
         }
         catch (Exception e)
         {
-            logger.LogError(e, "An unexpected error occured");
+            logger.LogError(e, "Unexpected error in webhook handler: {Message}", e.Message);
 
             return new StripeWebhookResponse
             {
-                Error = new ErrorModel(ErrorType.BadRequest + " - An unexpected error occured")
+                Error = new ErrorModel(ErrorType.BadRequest + " - " + e.Message)
             };
         }
     }

@@ -1,6 +1,7 @@
 using FlowerShop.ApplicationServices.Components.Order;
 using FlowerShop.ApplicationServices.Components.SignalR;
 using FlowerShop.DataAccess.Core.Entities;
+using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using FlowerShop.DataAccess.Core.Enums;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Product;
@@ -14,60 +15,71 @@ using OrderEntity = FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order;
 
 namespace FlowerShop.ApplicationServices.Components.Payment;
 
-public sealed class PaymentService(IConfiguration config, ICartRepository cartRepository,
-    IQueryExecutor queryExecutor, IDeliveryMethodService deliveryMethodService,
-    IOrderData orderData, IHubContext<NotificationHub> hubContext, ILogger<PaymentService> logger) : IPaymentService
+public sealed class PaymentService(
+    IConfiguration config,
+    ICartRepository cartRepository,
+    IQueryExecutor queryExecutor,
+    IDeliveryMethodService deliveryMethodService,
+    IOrderData orderData,
+    IHubContext<NotificationHub> hubContext,
+    ILogger<PaymentService> logger) : IPaymentService
 {
     public async Task<ShoppingCart?> CreateOrUpdatePaymentIntent(string cartId)
     {
         StripeConfiguration.ApiKey = config["StripeSettings:SecretKey"];
-        var cart = await cartRepository.GetCartAsync(cartId);
-        if (cart is null) return null;
 
-        var shippingPrice = await GetShippingPrice(cart.DeliveryMethodId);
-        if (shippingPrice is null) return null;
+        var cart = await cartRepository.GetCartAsync(cartId) ?? throw new Exception("Cart unavailable");
+        var shippingPrice = await GetShippingPriceInCents(cart.DeliveryMethodId) ?? 0;
 
-        if (!await UpdateCartItemsPrices(cart.Items)) return null;
+        await UpdateCartItemsPrices(cart.Items);
 
-        await CreateOrUpdateIntent(cart, shippingPrice.Value);
+        var subtotal = CalculateSubtotal(cart);
+
+        if (cart.Coupon != null)
+        {
+            subtotal = await ApplyDiscount(cart.Coupon, subtotal);
+        }
+
+        var total = subtotal + shippingPrice;
+
+        await CreateOrUpdateIntent(cart, total);
         await cartRepository.UpdateCartAsync(cart);
 
         return cart;
     }
 
-    private async Task<decimal?> GetShippingPrice(int? deliveryMethodId)
+    private async Task<long?> GetShippingPriceInCents(int? deliveryMethodId)
     {
-        if (!deliveryMethodId.HasValue) return 0m;
+        if (!deliveryMethodId.HasValue) return null;
+        var deliveryMethod = await deliveryMethodService.GetDeliveryMethod(deliveryMethodId!.Value)
+                             ?? throw new Exception("Problem with delivery method");
 
-        var deliveryMethod = await deliveryMethodService.GetDeliveryMethod(deliveryMethodId.Value);
-        return deliveryMethod?.Price;
+        return (long)(deliveryMethod.Price * 100);
     }
 
-    private async Task<bool> UpdateCartItemsPrices(List<CartItem> items)
+    private async Task UpdateCartItemsPrices(List<CartItem> items)
     {
         foreach (var item in items)
         {
-            var productItem = await queryExecutor.Execute(new GetProductQuery { Id = item.ProductId });
-            if (productItem is null) return false;
+            var productItem = await queryExecutor.Execute(new GetProductQuery { Id = item.ProductId })
+                              ?? throw new Exception("Problem getting product in cart");
 
             if (item.Price != productItem.Price)
             {
                 item.Price = productItem.Price;
             }
         }
-        return true;
     }
 
-    private async Task CreateOrUpdateIntent(ShoppingCart cart, decimal shippingPrice)
+    private static async Task CreateOrUpdateIntent(ShoppingCart cart, long total)
     {
         var service = new PaymentIntentService();
-        var amount = CalculateTotalAmount(cart.Items, shippingPrice);
 
         if (string.IsNullOrEmpty(cart.PaymentIntentId))
         {
             var options = new PaymentIntentCreateOptions
             {
-                Amount = amount,
+                Amount = total,
                 Currency = "usd",
                 PaymentMethodTypes = ["card"]
             };
@@ -78,15 +90,39 @@ public sealed class PaymentService(IConfiguration config, ICartRepository cartRe
         }
         else
         {
-            var options = new PaymentIntentUpdateOptions { Amount = amount };
+            var options = new PaymentIntentUpdateOptions
+            {
+                Amount = total
+            };
+
             await service.UpdateAsync(cart.PaymentIntentId, options);
         }
     }
 
-    private static long CalculateTotalAmount(IEnumerable<CartItem> items, decimal shippingPrice)
+    private async Task<long> ApplyDiscount(AppCoupon appCoupon, long subtotalInCents)
     {
-        var itemsTotal = items.Sum(i => i.Quantity * i.Price);
-        return (long)((itemsTotal + shippingPrice) * 100);
+        var couponService = new Stripe.CouponService();
+        var coupon = await couponService.GetAsync(appCoupon.CouponId);
+        long discountInCents = 0;
+
+        if (coupon.AmountOff.HasValue)
+        {
+            discountInCents = coupon.AmountOff.Value;
+        }
+        else if (coupon.PercentOff.HasValue)
+        {
+            discountInCents = (long)(subtotalInCents * (coupon.PercentOff.Value / 100));
+        }
+
+        discountInCents = Math.Min(discountInCents, subtotalInCents);
+
+        return subtotalInCents - discountInCents;
+    }
+    private static long CalculateSubtotal(ShoppingCart cart)
+    {
+        var itemTotal = cart.Items.Sum(x => x.Quantity * x.Price * 100);
+
+        return (long)itemTotal;
     }
 
     public Event ConstructStripeEvent(string json, StringValues stripeSignature)
@@ -104,25 +140,44 @@ public sealed class PaymentService(IConfiguration config, ICartRepository cartRe
 
     public async Task<OrderEntity> HandlePaymentIntentSucceeded(PaymentIntent intent)
     {
-        var order = await orderData.GetOrder(intent.Id) ?? throw new Exception("Order not found");
-            
-        order.OrderState = intent.Status switch
+        var order = await orderData.GetOrder(intent.Id)
+            ?? throw new InvalidOperationException($"Order not found for PaymentIntent {intent.Id}");
+
+        var orderTotalInCents = (long)Math.Round(order.GetTotal() * 100,
+            MidpointRounding.AwayFromZero);
+
+        var newState = intent.Status switch
         {
-            "succeeded" => (long)(order.GetTotal() * 100) == intent.Amount
+            "succeeded" => orderTotalInCents == intent.Amount
                 ? OrderState.PaymentReceived
                 : OrderState.PaymentMismatch,
             "requires_payment_method" => OrderState.PaymentFailed,
             _ => throw new InvalidOperationException($"Unsupported intent status: {intent.Status}")
         };
 
-        order.GetTotal();
+        var updatedOrder = new OrderEntity
+        {
+            Id = order.Id,
+            BuyerEmail = order.BuyerEmail,
+            CreatedAt = order.CreatedAt,
+            ShippingAddress = order.ShippingAddress,
+            DeliveryMethod = order.DeliveryMethod,
+            PaymentSummary = order.PaymentSummary,
+            Subtotal = order.Subtotal,
+            Discount = order.Discount,
+            OrderState = newState,
+            Invoice = order.Invoice,
+            PaymentIntentId = order.PaymentIntentId,
+            OrderItems = order.OrderItems,
+            Reservations = order.Reservations
+        };
 
-        var connectionId = NotificationHub.GetConnectionIdByEmail(order.BuyerEmail);
+        var connectionId = NotificationHub.GetConnectionIdByEmail(updatedOrder.BuyerEmail);
         if (!string.IsNullOrEmpty(connectionId))
         {
-            await hubContext.Clients.Client(connectionId).SendAsync("OrderCompleteNotification", order);
+            await hubContext.Clients.Client(connectionId).SendAsync("OrderCompleteNotification", updatedOrder);
         }
 
-        return await orderData.UpdateOrder(order);
+        return await orderData.UpdateOrder(updatedOrder);
     }
 }

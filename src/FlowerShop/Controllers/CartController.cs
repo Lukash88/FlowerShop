@@ -26,7 +26,8 @@ public class CartController : ApiControllerBase
     public async Task<IActionResult> UpdateCart([FromRoute] string cartId,
         [FromBody] UpdateCartRequest request)
     {
-        request.CartId = cartId;
+        request ??= new UpdateCartRequest();
+        request.Id = cartId;
 
         return await HandleRequest<UpdateCartRequest, UpdateCartResponse>(request);
     }

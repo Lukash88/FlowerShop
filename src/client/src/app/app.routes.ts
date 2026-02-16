@@ -1,16 +1,18 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
-import { ShopComponent } from './features/shop/shop.component';
-import { ProductDetailsComponent } from './features/shop/product-details/product-details.component';
 import { CartComponent } from './features/cart/cart.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'shop', component: ShopComponent },
-  { path: 'shop/:id', component: ProductDetailsComponent },
-  { path: 'cart', component: CartComponent,
-    loadChildren: () =>
-      import('./features/cart/routes').then((r) => r.shopRoutes),
+  {
+    path: 'shop',
+     loadChildren: () =>
+      import('./features/shop/routes').then((r) => r.shopRoutes),
+  },
+  {
+    path: 'cart/:id',
+    component: CartComponent,    
+    data: { breadcrumb: 'Your cart' },
   },
   {
     path: 'checkout',

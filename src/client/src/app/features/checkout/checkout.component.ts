@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButton } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
@@ -26,6 +26,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { OrderToCreate, ShippingAddress } from '../../shared/models/order';
 import { OrderTotalsComponent } from 'src/app/shared/components/order-totals/order-totals.component';
 import { OrderService } from 'src/app/core/services/order.service';
+import { SignalrService } from 'src/app/core/services/signalr.service';
 
 @Component({
   selector: 'app-checkout',
@@ -45,6 +46,7 @@ import { OrderService } from 'src/app/core/services/order.service';
   styleUrl: './checkout.component.scss',
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
+  private signalrService = inject(SignalrService);
   addressElement?: StripeAddressElement;
   paymentElement?: StripePaymentElement;
   saveAddress = false;
@@ -79,24 +81,28 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   handleAddressChange = (event: StripeAddressElementChangeEvent) => {
-    this.completionStatus.update((state) => {
-      state.address = event.complete;
-      return state;
+    setTimeout(() => {
+      this.completionStatus.update((state) => ({
+        ...state,
+        address: event.complete,
+      }));
     });
   };
 
   handlePaymentChange = (event: StripePaymentElementChangeEvent) => {
-    this.completionStatus.update((state) => {
-      state.card = event.complete;
-      return state;
+    setTimeout(() => {
+      this.completionStatus.update((state) => ({
+        ...state,
+        card: event.complete,
+      }));
     });
   };
 
   handleDeliveryChange(event: boolean) {
-    this.completionStatus.update((state) => {
-      state.delivery = event;
-      return state;
-    });
+    this.completionStatus.update((state) => ({
+      ...state,
+      delivery: event,
+    }));
   }
 
   async getConfirmationToken() {
@@ -109,7 +115,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         const result = await this.stripeService.createConfirmationToken();
         if (result.error) throw new Error(result.error.message);
         this.confirmationToken = result.confirmationToken;
-        console.log(this.confirmationToken);
       }
     } catch (error: any) {
       console.log(error.message);
@@ -135,28 +140,26 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.loading = true;
     try {
       if (this.confirmationToken) {
-        const result = await this.stripeService.confirmPayment(
-          this.confirmationToken
+        const order = await this.createOrderModel();
+        const orderResult = await firstValueFrom(
+          this.orderService.createOrder(order),
         );
-
+        if (!orderResult) {
+          throw new Error('Order creation failed');
+        }
+        const result = await this.stripeService.confirmPayment(
+          this.confirmationToken,
+        );
         if (result.paymentIntent?.status === 'succeeded') {
-          const order = await this.createOrderModel();
-          const orderResult = await firstValueFrom(
-            this.orderService.createOrder(order)
-          );
-          if (orderResult) {
-            this.orderService.orderComplete = true;
-            this.cartService.deleteCart();
-            this.cartService.selectedDelivery.set(null);
-            this.router.navigateByUrl('/checkout/success');
-          } else {
-            throw new Error('Order creation failed');
-          }
+          this.orderService.orderComplete = true;
+          this.signalrService.orderSignal.set(orderResult);
+          this.cartService.selectedDelivery.set(null);
+          this.stripeService.disposeElements();
+          this.cartService.deleteCart();
+
+          await this.router.navigateByUrl('/checkout/success');
         } else if (result.error) {
-          console.error(result.error.message);
           throw new Error(result.error.message);
-        } else {
-          throw new Error('Something went wrong with the payment confirmation');
         }
       }
     } catch (error: any) {
@@ -187,6 +190,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         expMonth: card.exp_month,
         expYear: card.exp_year,
       },
+      discount: this.cartService.totals()?.discount,
     };
   }
 

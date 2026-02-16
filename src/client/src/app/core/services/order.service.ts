@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import {
   Order,
   OrderToCreate,
@@ -30,6 +31,8 @@ export class OrderService {
   }
 
   createOrder(orderToCreate: OrderToCreate) {
-    return this.httpClient.post<Order>(this.baseUrl + 'orders', orderToCreate);
+    return this.httpClient.post<Order>(this.baseUrl + 'orders', orderToCreate).pipe(
+      map((response: any) => response.data
+    ));
   }
 }

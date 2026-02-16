@@ -15,7 +15,7 @@ public class UpdateCartHandler(ICartRepository cartRepository, IMapper mapper)
     public async Task<UpdateCartResponse> Handle(UpdateCartRequest request,
         CancellationToken cancellationToken)
     {
-        request.CartId ??= Guid.NewGuid().ToString();
+        request.Id ??= Guid.NewGuid().ToString();
 
         var newCartItems = mapper.Map<UpdateCartRequest, ShoppingCart>(request);
         var updatedCart = await cartRepository.UpdateCartAsync(newCartItems);
