@@ -8,24 +8,26 @@
     </dl>
 </div>
 
-<div class="mt-6 mx-auto">
-    <div class="border-b border-gray-200">
-        <table class="w-full text-center">
-            <tbody class="divide-y divide-gray-200">
-                @for (item of cartService.cart().items; track item.productId) {
-                    <tr>
-                        <td class="py-4">
-                            <div class="flex items-center gap-4">
-                                <img src="{{ item.imageUrl }}" alt="Picture of {{ item.productName }}"
-                                    class="w-10 h-10">
-                                <span>{{ item.productName }}</span>
-                            </div>
-                        </td>
-                        <td class="p-4">x{{ item.quantity }}</td>
-                        <td class="p-4 text-right">{{ item.price | currency }}</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+@if (cartService.cart(); as cart) {
+    <div class="mt-6 mx-auto">
+        <div class="border-b border-gray-200">
+            <table class="w-full text-center">
+                <tbody class="divide-y divide-gray-200">
+                    @for (item of cart.items; track item.productId) {
+                        <tr>
+                            <td class="py-4">
+                                <div class="flex items-center gap-4">
+                                    <img [src]="item.imageUrl" [alt]="'Picture of ' + item.productName"
+                                        class="w-10 h-10">
+                                    <span>{{ item.productName }}</span>
+                                </div>
+                            </td>
+                            <td class="p-4">x{{ item.quantity }}</td>
+                            <td class="p-4 text-right">{{ item.price | currency }}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+}
