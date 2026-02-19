@@ -38,16 +38,16 @@ public abstract class ApiControllerBase(IMediator mediator, ILogger logger) : Co
     {
         return errorType switch
         {
-            ErrorType.NotFound => HttpStatusCode.NotFound,
-            ErrorType.Forbidden => HttpStatusCode.Forbidden,
-            ErrorType.InternalServerError => HttpStatusCode.InternalServerError,
-            ErrorType.Unauthorized => HttpStatusCode.Unauthorized,
-            ErrorType.RequestTooLarge => HttpStatusCode.RequestEntityTooLarge,
-            ErrorType.UnsupportedMediaType => HttpStatusCode.UnsupportedMediaType,
-            ErrorType.UnsupportedMethod => HttpStatusCode.MethodNotAllowed,
-            ErrorType.TooManyRequests => (HttpStatusCode)429,
-            ErrorType.Conflict => HttpStatusCode.Conflict,
-            ErrorType.BadRequest => HttpStatusCode.BadRequest,
+            var e when e.StartsWith(ErrorType.NotFound) => HttpStatusCode.NotFound,
+            var e when e.StartsWith(ErrorType.Forbidden) => HttpStatusCode.Forbidden,
+            var e when e.StartsWith(ErrorType.InternalServerError) => HttpStatusCode.InternalServerError,
+            var e when e.StartsWith(ErrorType.Unauthorized) => HttpStatusCode.Unauthorized,
+            var e when e.StartsWith(ErrorType.RequestTooLarge) => HttpStatusCode.RequestEntityTooLarge,
+            var e when e.StartsWith(ErrorType.UnsupportedMediaType) => HttpStatusCode.UnsupportedMediaType,
+            var e when e.StartsWith(ErrorType.UnsupportedMethod) => HttpStatusCode.MethodNotAllowed,
+            var e when e.StartsWith(ErrorType.TooManyRequests) => (HttpStatusCode)429,
+            var e when e.StartsWith(ErrorType.Conflict) => HttpStatusCode.Conflict,
+            var e when e.StartsWith(ErrorType.BadRequest) => HttpStatusCode.BadRequest,
             _ => HttpStatusCode.BadRequest,
         };
     }
