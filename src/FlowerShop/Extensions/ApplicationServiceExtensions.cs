@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sieve.Services;
 using StackExchange.Redis;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FlowerShop.API.Extensions;
 
@@ -36,7 +38,12 @@ internal static class ApplicationServiceExtensions
 
         services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(ResponseBase<>)));
-        services.AddControllers();
+        services.AddControllers()
+          .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        });
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssemblyContaining<AddBouquetRequestValidator>();
 
@@ -48,6 +55,7 @@ internal static class ApplicationServiceExtensions
         services.AddScoped<IOrderData, OrderData>();
         services.AddScoped<IOrderItemService, OrderItemService>();
         services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
+        services.AddScoped<ICouponService, CouponService>();
         services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
         services.AddSignalR();
 
