@@ -4,11 +4,11 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Commands.OrderItem;
 using FlowerShop.DataAccess.CQRS.Queries.OrderItem;
 using FlowerShop.DataAccess.CQRS.Queries.Product;
-using FlowerShop.DataAccess.Repositories.BasketRepository;
+using FlowerShop.DataAccess.Repositories.CartRepository;
 
 namespace FlowerShop.ApplicationServices.Components.Order;
 
-public sealed class OrderItemService(IBasketRepository basketRepository, IQueryExecutor queryExecutor,
+public sealed class OrderItemService(ICartRepository cartRepository, IQueryExecutor queryExecutor,
     ICommandExecutor commandExecutor) : IOrderItemService
 {
     public async Task<List<OrderItem>> UpdateOrderItems(UpdateOrderRequest request)
@@ -16,20 +16,20 @@ public sealed class OrderItemService(IBasketRepository basketRepository, IQueryE
         var itemsToRemove = await GetOrderItems(request.OrderId);
         await RemoveOrderItems(itemsToRemove);
 
-        var newOrderItems = await GenerateOrderItems(request.BasketId!);
+        var newOrderItems = await GenerateOrderItems(request.CartId!);
 
         return newOrderItems;
     }
 
-    public async Task<List<OrderItem>> GenerateOrderItems(string basketId)
+    public async Task<List<OrderItem>> GenerateOrderItems(string cartId)
     {
-        var basket = await basketRepository.GetBasketAsync(basketId);
+        var cart = await cartRepository.GetCartAsync(cartId);
         var orderItems = new List<OrderItem>();
-        foreach (var item in basket.Items)
+        foreach (var item in cart.Items)
         {
             var product = await queryExecutor.Execute(new GetProductQuery
             {
-                Id = item.Id
+                Id = item.ProductId
             });
 
             var orderItem = new OrderItem
@@ -50,7 +50,7 @@ public sealed class OrderItemService(IBasketRepository basketRepository, IQueryE
         return orderItems;
     }
 
-    public async Task<List<OrderItem>> GetOrderItems(int orderId)
+    private async Task<List<OrderItem>> GetOrderItems(int orderId)
     {
         var getItemsQuery = new GetOrderItemsQuery
         {
@@ -60,7 +60,7 @@ public sealed class OrderItemService(IBasketRepository basketRepository, IQueryE
         return await queryExecutor.Execute(getItemsQuery);
     }
 
-    public async Task<List<OrderItem>> RemoveOrderItems(List<OrderItem> items)
+    private async Task<List<OrderItem>> RemoveOrderItems(List<OrderItem> items)
     {
         var removeItemsCommand = new RemoveOrderItemsCommand
         {

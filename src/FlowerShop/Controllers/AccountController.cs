@@ -46,10 +46,9 @@ public class AccountController : ApiControllerBase
 
     [AllowAnonymous]
     [HttpGet("emailExists")]
-    public async Task<IActionResult> CheckEmailExistsAsync([FromQuery] CheckEmailExistsRequest request)
-    {
-        return await HandleRequest<CheckEmailExistsRequest, CheckEmailExistsResponse>(request);
-    }
+    public async Task<IActionResult> CheckEmailExistsAsync([FromQuery] CheckEmailExistsRequest request) =>
+        await HandleRequest<CheckEmailExistsRequest, CheckEmailExistsResponse>(request);
+    
 
     [AllowAnonymous]
     [HttpPost("register")]
@@ -101,5 +100,18 @@ public class AccountController : ApiControllerBase
         };
 
         return await HandleRequest<RemoveUserRequest, RemoveUserResponse>(request);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("user-info")]
+    public async Task<IActionResult> GetUserInfo()
+    {
+        var email = User.FindFirstValue(ClaimTypes.Email);
+        var request = new GetUserInfoRequest
+        {
+            Email = email!
+        };
+
+        return await HandleRequest<GetUserInfoRequest, GetUserInfoResponse>(request);
     }
 }

@@ -13,18 +13,18 @@ public sealed class PaymentsController : ApiControllerBase
         logger.LogInformation("We are in Payments");
     }
 
-    [HttpPost("{basketId}")]
-    public async Task<IActionResult> AddOrUpdatePaymentIntent([FromRoute] string basketId,
+    [HttpPost("{cartId}")]
+    public async Task<IActionResult> AddOrUpdatePaymentIntent([FromRoute] string cartId,
         [FromBody] AddOrUpdatePaymentIntentRequest request)
     {
-        request.BasketId = basketId;
+        request.CartId = cartId;
 
         return await HandleRequest<AddOrUpdatePaymentIntentRequest, AddOrUpdatePaymentIntentResponse>(request);
     }
 
     [AllowAnonymous]
     [HttpPost("webhook")]
-    public async Task<IActionResult> StripeWebhook4()
+    public async Task<IActionResult> StripeWebhook()
     {
         var json = await new StreamReader(Request.Body).ReadToEndAsync();
         var stripeSignature = Request.Headers["Stripe-Signature"];

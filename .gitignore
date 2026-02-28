@@ -183,6 +183,9 @@ publish/
 # in these scripts will be unencrypted
 PublishScripts/
 
+# SSL certificates for local development
+/src/client/ssl/*
+
 # NuGet Packages
 *.nupkg
 # NuGet Symbol Packages

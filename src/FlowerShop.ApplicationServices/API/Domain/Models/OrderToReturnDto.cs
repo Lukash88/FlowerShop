@@ -9,10 +9,13 @@ public class OrderToReturnDto
     public DateTime CreatedAt { get; init; }
     public required ShippingAddress ShippingAddress { get; init; }
     public required string DeliveryMethod { get; init; }
+    public required PaymentSummary PaymentSummary { get; init; }
     public required List<OrderItemDto> OrderItems { get; init; } = [];
     public required decimal Subtotal { get; init; }
+    public decimal Discount { get; init; }
     public required decimal ShippingPrice { get; init; }
     public required decimal Total { get; init; }
     public string? Invoice { get; init; }
+    public required string PaymentIntentId { get; init; }
     public required string Status { get; init; }
 }

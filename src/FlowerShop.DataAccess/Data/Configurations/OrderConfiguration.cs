@@ -28,33 +28,69 @@ public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
                 a.WithOwner();
 
                 a
-                    .Property(a => a.FirstName)
+                    .Property(a => a.Name)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(100);
 
                 a
-                    .Property(a => a.LastName)
+                    .Property(a => a.Line1)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(100);
 
                 a
-                    .Property(a => a.Street)
-                    .IsRequired()
+                    .Property(a => a.Line2)
                     .HasMaxLength(50);
 
                 a
                     .Property(a => a.City)
                     .IsRequired()
+                    .HasMaxLength(50); 
+                
+                a
+                    .Property(a => a.State)
+                    .IsRequired()
                     .HasMaxLength(50);
-
+                
                 a
                     .Property(a => a.PostalCode)
                     .IsRequired()
                     .HasMaxLength(20);
+                
+                a
+                    .Property(a => a.Country)
+                    .IsRequired()
+                    .HasMaxLength(70);
+            });
+        
+        builder
+            .Navigation(o => o.ShippingAddress)
+            .IsRequired();
+
+        builder
+            .OwnsOne(o => o.PaymentSummary, ps =>
+            {
+                ps.WithOwner();
+
+                ps
+                    .Property(a => a.Last4)
+                    .IsRequired();
+
+                ps
+                    .Property(a => a.Brand)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                ps
+                    .Property(a => a.ExpMonth)
+                    .IsRequired();
+
+                ps
+                    .Property(ps => ps.ExpYear)
+                    .IsRequired();
             });
 
         builder
-            .Navigation(o => o.ShippingAddress)
+            .Navigation(o => o.PaymentSummary)
             .IsRequired();
 
         builder

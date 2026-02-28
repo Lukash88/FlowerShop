@@ -17,7 +17,7 @@ namespace FlowerShop.DataAccess.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -73,6 +73,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
 
                     b.Property<int>("DeliveryMethodId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Invoice")
                         .HasMaxLength(500)
@@ -291,6 +294,33 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.PaymentSummary", "PaymentSummary", b1 =>
+                        {
+                            b1.Property<int>("OrderId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Brand")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<int>("ExpMonth")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("ExpYear")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Last4")
+                                .HasColumnType("int");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
                     b.OwnsOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.ShippingAddress", "ShippingAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
@@ -301,22 +331,31 @@ namespace FlowerShop.DataAccess.Data.Migrations
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)");
 
-                            b1.Property<string>("FirstName")
+                            b1.Property<string>("Country")
                                 .IsRequired()
+                                .HasMaxLength(70)
+                                .HasColumnType("nvarchar(70)");
+
+                            b1.Property<string>("Line1")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
+
+                            b1.Property<string>("Line2")
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)");
 
-                            b1.Property<string>("LastName")
+                            b1.Property<string>("Name")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)");
 
                             b1.Property<string>("PostalCode")
                                 .IsRequired()
                                 .HasMaxLength(20)
                                 .HasColumnType("nvarchar(20)");
 
-                            b1.Property<string>("Street")
+                            b1.Property<string>("State")
                                 .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("nvarchar(50)");
@@ -330,6 +369,9 @@ namespace FlowerShop.DataAccess.Data.Migrations
                         });
 
                     b.Navigation("DeliveryMethod");
+
+                    b.Navigation("PaymentSummary")
+                        .IsRequired();
 
                     b.Navigation("ShippingAddress")
                         .IsRequired();

@@ -1,30 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { BasketService } from './basket/basket.service';
-import { AccountService } from './account/account.service';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { HeaderComponent } from './layout/header/header.component';
 
 @Component({
     selector: 'app-root',
+    standalone: true,
+    imports: [
+      HeaderComponent,
+      RouterModule
+    ],
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+    styleUrls: ['./app.component.scss']    
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'FlowerShop';
-  
-  constructor(private basketService: BasketService, private accountService: AccountService) {}
-
-  ngOnInit(): void {
-    this.loadBasket();
-    this.loadCurrentUser();
-  }  
-
-  loadBasket() {
-    const basketId = localStorage.getItem('basket_id');
-    if (basketId) this.basketService.getBasket(basketId);
-  }
-
-  loadCurrentUser() {
-    const token = localStorage.getItem('token');
-    this.accountService.loadCurrentUser(token).subscribe();
-  }
 }

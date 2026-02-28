@@ -5,3 +5,11 @@ export enum CategoryEnum {
     Foam = 'Foam',
     Basket = 'Basket'
 }
+
+export const CategoryList: string[] = 
+[
+    'Pot',
+    'Ribbon',
+    'Foam',
+    'Basket'
+];

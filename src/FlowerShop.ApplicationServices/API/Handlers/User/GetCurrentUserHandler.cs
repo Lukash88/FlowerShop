@@ -25,8 +25,7 @@ public class GetCurrentUserHandler(IMapper mapper, ITokenService tokenService, U
             };
         }
 
-        var user = mapper.Map<UserDto>(getUser);
-        user.Token = tokenService.CreateToken(getUser);
+        var user = mapper.Map<AppUserDto>(getUser);
 
         var response = new GetCurrentUserResponse
         {

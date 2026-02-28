@@ -1,26 +1,28 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable, take } from 'rxjs';
-import { AccountService } from 'src/app/account/account.service';
+import { inject } from '@angular/core';
+import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
+import { Observable, switchMap, take } from 'rxjs';
+import { AccountService } from '../services/account.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 
-@Injectable()
-export class JwtInterceptor implements HttpInterceptor {
-  token?: string;
-  constructor(private accountService: AccountService) {}
+export const jwtInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> => {
+  const accountService = inject(AccountService);
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
-      next: user  => this.token = user?.token
+  return toObservable(accountService.currentUser).pipe(
+    take(1),
+    switchMap((user) => {
+      let token = user?.token ?? localStorage.getItem('token');
+      if (token) {
+        req = req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+
+      return next(req);
     })
-
-    if (this.token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${ this.token }`
-        }
-      })
-    }
-
-    return next.handle(request);
-  }
-}
+  );
+};

@@ -7,11 +7,13 @@ namespace FlowerShop.ApplicationServices.API.Domain.Order;
 
 public class AddOrderRequest : IRequest<AddOrderResponse>
 {
-    public string? BasketId { get; init; }
+    public string? CartId { get; init; }
     public string? BuyerEmail { get; set; }
     public ShippingAddress? ShippingAddress { get; init; }
+    public PaymentSummary? PaymentSummary { get; init; }
     public int DeliveryMethodId { get; init; }
     public decimal Subtotal { get; set; }
+    public decimal Discount { get; init; }
     public string Status { get; init; } = "Pending";
     public string? Invoice { get; init; }
     public string? PaymentIntentId { get; set; }

@@ -9,11 +9,13 @@ internal class AddressProfile : Profile
     public AddressProfile()
     {
         CreateMap<AppUser, AddressDto>()
-            .ForPath(dest => dest.FirstName, opt => opt.MapFrom(src => src.Address.FirstName))
-            .ForPath(dest => dest.LastName, opt => opt.MapFrom(src => src.Address.LastName))
-            .ForPath(dest => dest.Street, opt => opt.MapFrom(src => src.Address.Street))
-            .ForPath(dest => dest.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode))
+            .ForPath(dest => dest.Name, opt => opt.MapFrom(src => src.FirstName + src.LastName))
+            .ForPath(dest => dest.Line1, opt => opt.MapFrom(src => src.Address.Line1))
+            .ForPath(dest => dest.Line2, opt => opt.MapFrom(src => src.Address.Line2))
             .ForPath(dest => dest.City, opt => opt.MapFrom(src => src.Address.City))
+            .ForPath(dest => dest.State, opt => opt.MapFrom(src => src.Address.State))
+            .ForPath(dest => dest.PostalCode, opt => opt.MapFrom(src => src.Address.PostalCode))
+            .ForPath(dest => dest.Country, opt => opt.MapFrom(src => src.Address.Country))
             .ReverseMap();
     }
 }

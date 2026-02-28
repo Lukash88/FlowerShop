@@ -9,23 +9,22 @@ public class UpdateUserAddressRequestValidator : AbstractValidator<UpdateUserAdd
     {
         RuleLevelCascadeMode = CascadeMode.Stop;
 
-        RuleFor(x => x.FirstName).NotNull().NotEmpty().Length(2, 50).NotEmpty()
-            .WithMessage("First name must contain 2 - 50 characters");
+        RuleFor(x => x.Line1).NotNull().NotEmpty().Length(5, 100)
+            .WithMessage("Line1 of address must contain 5-100 characters");
 
-        RuleFor(x => x.LastName).NotNull().NotEmpty().Length(2, 50)
-            .WithMessage("Last name must contain 2 - 50 characters");
+        RuleFor(x => x.Line2).Length(0, 100)
+            .WithMessage("Line2 of address  can contain up to 100 characters");
 
-        RuleFor(x => x.Email).Length(5, 50)
-            .WithMessage("Email must contain 5 - 50 characters")
-            .EmailAddress().WithMessage("Provide valid email format");
+        RuleFor(x => x.City).NotNull().NotEmpty().Length(2, 50)
+            .WithMessage("City must contain 2-50 characters");
 
-        RuleFor(x => x.Street).NotNull().NotEmpty().Length(3, 50)
-            .WithMessage("Street must contain 3-50 characters");
+        RuleFor(x => x.State).NotNull().NotEmpty().Length(2, 50)
+            .WithMessage("State must contain 2-50 characters");
 
-        RuleFor(x => x.City).NotNull().NotEmpty().Length(3, 50)
-            .WithMessage("City must contain 3-50 characters");
+        RuleFor(x => x.PostalCode).NotNull().NotEmpty().Length(3, 20)
+            .WithMessage("Postal code must contain 3-20 characters");
 
-        RuleFor(x => x.PostalCode).NotNull().NotEmpty().Length(4, 20)
-            .WithMessage("Postal code must contain 4-20 characters");
+        RuleFor(x => x.Country).NotNull().NotEmpty().Length(2, 100)
+            .WithMessage("Postal code must contain 2-20 characters");
     }
 }

@@ -9,13 +9,15 @@ using FlowerShop.ApplicationServices.Mappings;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.Data;
 using FlowerShop.DataAccess.Repositories.AppRepository;
-using FlowerShop.DataAccess.Repositories.BasketRepository;
+using FlowerShop.DataAccess.Repositories.CartRepository;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sieve.Services;
 using StackExchange.Redis;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FlowerShop.API.Extensions;
 
@@ -28,26 +30,34 @@ internal static class ApplicationServiceExtensions
             opt.UseSqlServer(config.GetConnectionString("FlowerShopDatabaseConnection")));
         services.AddSingleton<IConnectionMultiplexer>(c =>
         {
-            var configuration = ConfigurationOptions.Parse(config.GetConnectionString("Redis")!, true);
+            var connString = config.GetConnectionString("Redis") ?? throw new Exception("Cannot get Redis connection string");
+            var configuration = ConfigurationOptions.Parse(connString, true);
 
             return ConnectionMultiplexer.Connect(configuration);
         });
 
         services.AddAutoMapper(typeof(ReservationsProfile).Assembly);
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(ResponseBase<>)));
-        services.AddControllers();
+        services.AddControllers()
+          .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        });
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssemblyContaining<AddBouquetRequestValidator>();
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IBasketRepository, BasketRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IOrderData, OrderData>();
         services.AddScoped<IOrderItemService, OrderItemService>();
         services.AddScoped<IDeliveryMethodService, DeliveryMethodService>();
+        services.AddScoped<ICouponService, CouponService>();
         services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
+        services.AddSignalR();
 
         services.AddTransient<IQueryExecutor, QueryExecutor>();
         services.AddTransient<ICommandExecutor, CommandExecutor>();
@@ -57,7 +67,10 @@ internal static class ApplicationServiceExtensions
         {
             opt.AddPolicy("CorsPolicy", policy =>
             {
-                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                policy.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("https://localhost:4200")
+                    .AllowCredentials();
             });
         });
         services.Configure<ApiBehaviorOptions>(options =>

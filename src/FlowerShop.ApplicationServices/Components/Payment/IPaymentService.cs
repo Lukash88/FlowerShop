@@ -7,7 +7,7 @@ namespace FlowerShop.ApplicationServices.Components.Payment;
 
 public interface IPaymentService
 {
-    Task<CustomerBasket?> CreateOrUpdatePaymentIntent(string basketId);
+    Task<ShoppingCart?> CreateOrUpdatePaymentIntent(string cartId);
     Event ConstructStripeEvent(string json, StringValues stripeSignature);
     Task<OrderEntity> HandlePaymentIntentSucceeded(PaymentIntent intent);
 }
