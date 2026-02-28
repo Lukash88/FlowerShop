@@ -8,5 +8,5 @@ export const shopRoutes: Route[] = [
     path: ':id',
     component: ProductDetailsComponent,
     data: { breadcrumb: { alias: 'productDetails' } },
-  },
+  }
 ];
