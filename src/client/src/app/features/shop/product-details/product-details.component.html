@@ -1,37 +1,66 @@
-@if (product) {
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-6">
-                <img src="{{ product.imageUrl }}" alt="picture of product: {{ product.name }}" class="img-fluid w-100">
-            </div>
-            <div class="col-6">
-                <h3>{{ product.name }}</h3>
-                <p style="font-size: 2em;">{{ product.price | currency }}</p>
-    
-                <h5 class="text-primary mb-3" *ngIf="quantityInCart > 0">
-                    You have {{ quantityInCart }} of this item in your cart
-                </h5>
-    
-                <div class="d-flex justify-content-start align-items-center">
-                    <button [disabled]="quantity === quantityInCart" 
-                            (click)="updateCart()"
-                            mat-flat-button class="match-input-height">
-                            <mat-icon>shopping_cart</mat-icon>
-                            {{ buttonText }}
-                        </button>
+@if (loading) {
+  <div class="flex justify-center items-center min-h-96">
+    <mat-spinner></mat-spinner>
+  </div>
+}
 
-                        <mat-form-field appearance="outline" class="flex">
-                            <mat-label>Quantity</mat-label>
-                            <input matInput min="0" [(ngModel)]="quantity" type="number">
-                        </mat-form-field>
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col-12 ms-3">
-                    <h4>Description</h4>
-                    <p>{{ product.longDescription }}</p>
-                </div>
-            </div>
-        </div>    
+@if (notFound && !loading) {
+  <app-not-found></app-not-found>
+}
+
+@if (product && !loading && !notFound) {
+<section class="py-8">
+  <div class="max-w-screen-2xl px-4 mx-auto">
+    <div class="grid grid-cols-2 gap-8">
+
+      <div class="max-w-xl mx-auto">
+        <img class="w-full" [src]="product.imageUrl" alt="product image">
+      </div>
+
+      <div>
+        <h1 class="text-2xl font-semibold text-gray-900">
+          {{ product.name }}
+        </h1>
+
+        @if (quantityInCart > 0) {
+          <p>You have {{ quantityInCart }} of this item in your cart</p>
+        }
+
+        <div class="mt-4 items-center gap-4 flex">
+          <p class="text-3xl font-extrabold text-gray-900">
+            {{ product.price | currency }}
+          </p>
+        </div>
+
+        <div class="flex gap-4 mt-6">
+
+          <button
+            [disabled]="quantity === quantityInCart"
+            (click)="updateCart()"
+            mat-flat-button
+            color="primary"
+            class="match-input-height">
+
+            <mat-icon>shopping_cart</mat-icon>
+            {{ buttonText }}
+          </button>
+
+          <mat-form-field appearance="outline" class="flex">
+            <mat-label>Quantity</mat-label>
+            <input matInput min="0" [(ngModel)]="quantity" type="number">
+          </mat-form-field>
+
+        </div>
+
+        <mat-divider class="my-6"></mat-divider>
+
+        <p class="text-gray-500">
+          {{ product.longDescription }}
+        </p>
+
+      </div>
+
     </div>
+  </div>
+</section>
 }
