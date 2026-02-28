@@ -7,6 +7,7 @@ import { InitService } from './core/services/init.service';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([
       loadingInterceptor,
-      jwtInterceptor
+      jwtInterceptor,
+      errorInterceptor
     ])),
     provideAppInitializer(() => {
       const initService = inject(InitService);
