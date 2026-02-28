@@ -32,8 +32,7 @@ export class HeaderComponent {
   busyService = inject(BusyService);
   cartService = inject(CartService);
   accountService = inject(AccountService);
-  id = this.cartService.cart()?.id;
-
+  
   logout() {
     this.accountService.logout();
   }  
