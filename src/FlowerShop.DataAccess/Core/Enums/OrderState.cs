@@ -26,5 +26,8 @@ public enum OrderState
     Cancelled,
 
     [EnumMember(Value = "Expired")]
-    Expired
+    Expired,
+
+    [EnumMember(Value = "Refunded")]
+    Refunded
 }

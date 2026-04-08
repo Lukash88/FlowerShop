@@ -13,6 +13,9 @@ public enum FlowerColor
     [EnumMember(Value = "Purple")]
     Purple,
 
+    [EnumMember(Value = "Violet")]
+    Violet,
+
     [EnumMember(Value = "Orange")]
     Orange,
 
