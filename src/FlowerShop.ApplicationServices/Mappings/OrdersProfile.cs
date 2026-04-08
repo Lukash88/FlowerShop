@@ -46,10 +46,10 @@ public class OrdersProfile : Profile
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.OrderState));
 
         CreateMap<RemoveOrderRequest, Order>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
 
         CreateMap<UpdateOrderRequest, Order>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderId))
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.BuyerEmail, opt => opt.MapFrom(src => src.BuyerEmail))
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
             .ForPath(dest => dest.ShippingAddress.Name, opt => opt.MapFrom(src => src.ShippingAddress.Name))

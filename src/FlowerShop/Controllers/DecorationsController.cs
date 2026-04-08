@@ -6,7 +6,7 @@ using Sieve.Models;
 
 namespace FlowerShop.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin, Manager")]
 public class DecorationsController : ApiControllerBase
 {
     public DecorationsController(IMediator mediator, ILogger<DecorationsController> logger) : base(mediator, logger)
