@@ -22,6 +22,7 @@ internal static class IdentityServiceExtensions
             {
                 // TODO : add identity options here
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddSignInManager<SignInManager<AppUser>>();
 

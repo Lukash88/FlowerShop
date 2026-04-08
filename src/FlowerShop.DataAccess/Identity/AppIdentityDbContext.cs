@@ -1,4 +1,5 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.Identity;
+using FlowerShop.DataAccess.Data.Configurations;
 using FlowerShop.DataAccess.Identity.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,5 +14,6 @@ public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options
 
         modelBuilder.ApplyConfiguration(new AddressConfiguration());
         modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+        modelBuilder.ApplyConfiguration(new RoleConfiguration());
     }
 }
