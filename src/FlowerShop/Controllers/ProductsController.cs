@@ -61,4 +61,13 @@ public class ProductsController : ApiControllerBase
 
         return await HandleRequest<UpdateProductRequest, UpdateProductResponse>(request);
     }
+
+    [HttpPut("update-stock/{productId}")]
+    public async Task<IActionResult> UpdateProductStock([FromRoute] int productId,
+            [FromBody] UpdateProductStockRequest request)
+    {
+        request.ProductId = productId;
+
+        return await HandleRequest<UpdateProductStockRequest, UpdateProductStockResponse>(request);
+    }
 }
