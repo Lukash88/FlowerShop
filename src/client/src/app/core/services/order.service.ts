@@ -23,11 +23,11 @@ export class OrderService {
     params = params.append('Sorts', paginationParams.sort);
     params = params.set('PageSize', paginationParams.pageSize.toString());
 
-    return this.httpClient.get<Pagination<Order[]>>(this.baseUrl + 'orders/userOrders', { params });
+    return this.httpClient.get<Pagination<Order[]>>(this.baseUrl + 'orders', { params });
   }
 
   getOrderDetailed(id: number) {
-    return this.httpClient.get<Order>(this.baseUrl + 'orders/userOrders/' + id);
+    return this.httpClient.get<Order>(this.baseUrl + 'orders/' + id);
   }
 
   createOrder(orderToCreate: OrderToCreate) {
