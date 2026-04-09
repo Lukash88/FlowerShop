@@ -30,8 +30,11 @@ public class GetUserInfoHandler(IMapper mapper, ITokenService tokenService, User
                 };
             }
 
+            var roles = await userManager.GetRolesAsync(user);
+
             var userInfoDto = mapper.Map<UserInfoDto>(user);
-            userInfoDto.Token = tokenService.CreateToken(user);
+            userInfoDto.Token = tokenService.CreateToken(user, roles);
+            userInfoDto.Roles = roles.ToArray();
 
             return new GetUserInfoResponse
             {

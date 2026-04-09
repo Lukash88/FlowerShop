@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline" class="w-full mb-4">
+    <mat-label>{{ label }}</mat-label>
+    <textarea [formControl]="control" placeholder="{{ label }}" matInput></textarea>
+    @if (control.hasError('required')) {
+        <mat-error>{{ label }} is required</mat-error>
+    }
+    @if (control.hasError('minlength')) {
+        <mat-error> {{ label }} must be at least {{ control.errors?.['minlength'].requiredLength }} characters</mat-error>
+    }
+    @if (control.hasError('maxlength')) {
+        <mat-error>{{ label }} must be at most {{ control.errors?.['maxlength'].requiredLength }} characters</mat-error>
+    }
+</mat-form-field>

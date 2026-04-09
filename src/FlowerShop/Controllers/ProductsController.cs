@@ -6,7 +6,7 @@ using Sieve.Models;
 
 namespace FlowerShop.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin, Manager")]
 public class ProductsController : ApiControllerBase
 {
     public ProductsController(IMediator mediator, ILogger<ProductsController> logger) : base(mediator, logger)
@@ -60,5 +60,14 @@ public class ProductsController : ApiControllerBase
         request.ProductId = productId;
 
         return await HandleRequest<UpdateProductRequest, UpdateProductResponse>(request);
+    }
+
+    [HttpPut("update-stock/{productId}")]
+    public async Task<IActionResult> UpdateProductStock([FromRoute] int productId,
+            [FromBody] UpdateProductStockRequest request)
+    {
+        request.ProductId = productId;
+
+        return await HandleRequest<UpdateProductStockRequest, UpdateProductStockResponse>(request);
     }
 }

@@ -13,5 +13,5 @@ public abstract class Product : IEntityBase
     public decimal Price { get; init; }
     public required string ImageUrl { get; init; }
     public required string ImageThumbnailUrl { get; init; }
-    public int StockLevel { get; init; }
+    public int StockLevel { get; set; }
 }

@@ -14,20 +14,14 @@ public sealed class WebHookHandler(IPaymentService paymentService, ILogger<WebHo
     public async Task<StripeWebhookResponse> Handle(StripeWebhookRequest request,
         CancellationToken cancellationToken)
     {
+        logger.LogInformation("Webhook Handler started");
+
         try
         {
             var stripeEvent = paymentService.ConstructStripeEvent(request.Json, request.StripeSignature);
-            if (stripeEvent.Data.Object is not PaymentIntent intent)
-            {
-                logger.LogError("Invalid payment data in Stripe event");
+            logger.LogInformation("Stripe event constructed. Type: {EventType}", stripeEvent.Type);
 
-                return new StripeWebhookResponse
-                {
-                    Error = new ErrorModel(ErrorType.BadRequest + " - Invalid payment data.")
-                };
-            }
-
-            var order = await paymentService.HandlePaymentIntentSucceeded(intent);
+            var order = await paymentService.HandleStripeEvent(stripeEvent);
 
             return new StripeWebhookResponse
             {

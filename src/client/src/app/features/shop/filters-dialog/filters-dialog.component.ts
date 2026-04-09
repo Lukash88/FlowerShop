@@ -34,9 +34,6 @@ export class FiltersDialogComponent {
     if (selectedOptions && selectedOptions.length > 0) {
       this.selectedCategories = Array.from(selectedOptions.values()).map(option => option.value);
     }
-    console.log('Selected Categories:', this.selectedCategories);
-
-    // Additional logic can be applied here if needed.
   }
 
   applyFilters() {

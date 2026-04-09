@@ -7,7 +7,7 @@ namespace FlowerShop.ApplicationServices.API.Domain.Order;
 
 public class UpdateOrderRequest : IRequest<UpdateOrderResponse>
 {
-    public int OrderId { get; set; }
+    public int Id { get; set; }
     public string? CartId { get; set; }
     public string? BuyerEmail { get; init; }
     public DateTime? CreatedAt { get; init; }
@@ -16,7 +16,7 @@ public class UpdateOrderRequest : IRequest<UpdateOrderResponse>
     public required PaymentSummary PaymentSummary { get; init; }
     public decimal Subtotal { get; set; }
     public decimal Discount { get; init; }
-    public string? Status { get; init; }
+    public string? Status { get; set; }
     public string? Invoice { get; init; }
     public string? PaymentIntentId { get; init; }
     public List<OrderItemDto> OrderItems { get; set; } = [];

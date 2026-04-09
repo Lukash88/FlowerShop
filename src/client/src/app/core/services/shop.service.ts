@@ -4,12 +4,13 @@ import { CategoryList } from 'src/app/shared/models/category';
 import { Pagination } from 'src/app/shared/models/pagination';
 import { Product } from 'src/app/shared/models/product';
 import { ShopParams } from 'src/app/shared/models/shopParams';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
   categories = CategoryList;
 
   constructor(private http: HttpClient) { }

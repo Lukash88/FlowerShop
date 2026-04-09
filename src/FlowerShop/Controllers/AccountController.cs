@@ -22,21 +22,10 @@ public class AccountController : ApiControllerBase
 
         var request = new GetCurrentUserRequest
         {
-            CurrentUserEmail = email!
+            Email = email!
         };
 
         return await HandleRequest<GetCurrentUserRequest, GetCurrentUserResponse>(request);
-    }
-
-    [HttpGet("all")]
-    public async Task<IActionResult> GetUsers([FromQuery] SieveModel sieveModel)
-    {
-        var request = new GetUsersRequest()
-        {
-            SieveModel = sieveModel
-        };
-
-        return await HandleRequest<GetUsersRequest, GetUsersResponse>(request);
     }
 
     [AllowAnonymous]
@@ -45,7 +34,7 @@ public class AccountController : ApiControllerBase
         await HandleRequest<LoginAppUserRequest, LoginAppUserResponse>(request);
 
     [AllowAnonymous]
-    [HttpGet("emailExists")]
+    [HttpGet("email-exists")]
     public async Task<IActionResult> CheckEmailExistsAsync([FromQuery] CheckEmailExistsRequest request) =>
         await HandleRequest<CheckEmailExistsRequest, CheckEmailExistsResponse>(request);
     
@@ -89,17 +78,6 @@ public class AccountController : ApiControllerBase
         request.Email = email!;
 
         return await HandleRequest<UpdateUserAddressRequest, UpdateUserAddressResponse>(request);
-    }
-
-    [HttpDelete]
-    public async Task<IActionResult> RemoveUserByEmail(string userEmail)
-    {
-        var request = new RemoveUserRequest()
-        {
-            Email = userEmail
-        };
-
-        return await HandleRequest<RemoveUserRequest, RemoveUserResponse>(request);
     }
 
     [AllowAnonymous]

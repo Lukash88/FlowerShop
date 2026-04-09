@@ -18,7 +18,7 @@ public class GetOrderByIdHandler(IMapper mapper, IQueryExecutor queryExecutor)
     {
         var query = new GetOrderQuery
         {
-            Id = request.OrderId
+            Id = request.Id
         };
         var order = await queryExecutor.Execute(query);
         if (order is null)

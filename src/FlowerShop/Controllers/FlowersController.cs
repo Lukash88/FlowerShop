@@ -6,7 +6,7 @@ using Sieve.Models;
 
 namespace FlowerShop.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin, Manager")]
 public class FlowersController : ApiControllerBase
 {
     public FlowersController(IMediator mediator, ILogger<FlowersController> logger) : base(mediator, logger)
@@ -37,7 +37,6 @@ public class FlowersController : ApiControllerBase
         return await HandleRequest<GetFlowerByIdRequest, GetFlowerByIdResponse>(request);
     }
 
-    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> AddFlower([FromBody] AddFlowerRequest request) =>
         await HandleRequest<AddFlowerRequest, AddFlowerResponse>(request);

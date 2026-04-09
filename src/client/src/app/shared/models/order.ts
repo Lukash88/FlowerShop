@@ -51,4 +51,18 @@ export class PaginationParams {
   pageNumber = 1;
   pageSize = 5;
   sort = '-createdAt';
-} 
+}
+
+export const OrderStatusOptions: string[] =
+ [
+    'All',
+    'Pending',
+    'PaymentReceived',
+    'PaymentFailed',
+    'PaymentMismatch',
+    'Shipped',
+    'Completed',
+    'Cancelled',
+    'Expired',
+    'Refunded'
+  ];

@@ -5,19 +5,13 @@ import { authGuard } from 'src/app/core/guards/auth.guard';
 
 export const orderRoutes: Route[] = [
   {
-    path: 'all',
+    path: '',
     component: OrdersComponent,
-    data: { breadcrumb: 'All Orders' },
+    data: { breadcrumb: 'My Orders' },
     canActivate: [authGuard]
   },
   {
-    path: 'userOrders',
-    component: OrdersComponent,
-    data: { breadcrumb: 'User Orders' },
-    canActivate: [authGuard]
-  },
-  {
-    path: 'userOrders/:id',
+    path: ':id',
     component: OrderDetailedComponent,
     data: { breadcrumb: { alias: 'OrderDetailed' } },
     canActivate: [authGuard]
