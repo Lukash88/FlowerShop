@@ -8,11 +8,11 @@ import {
   StripeAddressElement,
   StripeAddressElementChangeEvent,
   StripePaymentElement,
-  StripePaymentElementChangeEvent
+  StripePaymentElementChangeEvent,
 } from '@stripe/stripe-js';
 import {
   MatCheckboxChange,
-  MatCheckboxModule
+  MatCheckboxModule,
 } from '@angular/material/checkbox';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Address } from '../../shared/models/user';
@@ -27,6 +27,7 @@ import { OrderToCreate, ShippingAddress } from '../../shared/models/order';
 import { OrderTotalsComponent } from 'src/app/shared/components/order-totals/order-totals.component';
 import { OrderService } from 'src/app/core/services/order.service';
 import { SignalrService } from 'src/app/core/services/signalr.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-checkout',
@@ -47,6 +48,8 @@ import { SignalrService } from 'src/app/core/services/signalr.service';
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
   private signalrService = inject(SignalrService);
+  private snackbar = inject(SnackbarService);
+
   addressElement?: StripeAddressElement;
   paymentElement?: StripePaymentElement;
   saveAddress = false;
@@ -76,7 +79,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.paymentElement.mount('#payment-element');
       this.paymentElement.on('change', this.handlePaymentChange);
     } catch (error: any) {
-      console.log(error.message);
+      this.snackbar.error(error.message || 'Failed to initialize payment form');
     }
   }
 
@@ -117,7 +120,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.confirmationToken = result.confirmationToken;
       }
     } catch (error: any) {
-      console.log(error.message);
+      this.snackbar.error(
+        error.message || 'Failed to create confirmation token',
+      );
     }
   }
 
@@ -125,7 +130,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     if (event.selectedIndex === 1) {
       if (this.saveAddress) {
         const address = (await this.getAddressFromStripeAddress()) as Address;
-        address && firstValueFrom(this.accountService.updateUserAddress(address));
+        address &&
+          firstValueFrom(this.accountService.updateUserAddress(address));
       }
     }
     if (event.selectedIndex === 2) {
@@ -138,36 +144,72 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   async confirmPayment(stepper: MatStepper) {
     this.loading = true;
-    try {
-      if (this.confirmationToken) {
-        const order = await this.createOrderModel();
-        const orderResult = await firstValueFrom(
-          this.orderService.createOrder(order),
-        );
-        if (!orderResult) {
-          throw new Error('Order creation failed');
-        }
-        const result = await this.stripeService.confirmPayment(
-          this.confirmationToken,
-        );
-        if (result.paymentIntent?.status === 'succeeded') {
-          this.orderService.orderComplete = true;
-          this.signalrService.orderSignal.set(orderResult);
-          this.cartService.selectedDelivery.set(null);
-          this.stripeService.disposeElements();
-          this.cartService.deleteCart();
 
-          await this.router.navigateByUrl('/checkout/success');
-        } else if (result.error) {
-          throw new Error(result.error.message);
-        }
+    try {
+      if (!this.confirmationToken) {
+        throw new Error('No confirmation token available');
+      }
+
+      const order = await this.createOrderModel();
+      const orderResult = await firstValueFrom(
+        this.orderService.createOrder(order),
+      );
+
+      if (!orderResult) {
+        throw new Error('Order creation failed');
+      }
+
+      const paymentResult = await this.stripeService.confirmPayment(
+        this.confirmationToken,
+      );
+
+      if (paymentResult.paymentIntent?.status === 'succeeded') {
+        await this.handleOrderSuccess(orderResult);
+      } else if (paymentResult.error) {
+        throw new Error(paymentResult.error.message);
+      } else {
+        throw new Error('Payment confirmation failed');
       }
     } catch (error: any) {
-      console.log(error.message || 'Something went wrong');
-      stepper.previous();
+      const message = this.extractErrorMessage(error);
+      this.handleError(message, stepper);
     } finally {
       this.loading = false;
     }
+  }
+
+  private async handleOrderSuccess(orderResult: any) {
+    this.orderService.orderComplete = true;
+    this.signalrService.orderSignal.set(orderResult);
+    this.cartService.selectedDelivery.set(null);
+    this.stripeService.disposeElements();
+
+    await firstValueFrom(this.cartService.deleteCart());
+    await this.router.navigateByUrl('/checkout/success');
+  }
+
+  private extractErrorMessage(error: any): string {
+    if (error?.error?.error && typeof error.error.error === 'string') {
+      return error.error.error;
+    }
+    if (error?.error?.message && typeof error.error.message === 'string') {
+      return error.error.message;
+    }
+    if (typeof error?.error === 'string') {
+      return error.error;
+    }
+    if (error?.message && typeof error.message === 'string') {
+      if (!error.message.startsWith('Http failure response')) {
+        return error.message;
+      }
+    }
+
+    return 'Something went wrong';
+  }
+
+  private handleError(message: string, stepper: MatStepper) {
+    this.snackbar.error(message);
+    stepper.previous();
   }
 
   private async createOrderModel(): Promise<OrderToCreate> {

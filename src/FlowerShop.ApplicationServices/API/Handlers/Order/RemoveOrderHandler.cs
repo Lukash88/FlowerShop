@@ -16,7 +16,7 @@ public class RemoveOrderHandler(IMapper mapper, ICommandExecutor commandExecutor
     {
         var query = new GetOrderQuery
         {
-            Id = request.OrderId
+            Id = request.Id
         };
         var getOrder = await queryExecutor.Execute(query);
         if (getOrder is null)

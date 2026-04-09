@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content class="p-3">
+  <form [formGroup]="productForm" class="flex flex-col gap-2 p-4 w-full" (ngSubmit)="onSubmit()">
+
+    <app-select-input label="Product Type" formControlName="productType" [options]="productTypes"
+      (selectionChange)="onProductTypeChange($event)" class="w-full" />
+    <app-text-input label="Product name" formControlName="name" />
+    <app-text-area label="Short description" formControlName="shortDescription" />
+    <app-text-area label="Long description" formControlName="longDescription" />
+    <app-text-input label="Image URL" formControlName="imageUrl" />
+    <app-text-input label="Image Thumbnail URL" formControlName="imageThumbnailUrl" />
+    <app-select-input label="Category" formControlName="category" [options]="categories" class="w-full" />
+
+    <div class="flex gap-4">
+      <app-text-input label="Price" formControlName="price" type="number" step="0.01" class="flex-1" />
+      <app-text-input label="Quantity" formControlName="stockLevel" type="number" class="flex-1" />
+    </div>
+
+    <div *ngIf="selectedProductType === 'Decoration'" class="border-t pt-4 mt-2">
+      <h3 class="text-lg font-medium mb-2 text-purple-700">Decoration Details</h3>
+      <app-select-input label="Role" formControlName="role" [options]="roles" class="w-full" />
+    </div>
+
+    <div *ngIf="selectedProductType === 'Flower'" class="border-t pt-4 mt-2">
+      <h3 class="text-lg font-medium mb-2 text-green-700">Flower Details</h3>
+      <div class="flex gap-4">
+        <app-select-input label="Flower Type" formControlName="flowerType" [options]="flowerTypes" class="flex-1" />
+        <app-select-input label="Color" formControlName="color" [options]="flowerColors" class="flex-1" />
+      </div>
+      <app-text-input label="Length (cm)" formControlName="lengthInCm" type="number" />
+    </div>
+
+    <div *ngIf="selectedProductType === 'Bouquet'" class="border-t pt-4 mt-2">
+      <h3 class="text-lg font-medium mb-2 text-pink-700">Bouquet Details</h3>
+      <app-select-input label="Occasion" formControlName="occasion" [options]="occasions" class="w-full" />
+      <div class="flex gap-4">
+        <app-select-input label="Arrangement Type" formControlName="typeOfArrangement" [options]="arrangementTypes"
+          class="flex-1" />
+        <app-select-input label="Decoration Way" formControlName="decorationWay" [options]="decorationWays"
+          class="flex-1" />
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 mt-4">
+      <button mat-button color="warn" type="button" mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
+        {{ data.product ? 'Update' : 'Create' }}
+      </button>
+    </div>
+
+  </form>
+</mat-dialog-content>

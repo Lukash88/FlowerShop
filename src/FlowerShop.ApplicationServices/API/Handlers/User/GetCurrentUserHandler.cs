@@ -16,7 +16,7 @@ public class GetCurrentUserHandler(IMapper mapper, ITokenService tokenService, U
     public async Task<GetCurrentUserResponse> Handle(GetCurrentUserRequest request,
         CancellationToken cancellationToken)
     {
-        var getUser = await userManager.FindByEmailAsync(request.CurrentUserEmail);
+        var getUser = await userManager.FindByEmailAsync(request.Email);
         if (getUser is null)
         {
             return new GetCurrentUserResponse

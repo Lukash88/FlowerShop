@@ -1,0 +1,24 @@
+<div class="flex justify-between items-center mt-2 max-w-screen-2xl mx-auto">
+    <h2 class="text-2xl font-semibold">Customer orders</h2>
+    <mat-form-field appearance="outline" class="mt-2">
+        <mat-label>Filter by status</mat-label>
+        <mat-select (selectionChange)="onFilterSelect($event)">
+            @for (status of statusOptions; track $index) {
+            <mat-option [value]="status">{{ status }}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+</div>
+
+@if(orders && orders.length === 0) {
+<p class="text-center mt-8 text-gray-500">No orders found.</p>
+} @else {
+<app-custom-table
+    [columns]="columns"
+    [dataSource]="orders"
+    [actions]="actions"
+    [totalItems]="totalItems"
+    [pageSize]="orderParams.pageSize"
+    (pageChange)="onPageChange($event)"
+></app-custom-table>
+}

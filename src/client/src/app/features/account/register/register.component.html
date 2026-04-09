@@ -30,7 +30,7 @@
                 <app-text-input formControlName="country" label="Country" />
             </div>
     
-            @if (validationErrors) {
+            @if (validationErrors.length > 0) {
             <div class="mb-3 p-4 bg-red-100 text-red-600">
                 <ul class="list-disc px-3">
                     @for (error of validationErrors; track $index) {

@@ -4,10 +4,11 @@ using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.DataAccess.Core.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.User;
 
-public class CheckEmailExistsHandler(UserManager<AppUser> userManager)
+public class CheckEmailExistsHandler(UserManager<AppUser> userManager, ILogger<CheckEmailExistsHandler> logger)
     : IRequestHandler<CheckEmailExistsRequest, CheckEmailExistsResponse>
 {
     public async Task<CheckEmailExistsResponse> Handle(CheckEmailExistsRequest request,
@@ -19,15 +20,16 @@ public class CheckEmailExistsHandler(UserManager<AppUser> userManager)
 
             return new CheckEmailExistsResponse
             {
-                Data = false
+                Data = emailExists
             };
         }
         catch (Exception ex)
         {
-            // TODO: Log the exception
+            logger.LogError(ex, "Error checking if email exists: {Email}", request.EmailToCheck);
+            
             return new CheckEmailExistsResponse
             {
-                Error = new ErrorModel($"{ErrorType.ValidationError} - Email is already taken. {ex.Message}")
+                Error = new ErrorModel($"{ErrorType.InternalServerError} - Error checking email. {ex.Message}")
             };
         }
     }

@@ -17,5 +17,8 @@ public enum Category
     Foam,
 
     [EnumMember(Value = "Basket")]
-    Basket
+    Basket,
+
+    [EnumMember(Value = "Flower")]
+    Flower
 }

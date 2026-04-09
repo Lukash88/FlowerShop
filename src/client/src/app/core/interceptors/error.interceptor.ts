@@ -31,6 +31,14 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
         case 401:
           snackbar.error(err.error?.title || 'Unauthorized');
+          router.navigate(['/shop'], {
+              state: {
+                failedUrl: router.url,
+                message: err.error?.message
+              },
+              replaceUrl: true
+            });
+          
           break;
 
         case 403:

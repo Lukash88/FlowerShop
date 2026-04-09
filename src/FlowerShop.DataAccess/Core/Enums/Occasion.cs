@@ -77,5 +77,8 @@ public enum Occasion
     XMas,
 
     [EnumMember(Value = "Funeral")]
-    Funeral
+    Funeral,
+    
+    [EnumMember(Value = "All")]
+    All
 }

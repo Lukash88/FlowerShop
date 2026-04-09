@@ -21,6 +21,7 @@ import { MatInput } from '@angular/material/input';
 export class TextInputComponent implements ControlValueAccessor {
   @Input() type = 'text';
   @Input() label = '';
+  @Input() step: string | null = null;
   
   constructor(@Self() public controlDir: NgControl) {
     this.controlDir.valueAccessor = this;

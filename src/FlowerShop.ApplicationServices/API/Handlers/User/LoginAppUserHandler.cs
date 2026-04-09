@@ -37,7 +37,8 @@ public class LoginAppUserHandler(IMapper mapper, ITokenService tokenService, Use
         }
 
         var loggedUser = mapper.Map<UserDto>(getUser);
-        loggedUser.Token = tokenService.CreateToken(getUser);
+        var roles = await userManager.GetRolesAsync(getUser);
+        loggedUser.Token = tokenService.CreateToken(getUser, roles);
 
         var response = new LoginAppUserResponse
         {

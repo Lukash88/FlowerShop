@@ -29,7 +29,7 @@ export class CartService {
     const shipping = delivery?.price ?? 0;
     const discount = cart.coupon ? this.calculateDiscount(cart.coupon, subtotal) : 0;
     const tax = (subtotal - discount) * this.taxRate;
-    const total = Math.max(subtotal - discount + shipping + tax, 0);
+    const total = Math.max(subtotal - discount + shipping, 0);
 
     return { subtotal, shipping, tax, discount, total };
   });

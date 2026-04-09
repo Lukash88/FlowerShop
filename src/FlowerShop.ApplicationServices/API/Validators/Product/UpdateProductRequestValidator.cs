@@ -29,5 +29,7 @@ public class UpdateProductRequestValidator : AbstractValidator<UpdateProductRequ
 
         RuleFor(x => x.ImageThumbnailUrl).NotNull()
             .NotEmpty().WithMessage("Image Url cannot be empty or null");
+
+        RuleFor(x => x.StockLevel).NotEmpty().WithMessage("Stock level cannot be empty");
     }
 }

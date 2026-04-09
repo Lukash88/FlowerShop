@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { tap, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
@@ -16,6 +16,10 @@ export class AccountService {
   private signalrService = inject(SignalrService);
   baseUrl = environment.apiUrl;
   currentUser = signal<User | null>(null);
+  isAdmin = computed(() => {
+    const roles = this.currentUser()?.roles;
+    return Array.isArray(roles) ? roles.includes('Admin') : roles === 'Admin';
+  });
 
   login(values: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', values).pipe(
@@ -47,7 +51,7 @@ export class AccountService {
 
   checkEmailExists(email: string) {
     return this.http.get<IValidationResponse>(
-      this.baseUrl + 'account/emailExists?EmailToCheck=' + email
+      this.baseUrl + 'account/email-exists?EmailToCheck=' + email
     );
   }
 
