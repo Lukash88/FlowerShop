@@ -5,6 +5,7 @@
             <a class="menu-items p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
             <a class="menu-items p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
             <a class="menu-items p-2" routerLink="/" routerLinkActive="active">Contact</a>
+            <a *appIsAdmin class="menu-items p-2" routerLink="/admin" routerLinkActive="active">Admin</a>
         </nav>
         <div class="flex gap-3 align-middle">
             <a [routerLink]="['/cart', this.cartService.cart()?.id]" routerLinkActive="active" matBadge="{{ cartService.itemCount() }}" matBadgeSize="large" 
@@ -33,7 +34,7 @@
         <mat-icon>shopping_cart</mat-icon>
         My cart
     </button>
-    <button mat-menu-item class="px-3" routerLink="/orders/userOrders">
+    <button mat-menu-item class="px-3" routerLink="/orders">
         <mat-icon>history</mat-icon>
         My orders
     </button>
