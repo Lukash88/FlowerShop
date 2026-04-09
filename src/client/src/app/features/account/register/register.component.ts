@@ -7,7 +7,7 @@ import { catchError, debounceTime, finalize,
   map, switchMap, take, of } from 'rxjs';
 import { AccountService } from 'src/app/core/services/account.service';
 import { TextInputComponent } from 'src/app/shared/components/text-input/text-input.component';
-import { CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
 import { MatCard } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup = new FormGroup({});
   complexPassword =
     "(?=^.{8,20}$)(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*s).*$";
-  validationErrors: string[] | undefined;
+  validationErrors: string[] = [];
   email: string;
   maxDate = new Date();
   genders = [
