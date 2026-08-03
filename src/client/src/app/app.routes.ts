@@ -48,6 +48,11 @@ export const routes: Routes = [
       import('./features/admin/routes').then((r) => r.adminRoutes)
   },
   {
+    path: 'reservations',
+    loadChildren: () =>
+      import('./features/reservation/routes').then((r) => r.reservationRoutes)
+  },
+  {
     path: '**',
     component: NotFoundComponent
   },
