@@ -1,6 +1,7 @@
 using FlowerShop.API.Controllers;
 using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.ApplicationServices.API.Domain.Payment;
+using FlowerShop.ApplicationServices.API.Domain.Reservation;
 using FlowerShop.ApplicationServices.API.Domain.User;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +53,24 @@ public class AdminController(IMediator mediator, ILogger<AdminController> logger
     }
 
     [Authorize(Roles = "Admin, Manager")]
+    [HttpGet("reservations")]
+    public async Task<IActionResult> GetAllReservations([FromQuery] SieveModel sieveModel)
+    {
+        logger.LogInformation("Admin: GetAllReservations called");
+        var request = new GetReservationsRequest { SieveModel = sieveModel };
+        return await HandleRequest<GetReservationsRequest, GetReservationsResponse>(request);
+    }
+
+    [Authorize(Roles = "Admin, Manager")]
+    [HttpGet("reservations/{id:int}")]
+    public async Task<IActionResult> GetReservationById([FromRoute] int id)
+    {
+        logger.LogInformation("Admin: GetReservationById called for ID: {ReservationId}", id);
+        var request = new GetReservationByIdRequest() { Id = id };
+        return await HandleRequest<GetReservationByIdRequest, GetReservationByIdResponse>(request);
+    }
+
+    [Authorize(Roles = "Admin, Manager")]
     [HttpPost("payments/refund/{orderId:int}")]
     public async Task<IActionResult> RefundPayment([FromRoute] int orderId)
     {
@@ -76,7 +95,7 @@ public class AdminController(IMediator mediator, ILogger<AdminController> logger
     {
         logger.LogWarning("Admin: RemoveUserByEmail called for: {Email}", email);
         var request = new RemoveUserRequest() { Email = email };
-        
+
         return await HandleRequest<RemoveUserRequest, RemoveUserResponse>(request);
     }
 }

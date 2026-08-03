@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.Reservation;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.DataAccess.CQRS;
@@ -7,52 +8,60 @@ using FlowerShop.DataAccess.CQRS.Commands.Reservation;
 using FlowerShop.DataAccess.CQRS.Queries.Order;
 using FlowerShop.DataAccess.CQRS.Queries.Reservation;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using ReservationEntity = FlowerShop.DataAccess.Core.Entities.ReservationAggregate.Reservation;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Reservation;
 
 public class UpdateReservationHandler(IMapper mapper, IQueryExecutor queryExecutor,
-    ICommandExecutor commandExecutor) : IRequestHandler<UpdateReservationRequest, UpdateReservationResponse>
+    ICommandExecutor commandExecutor, ILogger<UpdateReservationHandler> logger)
+    : IRequestHandler<UpdateReservationRequest, UpdateReservationResponse>
 {
     public async Task<UpdateReservationResponse> Handle(UpdateReservationRequest request,
         CancellationToken cancellationToken)
     {
+        logger.LogInformation("Updating reservation with ID: {ReservationId}", request.Id);
+
         var query = new GetReservationQuery
-        {
-            Id = request.ReservationId
+        { 
+            Id = request.Id
         };
         var getReservation = await queryExecutor.Execute(query);
         if (getReservation is null)
         {
+            logger.LogWarning("Reservation with ID: {ReservationId} not found", request.Id);
             return new UpdateReservationResponse
             {
                 Error = new ErrorModel(ErrorType.NotFound)
             };
         }
 
-        var reservationsQuery = new GetReservationsQuery();
-        var getReservations = await queryExecutor.ExecuteWithSieve(reservationsQuery);
-        var ordersQuery = new GetOrdersQuery();
-        var getOrders = await queryExecutor.ExecuteWithSieve(ordersQuery);
-
-        if (!getOrders.Select(x => x.Id).Contains(request.OrderId)) 
+        if (request.OrderId.HasValue)
         {
-            return new UpdateReservationResponse
+            var orderQuery = new GetOrderQuery { Id = request.OrderId.Value };
+            var order = await queryExecutor.Execute(orderQuery);
+            if (order is null)
             {
-                Error = new ErrorModel(ErrorType.NotFound)
-            };
+                logger.LogWarning("Order with ID: {OrderId} not found", request.OrderId);
+                return new UpdateReservationResponse
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
         }
 
-        var mappedReservation = mapper.Map<DataAccess.Core.Entities.Reservation>(request);
+        var mappedReservation = mapper.Map<ReservationEntity>(request);
         var command = new UpdateReservationCommand
         {
             Parameter = mappedReservation
         };
         var updatedReservation = await commandExecutor.Execute(command);
-        var response =  new UpdateReservationResponse
-        {
-            Data = mapper.Map<Domain.Models.ReservationDto>(updatedReservation)
-        };
 
-        return response;
+        logger.LogInformation("Reservation with ID: {ReservationId} successfully updated", request.Id);
+
+        return new UpdateReservationResponse
+        {
+            Data = mapper.Map<ReservationDto>(updatedReservation)
+        };
     }
 }

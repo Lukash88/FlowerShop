@@ -5,14 +5,16 @@ using Sieve.Services;
 
 namespace FlowerShop.DataAccess.CQRS.Queries.Reservation;
 
-public class GetReservationsQuery : QueryBaseWithSieve<IQueryable<Core.Entities.Reservation>>
+public class GetReservationsQuery : QueryBaseWithSieve<IQueryable<Core.Entities.ReservationAggregate.Reservation>>
 {
-    public SieveModel SieveModel { get; init; }
+    public required SieveModel SieveModel { get; init; }
 
-    public override async Task<IQueryable<Core.Entities.Reservation>> Execute(FlowerShopStorageContext context,
+    public override async Task<IQueryable<Core.Entities.ReservationAggregate.Reservation>> Execute(FlowerShopStorageContext context,
         ISieveProcessor sieveProcessor)
     {
-        var query = context.Reservations.AsNoTracking();
+        var query = context.Reservations
+            .AsNoTracking()
+            .Include(r => r.EventAddress);
 
         return await Task.FromResult(query);
     }

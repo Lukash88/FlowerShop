@@ -1,5 +1,6 @@
 ﻿using FlowerShop.DataAccess.Core.Entities;
 using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
+using FlowerShop.DataAccess.Core.Entities.ReservationAggregate;
 using FlowerShop.DataAccess.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 

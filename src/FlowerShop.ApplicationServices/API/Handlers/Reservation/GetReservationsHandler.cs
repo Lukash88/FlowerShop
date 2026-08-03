@@ -7,7 +7,7 @@ using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Queries.Reservation;
 using Microsoft.Extensions.Logging;
 using Sieve.Services;
-using ReservationEntity = FlowerShop.DataAccess.Core.Entities.Reservation;
+using ReservationEntity = FlowerShop.DataAccess.Core.Entities.ReservationAggregate.Reservation;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Reservation;
 

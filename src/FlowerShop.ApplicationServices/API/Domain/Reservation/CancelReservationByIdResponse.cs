@@ -2,6 +2,6 @@
 
 namespace FlowerShop.ApplicationServices.API.Domain.Reservation;
 
-public class RemoveReservationResponse : ResponseBase<ReservationDto>
+public class CancelReservationByIdResponse : ResponseBase<ReservationDto>
 {
 }

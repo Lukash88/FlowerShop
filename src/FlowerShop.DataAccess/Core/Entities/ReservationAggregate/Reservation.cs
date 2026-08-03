@@ -1,9 +1,8 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
 using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
-using FlowerShop.DataAccess.Core.Entities.ReservationAggregate;
 using FlowerShop.DataAccess.Core.Enums;
 
-namespace FlowerShop.DataAccess.Core.Entities;
+namespace FlowerShop.DataAccess.Core.Entities.ReservationAggregate;
 
 public class Reservation : IEntityBase
 {
