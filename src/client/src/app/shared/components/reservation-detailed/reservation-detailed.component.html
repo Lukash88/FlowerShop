@@ -1,0 +1,72 @@
+@if (reservation) {
+    <mat-card class="bg-white py-8 shadow-md max-w-screen-lg mx-auto">
+        <div class="px-4 w-full">
+
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-semibold">Reservation #{{ reservation.id }}</h2>
+                <button (click)="onReturnClick()" mat-stroked-button>{{ buttonText }}</button>
+            </div>
+
+            <div class="mt-8 py-3 border-t border-gray-200 flex gap-16">
+                <div class="space-y-2">
+                    <h4 class="text-lg font-semibold">Event information</h4>
+                    <dl>
+                        <dt class="font-medium">Event type</dt>
+                        <dd class="mt-1 font-light">{{ reservation.eventType }}</dd>
+                    </dl>
+                    <dl>
+                        <dt class="font-medium">Date of event</dt>
+                        <dd class="mt-1 font-light">{{ reservation.dateOfEvent | date: 'mediumDate' }}</dd>
+                    </dl>
+                    @if (reservation.eventDescription) {
+                        <dl>
+                            <dt class="font-medium">Description</dt>
+                            <dd class="mt-1 font-light">{{ reservation.eventDescription }}</dd>
+                        </dl>
+                    }
+                    <dl>
+                        <dt class="font-medium">Event address</dt>
+                        <dd class="mt-1 font-light leading-6">
+                            {{ reservation.eventAddressLine1 }}
+                            @if (reservation.eventAddressLine2) {
+                                , {{ reservation.eventAddressLine2 }}
+                            }<br>
+                            {{ reservation.eventCity }}, {{ reservation.eventState }} {{ reservation.eventPostalCode }}<br>
+                            {{ reservation.eventCountry }}
+                        </dd>
+                    </dl>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="text-lg font-semibold">Reservation details</h4>
+                    <dl>
+                        <dt class="font-medium">Status</dt>
+                        <dd class="mt-1">
+                            <span [ngClass]="statusClass"
+                                  class="px-3 py-1 rounded-full text-sm font-medium">
+                                {{ reservation.reservationStatus }}
+                            </span>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt class="font-medium">Reserved on</dt>
+                        <dd class="mt-1 font-light">{{ reservation.reservedOn | date: 'medium' }}</dd>
+                    </dl>
+                    @if (reservation.orderId) {
+                        <dl>
+                            <dt class="font-medium">Linked order</dt>
+                            <dd class="mt-1 font-light">#{{ reservation.orderId }}</dd>
+                        </dl>
+                    }
+                    @if (reservation.servicePrice) {
+                        <dl>
+                            <dt class="font-medium">Service price</dt>
+                            <dd class="mt-1 font-light">{{ reservation.servicePrice | currency }}</dd>
+                        </dl>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </mat-card>
+}
