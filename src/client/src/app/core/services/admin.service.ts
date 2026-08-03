@@ -2,10 +2,12 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { OrderParams } from 'src/app/shared/models/orderParams';
+import { ReservationParams } from 'src/app/shared/models/reservationParams';
 import { Pagination } from 'src/app/shared/models/pagination';
 import { Order } from 'src/app/shared/models/order';
 import { Product, ProductType } from 'src/app/shared/models/product';
 import { map } from 'rxjs';
+import { Reservation } from 'src/app/shared/models/reservation';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +36,41 @@ export class AdminService {
   }
 
   refundOrder(id: number) {
-    return this.http.post<Order>(this.baseUrl + 'admin/payments/refund/' + id, {});
+    return this.http.post<Order>(
+      this.baseUrl + 'admin/payments/refund/' + id,
+      {},
+    );
+  }
+
+  getReservations(reservationParams: ReservationParams) {
+    let params = new HttpParams();
+
+    params = params.append('Page', reservationParams.pageNumber);
+    params = params.append('PageSize', reservationParams.pageSize);
+
+    if (reservationParams.status && reservationParams.status !== 'All') {
+      params = params.append(
+        'Filters',
+        `ReservationStatus==${reservationParams.status}`,
+      );
+    }
+    if (reservationParams.eventType && reservationParams.eventType !== 'All') {
+      params = params.append(
+        'Filters',
+        `EventType==${reservationParams.eventType}`,
+      );
+    }
+
+    return this.http.get<Pagination<Reservation[]>>(
+      this.baseUrl + 'admin/reservations',
+      { params },
+    );
+  }
+
+  getReservation(id: number) {
+    return this.http.get<Reservation>(
+      this.baseUrl + 'admin/reservations/' + id,
+    );
   }
 
   createProduct(product: any, productType: ProductType) {
@@ -72,5 +108,27 @@ export class AdminService {
     return this.http.put(this.baseUrl + 'products/update-stock/' + id, {
       newQuantity: newQuantity,
     });
+  }
+
+  getAdminReservations(reservationParams: ReservationParams) {
+    let params = new HttpParams();
+    params = params.append('Page', reservationParams.pageNumber);
+    params = params.append('PageSize', reservationParams.pageSize);
+    if (reservationParams.status && reservationParams.status !== 'All') {
+      params = params.append(
+        'Filters',
+        `ReservationStatus==${reservationParams.status}`,
+      );
+    }
+    if (reservationParams.eventType && reservationParams.eventType !== 'All') {
+      params = params.append(
+        'Filters',
+        `EventType==${reservationParams.eventType}`,
+      );
+    }
+    return this.http.get<Pagination<Reservation[]>>(
+      this.baseUrl + 'admin/reservations',
+      { params },
+    );
   }
 }
