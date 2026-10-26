@@ -1,4 +1,3 @@
-using FlowerShop.API.Controllers;
 using FlowerShop.ApplicationServices.API.Domain.Order;
 using FlowerShop.ApplicationServices.API.Domain.Payment;
 using FlowerShop.ApplicationServices.API.Domain.Reservation;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sieve.Models;
 
-namespace FlowerShop.Controllers;
+namespace FlowerShop.API.Controllers;
 
 [Authorize(Roles = "Admin")]
 public class AdminController(IMediator mediator, ILogger<AdminController> logger) : ApiControllerBase(mediator, logger)
@@ -97,5 +96,14 @@ public class AdminController(IMediator mediator, ILogger<AdminController> logger
         var request = new RemoveUserRequest() { Email = email };
 
         return await HandleRequest<RemoveUserRequest, RemoveUserResponse>(request);
+    }
+
+    [Authorize(Roles = "Admin, Manager")]
+    [HttpPut("reservations/{id:int}")]
+    public async Task<IActionResult> UpdateReservationById([FromRoute] int id, [FromBody] UpdateReservationRequest request)
+    {
+        logger.LogInformation("Admin: UpdateReservationById called for ID: {ReservationId}", id);
+        request.Id = id;
+        return await HandleRequest<UpdateReservationRequest, UpdateReservationResponse>(request);
     }
 }
