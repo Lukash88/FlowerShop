@@ -36,9 +36,8 @@ public class AddOrderHandler(IOrderService orderService, IMapper mapper, ILogger
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error creating order for CartId {CartId}: {Message}\nStackTrace: {StackTrace}",
-                request.CartId, ex.Message, ex.StackTrace);
-
+            logger.LogError(ex, "Error creating order for CartId {CartId}: {Message}",
+                request.CartId, ex.Message);
             return new AddOrderResponse
             {
                 Error = new ErrorModel(ErrorType.BadRequest + " - Problem creating order. " + ex.Message)

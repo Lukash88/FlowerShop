@@ -34,12 +34,12 @@ public class ReservationsProfile : Profile
             .ForMember(dest => dest.ReservationStatus, opt => opt.MapFrom(src => src.ReservationStatus))
             .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.EventType))
             .ForMember(dest => dest.EventDescription, opt => opt.MapFrom(src => src.EventDescription))
-            .ForPath(dest => dest.EventAddressLine1, opt => opt.MapFrom(src => src.EventAddress.Line1))
-            .ForPath(dest => dest.EventAddressLine2, opt => opt.MapFrom(src => src.EventAddress.Line2))
-            .ForPath(dest => dest.EventCity, opt => opt.MapFrom(src => src.EventAddress.City))
-            .ForPath(dest => dest.EventPostalCode, opt => opt.MapFrom(src => src.EventAddress.PostalCode))
-            .ForPath(dest => dest.EventState, opt => opt.MapFrom(src => src.EventAddress.State))
-            .ForPath(dest => dest.EventCountry, opt => opt.MapFrom(src => src.EventAddress.Country))
+            .ForMember(dest => dest.EventAddressLine1, opt => opt.MapFrom(src => src.EventAddress.Line1))
+            .ForMember(dest => dest.EventAddressLine2, opt => opt.MapFrom(src => src.EventAddress.Line2))
+            .ForMember(dest => dest.EventCity, opt => opt.MapFrom(src => src.EventAddress.City))
+            .ForMember(dest => dest.EventPostalCode, opt => opt.MapFrom(src => src.EventAddress.PostalCode))
+            .ForMember(dest => dest.EventState, opt => opt.MapFrom(src => src.EventAddress.State))
+            .ForMember(dest => dest.EventCountry, opt => opt.MapFrom(src => src.EventAddress.Country))
             .ReverseMap();
 
         CreateMap<CancelReservationByIdRequest, Reservation>()

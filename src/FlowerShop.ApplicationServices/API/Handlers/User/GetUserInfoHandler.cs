@@ -8,10 +8,12 @@ using FlowerShop.ApplicationServices.API.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using FlowerShop.ApplicationServices.Components.Token;
+using Microsoft.Extensions.Logging;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.User;
 
-public class GetUserInfoHandler(IMapper mapper, ITokenService tokenService, UserManager<AppUser> userManager)
+public class GetUserInfoHandler(IMapper mapper, ITokenService tokenService,
+    UserManager<AppUser> userManager, ILogger<GetUserInfoHandler> logger)
     : IRequestHandler<GetUserInfoRequest, GetUserInfoResponse>
 {
     public async Task<GetUserInfoResponse> Handle(GetUserInfoRequest request, CancellationToken cancellationToken)
@@ -43,7 +45,7 @@ public class GetUserInfoHandler(IMapper mapper, ITokenService tokenService, User
         }
         catch (Exception ex)
         {
-            // TODO: Log the exception
+            logger.LogError(ex, "Unexpected error retrieving user info for {Email}", request.Email);
             return new GetUserInfoResponse
             {
                 Error = new ErrorModel($"{ErrorType.Unauthorized} - Unexpected error: {ex.Message}")
