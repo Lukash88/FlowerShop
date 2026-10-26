@@ -15,6 +15,8 @@ import {
 } from 'src/app/shared/models/reservation';
 import { CustomTableComponent } from 'src/app/shared/components/custom-table/custom-table.component';
 import { ReservationParams } from 'src/app/shared/models/reservationParams';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ReservationEditDialogComponent } from '../reservation-edit-dialog/reservation-edit-dialog.component';
 
 @Component({
   selector: 'app-admin-reservations',
@@ -24,6 +26,7 @@ import { ReservationParams } from 'src/app/shared/models/reservationParams';
     MatFormFieldModule,
     MatSelectModule,
     CustomTableComponent,
+    MatDialogModule
   ],
   templateUrl: './admin-reservations.component.html',
   styleUrl: './admin-reservations.component.scss',
@@ -33,6 +36,7 @@ export class AdminReservationsComponent implements OnInit {
   private reservationService = inject(ReservationService);
   private dialogService = inject(DialogService);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   reservations: Reservation[] = [];
   totalItems = 0;
@@ -55,10 +59,19 @@ export class AdminReservationsComponent implements OnInit {
     {
       label: 'View',
       icon: 'visibility',
-      color: 'text-blue-700',
+      color: 'text-green-700',
       tooltip: 'View Reservation',
       action: (row: Reservation) =>
         this.router.navigateByUrl(`/reservations/${row.id}`),
+    },
+    {
+      label: 'Edit',
+      icon: 'edit',
+      color: 'text-blue-700',
+      tooltip: 'Edit Reservation',
+      action: (row: Reservation) => {
+        this.openEditDialog(row);
+      },
     },
     {
       label: 'Cancel',
@@ -116,6 +129,21 @@ export class AdminReservationsComponent implements OnInit {
   cancelReservation(id: number) {
     this.reservationService.cancelReservation(id).subscribe({
       next: () => this.loadReservations(),
+    });
+  }
+
+  openEditDialog(reservation: Reservation) {
+    const dialogRef = this.dialog.open(ReservationEditDialogComponent, {
+      width: '500px',
+      data: reservation,
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (updated: any) => {
+        if (updated) {
+          this.loadReservations();
+        }
+      },
     });
   }
 }

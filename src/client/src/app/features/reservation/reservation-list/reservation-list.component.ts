@@ -14,7 +14,19 @@ import {
 } from 'src/app/shared/models/reservation';
 import { CustomTableComponent } from 'src/app/shared/components/custom-table/custom-table.component';
 import { PageEvent } from '@angular/material/paginator';
-import { ReservationParams } from 'src/app/shared/models/reservationParams';
+import {
+  ReservationParams,
+  SortOptions
+} from 'src/app/shared/models/reservationParams';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ReservationUserEditDialogComponent } from '../reservation-user-edit-dialog/reservation-user-edit-dialog.component';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { MatIcon } from '@angular/material/icon';
+import {
+  MatListOption,
+  MatSelectionList,
+  MatSelectionListChange
+} from '@angular/material/list';
 
 @Component({
   selector: 'app-reservation-list',
@@ -25,7 +37,13 @@ import { ReservationParams } from 'src/app/shared/models/reservationParams';
     MatFormFieldModule,
     MatSelectModule,
     MatButtonModule,
-    CustomTableComponent
+    CustomTableComponent,
+    MatDialogModule,
+    MatIcon,
+    MatMenu,
+    MatMenuTrigger,
+    MatListOption,
+    MatSelectionList
   ],
   templateUrl: './reservation-list.component.html',
   styleUrls: ['./reservation-list.component.scss'],
@@ -33,12 +51,14 @@ import { ReservationParams } from 'src/app/shared/models/reservationParams';
 export class ReservationListComponent implements OnInit {
   private reservationService = inject(ReservationService);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   reservations: Reservation[] = [];
   totalItems = 0;
-  reservationParams = new ReservationParams();  
+  reservationParams = new ReservationParams();
+  sortOptions = SortOptions;
   eventTypeFilterOptions = ['All', ...eventTypes] as const;
-  statusFilterOptions    = ['All', ...reservationStates] as const;
+  statusFilterOptions = ['All', ...reservationStates] as const;
   eventTypeLabels = eventTypeLabels;
 
   columns = [
@@ -54,10 +74,18 @@ export class ReservationListComponent implements OnInit {
     {
       label: 'View',
       icon: 'visibility',
-      color: 'text-blue-700',
+      color: 'text-green-700',
       tooltip: 'View reservation',
       action: (row: Reservation) =>
         this.router.navigateByUrl(`/reservations/${row.id}`),
+    },
+    {
+      label: 'Edit',
+      icon: 'edit',
+      color: 'text-blue-700',
+      tooltip: 'Edit Event Details',
+      disabled: (row: Reservation) => row.reservationStatus !== 'Pending',
+      action: (row: Reservation) => this.openEditDialog(row),
     },
     {
       label: 'Cancel',
@@ -96,6 +124,15 @@ export class ReservationListComponent implements OnInit {
     this.loadReservations();
   }
 
+  onSortChange(event: MatSelectionListChange) {
+    const selectedOption = event.options[0];
+    if (selectedOption) {
+      this.reservationParams.sort = selectedOption.value;
+      this.reservationParams.pageNumber = 1;
+      this.loadReservations();
+    }
+  }
+
   onPageChange(event: PageEvent) {
     this.reservationParams.pageNumber = event.pageIndex + 1;
     this.loadReservations();
@@ -115,6 +152,21 @@ export class ReservationListComponent implements OnInit {
   cancelReservation(id: number) {
     this.reservationService.cancelReservation(id).subscribe({
       next: () => this.loadReservations(),
+    });
+  }
+
+  openEditDialog(reservation: Reservation) {
+    const dialogRef = this.dialog.open(ReservationUserEditDialogComponent, {
+      width: '600px',
+      data: reservation,
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (updated) => {
+        if (updated) {
+          this.loadReservations();
+        }
+      },
     });
   }
 }

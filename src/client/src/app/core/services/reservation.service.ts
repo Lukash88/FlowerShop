@@ -33,6 +33,8 @@ export class ReservationService {
       );
     }
 
+    params = params.append('Sorts', reservationParams.sort);
+
     return this.http.get<Pagination<Reservation[]>>(
       this.baseUrl + 'reservations',
       { params },
