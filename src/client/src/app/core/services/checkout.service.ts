@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import type { PendingReservation } from 'src/app/shared/models/reservation';
 import { environment } from 'src/environments/environment';
 import { map, of } from 'rxjs';
 import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
@@ -10,6 +11,7 @@ import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
 export class CheckoutService {
   baseUrl = environment.apiUrl;
   deliveryMethods: DeliveryMethod[] = [];
+  pendingReservation = signal<PendingReservation | null>(null);
 
   constructor(private http: HttpClient) { }
 
@@ -19,9 +21,9 @@ export class CheckoutService {
     }
     return this.http.get<DeliveryMethod[]>(this.baseUrl + 'deliveryMethods').pipe(
       map((dm: any) => {
-        dm = dm.data.results;
-        this.deliveryMethods = dm.sort((a, b) => b.price - a.price);
-        return dm;
+        const results: DeliveryMethod[] = dm.data.results;
+        this.deliveryMethods = results.sort((a, b) => b.price - a.price);
+        return this.deliveryMethods;
       })
     )
   }
