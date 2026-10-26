@@ -62,3 +62,10 @@ label.xng-breadcrumb-trail {
 .xng-breadcrumb-separator {
     padding: 0 0;
 }
+
+/* Ensure MatDatepicker overlay panels render on top of MatDialog panels */
+.mat-datepicker-content, 
+.mat-mdc-datepicker-content,
+.mat-datepicker-popup {
+    z-index: 99999 !important;
+}
