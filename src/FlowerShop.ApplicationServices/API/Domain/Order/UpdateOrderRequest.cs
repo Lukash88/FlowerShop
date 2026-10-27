@@ -1,7 +1,7 @@
 ﻿using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.DataAccess.Core.Entities.OrderAggregate;
 using MediatR;
-using ReservationEntity = FlowerShop.DataAccess.Core.Entities.Reservation;
+using ReservationEntity = FlowerShop.DataAccess.Core.Entities.ReservationAggregate.Reservation;
 
 namespace FlowerShop.ApplicationServices.API.Domain.Order;
 

@@ -1,4 +1,4 @@
-﻿using FlowerShop.DataAccess.Core.Entities;
+﻿using FlowerShop.DataAccess.Core.Entities.ReservationAggregate;
 using Sieve.Services;
 
 namespace FlowerShop.ApplicationServices.Components.Sieve.Configurations;

@@ -1,0 +1,275 @@
+.stepper-container {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.stepper-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+
+  .back-btn {
+    color: #ca8a04;
+  }
+
+  .stepper-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+  }
+}
+
+/* ── Stepper overrides ── */
+.reservation-stepper {
+  background: transparent;
+
+  ::ng-deep .mat-step-header .mat-step-icon {
+    background-color: #ca8a04;
+    color: #fff;
+  }
+
+  ::ng-deep .mat-step-header .mat-step-icon-selected,
+  ::ng-deep .mat-step-header .mat-step-icon-state-done {
+    background-color: #ca8a04;
+  }
+
+  ::ng-deep .mat-stepper-horizontal-line {
+    border-top-color: #e5c76b;
+  }
+}
+
+/* ── Step form layout ── */
+.step-form {
+  padding: 1.5rem 0 0;
+}
+
+.step-content {
+  padding-bottom: 1.5rem;
+}
+
+.step-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 0.25rem;
+}
+
+.step-subheading {
+  color: #6b7280;
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* ── Event type grid ── */
+.event-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.event-type-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 0.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #374151;
+
+  mat-icon {
+    font-size: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    color: #6b7280;
+    transition: color 0.2s ease;
+  }
+
+  &:hover {
+    border-color: #ca8a04;
+    background: #fffbeb;
+
+    mat-icon {
+      color: #ca8a04;
+    }
+  }
+
+  &.selected {
+    border-color: #ca8a04;
+    background: #fffbeb;
+    color: #92400e;
+
+    mat-icon {
+      color: #ca8a04;
+    }
+  }
+}
+
+/* ── Form rows ── */
+.form-row {
+  margin-bottom: 0.75rem;
+
+  &.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* ── Review card ── */
+.review-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.review-section {
+  padding: 1rem 1.25rem;
+
+  & + & {
+    border-top: 1px solid #e5e7eb;
+  }
+}
+
+.review-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ca8a04;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.75rem;
+
+  mat-icon {
+    font-size: 1rem;
+    height: 1rem;
+    width: 1rem;
+  }
+}
+
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
+
+  .review-label {
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+
+  .review-value {
+    color: #1a1a1a;
+    font-weight: 500;
+    text-align: right;
+  }
+}
+
+/* ── Step actions ── */
+.step-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f3f4f6;
+
+  button[mat-flat-button] {
+    background-color: #ca8a04;
+    color: #fff;
+
+    &:disabled {
+      background-color: #d1d5db;
+      color: #9ca3af;
+    }
+  }
+}
+
+/* ── Done state ── */
+.done-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.done-icon-wrapper {
+  margin-bottom: 1rem;
+
+  .done-icon {
+    font-size: 4rem;
+    height: 4rem;
+    width: 4rem;
+    color: #16a34a;
+  }
+}
+
+.done-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem;
+}
+
+.done-subtitle {
+  color: #6b7280;
+  margin: 0 0 2rem;
+}
+
+.done-summary {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.done-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+
+  & + & {
+    border-top: 1px solid #f3f4f6;
+  }
+
+  .done-label {
+    color: #6b7280;
+  }
+
+  .done-value {
+    font-weight: 500;
+    color: #1a1a1a;
+  }
+}
+
+.done-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  button[mat-flat-button] {
+    background-color: #ca8a04;
+    color: #fff;
+  }
+}

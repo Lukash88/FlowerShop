@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
   complexPassword =
     "(?=^.{8,20}$)(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*s).*$";
   validationErrors: string[] = [];
-  email: string;
+  email: string = '';
   maxDate = new Date();
   genders = [
     { value: GenderEnum.None, text: 'Prefer not to say' },
@@ -82,7 +82,7 @@ export class RegisterComponent implements OnInit {
   }
 
   passwordMatchValidator(group: AbstractControl) {
-    return group.get('password').value === group.get('confirmPassword').value
+    return group.get('password')?.value === group.get('confirmPassword')?.value
       ? null : { mismatch: true };
   }
 

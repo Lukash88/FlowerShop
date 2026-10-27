@@ -1,4 +1,5 @@
 ﻿using FlowerShop.DataAccess.Core.Entities.Interfaces;
+using FlowerShop.DataAccess.Core.Entities.ReservationAggregate;
 using FlowerShop.DataAccess.Core.Enums;
 
 namespace FlowerShop.DataAccess.Core.Entities.OrderAggregate;

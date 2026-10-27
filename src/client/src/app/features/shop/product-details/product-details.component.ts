@@ -63,6 +63,7 @@ export class ProductDetailsComponent implements OnInit {
     this.shopService.getProduct(+id).subscribe({
       next: (response: any) => {
         this.product = response.data;
+        if (!this.product) return;
         this.bcService.set('@productDetails', this.product.name);
         this.updateQuantityInCart();
         this.loading = false;

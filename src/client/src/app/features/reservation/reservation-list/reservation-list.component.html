@@ -1,0 +1,47 @@
+<div class="flex justify-between items-center mb-6">
+    <div class="flex gap-4 items-center">
+        <mat-form-field appearance="outline" class="mt-2">
+            <mat-label>Filter by status</mat-label>
+            <mat-select (selectionChange)="onStatusFilterSelect($event)">
+                @for (status of statusFilterOptions; track $index) {
+                <mat-option [value]="status">{{ status }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mt-2">
+            <mat-label>Filter by event type</mat-label>
+            <mat-select (selectionChange)="onEventTypeFilterSelect($event)">
+                @for (type of eventTypeFilterOptions; track type) {
+                <mat-option [value]="type">
+                    {{ type === 'All' ? 'All' : eventTypeLabels[type] }}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <button class="match-input-height" mat-stroked-button [matMenuTriggerFor]="sortMenu">
+        <mat-icon>swap_vert</mat-icon>
+        Sort by event date
+    </button>
+</div>
+
+<mat-menu #sortMenu="matMenu">
+    <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
+        @for (option of sortOptions; track $index) {
+        <mat-list-option [value]="option.value" [selected]="reservationParams.sort === option.value">
+            {{ option.name }}
+        </mat-list-option>
+        }
+    </mat-selection-list>
+</mat-menu>
+
+@if (reservations.length === 0) {
+<div class="text-center mt-16">
+    <p class="text-gray-500 text-lg">No reservations found.</p>
+</div>
+} @else {
+<app-custom-table [columns]="columns" [dataSource]="reservations" [actions]="actions" [totalItems]="totalItems"
+    [pageSize]="reservationParams.pageSize" (pageChange)="onPageChange($event)" />
+}

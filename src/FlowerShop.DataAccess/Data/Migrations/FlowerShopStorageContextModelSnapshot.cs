@@ -192,31 +192,21 @@ namespace FlowerShop.DataAccess.Data.Migrations
                     b.Property<DateTime>("DateOfEvent")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EventCity")
+                    b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
 
                     b.Property<string>("EventDescription")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("EventPostalCode")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("EventStreet")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("EventType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReservationStatus")
@@ -418,8 +408,57 @@ namespace FlowerShop.DataAccess.Data.Migrations
                 {
                     b.HasOne("FlowerShop.DataAccess.Core.Entities.OrderAggregate.Order", "Order")
                         .WithMany("Reservations")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("OrderId");
+
+                    b.OwnsOne("FlowerShop.DataAccess.Core.Entities.ReservationAggregate.EventAddress", "EventAddress", b1 =>
+                        {
+                            b1.Property<int>("ReservationId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("EventCity");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasMaxLength(70)
+                                .HasColumnType("nvarchar(70)")
+                                .HasColumnName("EventCountry");
+
+                            b1.Property<string>("Line1")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("EventLine1");
+
+                            b1.Property<string>("Line2")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("EventLine2");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("EventPostalCode");
+
+                            b1.Property<string>("State")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("EventState");
+
+                            b1.HasKey("ReservationId");
+
+                            b1.ToTable("Reservations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ReservationId");
+                        });
+
+                    b.Navigation("EventAddress")
                         .IsRequired();
 
                     b.Navigation("Order");

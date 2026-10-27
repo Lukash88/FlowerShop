@@ -1,0 +1,66 @@
+<form [formGroup]="eventForm">
+    <p class="text-gray-500 mb-4">When and where is the event?</p>
+
+    <div class="flex flex-col gap-4">
+        <app-date-picker label="Date of Event" formControlName="dateOfEvent" [minDate]="today" />
+
+        <div class="flex gap-4">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Address Line 1</mat-label>
+                <input matInput formControlName="eventStreet" placeholder="123 Blossom Lane" />
+                <mat-error>Street is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Address Line 2 (optional)</mat-label>
+                <input matInput formControlName="eventStreet2" placeholder="Apt, Suite, Floor..." />
+            </mat-form-field>
+        </div>
+
+        <div class="flex gap-4">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="eventCity" />
+                <mat-error>City is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>State / Province</mat-label>
+                <input matInput formControlName="eventState" />
+                <mat-error>State is required.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="flex gap-4">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Postal Code</mat-label>
+                <input matInput formControlName="eventPostalCode" />
+                <mat-error>Postal code is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Country</mat-label>
+                <input matInput formControlName="eventCountry" />
+                <mat-error>Country is required.</mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Description (optional)</mat-label>
+            <textarea matInput formControlName="eventDescription" rows="3"
+                placeholder="Tell us about the event..."></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Estimated Service Price (optional)</mat-label>
+            <span matPrefix>$&nbsp;</span>
+            <input matInput type="number" formControlName="servicePrice" min="0" />
+            <mat-error>Price cannot be negative.</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="flex justify-between mt-6">
+        <button mat-stroked-button type="button" (click)="back.emit()">Back to Service</button>
+        <button mat-flat-button type="button" (click)="onNext()">Go to Review</button>
+    </div>
+</form>
