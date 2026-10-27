@@ -1,0 +1,48 @@
+<div class="bg-white border border-gray-200 shadow-sm p-8 flex flex-col items-center gap-4 text-center">
+  <mat-icon class="text-green-500 scale-150 mb-2">check_circle</mat-icon>
+  <h2 class="text-2xl font-semibold">Reservation Confirmed!</h2>
+  <p class="text-gray-500">
+    Your reservation has been successfully created.
+    @if (createdReservationId) {
+      <span class="font-medium">(ID: #{{ createdReservationId }})</span>
+    }
+  </p>
+
+  <div class="w-full bg-gray-50 border border-gray-200 rounded p-4 flex flex-col gap-2 mt-2">
+    <div class="flex justify-between py-1 border-b border-gray-100">
+      <span class="text-gray-500">Event Type</span>
+      <span class="font-medium">{{ reviewData.eventType }}</span>
+    </div>
+    <div class="flex justify-between py-1 border-b border-gray-100">
+      <span class="text-gray-500">Date</span>
+      <span class="font-medium">{{ reviewData.dateOfEvent | date:'mediumDate' }}</span>
+    </div>
+    <div class="flex justify-between py-1 border-b border-gray-100">
+      <span class="text-gray-500">Address</span>
+      <span class="font-medium">
+        {{ reviewData.eventStreet }}, {{ reviewData.eventCity }} {{ reviewData.eventPostalCode }}
+      </span>
+    </div>
+    @if (reviewData.eventDescription) {
+      <div class="flex justify-between py-1 border-b border-gray-100">
+        <span class="text-gray-500">Description</span>
+        <span class="font-medium">{{ reviewData.eventDescription }}</span>
+      </div>
+    }
+    @if (reviewData.servicePrice) {
+      <div class="flex justify-between py-1">
+        <span class="text-gray-500">Service Price</span>
+        <span class="font-medium">{{ reviewData.servicePrice | currency }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="flex gap-3 mt-4">
+    <button mat-stroked-button (click)="addAnother()">
+      <mat-icon>add</mat-icon> New Reservation
+    </button>
+    <button mat-flat-button (click)="viewReservations()">
+      <mat-icon>list</mat-icon> View All Reservations
+    </button>
+  </div>
+</div>

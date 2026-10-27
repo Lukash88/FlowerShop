@@ -1,45 +1,52 @@
 ﻿using AutoMapper;
 using FlowerShop.ApplicationServices.API.Domain;
+using FlowerShop.ApplicationServices.API.Domain.Models;
 using FlowerShop.ApplicationServices.API.Domain.Reservation;
 using FlowerShop.ApplicationServices.API.ErrorHandling;
 using FlowerShop.DataAccess.CQRS;
 using FlowerShop.DataAccess.CQRS.Commands.Reservation;
 using FlowerShop.DataAccess.CQRS.Queries.Order;
-using FlowerShop.DataAccess.CQRS.Queries.Reservation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace FlowerShop.ApplicationServices.API.Handlers.Reservation;
 
 public class AddReservationHandler(ICommandExecutor commandExecutor, IMapper mapper,
-    IQueryExecutor queryExecutor) : IRequestHandler<AddReservationRequest, AddReservationResponse>
+    IQueryExecutor queryExecutor, ILogger<AddReservationHandler> logger)
+    : IRequestHandler<AddReservationRequest, AddReservationResponse>
 {
     public async Task<AddReservationResponse> Handle(AddReservationRequest request,
         CancellationToken cancellationToken)
     {
-        var reservationsQuery = new GetReservationsQuery();
-        var getReservations = await queryExecutor.ExecuteWithSieve(reservationsQuery);
-        var ordersQuery = new GetOrdersQuery();
-        var getOrders = await queryExecutor.ExecuteWithSieve(ordersQuery);
+        logger.LogInformation("Adding new reservation for event type: {EventType}", request.EventType);
 
-        if (!getOrders.Select(x => x.Id).Contains(request.OrderId))
+        if (request.OrderId.HasValue)
         {
-            return new AddReservationResponse
+            var orderQuery = new GetOrderQuery
             {
-                Error = new ErrorModel(ErrorType.NotFound)
+                Id = request.OrderId.Value
             };
+            var order = await queryExecutor.Execute(orderQuery);
+
+            if (order is null)
+            {
+                logger.LogWarning("Order with ID: {OrderId} not found", request.OrderId);
+                return new AddReservationResponse
+                {
+                    Error = new ErrorModel(ErrorType.NotFound)
+                };
+            }
         }
 
-        var reservation = mapper.Map<DataAccess.Core.Entities.Reservation>(request);
-        var command = new AddReservationCommand
-        { 
-            Parameter = reservation 
-        };
+        var reservation = mapper.Map<DataAccess.Core.Entities.ReservationAggregate.Reservation>(request);
+        var command = new AddReservationCommand { Parameter = reservation };
         var addedReservation = await commandExecutor.Execute(command);
-        var response = new AddReservationResponse
-        {
-            Data = mapper.Map<Domain.Models.ReservationDto>(addedReservation)
-        };
 
-        return response;
+        logger.LogInformation("Reservation successfully added with ID: {ReservationId}", addedReservation.Id);
+
+        return new AddReservationResponse
+        {
+            Data = mapper.Map<ReservationDto>(addedReservation)
+        };
     }
 }

@@ -1,0 +1,28 @@
+<div class="flex justify-between items-center mt-2 max-w-screen-2xl mx-auto">
+    <h2 class="text-2xl font-semibold">Customer reservations</h2>
+    <div class="flex gap-4 items-center">
+        <mat-form-field appearance="outline" class="mt-2">
+            <mat-label>Filter by status</mat-label>
+            <mat-select (selectionChange)="onStatusFilterSelect($event)">
+                @for (status of statusFilterOptions; track $index) {
+                <mat-option [value]="status">{{ status }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="mt-2">
+            <mat-label>Filter by event type</mat-label>
+            <mat-select (selectionChange)="onEventTypeFilterSelect($event)">
+                @for (type of eventTypeFilterOptions; track $index) {
+                <mat-option [value]="type">{{ type === 'All' ? 'All' : eventTypeLabels[type] }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
+@if (reservations && reservations.length === 0) {
+<p class="text-center mt-8 text-gray-500">No reservations found.</p>
+} @else {
+<app-custom-table [columns]="columns" [dataSource]="reservations" [actions]="actions" [totalItems]="totalItems"
+    [pageSize]="reservationParams.pageSize" (pageChange)="onPageChange($event)"></app-custom-table>
+}

@@ -41,7 +41,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
     CheckoutDeliveryComponent,
     CheckoutReviewComponent,
     CurrencyPipe,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
@@ -109,22 +109,26 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   async getConfirmationToken() {
-    try {
-      if (
-        Object.values(this.completionStatus()).every(
-          (status) => status === true
-        )
-      ) {
-        const result = await this.stripeService.createConfirmationToken();
-        if (result.error) throw new Error(result.error.message);
-        this.confirmationToken = result.confirmationToken;
-      }
-    } catch (error: any) {
-      this.snackbar.error(
-        error.message || 'Failed to create confirmation token',
-      );
+  try {
+    if (
+      Object.values(this.completionStatus()).every(
+        (status) => status === true
+      )
+    ) {
+      const result = await this.stripeService.createConfirmationToken();
+      if (!result) throw new Error('Failed to create confirmation token');
+      if (result.error)
+        throw new Error(
+          result.error.message ?? 'Failed to create confirmation token',
+        );
+      this.confirmationToken = result.confirmationToken;
     }
+  } catch (error: any) {
+    this.snackbar.error(
+      error.message || 'Failed to create confirmation token',
+    );
   }
+}
 
   async onStepChange(event: StepperSelectionEvent) {
     if (event.selectedIndex === 1) {
@@ -166,7 +170,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       if (paymentResult.paymentIntent?.status === 'succeeded') {
         await this.handleOrderSuccess(orderResult);
       } else if (paymentResult.error) {
-        throw new Error(paymentResult.error.message);
+        throw new Error(paymentResult.error.message ?? 'Payment failed');
       } else {
         throw new Error('Payment confirmation failed');
       }

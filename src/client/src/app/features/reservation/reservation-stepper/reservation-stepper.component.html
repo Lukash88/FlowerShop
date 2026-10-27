@@ -1,0 +1,56 @@
+<div class="flex mt-32 gap-6">
+  <div class="w-3/4">
+    <ng-container *ngIf="!isComplete; else doneTemplate">
+      <mat-stepper linear #stepper class="bg-white border border-gray-200 shadow-sm">
+
+        <mat-step [stepControl]="serviceForm" label="Service">
+          <app-reservation-service [serviceForm]="serviceForm" (next)="stepper.next()" />
+        </mat-step>
+
+        <mat-step [stepControl]="eventForm" label="Event">
+          <app-event [eventForm]="eventForm" [today]="today" (next)="stepper.next()" (back)="stepper.previous()" />
+        </mat-step>
+
+        <mat-step label="Review">
+          <app-reservation-review [reviewData]="reviewData" [isLoading]="isLoading" (confirm)="onSubmit()"
+            (back)="stepper.previous()" />
+        </mat-step>
+
+      </mat-stepper>
+    </ng-container>
+
+    <ng-template #doneTemplate>
+      <app-reservation-success [reviewData]="reviewData" [createdReservationId]="createdReservationId" />
+    </ng-template>
+  </div>
+
+  <div class="w-1/4">
+    <div class="bg-white border border-gray-200 shadow-sm p-4 flex flex-col gap-3">
+      <h3 class="font-semibold text-lg border-b pb-2">Reservation Summary</h3>
+      @if (serviceForm.value.eventType) {
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Event Type</span>
+        <span>{{ serviceForm.value.eventType }}</span>
+      </div>
+      }
+      @if (eventForm.value.dateOfEvent) {
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Date</span>
+        <span>{{ eventForm.value.dateOfEvent | date:'mediumDate' }}</span>
+      </div>
+      }
+      @if (eventForm.value.eventCity) {
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">City</span>
+        <span>{{ eventForm.value.eventCity }}</span>
+      </div>
+      }
+      @if (eventForm.value.servicePrice) {
+      <div class="flex justify-between text-sm font-semibold border-t pt-2">
+        <span>Service Price</span>
+        <span>{{ eventForm.value.servicePrice | currency }}</span>
+      </div>
+      }
+    </div>
+  </div>
+</div>

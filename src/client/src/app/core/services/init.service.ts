@@ -20,7 +20,7 @@ export class InitService {
       cart: cart$,
       user: this.accountService.getUserInfo().pipe(
         tap(user => {
-          if (user) {
+          if (user?.data?.token) {
             this.signalrService.createHubConnection(user.data.token);
           }
         })

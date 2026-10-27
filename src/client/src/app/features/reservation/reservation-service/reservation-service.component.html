@@ -1,0 +1,26 @@
+<form [formGroup]="serviceForm">
+    <p class="text-gray-500 mb-4">Select the type of event you want to book a floral service for.</p>
+
+    <div class="grid grid-cols-3 gap-3 mb-4">
+        @for (type of eventTypes; track type) {
+        <button type="button" class="flex flex-col items-center gap-1 p-3 border rounded cursor-pointer transition-all"
+            [class.border-primary]="serviceForm.get('eventType')?.value === type"
+            [class.bg-primary]="serviceForm.get('eventType')?.value === type"
+            [class.text-white]="serviceForm.get('eventType')?.value === type"
+            (click)="serviceForm.get('eventType')?.setValue(type)">
+            <mat-icon>{{ getEventTypeIcon(type) }}</mat-icon>
+            <span class="text-xs text-center">{{ type }}</span>
+        </button>
+        }
+    </div>
+
+    @if (serviceForm.get('eventType')?.touched && serviceForm.get('eventType')?.invalid) {
+    <p class="text-red-500 text-sm mb-2">Please select an event type.</p>
+    }
+
+    <div class="flex justify-end mt-6">
+        <button mat-flat-button type="button" (click)="onNext()">
+            Go to Event Details
+        </button>
+    </div>
+</form>
