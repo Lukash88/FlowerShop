@@ -61,6 +61,8 @@ export class AdminService {
       );
     }
 
+    params = params.append('Sorts', reservationParams.sort);
+
     return this.http.get<Pagination<Reservation[]>>(
       this.baseUrl + 'admin/reservations',
       { params },
@@ -129,6 +131,13 @@ export class AdminService {
     return this.http.get<Pagination<Reservation[]>>(
       this.baseUrl + 'admin/reservations',
       { params },
+    );
+  }
+
+  updateReservation(id: number, reservation: any) {
+    return this.http.put<Reservation>(
+      this.baseUrl + 'admin/reservations/' + id,
+      reservation,
     );
   }
 }

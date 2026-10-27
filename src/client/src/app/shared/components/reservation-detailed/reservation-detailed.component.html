@@ -3,7 +3,14 @@
         <div class="px-4 w-full">
 
             <div class="flex justify-between items-center">
-                <h2 class="text-2xl font-semibold">Reservation #{{ reservation.id }}</h2>
+                <div class="flex items-center gap-4">
+                    <h2 class="text-2xl font-semibold">Reservation #{{ reservation.id }}</h2>
+                    @if (canEdit) {
+                        <button (click)="openEditDialog()" mat-flat-button color="primary">
+                            Edit Event Details
+                        </button>
+                    }
+                </div>
                 <button (click)="onReturnClick()" mat-stroked-button>{{ buttonText }}</button>
             </div>
 
